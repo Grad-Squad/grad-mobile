@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { LocalizationContext } from '../../localization/LocalizationProvider';
 
-const Home = () => (
-  <View style={styles.container}>
-    <Text>Open up App.js to start working on your app! Nice</Text>
-    <StatusBar style="auto" />
-  </View>
-);
+const Home = () => {
+  const { t } = useContext(LocalizationContext);
+  return (
+    <View style={styles.container}>
+      <Text>{t('hello')}</Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+};
 
 export default Home;
 

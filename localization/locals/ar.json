@@ -1,3 +1,10 @@
 {
-  "hello": "هلا والله"
+  "hello": "هلا والله",
+  "Login/Email": "البريد الإلكتروني",
+  "Login/Password": "كلمة السر",
+  "Login/forgot password?": "نسيت كلمة السر؟",
+  "Login/LOGIN": "تسجيل الدخول",
+  "Login/REGISTER": "إنشاء حساب جديد",
+  "Login/Sign In With Google": " تسجيل الدخول بجوجل",
+  "Login/Sign In With Facebook": " تسجيل الدخول بفيس بوك"
 }

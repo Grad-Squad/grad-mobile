@@ -1,3 +1,10 @@
 {
-  "hello": "Open up App.js to start working on your app! Nice"
+  "hello": "Open up App.js to start working on your app! Nice",
+  "Login/Email": "Email",
+  "Login/Password": "Password",
+  "Login/forgot password?": "forgot password?",
+  "Login/LOGIN": "LOGIN",
+  "Login/REGISTER": "REGISTER",
+  "Login/Sign In With Google": "Sign In With Google",
+  "Login/Sign In With Facebook": "Sign In With Facebook"
 }

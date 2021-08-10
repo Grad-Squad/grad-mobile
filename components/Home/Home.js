@@ -1,24 +1,20 @@
 import React, { useContext } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Button, StatusBar, Text } from 'react-native';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
+import Page from '../_common/Page/Page';
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
   return (
-    <View style={styles.container}>
+    <Page>
       <Text>{t('hello')}</Text>
-      <StatusBar style="auto" />
-    </View>
+      <Button
+        title="Go to Login"
+        onPress={() => navigation.navigate('login')}
+      />
+      <Text>{t('hello')}</Text>
+    </Page>
   );
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

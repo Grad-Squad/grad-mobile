@@ -1,10 +1,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Colors, Constants, Fonts, Styles } from '../../../../styles';
 
-const Button = ({ text, onPress, transparent, lightText, largeButton }) => (
+const Button = ({
+  text,
+  onPress,
+  transparent,
+  lightText,
+  largeButton,
+  leftIcon,
+}) => (
   <Pressable
     onPress={onPress}
     style={[
@@ -15,6 +22,7 @@ const Button = ({ text, onPress, transparent, lightText, largeButton }) => (
     ]}
     android_ripple={{ color: Colors.androidRipple, borderless: false }}
   >
+    {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
     <Text
       style={
         lightText
@@ -32,6 +40,8 @@ export default Button;
 const styles = StyleSheet.create({
   baseButton: {
     alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   transparentButton: {
     padding: 5,
@@ -42,6 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: Constants.borderRadius,
   },
   largeButton: { paddingVertical: 7 },
+  leftIcon: { marginRight: 20 },
   lightText: {
     fontFamily: 'Lato_300Light',
     fontSize: 17,
@@ -50,6 +61,8 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.action,
     fontSize: 20,
     color: Colors.offBlack,
+    flexBasis: '65%',
+    textAlign: 'center',
   },
 });
 
@@ -59,10 +72,12 @@ Button.propTypes = {
   transparent: PropTypes.bool,
   lightText: PropTypes.bool,
   largeButton: PropTypes.bool,
+  leftIcon: PropTypes.node,
 };
 
 Button.defaultProps = {
   transparent: false,
   lightText: false,
   largeButton: false,
+  leftIcon: undefined,
 };

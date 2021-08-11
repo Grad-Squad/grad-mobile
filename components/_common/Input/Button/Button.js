@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, ViewPropTypes } from 'react-native';
 
 import { Colors, Constants, Fonts, Styles } from '../../../../styles';
 
@@ -11,6 +11,7 @@ const Button = ({
   lightText,
   largeButton,
   leftIcon,
+  style,
 }) => (
   <Pressable
     onPress={onPress}
@@ -19,6 +20,7 @@ const Button = ({
       transparent
         ? styles.transparentButton
         : [Styles.dropShadow, styles.button],
+      style,
     ]}
     android_ripple={{ color: Colors.androidRipple, borderless: false }}
   >
@@ -73,6 +75,7 @@ Button.propTypes = {
   lightText: PropTypes.bool,
   largeButton: PropTypes.bool,
   leftIcon: PropTypes.node,
+  style: ViewPropTypes.style,
 };
 
 Button.defaultProps = {
@@ -80,4 +83,5 @@ Button.defaultProps = {
   lightText: false,
   largeButton: false,
   leftIcon: undefined,
+  style: {},
 };

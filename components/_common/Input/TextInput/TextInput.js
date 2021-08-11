@@ -4,6 +4,7 @@ import {
   Text,
   TextInput as TextInputNative,
   View,
+  ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -18,8 +19,9 @@ const TextInput = ({
   defaultValue,
   isPassword,
   isEmail,
+  style,
 }) => (
-  <>
+  <View style={style}>
     <View style={styles.titleRow}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{subtitle && `(${subtitle})`}</Text>
@@ -33,7 +35,7 @@ const TextInput = ({
       secureTextEntry={isPassword}
       keyboardType={isEmail ? 'email-address' : 'default'}
     />
-  </>
+  </View>
 );
 
 export default TextInput;
@@ -71,6 +73,7 @@ TextInput.propTypes = {
   defaultValue: PropTypes.string,
   isPassword: PropTypes.bool,
   isEmail: PropTypes.bool,
+  style: ViewPropTypes.style,
 };
 
 TextInput.defaultProps = {
@@ -79,4 +82,5 @@ TextInput.defaultProps = {
   placeholder: '',
   isPassword: false,
   isEmail: false,
+  style: {},
 };

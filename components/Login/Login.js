@@ -20,46 +20,45 @@ const Login = () => {
           setText={setEmail}
           title={t('Login/Email')}
           isEmail
+          style={styles.gap}
         />
         <TextInput
           text={password}
           setText={setPassword}
           title={t('Login/Password')}
           isPassword
+          style={styles.gap}
         />
         <Button
           text={t('Login/forgot password?')}
           onPress={() => Alert.alert('test')}
           transparent
           lightText
+          style={styles.gap}
         />
-        <View style={styles.gap}>
-          <Button
-            text={t('Login/LOGIN')}
-            onPress={() => Alert.alert('login')}
-            largeButton
-          />
-        </View>
-        <View style={styles.gap}>
-          <Button
-            text={t('Login/REGISTER')}
-            onPress={() => Alert.alert('register')}
-          />
-        </View>
-        <View style={styles.gap}>
-          <Button
-            text={t('Login/Sign In With Google')}
-            onPress={() => Alert.alert('google')}
-            leftIcon={<Google />}
-          />
-        </View>
-        <View style={styles.gap}>
-          <Button
-            text={t('Login/Sign In With Facebook')}
-            onPress={() => Alert.alert('facebook')}
-            leftIcon={<Facebook />}
-          />
-        </View>
+        <Button
+          text={t('Login/LOGIN')}
+          onPress={() => Alert.alert('login')}
+          largeButton
+          style={styles.gap}
+        />
+        <Button
+          text={t('Login/REGISTER')}
+          onPress={() => Alert.alert('register')}
+          style={styles.gap}
+        />
+        <Button
+          text={t('Login/Sign In With Google')}
+          onPress={() => Alert.alert('google')}
+          leftIcon={<Google />}
+          style={styles.gap}
+        />
+        <Button
+          text={t('Login/Sign In With Facebook')}
+          onPress={() => Alert.alert('facebook')}
+          leftIcon={<Facebook />}
+          style={styles.gap}
+        />
       </View>
     </Page>
   );

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { Colors, Fonts } from '../../../../styles';
+import { Colors, Constants, Fonts } from '../../../../styles';
 
 const TextInput = ({
   text,
@@ -52,10 +52,11 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   textInput: {
-    fontFamily: Fonts.default,
     borderColor: Colors.border,
-    borderRadius: 2,
-    borderWidth: 0.1,
+    borderRadius: Constants.borderRadius,
+    borderWidth: 0.4,
+    backgroundColor: Colors.white,
+    fontFamily: Fonts.default,
     paddingHorizontal: 10,
     height: 45,
   },

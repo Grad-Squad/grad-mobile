@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 
 import { LocalizationContext } from '../../localization/LocalizationProvider';
-import { TextInput } from '../_common/Input';
+import { TextInput, TransparentButton } from '../_common/Input';
 import Logo from '../_common/Logo/Logo';
 import Page from '../_common/Page/Page';
 
@@ -26,6 +26,10 @@ const Login = () => {
           title={t('Login/Password')}
           isPassword
         />
+        <TransparentButton
+          text={t('Login/forgot password?')}
+          onPress={() => Alert.alert('test')}
+        />
       </View>
     </Page>
   );
@@ -34,5 +38,10 @@ const Login = () => {
 export default Login;
 
 const styles = StyleSheet.create({
-  wrapper: { width: '85%', alignSelf: 'center' },
+  wrapper: {
+    width: '85%',
+    alignSelf: 'center',
+    flex: 1,
+    justifyContent: 'center',
+  },
 });

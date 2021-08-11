@@ -1,20 +1,14 @@
 import React from "react";
-import { Card } from "react-native-elements";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   material: {
     marginVertical: 5,
-    marginHorizontal: 10,
+    //marginHorizontal: 15,
     minHeight: 90,
     borderWidth: 1,
     backgroundColor: "#86B3DD",
     borderRadius: 7,
-  },
-
-  date: {
-    marginLeft: "auto",
-    marginRight: 10,
   },
 });
 

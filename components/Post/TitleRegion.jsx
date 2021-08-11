@@ -1,5 +1,4 @@
 import React from "react";
-import { Avatar } from "react-native-elements";
 import { View, Text, Image, StyleSheet } from "react-native";
 import ContentRegion from "./ContentRegion";
 
@@ -41,6 +40,9 @@ const styles = StyleSheet.create({
       height: 2,
     },
     elevation: 2,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingHorizontal: 15,
   },
   titleText: {
     fontWeight: "normal",
@@ -48,7 +50,6 @@ const styles = StyleSheet.create({
   },
 
   profileName: {
-    marginTop: 5,
     fontSize: 9,
   },
   profileinfoContainer: {
@@ -59,6 +60,7 @@ const styles = StyleSheet.create({
 
   innerContainer: {
     marginLeft: imageWidth + imageOffset + 15,
+    marginTop: 5,
   },
 
   contentContainer: {
@@ -66,7 +68,8 @@ const styles = StyleSheet.create({
   },
   date: {
     marginLeft: "auto",
-    marginRight: 10,
+    //marginRight: 10,
+    fontSize: 9,
   },
 });
 

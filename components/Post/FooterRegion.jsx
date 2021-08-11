@@ -1,6 +1,5 @@
 import React from "react";
-import { Card } from "react-native-elements";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { Icon } from "react-native-elements";
 
@@ -9,15 +8,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 40,
+    height: 50,
     paddingTop: 10,
     paddingHorizontal: 10,
     borderRadius: 7,
-    backgroundColor: "lightgrey",
+    backgroundColor: "#e9e9e9",
     zIndex: -1,
     top: -10,
     //borderWidth: 0.1,
     borderColor: "rgba(0 ,0 , 0,0.5)",
+    shadowOpacity: 0.25,
+    shadowColor: "#000000",
+    shadowRadius: 7,
+    shadowOffset: {
+      width: 1,
+      height: 2,
+    },
+    elevation: 1,
   },
   VotesContainer: {
     flexDirection: "row",
@@ -34,26 +41,71 @@ const styles = StyleSheet.create({
   OptionsContainer: {
     alignItems: "center",
   },
+  arrow: {
+    padding: 2,
+  },
+  button: {
+    flexDirection: "row",
+  },
 });
+const hitSlopObject = { top: 16, bottom: 16, left: 16, right: 16 };
+
+const onPress = () => console.log("Hi");
 
 function FooterRegion(props) {
   return (
     <View style={styles.outerContainer}>
       <View style={styles.VotesContainer}>
-        <Icon name="arrow-up-bold-outline" type="material-community" />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={onPress}
+          hitSlop={hitSlopObject}
+        >
+          <View style={styles.arrow}>
+            <Icon name="arrow-up-bold-outline" type="material-community" />
+          </View>
+        </TouchableOpacity>
         <Text>{props.votes}</Text>
-        <Icon name="arrow-down-bold-outline" type="material-community" />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={onPress}
+          hitSlop={hitSlopObject}
+        >
+          <View style={styles.arrow}>
+            <Icon name="arrow-down-bold-outline" type="material-community" />
+          </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.CommentsContainer}>
-        <Icon name="comment-outline" type="material-community" />
-        <Text>{props.comments}</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={onPress}
+          hitSlop={hitSlopObject}
+        >
+          <View>
+            <Icon name="comment-outline" type="material-community" />
+          </View>
+          <Text>{props.comments}</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.BookmarkContainer}>
-        <Icon name="bookmark" type="feather" />
-        <Text>save</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={onPress}
+          hitSlop={hitSlopObject}
+        >
+          <Icon name="bookmark" type="feather" />
+          <Text>save</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.OptionsContainer}>
-        <Icon name="options" type="simple-line-icon" />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={onPress}
+          hitSlop={hitSlopObject}
+        >
+          <Icon name="options" type="simple-line-icon" />
+        </TouchableOpacity>
       </View>
     </View>
   );

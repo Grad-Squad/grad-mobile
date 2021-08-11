@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
 
 import { LocalizationContext } from '../../localization/LocalizationProvider';
-import { TextInput, TransparentButton } from '../_common/Input';
+import { Button, TextInput } from '../_common/Input';
 import Logo from '../_common/Logo/Logo';
 import Page from '../_common/Page/Page';
 
@@ -26,10 +26,37 @@ const Login = () => {
           title={t('Login/Password')}
           isPassword
         />
-        <TransparentButton
+        <Button
           text={t('Login/forgot password?')}
           onPress={() => Alert.alert('test')}
+          transparent
+          lightText
         />
+        <View style={styles.gap}>
+          <Button
+            text={t('Login/LOGIN')}
+            onPress={() => Alert.alert('login')}
+            largeButton
+          />
+        </View>
+        <View style={styles.gap}>
+          <Button
+            text={t('Login/REGISTER')}
+            onPress={() => Alert.alert('register')}
+          />
+        </View>
+        <View style={styles.gap}>
+          <Button
+            text={t('Login/Sign In With Google')}
+            onPress={() => Alert.alert('google')}
+          />
+        </View>
+        <View style={styles.gap}>
+          <Button
+            text={t('Login/Sign In With Facebook')}
+            onPress={() => Alert.alert('facebook')}
+          />
+        </View>
       </View>
     </Page>
   );
@@ -41,7 +68,12 @@ const styles = StyleSheet.create({
   wrapper: {
     width: '85%',
     alignSelf: 'center',
-    flex: 1,
-    justifyContent: 'center',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+    backgroundColor: 'gray',
+    padding: 10,
+  },
+  gap: {
+    marginBottom: 10,
   },
 });

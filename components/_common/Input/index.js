@@ -1,2 +1,2 @@
 export { default as TextInput } from './TextInput/TextInput';
-export { default as TransparentButton } from './TransparentButton/TransparentButton';
+export { default as Button } from './Button/Button';

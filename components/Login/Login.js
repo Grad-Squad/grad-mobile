@@ -14,7 +14,7 @@ const Login = () => {
   return (
     <Page>
       <View style={styles.wrapper}>
-        <Logo />
+        <Logo hasBoundingCircle style={styles.logo} />
         <TextInput
           text={email}
           setText={setEmail}
@@ -74,6 +74,10 @@ const styles = StyleSheet.create({
     marginBottom: 'auto',
     backgroundColor: 'gray',
     padding: 10,
+  },
+  logo: {
+    position: 'absolute',
+    top: -22,
   },
   gap: {
     marginBottom: 10,

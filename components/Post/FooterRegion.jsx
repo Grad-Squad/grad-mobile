@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { Icon } from "react-native-elements";
+import Votes from "../votes/Votes";
+import Comments from "../comments/Comments";
+
+import { HIT_SLOP_OBJECT } from "../../constants/Constants";
 
 const styles = StyleSheet.create({
   outerContainer: {
@@ -30,10 +34,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  CommentsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
+
   BookmarkContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -48,61 +49,48 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
-const hitSlopObject = { top: 16, bottom: 16, left: 16, right: 16 };
 
 const onPress = () => console.log("Hi");
 
 function FooterRegion(props) {
+  const [isSaved, setIsSaved] = useState(false);
+  const savePostHandler = () => {
+    if (!isSaved) {
+      //do stuff
+    } else {
+      //do other stuff
+    }
+    setIsSaved(!isSaved);
+  };
+
   return (
     <View style={styles.outerContainer}>
-      <View style={styles.VotesContainer}>
+      <Votes votes={props.votes} />
+      <Comments comments={props.comments} />
+      <View>
         <TouchableOpacity
           style={styles.button}
-          onPress={onPress}
-          hitSlop={hitSlopObject}
+          onPress={savePostHandler}
+          hitSlop={HIT_SLOP_OBJECT}
         >
-          <View style={styles.arrow}>
-            <Icon name="arrow-up-bold-outline" type="material-community" />
-          </View>
-        </TouchableOpacity>
-        <Text>{props.votes}</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={onPress}
-          hitSlop={hitSlopObject}
-        >
-          <View style={styles.arrow}>
-            <Icon name="arrow-down-bold-outline" type="material-community" />
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.CommentsContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={onPress}
-          hitSlop={hitSlopObject}
-        >
-          <View>
-            <Icon name="comment-outline" type="material-community" />
-          </View>
-          <Text>{props.comments}</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.BookmarkContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={onPress}
-          hitSlop={hitSlopObject}
-        >
-          <Icon name="bookmark" type="feather" />
-          <Text>save</Text>
+          {isSaved ? (
+            <View style={styles.BookmarkContainer}>
+              <Icon name="bookmark" type="material-community" />
+              <Text>saved</Text>
+            </View>
+          ) : (
+            <View style={styles.BookmarkContainer}>
+              <Icon name="bookmark" type="feather" />
+              <Text>save</Text>
+            </View>
+          )}
         </TouchableOpacity>
       </View>
       <View style={styles.OptionsContainer}>
         <TouchableOpacity
           style={styles.button}
           onPress={onPress}
-          hitSlop={hitSlopObject}
+          hitSlop={HIT_SLOP_OBJECT}
         >
           <Icon name="options" type="simple-line-icon" />
         </TouchableOpacity>

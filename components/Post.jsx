@@ -1,13 +1,14 @@
 import React from "react";
-import { ThemeProvider, Card, Tile } from "react-native-elements";
-import { View, Text, Dimensions, StyleSheet } from "react-native";
+import { ThemeProvider } from "react-native-elements";
+import { View, StyleSheet } from "react-native";
 
-import TitleRegion from "./Post/TitleRegion";
-import FooterRegion from "./Post/FooterRegion";
+import TitleRegion from "./post/TitleRegion";
+import FooterRegion from "./post/FooterRegion";
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
+    marginTop: 15,
+    marginBottom: 5,
     width: "86%",
   },
 });
@@ -18,13 +19,13 @@ function Post(props) {
       <ThemeProvider>
         <TitleRegion
           text={props.text}
-          profileName={"Jim Hopper"}
+          profileName={props.user}
           postDate={new Date()}
         ></TitleRegion>
         <FooterRegion
           style={styles.container}
-          votes="123.4k"
-          comments="4k"
+          votes={123469}
+          comments={4120}
         ></FooterRegion>
       </ThemeProvider>
     </View>

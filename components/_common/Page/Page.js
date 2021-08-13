@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewPropTypes } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors } from '../../../styles';
 import { childrenPropType } from '../../../proptypes';
 
-const Page = ({ children }) => (
-  <SafeAreaView style={styles.main}>{children}</SafeAreaView>
+const Page = ({ children, style }) => (
+  <SafeAreaView style={[styles.main, style]}>{children}</SafeAreaView>
 );
 
 export default Page;
@@ -17,4 +17,9 @@ const styles = StyleSheet.create({
 
 Page.propTypes = {
   children: childrenPropType.isRequired,
+  style: ViewPropTypes.style,
+};
+
+Page.defaultProps = {
+  style: {},
 };

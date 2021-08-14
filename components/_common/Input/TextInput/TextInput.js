@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,7 @@ import {
 import PropTypes from 'prop-types';
 
 import { Colors, Constants, Fonts } from '../../../../styles';
+import { LocalizationContext } from '../../../../localization/LocalizationProvider';
 
 const TextInput = ({
   text,
@@ -20,28 +21,38 @@ const TextInput = ({
   isPassword,
   isEmail,
   style,
-}) => (
-  <View style={style}>
-    <View style={styles.titleRow}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>{subtitle && `(${subtitle})`}</Text>
+}) => {
+  const { isRTL } = useContext(LocalizationContext);
+  return (
+    <View style={style}>
+      <View style={[styles.titleRow, isRTL && styles.titleRowRTL]}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.subtitle}>{subtitle && `(${subtitle})`}</Text>
+      </View>
+      <TextInputNative
+        placeholder={placeholder}
+        style={styles.textInput}
+        value={text}
+        onChangeText={(txt) => setText(txt)}
+        defaultValue={defaultValue}
+        secureTextEntry={isPassword}
+        keyboardType={isEmail ? 'email-address' : 'default'}
+      />
     </View>
-    <TextInputNative
-      placeholder={placeholder}
-      style={styles.textInput}
-      value={text}
-      onChangeText={(txt) => setText(txt)}
-      defaultValue={defaultValue}
-      secureTextEntry={isPassword}
-      keyboardType={isEmail ? 'email-address' : 'default'}
-    />
-  </View>
-);
+  );
+};
 
 export default TextInput;
 
 const styles = StyleSheet.create({
-  titleRow: { flexDirection: 'row', alignItems: 'flex-end', marginBottom: 7 },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginBottom: 7,
+  },
+  titleRowRTL: {
+    flexDirection: 'row-reverse',
+  },
   title: {
     marginLeft: 5,
     fontFamily: Fonts.titles,

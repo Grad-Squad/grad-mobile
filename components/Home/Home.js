@@ -1,27 +1,24 @@
 import React, { useContext } from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Button, Text } from 'react-native';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
-
+import Page from '../_common/Page/Page';
 import Post from '../Post/Post';
 
-const Home = () => {
-  const { t } = useContext(LocalizationContext);
+const Home = ({ navigation }) => {
+  const { t, setLanguage } = useContext(LocalizationContext);
   return (
-    <View style={styles.container}>
+    <Page>
       <Text>{t('hello')}</Text>
-      <StatusBar style="auto" />
+      <Button
+        title="Go to Login"
+        onPress={() => navigation.navigate('login')}
+      />
+      <Button title="Arabic" onPress={() => setLanguage('ar')} />
+      <Button title="English" onPress={() => setLanguage('en')} />
+      <Text>{t('hello')}</Text>
       <Post title="test" user="test" />
-    </View>
+    </Page>
   );
 };
 
 export default Home;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

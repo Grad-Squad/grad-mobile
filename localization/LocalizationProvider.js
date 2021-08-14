@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
 import React, { createContext, useEffect, useState } from 'react';
 import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from 'i18n-js';
 
+import { childrenPropType } from '../proptypes';
 import ar from './locals/ar.json';
 import en from './locals/en.json';
 
@@ -51,5 +51,5 @@ export const LocalizationProvider = ({ children }) => {
 };
 
 LocalizationProvider.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: childrenPropType.isRequired,
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import Page from '../_common/Page/Page';
-import LoginMainContent from './LoginMainContent/LoginMainContent';
+import LoginMainContent from './LoginMainContent';
 import SignInWith from './SignInWith/SignInWith';
 
 const Login = () => (

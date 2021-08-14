@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, ViewPropTypes } from 'react-native';
 
-import { Colors, Constants, Fonts, Styles } from '../../../../styles';
+import { Colors, Constants, Fonts, Styles } from '../../../styles';
 
 const Button = ({
   text,

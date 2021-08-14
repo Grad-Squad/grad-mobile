@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { LocalizationContext } from '../../../localization/LocalizationProvider';
-import { Styles } from '../../../styles';
-import { Button, TextInput } from '../../_common/Input';
-import Logo from '../../_common/Logo/Logo';
+import { LocalizationContext } from '../../localization/LocalizationProvider';
+import { Styles } from '../../styles';
+import { Button, TextInput } from '../_common/Input';
+import Logo from '../_common/Logo/Logo';
 
 const LoginMainContent = () => {
   const { t } = useContext(LocalizationContext);

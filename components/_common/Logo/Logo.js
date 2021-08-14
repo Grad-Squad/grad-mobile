@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Colors, Fonts } from '../../../styles';
-import MemoBoundingCircle from './BoundingCircle/BoundingCircle';
+import MemoBoundingCircle from './BoundingCircle';
 
 const Logo = ({ style, hasBoundingCircle }) => (
   <View style={[styles.wrapper, style]}>

@@ -20,6 +20,7 @@ const Button = ({
       transparent
         ? styles.transparentButton
         : [Styles.dropShadow, styles.button],
+      largeButton && styles.largeButton,
       style,
     ]}
     android_ripple={{ color: Colors.androidRipple, borderless: false }}
@@ -29,7 +30,7 @@ const Button = ({
       style={
         lightText
           ? styles.lightText
-          : [styles.text, largeButton && styles.largeButton]
+          : [styles.text, largeButton && styles.largeText]
       }
     >
       {text}
@@ -49,12 +50,13 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   button: {
-    padding: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 8,
     backgroundColor: Colors.white,
     borderRadius: Constants.borderRadius,
   },
-  largeButton: { paddingVertical: 7 },
-  leftIcon: { marginRight: 20 },
+  largeButton: { paddingVertical: 9 },
+  leftIcon: { marginRight: 10 },
   lightText: {
     fontFamily: 'Lato_300Light',
     fontSize: 17,
@@ -63,9 +65,10 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.action,
     fontSize: 20,
     color: Colors.offBlack,
-    flexBasis: '65%',
+    flexBasis: '78%',
     textAlign: 'center',
   },
+  largeText: { fontSize: 24 },
 });
 
 Button.propTypes = {

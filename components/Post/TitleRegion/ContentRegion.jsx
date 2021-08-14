@@ -1,21 +1,21 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   material: {
     marginVertical: 5,
-    //marginHorizontal: 15,
+    // marginHorizontal: 15,
     minHeight: 90,
     borderWidth: 1,
-    backgroundColor: "#86B3DD",
+    backgroundColor: '#86B3DD',
     borderRadius: 7,
   },
 });
 
-function ContentRegion(props) {
+function ContentRegion() {
   return (
     <View width="100%">
-      <View style={styles.material}></View>
+      <View style={styles.material} />
     </View>
   );
 }

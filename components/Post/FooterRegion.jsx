@@ -1,28 +1,29 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { Icon } from "react-native-elements";
-import Votes from "../votes/Votes";
-import Comments from "../comments/Comments";
+import PropTypes from 'prop-types';
 
-import { HIT_SLOP_OBJECT } from "../../constants/Constants";
+import { Icon } from 'react-native-elements';
+import Votes from '../Votes/Votes';
+import Comments from '../Comments/Comments';
+import { HIT_SLOP_OBJECT } from '../../constants';
 
 const styles = StyleSheet.create({
   outerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     height: 50,
     paddingTop: 10,
     paddingHorizontal: 10,
     borderRadius: 7,
-    backgroundColor: "#e9e9e9",
+    backgroundColor: '#e9e9e9',
     zIndex: -1,
     top: -10,
-    //borderWidth: 0.1,
-    borderColor: "rgba(0 ,0 , 0,0.5)",
+    // borderWidth: 0.1,
+    borderColor: 'rgba(0 ,0 , 0,0.5)',
     shadowOpacity: 0.25,
-    shadowColor: "#000000",
+    shadowColor: '#000000',
     shadowRadius: 7,
     shadowOffset: {
       width: 1,
@@ -31,59 +32,61 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   VotesContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 
   BookmarkContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   OptionsContainer: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   arrow: {
     padding: 2,
   },
   button: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
 });
 
-const onPress = () => console.log("Hi");
+const onPress = () => console.log('Hi');
 
-function FooterRegion(props) {
+function FooterRegion({ votes, commentsCount }) {
   const [isSaved, setIsSaved] = useState(false);
   const savePostHandler = () => {
     if (!isSaved) {
-      //do stuff
+      // do stuff
     } else {
-      //do other stuff
+      // do other stuff
     }
     setIsSaved(!isSaved);
   };
 
   return (
     <View style={styles.outerContainer}>
-      <Votes votes={props.votes} />
-      <Comments comments={props.comments} />
+      <Votes votes={votes} />
+      <Comments count={commentsCount} />
       <View>
         <TouchableOpacity
           style={styles.button}
           onPress={savePostHandler}
           hitSlop={HIT_SLOP_OBJECT}
         >
-          {isSaved ? (
-            <View style={styles.BookmarkContainer}>
-              <Icon name="bookmark" type="material-community" />
-              <Text>saved</Text>
-            </View>
-          ) : (
-            <View style={styles.BookmarkContainer}>
-              <Icon name="bookmark" type="feather" />
-              <Text>save</Text>
-            </View>
-          )}
+          <View style={styles.BookmarkContainer}>
+            {isSaved ? (
+              <>
+                <Icon name="bookmark" type="material-community" />
+                <Text>saved</Text>
+              </>
+            ) : (
+              <>
+                <Icon name="bookmark" type="feather" />
+                <Text>save</Text>
+              </>
+            )}
+          </View>
         </TouchableOpacity>
       </View>
       <View style={styles.OptionsContainer}>
@@ -100,3 +103,8 @@ function FooterRegion(props) {
 }
 
 export default FooterRegion;
+
+FooterRegion.propTypes = {
+  votes: PropTypes.number.isRequired,
+  commentsCount: PropTypes.number.isRequired,
+};

@@ -1,22 +1,26 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { Icon } from "react-native-elements";
-import { HIT_SLOP_OBJECT, FORMAT_NUMBER } from "../../constants/Constants";
+import PropTypes from 'prop-types';
+
+import { Icon } from 'react-native-elements';
+import { HIT_SLOP_OBJECT } from '../../constants';
+import { formatNumber } from '../../utility';
+
 
 const styles = StyleSheet.create({
   CommentsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   button: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
 });
 
-export default function Comments({ comments }) {
+export default function Comments({ count }) {
   const onPress = () => {
-    console.log("COMMENT");
+    console.log('COMMENT');
   };
 
   return (
@@ -29,8 +33,12 @@ export default function Comments({ comments }) {
         <View>
           <Icon name="comment-outline" type="material-community" />
         </View>
-        <Text>{FORMAT_NUMBER(comments)}</Text>
+        <Text>{formatNumber(count)}</Text>
       </TouchableOpacity>
     </View>
   );
 }
+
+Comments.propTypes = {
+  count: PropTypes.number.isRequired,
+};

@@ -1,30 +1,33 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { Icon } from "react-native-elements";
-import { HIT_SLOP_OBJECT, FORMAT_NUMBER } from "../../constants/Constants";
+import PropTypes from 'prop-types';
+
+import { Icon } from 'react-native-elements';
+import { HIT_SLOP_OBJECT } from '../../constants';
+import { formatNumber } from '../../utility';
 
 const styles = StyleSheet.create({
   VotesContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   arrow: {
     padding: 2,
   },
   button: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
 });
 
 export default function Votes({ votes }) {
   const [vote, setVote] = useState(votes);
-  const [isUpvoted, setIsUpvoted] = useState(false);
+  const [IsUpVoted, setIsUpVoted] = useState(false);
   const [isDownVoted, setIsDownVoted] = useState(false);
 
   const upVoteHandler = () => {
     let offset = 0;
-    if (isUpvoted) {
+    if (IsUpVoted) {
       offset -= 1;
     } else if (isDownVoted) {
       offset += 2;
@@ -32,12 +35,12 @@ export default function Votes({ votes }) {
       offset += 1;
     }
     setVote(vote + offset);
-    setIsUpvoted(!isUpvoted);
+    setIsUpVoted(!IsUpVoted);
     setIsDownVoted(false);
   };
   const downVoteHandler = () => {
     let offset = 0;
-    if (isUpvoted) {
+    if (IsUpVoted) {
       offset -= 2;
     } else if (isDownVoted) {
       offset += 1;
@@ -46,7 +49,7 @@ export default function Votes({ votes }) {
     }
     setVote(vote + offset);
     setIsDownVoted(!isDownVoted);
-    setIsUpvoted(false);
+    setIsUpVoted(false);
   };
 
   return (
@@ -57,14 +60,14 @@ export default function Votes({ votes }) {
         hitSlop={HIT_SLOP_OBJECT}
       >
         <View style={styles.arrow}>
-          {isUpvoted ? (
+          {IsUpVoted ? (
             <Icon name="arrow-up-bold" type="material-community" />
           ) : (
             <Icon name="arrow-up-bold-outline" type="material-community" />
           )}
         </View>
       </TouchableOpacity>
-      <Text>{FORMAT_NUMBER(vote)}</Text>
+      <Text>{formatNumber(vote)}</Text>
       <TouchableOpacity
         style={styles.button}
         onPress={downVoteHandler}
@@ -81,3 +84,7 @@ export default function Votes({ votes }) {
     </View>
   );
 }
+
+Votes.propTypes = {
+  votes: PropTypes.number.isRequired,
+};

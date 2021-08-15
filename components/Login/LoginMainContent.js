@@ -3,6 +3,7 @@ import { Alert, StyleSheet, View } from 'react-native';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
 import { Styles } from '../../styles';
 import { Button, TextInput } from '../_common/Input';
+import TextInputGroup from '../_common/Input/TextInputGroup';
 import Logo from '../_common/Logo/Logo';
 
 const LoginMainContent = () => {
@@ -10,24 +11,29 @@ const LoginMainContent = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const onLogin = () => Alert.alert('login');
+
   return (
     <View style={[Styles.cardBody, styles.mainContent]}>
       <Logo hasBoundingCircle style={styles.logo} />
       <View style={styles.textInputs}>
-        <TextInput
-          text={email}
-          setText={setEmail}
-          title={t('Login/Email')}
-          isEmail
-          style={styles.gap}
-        />
-        <TextInput
-          text={password}
-          setText={setPassword}
-          title={t('Login/Password')}
-          isPassword
-          style={styles.gap}
-        />
+        <TextInputGroup onFinish={onLogin}>
+          <TextInput
+            text={email}
+            setText={setEmail}
+            title={t('Login/Email')}
+            isEmail
+            style={styles.gap}
+          />
+          <TextInput
+            text={password}
+            setText={setPassword}
+            title={t('Login/Password')}
+            isPassword
+            style={styles.gap}
+          />
+        </TextInputGroup>
         <Button
           text={t('Login/forgot password?')}
           onPress={() => Alert.alert('test')}
@@ -37,7 +43,7 @@ const LoginMainContent = () => {
       </View>
       <Button
         text={t('Login/LOGIN')}
-        onPress={() => Alert.alert('login')}
+        onPress={onLogin}
         largeButton
         style={styles.gap}
       />

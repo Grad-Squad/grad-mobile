@@ -21,6 +21,7 @@ const TextInput = ({
   isPassword,
   isEmail,
   style,
+  TextInputProps,
 }) => {
   const { isRTL } = useContext(LocalizationContext);
   return (
@@ -37,6 +38,7 @@ const TextInput = ({
         defaultValue={defaultValue}
         secureTextEntry={isPassword}
         keyboardType={isEmail ? 'email-address' : 'default'}
+        {...TextInputProps}
       />
     </View>
   );
@@ -85,6 +87,7 @@ TextInput.propTypes = {
   isPassword: PropTypes.bool,
   isEmail: PropTypes.bool,
   style: ViewPropTypes.style,
+  TextInputProps: PropTypes.object, // ? TextInputProps interface from react-native
 };
 
 TextInput.defaultProps = {
@@ -94,4 +97,7 @@ TextInput.defaultProps = {
   isPassword: false,
   isEmail: false,
   style: {},
+  TextInputProps: {},
 };
+
+TextInput.isTextInput = true;

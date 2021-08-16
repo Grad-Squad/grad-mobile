@@ -6,5 +6,6 @@
   "Login/LOGIN": "تسجيل الدخول",
   "Login/REGISTER": "إنشاء حساب جديد",
   "Login/Sign In With Google": " تسجيل الدخول بجوجل",
-  "Login/Sign In With Facebook": " تسجيل الدخول بفيس بوك"
+  "Login/Sign In With Facebook": " تسجيل الدخول بفيس بوك",
+  "Time/just now":"الآن"
 }

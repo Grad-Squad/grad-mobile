@@ -3,6 +3,8 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import ContentRegion from './ContentRegion';
+import { formatDate } from '../../../utility';
+import { Colors } from '../../../styles';
 
 const imageWidth = 70;
 const imageOffset = -25;
@@ -26,14 +28,13 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.1,
     borderBottomWidth: 0.1,
     borderColor: 'rgba(0 ,0 , 0,0.5)',
-    backgroundColor: 'white',
+    backgroundColor: Colors.background,
   },
   outerContainer: {
     justifyContent: 'space-between',
     borderRadius: 7,
-    //borderWidth: 0.1,
     borderColor: 'rgba(0 ,0 , 0,0.5)',
-    backgroundColor: 'white',
+    backgroundColor: Colors.cardBody,
     shadowOpacity: 0.25,
     shadowColor: '#000000',
     shadowRadius: 7,
@@ -99,11 +100,7 @@ function TitleRegion({ profileName, title, postDate }) {
       <View style={styles.contentContainer}>
         <ContentRegion />
       </View>
-      <Text style={styles.date}>
-        {`${postDate.getDate()}/${
-          postDate.getMonth() + 1
-        }/${postDate.getFullYear()}`}
-      </Text>
+      <Text style={styles.date}>{formatDate(postDate)}</Text>
     </View>
   );
 }

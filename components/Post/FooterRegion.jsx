@@ -3,10 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import { Icon } from 'react-native-elements';
+import { Colors } from '../../styles';
 import Votes from '../Votes/Votes';
-import Comments from '../Comments/Comments';
-import { HIT_SLOP_OBJECT } from '../../constants';
+import Options from './Options/Options';
+import CommentButton from '../Comment/CommentButton';
+import Bookmark from './Bookmark/Bookmark';
 
 const styles = StyleSheet.create({
   outerContainer: {
@@ -17,10 +18,9 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingHorizontal: 10,
     borderRadius: 7,
-    backgroundColor: '#e9e9e9',
+    backgroundColor: Colors.cardFooter,
     zIndex: -1,
     top: -10,
-    // borderWidth: 0.1,
     borderColor: 'rgba(0 ,0 , 0,0.5)',
     shadowOpacity: 0.25,
     shadowColor: '#000000',
@@ -31,73 +31,15 @@ const styles = StyleSheet.create({
     },
     elevation: 1,
   },
-  VotesContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-
-  BookmarkContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  OptionsContainer: {
-    alignItems: 'center',
-  },
-  arrow: {
-    padding: 2,
-  },
-  button: {
-    flexDirection: 'row',
-  },
 });
 
-const onPress = () => console.log('Hi');
-
-function FooterRegion({ votes, commentsCount }) {
-  const [isSaved, setIsSaved] = useState(false);
-  const savePostHandler = () => {
-    if (!isSaved) {
-      // do stuff
-    } else {
-      // do other stuff
-    }
-    setIsSaved(!isSaved);
-  };
-
+function FooterRegion({ voteCount, commentCount, comments, save }) {
   return (
     <View style={styles.outerContainer}>
-      <Votes votes={votes} />
-      <Comments count={commentsCount} />
-      <View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={savePostHandler}
-          hitSlop={HIT_SLOP_OBJECT}
-        >
-          <View style={styles.BookmarkContainer}>
-            {isSaved ? (
-              <>
-                <Icon name="bookmark" type="material-community" />
-                <Text>saved</Text>
-              </>
-            ) : (
-              <>
-                <Icon name="bookmark" type="feather" />
-                <Text>save</Text>
-              </>
-            )}
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.OptionsContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={onPress}
-          hitSlop={HIT_SLOP_OBJECT}
-        >
-          <Icon name="options" type="simple-line-icon" />
-        </TouchableOpacity>
-      </View>
+      <Votes voteCount={voteCount} />
+      {comments ? <CommentButton count={commentCount} /> : <View />}
+      {save ? <Bookmark /> : <View />}
+      <Options />
     </View>
   );
 }
@@ -105,6 +47,14 @@ function FooterRegion({ votes, commentsCount }) {
 export default FooterRegion;
 
 FooterRegion.propTypes = {
-  votes: PropTypes.number.isRequired,
-  commentsCount: PropTypes.number.isRequired,
+  voteCount: PropTypes.number.isRequired,
+  commentCount: PropTypes.number,
+  comments: PropTypes.bool,
+  save: PropTypes.bool,
+};
+
+FooterRegion.defaultProps = {
+  commentCount: 0,
+  comments: false,
+  save: false,
 };

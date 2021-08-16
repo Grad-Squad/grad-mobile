@@ -6,5 +6,6 @@
   "Login/LOGIN": "LOGIN",
   "Login/REGISTER": "REGISTER",
   "Login/Sign In With Google": "Sign In With Google",
-  "Login/Sign In With Facebook": "Sign In With Facebook"
+  "Login/Sign In With Facebook": "Sign In With Facebook",
+  "Time/just now":"just now"
 }

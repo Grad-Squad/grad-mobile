@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Alert, View, StyleSheet } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
 
 import LoginBack from '../_common/backgrounds/LoginBack';
@@ -17,30 +17,28 @@ const Login = () => {
 
   return (
     <LoginBack componentAfterBackground={<SignInWith />}>
-      <View style={styles.textInputs}>
-        <TextInputGroup onFinish={onLogin}>
-          <TextInput
-            text={email}
-            setText={setEmail}
-            title={t('Login/Email')}
-            isEmail
-            style={styles.gap}
-          />
-          <TextInput
-            text={password}
-            setText={setPassword}
-            title={t('Login/Password')}
-            isPassword
-            style={styles.gap}
-          />
-        </TextInputGroup>
+      <TextInputGroup style={styles.textInputs} onFinish={onLogin}>
+        <TextInput
+          text={email}
+          setText={setEmail}
+          title={t('Login/Email')}
+          isEmail
+          style={styles.gap}
+        />
+        <TextInput
+          text={password}
+          setText={setPassword}
+          title={t('Login/Password')}
+          isPassword
+          style={styles.gap}
+        />
         <Button
           text={t('Login/forgot password?')}
           onPress={() => Alert.alert('test')}
           transparent
           lightText
         />
-      </View>
+      </TextInputGroup>
       <Button
         text={t('Login/LOGIN')}
         onPress={onLogin}

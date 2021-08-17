@@ -15,11 +15,13 @@ const SignInWith = () => {
         onPress={() => Alert.alert('google')}
         leftIcon={<Google />}
         style={styles.firstButtonGap}
+        smallButton
       />
       <Button
         text={t('Login/Sign In With Facebook')}
         onPress={() => Alert.alert('facebook')}
         leftIcon={<Facebook />}
+        smallButton
       />
     </View>
   );

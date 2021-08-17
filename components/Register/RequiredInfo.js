@@ -43,7 +43,6 @@ const RequiredInfo = ({ navigation }) => {
       <Button
         text={t('Register/REGISTER')}
         onPress={onRegisterClick}
-        largeButton
       />
     </LoginBack>
   );

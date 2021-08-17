@@ -46,12 +46,12 @@ const Login = ({ navigation }) => {
       <Button
         text={t('Login/LOGIN')}
         onPress={onLogin}
-        largeButton
         style={styles.gap}
-      />
+        />
       <Button
         text={t('Login/REGISTER')}
         onPress={() => navigation.navigate('register')}
+        smallButton
       />
     </LoginBack>
   );

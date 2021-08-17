@@ -9,7 +9,7 @@ const Button = ({
   onPress,
   transparent,
   lightText,
-  largeButton,
+  smallButton,
   leftIcon,
   style,
 }) => (
@@ -20,7 +20,7 @@ const Button = ({
       transparent
         ? styles.transparentButton
         : [Styles.dropShadow, styles.button],
-      largeButton && styles.largeButton,
+      !(smallButton || transparent) && styles.largeButton,
       style,
     ]}
     android_ripple={{ color: Colors.androidRipple, borderless: false }}
@@ -30,7 +30,7 @@ const Button = ({
       style={
         lightText
           ? styles.lightText
-          : [styles.text, largeButton && styles.largeText]
+          : [styles.text, !(smallButton || transparent) && styles.largeText]
       }
     >
       {text}
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
+    width: '100%',
   },
   transparentButton: {
     padding: 5,
@@ -76,7 +77,7 @@ Button.propTypes = {
   onPress: PropTypes.func.isRequired,
   transparent: PropTypes.bool,
   lightText: PropTypes.bool,
-  largeButton: PropTypes.bool,
+  smallButton: PropTypes.bool,
   leftIcon: PropTypes.node,
   style: ViewPropTypes.style,
 };
@@ -84,7 +85,7 @@ Button.propTypes = {
 Button.defaultProps = {
   transparent: false,
   lightText: false,
-  largeButton: false,
+  smallButton: false,
   leftIcon: undefined,
   style: {},
 };

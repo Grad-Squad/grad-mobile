@@ -31,7 +31,6 @@ const EnterEmail = ({ navigation }) => {
       <Button
         text={t('ForgotPassword/RESET PASSWORD')}
         onPress={onResetClick}
-        largeButton
       />
     </LoginBack>
   );

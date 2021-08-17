@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     fontFamily: Fonts.default,
     paddingHorizontal: 10,
-    height: 45,
+    height: 40,
   },
 });
 

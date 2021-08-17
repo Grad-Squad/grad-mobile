@@ -57,6 +57,6 @@ const styles = StyleSheet.create({
   },
   body: {
     marginTop: 50,
-    marginBottom: 20,
+    marginBottom: 17,
   },
 });

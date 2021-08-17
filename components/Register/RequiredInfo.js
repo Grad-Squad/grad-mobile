@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
+import { navigationPropType } from '../../proptypes';
 import LoginBack from '../_common/backgrounds/LoginBack';
 import { Button, TextInput } from '../_common/Input';
 import TextInputGroup from '../_common/Input/TextInputGroup';
 
-const RequiredInfo = () => {
+const RequiredInfo = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
 
   const [email, setEmail] = useState('');
@@ -13,7 +14,7 @@ const RequiredInfo = () => {
   const [userName, setUserName] = useState('');
 
   const onRegisterClick = () => {
-    Alert.alert('Register Clicked');
+    navigation.navigate('register/optionalInfo');
   };
   return (
     <LoginBack>
@@ -49,6 +50,10 @@ const RequiredInfo = () => {
 };
 
 export default RequiredInfo;
+
+RequiredInfo.propTypes = {
+  navigation: navigationPropType.isRequired,
+};
 
 const styles = StyleSheet.create({
   textInput: {

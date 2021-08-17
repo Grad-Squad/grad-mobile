@@ -1,9 +1,7 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
-
-const { Screen, Navigator } = createNativeStackNavigator();
+import Navigator from '../../navigation/Navigator';
 
 const screens = [
   {
@@ -16,17 +14,6 @@ const screens = [
   },
 ];
 
-const RegisterNavigation = () => ( // todo refactor
-  <Navigator
-    initialRouteName={screens[0].name}
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    {screens.map(({ name, component }) => (
-      <Screen key={name} name={name} component={component} />
-    ))}
-  </Navigator>
-);
+const RegisterNavigation = () => <Navigator screens={screens} />;
 
 export default RegisterNavigation;

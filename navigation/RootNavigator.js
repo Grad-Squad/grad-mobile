@@ -1,12 +1,10 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
 import ForgotPasswordNavigator from '../components/ForgotPassword/ForgotPasswordNavigator';
 import RegisterNavigation from '../components/Register/RegisterNavigation';
-
-const { Screen, Navigator } = createNativeStackNavigator();
+import Navigator from './Navigator';
 
 const screens = [
   {
@@ -29,21 +27,7 @@ const screens = [
 
 const RootNavigator = () => (
   <NavigationContainer>
-    <Navigator
-      initialRouteName="home"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      {screens.map(({ name, component, title }) => (
-        <Screen
-          key={name}
-          name={name}
-          component={component}
-          options={{ title }}
-        />
-      ))}
-    </Navigator>
+    <Navigator screens={screens} />
   </NavigationContainer>
 );
 export default RootNavigator;

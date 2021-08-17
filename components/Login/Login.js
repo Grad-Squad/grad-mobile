@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Alert, StyleSheet } from 'react-native';
+import { navigationPropType } from '../../proptypes';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
 
 import LoginBack from '../_common/backgrounds/LoginBack';
@@ -7,7 +8,7 @@ import { Button, TextInput } from '../_common/Input';
 import TextInputGroup from '../_common/Input/TextInputGroup';
 import SignInWith from './SignInWith/SignInWith';
 
-const Login = () => {
+const Login = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
 
   const [email, setEmail] = useState('');
@@ -16,7 +17,10 @@ const Login = () => {
   const onLogin = () => Alert.alert('login');
 
   return (
-    <LoginBack componentAfterBackground={<SignInWith />}>
+    <LoginBack
+      bodyStyle={styles.loginBack}
+      componentAfterBackground={<SignInWith />}
+    >
       <TextInputGroup style={styles.textInputs} onFinish={onLogin}>
         <TextInput
           text={email}
@@ -34,7 +38,7 @@ const Login = () => {
         />
         <Button
           text={t('Login/forgot password?')}
-          onPress={() => Alert.alert('test')}
+          onPress={() => navigation.navigate('forgotPassword')}
           transparent
           lightText
         />
@@ -48,16 +52,22 @@ const Login = () => {
       <Button
         text={t('Login/REGISTER')}
         onPress={() => Alert.alert('register')}
-        style={styles.gap}
       />
     </LoginBack>
   );
 };
 
+Login.propTypes = {
+  navigation: navigationPropType.isRequired,
+};
+
 export default Login;
 
 const styles = StyleSheet.create({
-  textInputs: { marginTop: 50, marginBottom: 32 },
+  loginBack: {
+    marginBottom: 12,
+  },
+  textInputs: { marginBottom: 32 },
   gap: {
     marginBottom: 11,
   },

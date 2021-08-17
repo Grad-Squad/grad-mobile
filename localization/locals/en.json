@@ -8,7 +8,7 @@
   "Login/Sign In With Google": "Sign In With Google",
   "Login/Sign In With Facebook": "Sign In With Facebook",
   "ForgotPassword/To Reset": "To reset your password, Please enter the Email you used to register your account",
-  "ForgotPassword/AnEmailWith": "An Email with a reset password link will be sent if an account with the email provided exists",
+  "ForgotPassword/AnEmailWith": "An Email with a reset password code will be sent if an account with the email provided exists",
   "ForgotPassword/RESET PASSWORD": "RESET PASSWORD",
   "ForgotPassword/Check Your Email": "Check Your Email",
   "ForgotPassword/you might need to check the junk folder": "you might need to check the junk folder",

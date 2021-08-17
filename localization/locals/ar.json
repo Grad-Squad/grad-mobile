@@ -8,7 +8,7 @@
   "Login/Sign In With Google": " تسجيل الدخول بجوجل",
   "Login/Sign In With Facebook": " تسجيل الدخول بفيس بوك",
   "ForgotPassword/To Reset": "لإعادة تعيين كلمة المرور الخاصة بك ، يرجى إدخال البريد الإلكتروني الذي استخدمته لتسجيل حسابك",
-  "ForgotPassword/AnEmailWith": "سيتم إرسال بريد إلكتروني به رابط إعادة تعيين كلمة المرور في حالة وجود حساب بالبريد الإلكتروني المقدم",
+  "ForgotPassword/AnEmailWith": "سيتم إرسال بريد إلكتروني برمز إعادة تعيين كلمة المرور في حالة وجود حساب بالبريد الإلكتروني المقدم",
   "ForgotPassword/RESET PASSWORD": "إعادة تعيين كلمة المرور",
   "ForgotPassword/Check Your Email": "يرجى مراجعة بريدك الإلكتروني",
   "ForgotPassword/you might need to check the junk folder": "قد تحتاج إلى التحقق من مجلد البريد غير الهام او البريد غير مرغوب فيه",

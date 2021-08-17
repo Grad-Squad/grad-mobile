@@ -51,7 +51,7 @@ const Login = ({ navigation }) => {
       />
       <Button
         text={t('Login/REGISTER')}
-        onPress={() => Alert.alert('register')}
+        onPress={() => navigation.navigate('register')}
       />
     </LoginBack>
   );

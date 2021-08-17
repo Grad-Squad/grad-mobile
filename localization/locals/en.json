@@ -13,4 +13,10 @@
   "ForgotPassword/Check Your Email": "Check Your Email",
   "ForgotPassword/you might need to check the junk folder": "you might need to check the junk folder",
   "ForgotPassword/OK": "OK",
+  "Register/Name": "Name",
+  "Register/REGISTER": "REGISTER",
+  "Register/Profile Picture": "Profile Picture",
+  "Register/Bio": "Bio",
+  "Register/You can always add them later": "You can always add them later",
+  "TextInput/optional": "optional"
 }

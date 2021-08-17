@@ -13,4 +13,10 @@
   "ForgotPassword/Check Your Email": "يرجى مراجعة بريدك الإلكتروني",
   "ForgotPassword/you might need to check the junk folder": "قد تحتاج إلى التحقق من مجلد البريد غير الهام او البريد غير مرغوب فيه",
   "ForgotPassword/OK": "حسنا",
+  "Register/Name": "الاسم",
+  "Register/REGISTER": "تسجيل",
+  "Register/Profile Picture": "صورة الملف الشخصي",
+  "Register/Bio": "السيرة الذاتية",
+  "Register/You can always add them later": "يمكنك دائمًا إضافتهم لاحقًا",
+  "TextInput/optional": "اختياري"
 }

@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
 import ForgotPasswordNavigator from '../components/ForgotPassword/ForgotPasswordNavigator';
+import RegisterNavigation from '../components/Register/RegisterNavigation';
 
 const { Screen, Navigator } = createNativeStackNavigator();
 
@@ -15,6 +16,10 @@ const screens = [
   {
     name: 'login',
     component: Login,
+  },
+  {
+    name: 'register',
+    component: RegisterNavigation,
   },
   {
     name: 'forgotPassword',

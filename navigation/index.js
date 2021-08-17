@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
+import ForgotPasswordNavigator from '../components/ForgotPassword/ForgotPasswordNavigator';
 
 const { Screen, Navigator } = createNativeStackNavigator();
 
@@ -14,6 +15,10 @@ const screens = [
   {
     name: 'login',
     component: Login,
+  },
+  {
+    name: 'forgotPassword',
+    component: ForgotPasswordNavigator,
   },
 ];
 

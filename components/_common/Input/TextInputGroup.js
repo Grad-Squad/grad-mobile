@@ -1,6 +1,6 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import { View, ViewPropTypes } from 'react-native';
+import { StyleSheet, View, ViewPropTypes } from 'react-native';
 import { childrenPropType } from '../../../proptypes';
 import TextInput from './TextInput';
 
@@ -9,7 +9,8 @@ function TextInputGroup({ children, onFinish, style }) {
   const inputsRefs = [];
   let lastTextInputIndex;
 
-  const newChildren = [...children].reverse().map((element, index) => { // runs every re-render, ok for a couple of children
+  const newChildren = [...children].reverse().map((element, index) => {
+    // runs every re-render, ok for a couple of children
     inputsRefs.push(createRef());
     const extraProps = { key: index }; // bad idea
 
@@ -45,7 +46,7 @@ function TextInputGroup({ children, onFinish, style }) {
     return React.cloneElement(element, extraProps);
   });
   newChildren.reverse();
-  return <View style={style}>{newChildren}</View>;
+  return <View style={[styles.wrapper, style]}>{newChildren}</View>;
 }
 
 TextInputGroup.propTypes = {
@@ -56,3 +57,9 @@ TextInputGroup.propTypes = {
 TextInputGroup.defaultProps = { style: {} };
 
 export default TextInputGroup;
+
+const styles = StyleSheet.create({
+  wrapper: {
+    width: '100%',
+  },
+});

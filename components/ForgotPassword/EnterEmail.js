@@ -50,12 +50,11 @@ const styles = StyleSheet.create({
   },
   header: {
     ...Typography.forgotPassword.header,
-    textAlign: 'center',
+
     marginBottom: 20,
   },
   subtitle: {
     ...Typography.forgotPassword.subtitle,
-    textAlign: 'center',
 
     marginBottom: 30,
   },

@@ -25,7 +25,7 @@ const TextInput = ({
 }) => {
   const { isRTL } = useContext(LocalizationContext);
   return (
-    <View style={style}>
+    <View style={[styles.wrapper, style]}>
       <View style={[styles.titleRow, isRTL && styles.titleRowRTL]}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.subtitle}>{subtitle && `(${subtitle})`}</Text>
@@ -47,6 +47,9 @@ const TextInput = ({
 export default TextInput;
 
 const styles = StyleSheet.create({
+  wrapper: {
+    width: '100%',
+  },
   titleRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',

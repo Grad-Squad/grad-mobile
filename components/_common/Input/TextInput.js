@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { Colors, Constants, Fonts } from '../../../styles';
+import { Colors, Fonts, Styles } from '../../../styles';
 import { LocalizationContext } from '../../../localization/LocalizationProvider';
 
 const TextInput = ({
@@ -70,13 +70,9 @@ const styles = StyleSheet.create({
     marginLeft: 2,
   },
   textInput: {
-    borderColor: Colors.border,
-    borderRadius: Constants.borderRadius,
-    borderWidth: 0.4,
-    backgroundColor: Colors.white,
+    ...Styles.textInput,
     fontFamily: Fonts.default,
     paddingHorizontal: 10,
-    height: 40,
   },
 });
 

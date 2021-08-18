@@ -13,6 +13,8 @@
   "ForgotPassword/Check Your Email": "يرجى مراجعة بريدك الإلكتروني",
   "ForgotPassword/you might need to check the junk folder": "قد تحتاج إلى التحقق من مجلد البريد غير الهام او البريد غير مرغوب فيه",
   "ForgotPassword/OK": "حسنا",
+  "ForgotPassword/Please enter the 6 digit code sent to your email": "الرجاء إدخال الرمز المكون من 6 أرقام المرسل إلى بريدك الإلكتروني",
+  "ForgotPassword/DONE": "تم",
   "Register/Name": "الاسم",
   "Register/REGISTER": "تسجيل",
   "Register/Profile Picture": "صورة الملف الشخصي",

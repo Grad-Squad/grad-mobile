@@ -22,6 +22,8 @@
   "ForgotPassword/Reset Password": "إعادة تعيين كلمة المرور",
   "ForgotPassword/All Good": "كله تمام",
   "ForgotPassword/Now you can login in with your new password": "الآن يمكنك تسجيل الدخول باستخدام كلمة المرور الجديدة الخاصة بك",
+  "ForgotPassword/Failed too many times": "فشلت مرات عديدة",
+  "ForgotPassword/ Please request another password reset": " الرجاء طلب \"إعادة تعيين كلمة المرور\" مرة أخرى",
   "Register/Name": "الاسم",
   "Register/REGISTER": "تسجيل",
   "Register/Profile Picture": "صورة الملف الشخصي",

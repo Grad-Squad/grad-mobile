@@ -22,6 +22,8 @@
   "ForgotPassword/Reset Password": "Reset Password",
   "ForgotPassword/All Good": "All Good",
   "ForgotPassword/Now you can login in with your new password": "Now you can login in with your new password",
+  "ForgotPassword/Failed too many times": "Failed too many times",
+  "ForgotPassword/ Please request another password reset": " Please request another password reset",
   "Register/Name": "Name",
   "Register/REGISTER": "REGISTER",
   "Register/Profile Picture": "Profile Picture",

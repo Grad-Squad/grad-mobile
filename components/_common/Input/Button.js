@@ -27,11 +27,12 @@ const Button = ({
   >
     {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
     <Text
-      style={
+      style={[
         lightText
           ? styles.lightText
-          : [styles.text, !(smallButton || transparent) && styles.largeText]
-      }
+          : [styles.text, !(smallButton || transparent) && styles.largeText],
+        transparent && styles.transparentButtonText,
+      ]}
     >
       {text}
     </Text>
@@ -61,6 +62,9 @@ const styles = StyleSheet.create({
   lightText: {
     fontFamily: 'Lato_300Light',
     fontSize: 17,
+  },
+  transparentButtonText: {
+    textDecorationLine: 'underline',
   },
   text: {
     fontFamily: Fonts.action,

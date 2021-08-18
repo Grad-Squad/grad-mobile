@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { Alert, StyleSheet, Text } from 'react-native';
+import * as Clipboard from 'expo-clipboard';
 
 import { LocalizationContext } from '../../../localization/LocalizationProvider';
 import { navigationPropType } from '../../../proptypes';
@@ -24,6 +25,14 @@ const SixDigit = ({ navigation }) => {
     attemptSubmit();
   }, [code]);
 
+  const onPasteClick = () => {
+    Clipboard.getStringAsync()
+      .then((value) => {
+        setCode(value.replace(/[^0-9]/g, ''));
+      })
+      .catch(() => Alert.alert("Sorry, Couldn't paste from clipboard"));
+  };
+
   return (
     <LoginBack>
       <Text style={[Styles.forgotPasswordHeader, styles.enterCode]}>
@@ -41,6 +50,13 @@ const SixDigit = ({ navigation }) => {
         style={styles.CodeTextInput}
       />
 
+      <Button
+        text={t('ForgotPassword/paste from clipboard')}
+        onPress={onPasteClick}
+        transparent
+        lightText
+        style={styles.paste}
+      />
       <Button text={t('ForgotPassword/DONE')} onPress={attemptSubmit} />
     </LoginBack>
   );
@@ -61,6 +77,10 @@ const styles = StyleSheet.create({
     ...Typography.forgotPassword.subtitle,
   },
   CodeTextInput: {
-    marginVertical: 30,
+    marginTop: 30,
+    marginBottom: 20,
+  },
+  paste: {
+    marginBottom: 12,
   },
 });

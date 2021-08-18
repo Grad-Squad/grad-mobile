@@ -4,6 +4,7 @@ import { Button, TextInput } from '../_common/Input';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
 import LoginBack from '../_common/backgrounds/LoginBack';
 import { navigationPropType } from '../../proptypes';
+import { Typography } from '../../styles';
 
 const EnterEmail = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
@@ -48,14 +49,12 @@ const styles = StyleSheet.create({
     marginBottom: 35,
   },
   header: {
-    fontFamily: 'Lato_400Regular',
-    fontSize: 21,
+    ...Typography.forgotPassword.header,
     textAlign: 'center',
     marginBottom: 20,
   },
   subtitle: {
-    fontFamily: 'Lato_400Regular',
-    fontSize: 12,
+    ...Typography.forgotPassword.subtitle,
     textAlign: 'center',
 
     marginBottom: 30,

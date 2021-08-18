@@ -1,15 +1,22 @@
 import { StyleSheet } from 'react-native';
 
+const base = {
+  fontFamily: 'Lato_400Regular',
+  textAlign: 'center',
+};
+
 const forgotPassword = StyleSheet.create({
+  bigHeader: {
+    ...base,
+    fontSize: 36,
+  },
   header: {
-    fontFamily: 'Lato_400Regular',
+    ...base,
     fontSize: 21,
-    textAlign: 'center',
   },
   subtitle: {
-    fontFamily: 'Lato_400Regular',
-    fontSize: 12,
-    textAlign: 'center',
+    ...base,
+    fontSize: 13,
   },
 });
 

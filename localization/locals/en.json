@@ -20,6 +20,8 @@
   "ForgotPassword/Enter a new password to replace the old password": "Enter a new password to replace the old password",
   "ForgotPassword/New Password": "New Password",
   "ForgotPassword/Reset Password": "Reset Password",
+  "ForgotPassword/All Good": "All Good",
+  "ForgotPassword/Now you can login in with your new password": "Now you can login in with your new password",
   "Register/Name": "Name",
   "Register/REGISTER": "REGISTER",
   "Register/Profile Picture": "Profile Picture",

@@ -20,6 +20,8 @@
   "ForgotPassword/Enter a new password to replace the old password": "أدخل كلمة مرور جديدة لاستبدال كلمة المرور القديمة",
   "ForgotPassword/New Password": "كلمة المرور الجديدة",
   "ForgotPassword/Reset Password": "إعادة تعيين كلمة المرور",
+  "ForgotPassword/All Good": "كله تمام",
+  "ForgotPassword/Now you can login in with your new password": "الآن يمكنك تسجيل الدخول باستخدام كلمة المرور الجديدة الخاصة بك",
   "Register/Name": "الاسم",
   "Register/REGISTER": "تسجيل",
   "Register/Profile Picture": "صورة الملف الشخصي",

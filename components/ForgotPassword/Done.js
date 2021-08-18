@@ -1,15 +1,54 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useContext } from 'react';
+import { Image, StyleSheet, Text } from 'react-native';
 import LoginBack from '../_common/backgrounds/LoginBack';
+import { navigationPropType } from '../../proptypes';
+import { LocalizationContext } from '../../localization/LocalizationProvider';
+import { Button } from '../_common/Input';
+import { Typography } from '../../styles';
 
-const Done = () => {
+const IMAGE_SOURCE = require('../../assets/images/ForgotPasswordDone.webp');
+
+const Done = ({ navigation }) => {
+  const { t } = useContext(LocalizationContext);
+
   return (
     <LoginBack>
-      <Text>Done</Text>
+      <Image style={styles.image} source={IMAGE_SOURCE} />
+
+      <Text style={styles.header}>{t('ForgotPassword/All Good')}</Text>
+      <Text style={styles.subtitle}>
+        {t('ForgotPassword/Now you can login in with your new password')}
+      </Text>
+      <Button
+        text={t('Login/LOGIN')}
+        onPress={() => navigation.navigate('login')}
+      />
     </LoginBack>
   );
 };
 
+Done.propTypes = {
+  navigation: navigationPropType.isRequired,
+};
+Done.defaultProps = {};
+
 export default Done;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  image: {
+    width: 200,
+    height: 291,
+
+    marginBottom: 10,
+  },
+  header: {
+    ...Typography.forgotPassword.bigHeader,
+
+    marginBottom: 20,
+  },
+  subtitle: {
+    ...Typography.forgotPassword.subtitle,
+
+    marginBottom: 17,
+  },
+});

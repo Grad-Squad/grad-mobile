@@ -20,6 +20,7 @@ function TextInputGroup({ children, onFinish, style }) {
 
     if (element.type === TextInput) {
       extraProps.TextInputProps = {
+        ...element.props.TextInputProps,
         ref: inputsRefs[index],
       };
 

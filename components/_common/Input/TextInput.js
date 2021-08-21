@@ -119,5 +119,3 @@ TextInput.defaultProps = {
   error: false,
   errorMsg: '',
 };
-
-TextInput.isTextInput = true;

@@ -22,17 +22,26 @@ const TextInput = ({
   isEmail,
   style,
   TextInputProps,
+  error,
+  errorMsg,
 }) => {
   const { isRTL } = useContext(LocalizationContext);
   return (
     <View style={[styles.wrapper, style]}>
       <View style={[styles.titleRow, isRTL && styles.titleRowRTL]}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.subtitle}>{subtitle && `(${subtitle})`}</Text>
+        <Text style={[styles.title, error && styles.errorText]}>{title}</Text>
+        <Text
+          style={[styles.subtitle, error && styles.errorText]}
+        >
+          {(subtitle || error) &&
+            `(${error ? errorMsg : ''}${
+              subtitle && error && errorMsg ? ', ' : ''
+            }${subtitle})`}
+        </Text>
       </View>
       <TextInputNative
         placeholder={placeholder}
-        style={styles.textInput}
+        style={[styles.textInput, error && styles.textInputError]}
         value={text}
         onChangeText={(txt) => setText(txt)}
         defaultValue={defaultValue}
@@ -67,12 +76,20 @@ const styles = StyleSheet.create({
   subtitle: {
     fontFamily: 'Lato_300Light',
     fontSize: 16,
+    color: Colors.offBlack,
     marginLeft: 2,
+  },
+  errorText: {
+    color: Colors.error,
   },
   textInput: {
     ...Styles.textInput,
     fontFamily: Fonts.default,
     paddingHorizontal: 10,
+  },
+  textInputError: {
+    borderColor: Colors.error,
+    borderWidth: 1,
   },
 });
 
@@ -87,6 +104,8 @@ TextInput.propTypes = {
   isEmail: PropTypes.bool,
   style: ViewPropTypes.style,
   TextInputProps: PropTypes.object, // ? TextInputProps interface from react-native
+  error: PropTypes.bool,
+  errorMsg: PropTypes.string,
 };
 
 TextInput.defaultProps = {
@@ -97,6 +116,8 @@ TextInput.defaultProps = {
   isEmail: false,
   style: {},
   TextInputProps: {},
+  error: false,
+  errorMsg: '',
 };
 
 TextInput.isTextInput = true;

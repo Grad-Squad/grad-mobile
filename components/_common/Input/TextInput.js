@@ -30,9 +30,7 @@ const TextInput = ({
     <View style={[styles.wrapper, style]}>
       <View style={[styles.titleRow, isRTL && styles.titleRowRTL]}>
         <Text style={[styles.title, error && styles.errorText]}>{title}</Text>
-        <Text
-          style={[styles.subtitle, error && styles.errorText]}
-        >
+        <Text style={[styles.subtitle, error && styles.errorText]}>
           {(subtitle || error) &&
             `(${error ? errorMsg : ''}${
               subtitle && error && errorMsg ? ', ' : ''
@@ -41,7 +39,7 @@ const TextInput = ({
       </View>
       <TextInputNative
         placeholder={placeholder}
-        style={[styles.textInput, error && styles.textInputError]}
+        style={[styles.textInput, error && Styles.textInputError]}
         value={text}
         onChangeText={(txt) => setText(txt)}
         defaultValue={defaultValue}
@@ -62,6 +60,7 @@ const styles = StyleSheet.create({
   titleRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
+    flexWrap: 'wrap',
     marginBottom: 7,
   },
   titleRowRTL: {
@@ -86,10 +85,6 @@ const styles = StyleSheet.create({
     ...Styles.textInput,
     fontFamily: Fonts.default,
     paddingHorizontal: 10,
-  },
-  textInputError: {
-    borderColor: Colors.error,
-    borderWidth: 1,
   },
 });
 

@@ -36,6 +36,10 @@ const Styles = StyleSheet.create({
     fontFamily: Fonts.default,
     height: 40,
   },
+  textInputError: {
+    borderColor: Colors.error,
+    borderWidth: 1,
+  },
 });
 
 export default Styles;

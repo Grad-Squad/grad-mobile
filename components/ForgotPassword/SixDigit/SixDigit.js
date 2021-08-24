@@ -4,7 +4,7 @@ import * as Clipboard from 'expo-clipboard';
 
 import { LocalizationContext } from '../../../localization/LocalizationProvider';
 import { navigationPropType } from '../../../proptypes';
-import { Styles, Typography } from '../../../styles';
+import { Colors, Styles, Typography } from '../../../styles';
 import LoginBack from '../../_common/backgrounds/LoginBack';
 import { Button } from '../../_common/Input';
 import CodeTextInput from './CodeTextInput';
@@ -14,6 +14,7 @@ const CELL_COUNT = 6;
 const SixDigit = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
   const [code, setCode] = useState('');
+  const [error, setError] = useState(true);
 
   const attemptSubmit = () => {
     if (code && code.length === CELL_COUNT) {
@@ -38,9 +39,13 @@ const SixDigit = ({ navigation }) => {
       <Text style={[Styles.forgotPasswordHeader, styles.enterCode]}>
         {t('ForgotPassword/Please enter the 6 digit code sent to your email')}
       </Text>
-      <Text style={[Styles.forgotPasswordSubtitle, styles.junkFolder]}>
-        {t('ForgotPassword/you might need to check the junk folder')}
-      </Text>
+      {error ? (
+        <Text style={styles.wrongCode}>{t('ForgotPassword/wrong code')}</Text>
+      ) : (
+        <Text style={[Styles.forgotPasswordSubtitle, styles.junkFolder]}>
+          {t('ForgotPassword/you might need to check the junk folder')}
+        </Text>
+      )}
 
       <CodeTextInput
         cellCount={CELL_COUNT}
@@ -48,6 +53,7 @@ const SixDigit = ({ navigation }) => {
         setValue={setCode}
         onFinish={attemptSubmit}
         style={styles.CodeTextInput}
+        error={error}
       />
 
       <Button
@@ -75,6 +81,10 @@ const styles = StyleSheet.create({
   },
   junkFolder: {
     ...Typography.forgotPassword.subtitle,
+  },
+  wrongCode: {
+    ...Typography.forgotPassword.subtitle,
+    color: Colors.error,
   },
   CodeTextInput: {
     marginTop: 30,

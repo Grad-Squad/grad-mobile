@@ -8,7 +8,14 @@ import {
 } from 'react-native-confirmation-code-field';
 import { Styles } from '../../../styles';
 
-const CodeTextInput = ({ cellCount, value, setValue, onFinish, style }) => {
+const CodeTextInput = ({
+  cellCount,
+  value,
+  setValue,
+  onFinish,
+  style,
+  error,
+}) => {
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
@@ -32,7 +39,7 @@ const CodeTextInput = ({ cellCount, value, setValue, onFinish, style }) => {
         renderCell={({ index, symbol, isFocused }) => (
           <Text
             key={index}
-            style={[styles.cell]}
+            style={[styles.cell, error && Styles.textInputError]}
             onLayout={getCellOnLayoutHandler(index)}
           >
             {symbol || (isFocused && <Cursor />)}
@@ -49,9 +56,11 @@ CodeTextInput.propTypes = {
   setValue: PropTypes.func.isRequired,
   style: ViewPropTypes.style,
   onFinish: PropTypes.func.isRequired,
+  error: PropTypes.bool,
 };
 CodeTextInput.defaultProps = {
   style: {},
+  error: false,
 };
 
 export default CodeTextInput;

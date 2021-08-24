@@ -17,8 +17,10 @@
     "@react-navigation/native-stack": "^6.0.3",
     "expo": "~42.0.1",
     "expo-app-loading": "^1.1.2",
+    "expo-clipboard": "~1.1.0",
     "expo-localization": "~10.2.0",
     "expo-status-bar": "~1.0.4",
+    "formik": "^2.2.9",
     "i18n-js": "^3.8.0",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
@@ -31,7 +33,7 @@
     "react-native-svg": "12.1.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-web": "~0.13.12",
-    "expo-clipboard": "~1.1.0"
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

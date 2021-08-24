@@ -1,37 +1,49 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Alert, StyleSheet } from 'react-native';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 import { navigationPropType } from '../../proptypes';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
 
 import LoginBack from '../_common/backgrounds/LoginBack';
-import { Button, TextInput } from '../_common/Input';
-import TextInputGroup from '../_common/Input/TextInputGroup';
+import { Button, TextInputGroup } from '../_common/Input';
 import SignInWith from './SignInWith/SignInWith';
+import TextInputFormik from '../_common/Input/TextInputFormik';
+import { emailRequired, requiredError } from '../../validation';
 
 const Login = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const onLogin = () => Alert.alert('login');
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: ({ email, password }) => {
+      Alert.alert(`Login: ${email}, ${password}`);
+    },
+    validationSchema: yup.object().shape({
+      email: emailRequired(t),
+      password: yup.string().required(requiredError(t)),
+    }),
+  });
 
   return (
     <LoginBack
       bodyStyle={styles.loginBack}
       componentAfterBackground={<SignInWith />}
     >
-      <TextInputGroup style={styles.textInputs} onFinish={onLogin}>
-        <TextInput
-          text={email}
-          setText={setEmail}
+      <TextInputGroup style={styles.textInputs} onFinish={formik.handleSubmit}>
+        <TextInputFormik
+          formik={formik}
+          formikKey="email"
           title={t('Login/Email')}
           isEmail
           style={styles.gap}
         />
-        <TextInput
-          text={password}
-          setText={setPassword}
+        <TextInputFormik
+          formik={formik}
+          formikKey="password"
           title={t('Login/Password')}
           isPassword
           style={styles.gap}
@@ -45,9 +57,9 @@ const Login = ({ navigation }) => {
       </TextInputGroup>
       <Button
         text={t('Login/LOGIN')}
-        onPress={onLogin}
+        onPress={formik.handleSubmit}
         style={styles.gap}
-        />
+      />
       <Button
         text={t('Login/REGISTER')}
         onPress={() => navigation.navigate('register')}

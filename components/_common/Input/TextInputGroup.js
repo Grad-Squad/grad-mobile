@@ -2,7 +2,7 @@ import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, ViewPropTypes } from 'react-native';
 import { childrenPropType } from '../../../proptypes';
-import TextInput from './TextInput';
+import isTextInput from './isTextInput';
 
 function TextInputGroup({ children, onFinish, style }) {
   const nextTextInputMap = {};
@@ -17,8 +17,7 @@ function TextInputGroup({ children, onFinish, style }) {
     if (typeof element === 'boolean') {
       return undefined;
     }
-
-    if (element.type === TextInput) {
+    if (isTextInput(element.type)) {
       extraProps.TextInputProps = {
         ...element.props.TextInputProps,
         ref: inputsRefs[index],

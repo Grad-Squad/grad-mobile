@@ -1,5 +1,5 @@
 {
-  "hello": "Open up App.js to start working on your app! Nice",
+  "hello": "Open up App.js to start working on your app! Nice👨‍🎓👩‍🎓",
   "Login/Email": "Email",
   "Login/Password": "Password",
   "Login/forgot password?": "forgot password?",
@@ -24,10 +24,15 @@
   "ForgotPassword/Now you can login in with your new password": "Now you can login in with your new password",
   "ForgotPassword/Failed too many times": "Failed too many times",
   "ForgotPassword/ Please request another password reset": " Please request another password reset",
+  "ForgotPassword/your new password cannot be the same as the old password": "your new password cannot be the same as the old password",
+  "ForgotPassword/wrong code": "wrong code",
   "Register/Name": "Name",
   "Register/REGISTER": "REGISTER",
   "Register/Profile Picture": "Profile Picture",
   "Register/Bio": "Bio",
   "Register/You can always add them later": "You can always add them later",
-  "TextInput/optional": "optional"
+  "TextInput/optional": "optional",
+  "InputValidationError/invalid email": "invalid email",
+  "InputValidationError/field required": "field required"
+
 }

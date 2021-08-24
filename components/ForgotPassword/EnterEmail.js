@@ -1,29 +1,39 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import { Button, TextInput } from '../_common/Input';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { Button } from '../_common/Input';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
 import LoginBack from '../_common/backgrounds/LoginBack';
 import { navigationPropType } from '../../proptypes';
 import { Typography } from '../../styles';
+import { emailRequired } from '../../validation';
+import TextInputFormik from '../_common/Input/TextInputFormik';
 
 const EnterEmail = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
-  const [email, setEmail] = useState('');
 
-  const onResetClick = () => {
-    navigation.navigate('forgotPassword/checkEmail');
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+    },
+    onSubmit: ({email}) => {
+      navigation.navigate('forgotPassword/checkEmail');
+    },
+    validationSchema: yup.object().shape({
+      email: emailRequired(t),
+    }),
+  });
 
   return (
     <LoginBack style={styles.wrapper}>
       <Text style={styles.header}>{t('ForgotPassword/To Reset')}</Text>
 
-      <TextInput
-        text={email}
-        setText={setEmail}
+      <TextInputFormik
+        formik={formik}
+        formikKey="email"
         title={t('Login/Email')}
         isEmail
-        TextInputProps={{ onSubmitEditing: onResetClick }}
         style={styles.gap}
       />
 
@@ -31,7 +41,7 @@ const EnterEmail = ({ navigation }) => {
 
       <Button
         text={t('ForgotPassword/RESET PASSWORD')}
-        onPress={onResetClick}
+        onPress={formik.handleSubmit}
       />
     </LoginBack>
   );

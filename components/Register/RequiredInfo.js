@@ -3,8 +3,7 @@ import { StyleSheet } from 'react-native';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
 import { navigationPropType } from '../../proptypes';
 import LoginBack from '../_common/backgrounds/LoginBack';
-import { Button, TextInput } from '../_common/Input';
-import TextInputGroup from '../_common/Input/TextInputGroup';
+import { Button, TextInput, TextInputGroup } from '../_common/Input';
 
 const RequiredInfo = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);

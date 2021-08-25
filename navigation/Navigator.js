@@ -4,9 +4,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const { Screen, Navigator: NativeNavigator } = createNativeStackNavigator();
 
-const Navigator = ({ screens }) => (
+const Navigator = ({ screens, initialRouteName }) => (
   <NativeNavigator
-    initialRouteName={[screens[0].name]}
+    initialRouteName={initialRouteName || screens[0].name}
     screenOptions={{
       headerShown: false,
     }}
@@ -24,7 +24,10 @@ Navigator.propTypes = {
       component: PropTypes.func.isRequired,
     })
   ).isRequired,
+  initialRouteName: PropTypes.string,
 };
-Navigator.defaultProps = {};
+Navigator.defaultProps = {
+  initialRouteName: '',
+};
 
 export default Navigator;

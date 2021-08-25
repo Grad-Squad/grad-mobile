@@ -16,7 +16,7 @@ const TextInputFormik = ({
     errorMsg={formik.errors[formikKey]}
     TextInputProps={{
       onSubmitEditing: formik.handleSubmit,
-      onBlur: () => formik.handleBlur(formikKey),
+      onBlur: formik.handleBlur(formikKey),
       ...TextInputProps,
     }}
     {...props}

@@ -2,23 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextInput from './TextInput';
 
-const TextInputFormik = ({ formik, formikKey, error, ...props }) => {
-  const { TextInputProps, ...rest } = props;
-  return (
-    <TextInput
-      text={formik.values[formikKey]}
-      setText={formik.handleChange(formikKey)}
-      error={error || (formik.errors[formikKey] && formik.touched[formikKey])}
-      errorMsg={formik.errors[formikKey]}
-      TextInputProps={{
-        onSubmitEditing: formik.handleSubmit,
-        onBlur: () => formik.handleBlur(formikKey),
-        ...TextInputProps,
-      }}
-      {...rest}
-    />
-  );
-};
+const TextInputFormik = ({
+  formik,
+  formikKey,
+  error,
+  TextInputProps,
+  ...props
+}) => (
+  <TextInput
+    text={formik.values[formikKey]}
+    setText={formik.handleChange(formikKey)}
+    error={error || (formik.errors[formikKey] && formik.touched[formikKey])}
+    errorMsg={formik.errors[formikKey]}
+    TextInputProps={{
+      onSubmitEditing: formik.handleSubmit,
+      onBlur: () => formik.handleBlur(formikKey),
+      ...TextInputProps,
+    }}
+    {...props}
+  />
+);
 
 TextInputFormik.propTypes = {
   formik: PropTypes.shape({
@@ -31,9 +34,11 @@ TextInputFormik.propTypes = {
   }).isRequired,
   formikKey: PropTypes.string.isRequired,
   error: PropTypes.bool,
+  TextInputProps: PropTypes.object,
 };
 TextInputFormik.defaultProps = {
   error: false,
+  TextInputProps: {},
 };
 
 export default TextInputFormik;

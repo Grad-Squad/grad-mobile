@@ -14,7 +14,7 @@ const CELL_COUNT = 6;
 const SixDigit = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
   const [code, setCode] = useState('');
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
 
   const attemptSubmit = () => {
     if (code && code.length === CELL_COUNT) {

@@ -31,8 +31,8 @@
   "Register/Profile Picture": "Profile Picture",
   "Register/Bio": "Bio",
   "Register/You can always add them later": "You can always add them later",
-  "TextInput/optional": "optional",
-  "InputValidationError/invalid email": "invalid email",
-  "InputValidationError/field required": "field required"
-
+  "TextInput/optional": "(optional)",
+  "InputValidationError/invalid email": "(invalid email)",
+  "InputValidationError/field required": "(field required)",
+  "InputValidationError/invalid password": "• at least 8 characters long\n• one uppercase letter\n• one lowercase letter\n• one number"
 }

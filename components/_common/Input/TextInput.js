@@ -32,9 +32,9 @@ const TextInput = ({
         <Text style={[styles.title, error && styles.errorText]}>{title}</Text>
         <Text style={[styles.subtitle, error && styles.errorText]}>
           {(subtitle || error) &&
-            `(${error ? errorMsg : ''}${
+            `${error ? errorMsg : ''}${
               subtitle && error && errorMsg ? ', ' : ''
-            }${subtitle})`}
+            }${subtitle}`}
         </Text>
       </View>
       <TextInputNative

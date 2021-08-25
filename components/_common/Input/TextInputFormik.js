@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextInput from './TextInput';
 
-const TextInputFormik = ({ formik, formikKey, ...props }) => {
+const TextInputFormik = ({ formik, formikKey, error, ...props }) => {
   const { TextInputProps, ...rest } = props;
   return (
     <TextInput
       text={formik.values[formikKey]}
       setText={formik.handleChange(formikKey)}
-      error={formik.errors[formikKey] && formik.touched[formikKey]}
+      error={error || (formik.errors[formikKey] && formik.touched[formikKey])}
       errorMsg={formik.errors[formikKey]}
       TextInputProps={{
         onSubmitEditing: formik.handleSubmit,
@@ -30,7 +30,10 @@ TextInputFormik.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
   }).isRequired,
   formikKey: PropTypes.string.isRequired,
+  error: PropTypes.bool,
 };
-TextInputFormik.defaultProps = {};
+TextInputFormik.defaultProps = {
+  error: false,
+};
 
 export default TextInputFormik;

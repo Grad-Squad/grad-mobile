@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
@@ -29,6 +29,10 @@ function Votes({ voteCount }) {
   const [IsUpVoted, setIsUpVoted] = useState(false);
   const [isDownVoted, setIsDownVoted] = useState(false);
 
+  useEffect(() => {
+    setVote(voteCount);
+  }, [voteCount]);
+
   const upVoteHandler = () => {
     let offset = 0;
     if (IsUpVoted) {
@@ -42,6 +46,7 @@ function Votes({ voteCount }) {
     setIsUpVoted(!IsUpVoted);
     setIsDownVoted(false);
   };
+
   const downVoteHandler = () => {
     let offset = 0;
     if (IsUpVoted) {

@@ -33,12 +33,12 @@ const styles = StyleSheet.create({
   },
 });
 
-function FooterRegion({ voteCount, commentCount, comments, save }) {
+function FooterRegion({ voteCount, commentCount, hasComments, hasSave }) {
   return (
     <View style={styles.outerContainer}>
       <Votes voteCount={voteCount} />
-      {comments ? <CommentButton count={commentCount} /> : <View />}
-      {save ? <Bookmark /> : <View />}
+      {hasComments && <CommentButton count={commentCount} />}
+      {hasSave && <Bookmark />}
       <Options />
     </View>
   );
@@ -49,12 +49,12 @@ export default FooterRegion;
 FooterRegion.propTypes = {
   voteCount: PropTypes.number.isRequired,
   commentCount: PropTypes.number,
-  comments: PropTypes.bool,
-  save: PropTypes.bool,
+  hasComments: PropTypes.bool,
+  hasSave: PropTypes.bool,
 };
 
 FooterRegion.defaultProps = {
   commentCount: 0,
-  comments: false,
-  save: false,
+  hasComments: false,
+  hasSave: false,
 };

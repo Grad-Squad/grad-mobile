@@ -15,19 +15,27 @@ const styles = StyleSheet.create({
   },
 });
 
-const DATE = new Date();
+// const DATE = new Date();
 
-function Post({ title, user, voteCount, commentCount }) {
+function Post({ postData }) {
+  const { title, author, rating, priceInCents, createdAt } = postData;
+  const voteCount = rating.upvotes - rating.downvotes;
+  const creationDate = new Date(createdAt);
+
   return (
     <View style={styles.container}>
       <ThemeProvider>
-        <TitleRegion title={title} profileName={user} postDate={DATE} />
+        <TitleRegion
+          title={title}
+          profileName={author.name}
+          postDate={creationDate}
+        />
         <FooterRegion
           style={styles.container}
           voteCount={voteCount}
-          commentCount={commentCount}
-          comments
-          save
+          commentCount={priceInCents}
+          hasComments
+          hasSave
         />
       </ThemeProvider>
     </View>
@@ -37,8 +45,21 @@ function Post({ title, user, voteCount, commentCount }) {
 export default Post;
 
 Post.propTypes = {
-  title: PropTypes.string.isRequired,
-  user: PropTypes.string.isRequired,
-  voteCount: PropTypes.number.isRequired,
-  commentCount: PropTypes.number.isRequired,
+  postData: PropTypes.exact({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    priceInCents: PropTypes.number.isRequired,
+    subject: PropTypes.string.isRequired,
+    rating: PropTypes.exact({
+      id: PropTypes.number.isRequired,
+      upvotes: PropTypes.number.isRequired,
+      downvotes: PropTypes.number.isRequired,
+    }).isRequired,
+    createdAt: PropTypes.string.isRequired,
+    author: PropTypes.exact({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      profilePicture: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };

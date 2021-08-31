@@ -12,12 +12,12 @@ const RequiredInfo = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [userName, setUserName] = useState('');
 
-  const onRegisterClick = () => {
-    navigation.navigate('register/optionalInfo');
+  const onContinueClick = () => {
+    navigation.navigate('register/rollSelection');
   };
   return (
     <LoginBack>
-      <TextInputGroup style={styles.textInputGroup} onFinish={onRegisterClick}>
+      <TextInputGroup style={styles.textInputGroup} onFinish={onContinueClick}>
         <TextInput
           text={email}
           setText={setEmail}
@@ -40,8 +40,8 @@ const RequiredInfo = ({ navigation }) => {
       </TextInputGroup>
 
       <Button
-        text={t('Register/REGISTER')}
-        onPress={onRegisterClick}
+        text={t('Register/CONTINUE')}
+        onPress={onContinueClick}
       />
     </LoginBack>
   );

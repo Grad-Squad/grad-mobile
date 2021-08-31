@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { Colors, Fonts, Styles } from '../../../styles';
+import { Colors, Fonts, Styles, Typography } from '../../../styles';
 import { LocalizationContext } from '../../../localization/LocalizationProvider';
 
 const TextInput = ({
@@ -29,7 +29,9 @@ const TextInput = ({
   return (
     <View style={[styles.wrapper, style]}>
       <View style={[styles.titleRow, isRTL && styles.titleRowRTL]}>
-        <Text style={[styles.title, error && styles.errorText]}>{title}</Text>
+        <Text style={[Typography.userInput.title, error && styles.errorText]}>
+          {title}
+        </Text>
         <Text style={[styles.subtitle, error && styles.errorText]}>
           {(subtitle || error) &&
             `${error ? errorMsg : ''}${
@@ -65,12 +67,6 @@ const styles = StyleSheet.create({
   },
   titleRowRTL: {
     flexDirection: 'row-reverse',
-  },
-  title: {
-    marginLeft: 5,
-    fontFamily: Fonts.titles,
-    color: Colors.offBlack,
-    fontSize: 20,
   },
   subtitle: {
     fontFamily: 'Lato_300Light',

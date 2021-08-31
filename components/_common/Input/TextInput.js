@@ -24,6 +24,7 @@ const TextInput = ({
   TextInputProps,
   error,
   errorMsg,
+  multiline,
 }) => {
   const { isRTL } = useContext(LocalizationContext);
   return (
@@ -41,12 +42,17 @@ const TextInput = ({
       </View>
       <TextInputNative
         placeholder={placeholder}
-        style={[styles.textInput, error && Styles.textInputError]}
+        style={[
+          styles.textInput,
+          error && Styles.textInputError,
+          multiline && styles.multilineTextInput,
+        ]}
         value={text}
         onChangeText={(txt) => setText(txt)}
         defaultValue={defaultValue}
         secureTextEntry={isPassword}
         keyboardType={isEmail ? 'email-address' : 'default'}
+        multiline={multiline}
         {...TextInputProps}
       />
     </View>
@@ -82,6 +88,12 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.default,
     paddingHorizontal: 10,
   },
+  multilineTextInput: {
+    minHeight: 45,
+    maxHeight: 90,
+    textAlignVertical: 'top',
+    paddingVertical: 10,
+  },
 });
 
 TextInput.propTypes = {
@@ -97,6 +109,7 @@ TextInput.propTypes = {
   TextInputProps: PropTypes.object, // ? TextInputProps interface from react-native
   error: PropTypes.bool,
   errorMsg: PropTypes.string,
+  multiline: PropTypes.bool,
 };
 
 TextInput.defaultProps = {
@@ -109,4 +122,5 @@ TextInput.defaultProps = {
   TextInputProps: {},
   error: false,
   errorMsg: '',
+  multiline: false,
 };

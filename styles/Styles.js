@@ -34,7 +34,7 @@ const Styles = StyleSheet.create({
     borderWidth: 0.4,
     backgroundColor: Colors.white,
     fontFamily: Fonts.default,
-    height: 40,
+    minHeight: 40,
   },
   textInputError: {
     borderColor: Colors.error,

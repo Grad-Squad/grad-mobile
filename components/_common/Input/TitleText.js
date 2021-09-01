@@ -8,13 +8,22 @@ import { LocalizationContext } from 'localization';
 const TitleText = ({ title, subtitle, showSubtitle, error, style }) => {
   const { isRTL } = useContext(LocalizationContext);
   return (
-    <View style={[styles.titleRow, isRTL && styles.titleRowRTL, style]}>
+    <View
+      style={[
+        styles.titleRow,
+        isRTL && styles.titleRowRTL,
+        (subtitle.indexOf('\n') !== -1) && styles.titleCol,
+        style,
+      ]}
+    >
       <Text style={[Typography.userInput.title, error && styles.errorText]}>
         {title}
       </Text>
-      <Text style={[styles.subtitle, error && styles.errorText]}>
-        {showSubtitle && subtitle}
-      </Text>
+      {showSubtitle && (
+        <Text style={[styles.subtitle, error && styles.errorText]}>
+          {subtitle}
+        </Text>
+      )}
     </View>
   );
 };
@@ -44,6 +53,10 @@ const styles = StyleSheet.create({
   },
   titleRowRTL: {
     flexDirection: 'row-reverse',
+  },
+  titleCol: {
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
   },
   subtitle: {
     fontFamily: 'Lato_300Light',

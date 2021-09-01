@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import LoginBack from '../_common/backgrounds/LoginBack';
 import { navigationPropType } from '../../proptypes';
-import { Button, TextInput } from '../_common/Input';
+import { AddProfileImage, Button, TextInput } from '../_common/Input';
 import { LocalizationContext } from '../../localization/LocalizationProvider';
 
 const OptionalInfo = ({ navigation }) => {
@@ -15,6 +15,12 @@ const OptionalInfo = ({ navigation }) => {
   };
   return (
     <LoginBack>
+      <AddProfileImage
+        optional
+        style={styles.profileImage}
+        onPress={() => {}}
+      />
+
       <TextInput
         text={bio}
         setText={setBio}
@@ -38,6 +44,12 @@ OptionalInfo.defaultProps = {};
 export default OptionalInfo;
 
 const styles = StyleSheet.create({
-  bioGap: {marginBottom: 10},
-  addLater: { width: '100%', marginBottom: 7 },
+  profileImage: { marginBottom: 10 },
+  bioGap: { marginBottom: 10 },
+  addLater: {
+    width: '100%',
+    marginBottom: 15,
+    fontFamily: 'Lato_300Light',
+    fontSize: 15,
+  },
 });

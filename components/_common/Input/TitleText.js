@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ViewPropTypes } from 'react-native';
 
 import { Colors, Typography } from 'styles';
 import { LocalizationContext } from 'localization';
 
-const TitleText = ({ title, subtitle, showSubtitle, error }) => {
+const TitleText = ({ title, subtitle, showSubtitle, error, style }) => {
   const { isRTL } = useContext(LocalizationContext);
   return (
-    <View style={[styles.titleRow, isRTL && styles.titleRowRTL]}>
+    <View style={[styles.titleRow, isRTL && styles.titleRowRTL, style]}>
       <Text style={[Typography.userInput.title, error && styles.errorText]}>
         {title}
       </Text>
@@ -24,11 +24,13 @@ TitleText.propTypes = {
   subtitle: PropTypes.string,
   showSubtitle: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   error: PropTypes.bool,
+  style: ViewPropTypes.style,
 };
 TitleText.defaultProps = {
   subtitle: '',
   showSubtitle: false,
   error: false,
+  style: {},
 };
 
 export default React.memo(TitleText);

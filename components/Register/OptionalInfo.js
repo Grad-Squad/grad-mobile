@@ -1,19 +1,14 @@
 import LoginBack from 'common/backgrounds/LoginBack';
-import { AddProfileImage, Button, TextInput } from 'common/Input';
+import { AddProfileImage, Button, TextInputFormik } from 'common/Input';
 import { LocalizationContext } from 'localization';
-import { navigationPropType } from 'proptypes';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text } from 'react-native';
+import RegisterContext from './RegisterContext';
 
-
-const OptionalInfo = ({ navigation }) => {
+const OptionalInfo = () => {
   const { t } = useContext(LocalizationContext);
+  const formik = useContext(RegisterContext);
 
-  const [bio, setBio] = useState('');
-
-  const onRegisterClick = () => {
-    navigation.navigate('register/rollSelection');
-  };
   return (
     <LoginBack>
       <AddProfileImage
@@ -22,10 +17,10 @@ const OptionalInfo = ({ navigation }) => {
         onPress={() => {}}
       />
 
-      <TextInput
-        text={bio}
-        setText={setBio}
-        title={t('Register/Bio')}
+      <TextInputFormik
+        formik={formik}
+        formikKey="bio"
+        title={`${t('Register/Bio')}*`}
         subtitle={t('TextInput/optional')}
         multiline
         style={styles.bioGap}
@@ -34,12 +29,12 @@ const OptionalInfo = ({ navigation }) => {
         {t('Register/You can always add them later')}
       </Text>
 
-      <Button text={t('Register/REGISTER')} onPress={onRegisterClick} />
+      <Button text={t('Register/REGISTER')} onPress={formik.handleSubmit} />
     </LoginBack>
   );
 };
 
-OptionalInfo.propTypes = { navigation: navigationPropType.isRequired };
+OptionalInfo.propTypes = {};
 OptionalInfo.defaultProps = {};
 
 export default OptionalInfo;

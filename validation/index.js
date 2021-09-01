@@ -18,3 +18,29 @@ export const passwordRequired = (t) =>
     )
     .required(t('InputValidationError/field required'));
 
+const nameRequiredMaxChar = 25;
+export const nameRequired = (t) =>
+  yup
+    .string()
+    .max(
+      nameRequiredMaxChar,
+      t('TextInput/max char error', { max: nameRequiredMaxChar })
+    )
+    .required(t('InputValidationError/field required'));
+
+const biographyMaxChar = 190;
+export const biography = (t) =>
+  yup
+    .string()
+    .max(
+      biographyMaxChar,
+      t('TextInput/max char error', { max: biographyMaxChar })
+    );
+
+export const roles = Object.freeze({ student: 'student', teacher: 'teacher' });
+
+export const roleRequired = (t) =>
+  yup
+    .string()
+    .oneOf(Object.keys(roles))
+    .required(t('InputValidationError/field required'));

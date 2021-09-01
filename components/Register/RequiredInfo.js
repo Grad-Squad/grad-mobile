@@ -1,49 +1,49 @@
 import LoginBack from 'common/backgrounds/LoginBack';
-import { Button, TextInput, TextInputGroup } from 'common/Input';
+import { Button, TextInputFormik, TextInputGroup } from 'common/Input';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
-
+import RegisterContext from './RegisterContext';
 
 const RequiredInfo = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userName, setUserName] = useState('');
+  const formik = useContext(RegisterContext);
 
   const onContinueClick = () => {
-    navigation.navigate('register/rollSelection');
+    if (formik.isValid && formik.dirty) {
+      navigation.navigate('register/rollSelection');
+    } else {
+      formik.setFieldTouched('email');
+      formik.setFieldTouched('password');
+      formik.setFieldTouched('name');
+    }
   };
   return (
     <LoginBack>
       <TextInputGroup style={styles.textInputGroup} onFinish={onContinueClick}>
-        <TextInput
-          text={email}
-          setText={setEmail}
+        <TextInputFormik
+          formik={formik}
+          formikKey="email"
           title={`${t('Login/Email')}*`}
           isEmail
           style={styles.textInput}
         />
-        <TextInput
-          text={password}
-          setText={setPassword}
+        <TextInputFormik
+          formik={formik}
+          formikKey="password"
           title={`${t('Login/Password')}*`}
           isPassword
           style={styles.textInput}
         />
-        <TextInput
-          text={userName}
-          setText={setUserName}
+        <TextInputFormik
+          formik={formik}
+          formikKey="name"
           title={`${t('Register/Name')}*`}
         />
       </TextInputGroup>
 
-      <Button
-        text={t('Register/CONTINUE')}
-        onPress={onContinueClick}
-      />
+      <Button text={t('Register/CONTINUE')} onPress={onContinueClick} />
     </LoginBack>
   );
 };

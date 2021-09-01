@@ -2,15 +2,15 @@ import LoginBack from 'common/backgrounds/LoginBack';
 import { Button } from 'common/Input';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { Typography } from 'styles';
+import RegisterContext from '../RegisterContext';
 import TeacherOrStudent from './TeacherOrStudent';
 
 const RollSelection = ({ navigation }) => {
   const { t, isRTL } = useContext(LocalizationContext);
-
-  const [rollSelection, setRollSelection] = useState('student');
+  const formik = useContext(RegisterContext);
 
   const onContinueClick = () => {
     navigation.navigate('register/optionalInfo');
@@ -28,8 +28,8 @@ const RollSelection = ({ navigation }) => {
       </Text>
 
       <TeacherOrStudent
-        value={rollSelection}
-        setValue={setRollSelection}
+        value={formik.values.role}
+        setValue={formik.handleChange('role')}
         style={styles.radioButtonGap}
       />
 

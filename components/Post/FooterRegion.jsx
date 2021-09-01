@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
+import { HIT_SLOP_OBJECT } from 'constants';
 
 import { Icon } from 'react-native-elements';
 import Votes from '../Votes/Votes';
 import Comments from '../Comments/Comments';
-import { HIT_SLOP_OBJECT } from '../../constants';
 
 const styles = StyleSheet.create({
   outerContainer: {

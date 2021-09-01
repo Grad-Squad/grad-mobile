@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, ViewPropTypes } from 'react-native';
-import { childrenPropType } from '../../../proptypes';
+import { childrenPropType } from 'proptypes';
 import isTextInput from './isTextInput';
 
 function TextInputGroup({ children, onFinish, style }) {

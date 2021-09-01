@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { Image, StyleSheet, Text } from 'react-native';
 
-import { LocalizationContext } from '../../localization/LocalizationProvider';
-import { navigationPropType } from '../../proptypes';
-import { Typography } from '../../styles';
-import LoginBack from '../_common/backgrounds/LoginBack';
-import { Button } from '../_common/Input';
+import { LocalizationContext } from 'localization/LocalizationProvider';
+import { navigationPropType } from 'proptypes';
+import { Typography } from 'styles';
+import LoginBack from 'common/backgrounds/LoginBack';
+import { Button } from 'common/Input';
 
 const IMAGE_SOURCE = require('../../assets/images/CheckEmail.webp');
 

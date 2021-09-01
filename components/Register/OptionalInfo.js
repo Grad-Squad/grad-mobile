@@ -1,9 +1,10 @@
+import LoginBack from 'common/backgrounds/LoginBack';
+import { AddProfileImage, Button, TextInput } from 'common/Input';
+import { LocalizationContext } from 'localization';
+import { navigationPropType } from 'proptypes';
 import React, { useContext, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import LoginBack from '../_common/backgrounds/LoginBack';
-import { navigationPropType } from '../../proptypes';
-import { AddProfileImage, Button, TextInput } from '../_common/Input';
-import { LocalizationContext } from '../../localization/LocalizationProvider';
+
 
 const OptionalInfo = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);

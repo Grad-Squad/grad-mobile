@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, ViewPropTypes } from 'react-native';
-import { Styles } from '../../../styles';
-import Logo from '../Logo/Logo';
-import Page from '../Page/Page';
-import { childrenPropType } from '../../../proptypes';
+import { Styles } from 'styles';
+import { childrenPropType } from 'proptypes';
+import Page from 'common/Page/Page';
+import Logo from 'common/Logo/Logo';
 
 const LoginBack = ({
   children,

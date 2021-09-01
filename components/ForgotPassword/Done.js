@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import { Image, StyleSheet, Text } from 'react-native';
-import LoginBack from '../_common/backgrounds/LoginBack';
-import { navigationPropType } from '../../proptypes';
-import { LocalizationContext } from '../../localization/LocalizationProvider';
-import { Button } from '../_common/Input';
-import { Typography } from '../../styles';
+import { navigationPropType } from 'proptypes';
+import { LocalizationContext } from 'localization/LocalizationProvider';
+
+import { Typography } from 'styles';
+import LoginBack from 'common/backgrounds/LoginBack';
+import { Button } from 'common/Input';
 
 const IMAGE_SOURCE = require('../../assets/images/ForgotPasswordDone.webp');
 

@@ -6,7 +6,7 @@ import {
   Cursor,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import { Styles } from '../../../styles';
+import { Styles } from 'styles';
 
 const CodeTextInput = ({
   cellCount,

@@ -1,9 +1,10 @@
+import LoginBack from 'common/backgrounds/LoginBack';
+import { Button, TextInput, TextInputGroup } from 'common/Input';
+import { LocalizationContext } from 'localization';
+import { navigationPropType } from 'proptypes';
 import React, { useContext, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { LocalizationContext } from '../../localization/LocalizationProvider';
-import { navigationPropType } from '../../proptypes';
-import LoginBack from '../_common/backgrounds/LoginBack';
-import { Button, TextInput, TextInputGroup } from '../_common/Input';
+
 
 const RequiredInfo = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);

@@ -1,11 +1,11 @@
 import React from 'react';
+import Navigator from 'navigation/Navigator';
 import EnterEmail from './EnterEmail';
 import CheckEmail from './CheckEmail';
 import SixDigit from './SixDigit/SixDigit';
 import SixDigitFailed from './SixDigitFailed';
 import NewPassword from './NewPassword';
 import Done from './Done';
-import Navigator from '../../navigation/Navigator';
 
 const screens = [
   {

@@ -1,10 +1,10 @@
+import LoginBack from 'common/backgrounds/LoginBack';
+import { Button } from 'common/Input';
+import { LocalizationContext } from 'localization';
+import { navigationPropType } from 'proptypes';
 import React, { useContext, useState } from 'react';
 import { StyleSheet, Text } from 'react-native';
-import LoginBack from '../../_common/backgrounds/LoginBack';
-import { Button } from '../../_common/Input';
-import { Typography } from '../../../styles';
-import { LocalizationContext } from '../../../localization/LocalizationProvider';
-import { navigationPropType } from '../../../proptypes';
+import { Typography } from 'styles';
 import TeacherOrStudent from './TeacherOrStudent';
 
 const RollSelection = ({ navigation }) => {

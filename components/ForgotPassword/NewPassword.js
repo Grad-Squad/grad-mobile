@@ -2,12 +2,12 @@ import { useFormik } from 'formik';
 import React, { useContext, useState } from 'react';
 import * as yup from 'yup';
 import { StyleSheet, Text } from 'react-native';
-import { LocalizationContext } from '../../localization/LocalizationProvider';
-import { navigationPropType } from '../../proptypes';
-import { Colors, Typography } from '../../styles';
-import { passwordRequired } from '../../validation';
-import LoginBack from '../_common/backgrounds/LoginBack';
-import { Button, TextInputFormik } from '../_common/Input';
+import { LocalizationContext } from 'localization';
+import { passwordRequired } from 'validation';
+import LoginBack from 'common/backgrounds/LoginBack';
+import { Button, TextInputFormik } from 'common/Input';
+import { navigationPropType } from 'proptypes';
+import { Colors, Typography } from 'styles';
 
 const NewPassword = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);

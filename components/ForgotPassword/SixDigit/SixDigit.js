@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 
-import { LocalizationContext } from '../../../localization/LocalizationProvider';
-import { navigationPropType } from '../../../proptypes';
-import { Colors, Styles, Typography } from '../../../styles';
-import LoginBack from '../../_common/backgrounds/LoginBack';
-import { Button } from '../../_common/Input';
+import { LocalizationContext } from 'localization';
+import { navigationPropType } from 'proptypes';
+import { Colors, Styles, Typography } from 'styles';
+import LoginBack from 'common/backgrounds/LoginBack';
+import { Button } from 'common/Input';
 import CodeTextInput from './CodeTextInput';
 
 const CELL_COUNT = 6;

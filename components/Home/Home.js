@@ -1,8 +1,8 @@
+import Page from 'common/Page/Page';
+import Post from 'components/Post/Post';
+import { LocalizationContext } from 'localization';
 import React, { useContext } from 'react';
 import { Button, Text } from 'react-native';
-import { LocalizationContext } from '../../localization/LocalizationProvider';
-import Page from '../_common/Page/Page';
-import Post from '../Post/Post';
 
 const Home = ({ navigation }) => {
   const { t, setLanguage } = useContext(LocalizationContext);

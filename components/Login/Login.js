@@ -2,14 +2,12 @@ import React, { useContext } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { navigationPropType } from '../../proptypes';
-import { LocalizationContext } from '../../localization/LocalizationProvider';
-
-import LoginBack from '../_common/backgrounds/LoginBack';
-import { Button, TextInputGroup } from '../_common/Input';
+import { LocalizationContext } from 'localization';
+import { emailRequired, requiredError } from 'validation';
+import LoginBack from 'common/backgrounds/LoginBack';
+import { Button, TextInputFormik, TextInputGroup } from 'common/Input';
+import { navigationPropType } from 'proptypes';
 import SignInWith from './SignInWith/SignInWith';
-import TextInputFormik from '../_common/Input/TextInputFormik';
-import { emailRequired, requiredError } from '../../validation';
 
 const Login = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);

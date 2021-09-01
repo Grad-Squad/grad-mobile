@@ -1,8 +1,8 @@
+import { Button } from 'common/Input';
+import { LocalizationContext } from 'localization';
 import React, { useContext } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { LocalizationContext } from '../../../localization/LocalizationProvider';
-import { Styles } from '../../../styles';
-import { Button } from '../../_common/Input';
+import { Styles } from 'styles';
 import Facebook from './Facebook/Facebook';
 import Google from './Google/Google';
 

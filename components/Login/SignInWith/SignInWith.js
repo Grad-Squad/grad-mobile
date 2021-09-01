@@ -1,8 +1,8 @@
+import { Button } from 'common/Input';
+import { LocalizationContext } from 'localization';
 import React, { useContext } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { LocalizationContext } from '../../../localization/LocalizationProvider';
-import { Styles } from '../../../styles';
-import { Button } from '../../_common/Input';
+import { Styles } from 'styles';
 import Facebook from './Facebook/Facebook';
 import Google from './Google/Google';
 
@@ -15,11 +15,13 @@ const SignInWith = () => {
         onPress={() => Alert.alert('google')}
         leftIcon={<Google />}
         style={styles.firstButtonGap}
+        smallButton
       />
       <Button
         text={t('Login/Sign In With Facebook')}
         onPress={() => Alert.alert('facebook')}
         leftIcon={<Facebook />}
+        smallButton
       />
     </View>
   );

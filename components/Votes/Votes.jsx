@@ -4,11 +4,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Icon } from 'react-native-elements';
-import {
-  UPVOTE_HIT_SLOP_OBJECT,
-  DOWNVOTE_HIT_SLOP_OBJECT,
-} from '../../constants';
-import { formatNumber } from '../../utility';
+import { UPVOTE_HIT_SLOP_OBJECT, DOWNVOTE_HIT_SLOP_OBJECT } from 'constants';
+import { formatNumber } from 'utility';
 
 const styles = StyleSheet.create({
   VotesContainer: {

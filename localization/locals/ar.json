@@ -7,5 +7,40 @@
   "Login/REGISTER": "إنشاء حساب جديد",
   "Login/Sign In With Google": " تسجيل الدخول بجوجل",
   "Login/Sign In With Facebook": " تسجيل الدخول بفيس بوك",
+  "ForgotPassword/To Reset": "لإعادة تعيين كلمة المرور الخاصة بك ، يرجى إدخال البريد الإلكتروني الذي استخدمته لتسجيل حسابك",
+  "ForgotPassword/AnEmailWith": "سيتم إرسال بريد إلكتروني برمز إعادة تعيين كلمة المرور في حالة وجود حساب بالبريد الإلكتروني المقدم",
+  "ForgotPassword/RESET PASSWORD": "إعادة تعيين كلمة المرور",
+  "ForgotPassword/Check Your Email": "يرجى مراجعة بريدك الإلكتروني",
+  "ForgotPassword/you might need to check the junk folder": "قد تحتاج إلى التحقق من مجلد البريد غير الهام او البريد غير مرغوب فيه",
+  "ForgotPassword/OK": "حسنا",
+  "ForgotPassword/Please enter the 6 digit code sent to your email": "الرجاء إدخال الرمز المكون من 6 أرقام المرسل إلى بريدك الإلكتروني",
+  "ForgotPassword/paste from clipboard": "لصق من الحافظة",
+  "ForgotPassword/DONE": "تم",
+  "ForgotPassword/Reset your password": "اعد تعيين كلمة السر",
+  "ForgotPassword/Enter a new password to replace the old password": "أدخل كلمة مرور جديدة لاستبدال كلمة المرور القديمة",
+  "ForgotPassword/New Password": "كلمة المرور الجديدة",
+  "ForgotPassword/Reset Password": "إعادة تعيين كلمة المرور",
+  "ForgotPassword/All Good": "كله تمام",
+  "ForgotPassword/Now you can login in with your new password": "الآن يمكنك تسجيل الدخول باستخدام كلمة المرور الجديدة الخاصة بك",
+  "ForgotPassword/Failed too many times": "فشلت مرات عديدة",
+  "ForgotPassword/ Please request another password reset": " الرجاء طلب \"إعادة تعيين كلمة المرور\" مرة أخرى",
+  "ForgotPassword/your new password cannot be the same as the old password": "لا يمكن أن تكون كلمة المرور الجديدة هي نفسها كلمة المرور القديمة",
+  "ForgotPassword/wrong code": "رمز خاطئ",
+  "Register/Name": "الاسم",
+  "Register/CONTINUE": "استمر",
+  "Register/REGISTER": "تسجيل",
+  "Register/Are you a student or a teacher ?": "هل أنت طالب(ة) أو معلم(ة) ؟",
+  "Register/Student": "طالب(ة)",
+  "Register/Student Emoji": "👨‍🎓👩‍🎓",
+  "Register/Teacher": "معلم(ة)",
+  "Register/Teacher Emoji": "👩‍🏫👨‍🏫",
+  "Register/Profile Picture": "صورة الملف الشخصي",
+  "Register/Bio": "السيرة الذاتية",
+  "Register/You can always add them later": "يمكنك دائمًا إضافتهم لاحقًا",
+  "TextInput/optional": "(اختياري)",
+  "TextInput/max char error": "(يجب أن يكون أقل من %{max} حرف)",
+  "InputValidationError/invalid email": "(البريد الإلكتروني غير صالح)",
+  "InputValidationError/field required": "(مطلوب)",
+  "InputValidationError/invalid password": "• 8 أحرف على الأقل\n• حرف كبير واحد على الأقل\n• حرف صغير واحد على الأقل\n• رقم واحد على الأقل",
   "Time/just now":"الآن"
 }

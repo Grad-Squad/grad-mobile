@@ -22,7 +22,7 @@ const TitleText = ({ title, subtitle, showSubtitle, error }) => {
 TitleText.propTypes = {
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
-  showSubtitle: PropTypes.bool,
+  showSubtitle: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   error: PropTypes.bool,
 };
 TitleText.defaultProps = {

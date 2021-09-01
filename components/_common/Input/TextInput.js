@@ -1,15 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   StyleSheet,
-  Text,
   TextInput as TextInputNative,
   View,
   ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { Colors, Fonts, Styles, Typography } from '../../../styles';
-import { LocalizationContext } from '../../../localization/LocalizationProvider';
+import TitleText from 'common/Input/TitleText';
+import { Fonts, Styles } from 'styles';
 
 const TextInput = ({
   text,
@@ -25,39 +24,33 @@ const TextInput = ({
   error,
   errorMsg,
   multiline,
-}) => {
-  const { isRTL } = useContext(LocalizationContext);
-  return (
-    <View style={[styles.wrapper, style]}>
-      <View style={[styles.titleRow, isRTL && styles.titleRowRTL]}>
-        <Text style={[Typography.userInput.title, error && styles.errorText]}>
-          {title}
-        </Text>
-        <Text style={[styles.subtitle, error && styles.errorText]}>
-          {(subtitle || error) &&
-            `${error ? errorMsg : ''}${
-              subtitle && error && errorMsg ? ', ' : ''
-            }${subtitle}`}
-        </Text>
-      </View>
-      <TextInputNative
-        placeholder={placeholder}
-        style={[
-          styles.textInput,
-          error && Styles.textInputError,
-          multiline && styles.multilineTextInput,
-        ]}
-        value={text}
-        onChangeText={(txt) => setText(txt)}
-        defaultValue={defaultValue}
-        secureTextEntry={isPassword}
-        keyboardType={isEmail ? 'email-address' : 'default'}
-        multiline={multiline}
-        {...TextInputProps}
-      />
-    </View>
-  );
-};
+}) => (
+  <View style={[styles.wrapper, style]}>
+    <TitleText
+      title={title}
+      subtitle={`${error ? errorMsg : ''}${
+        subtitle && error && errorMsg ? ', ' : ''
+      }${subtitle}`}
+      showSubtitle={subtitle || error}
+      error={error}
+    />
+    <TextInputNative
+      placeholder={placeholder}
+      style={[
+        styles.textInput,
+        error && Styles.textInputError,
+        multiline && styles.multilineTextInput,
+      ]}
+      value={text}
+      onChangeText={(txt) => setText(txt)}
+      defaultValue={defaultValue}
+      secureTextEntry={isPassword}
+      keyboardType={isEmail ? 'email-address' : 'default'}
+      multiline={multiline}
+      {...TextInputProps}
+    />
+  </View>
+);
 
 export default TextInput;
 
@@ -73,15 +66,6 @@ const styles = StyleSheet.create({
   },
   titleRowRTL: {
     flexDirection: 'row-reverse',
-  },
-  subtitle: {
-    fontFamily: 'Lato_300Light',
-    fontSize: 16,
-    color: Colors.offBlack,
-    marginLeft: 2,
-  },
-  errorText: {
-    color: Colors.error,
   },
   textInput: {
     ...Styles.textInput,

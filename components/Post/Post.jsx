@@ -17,12 +17,18 @@ const styles = StyleSheet.create({
 
 const DATE = new Date();
 
-function Post({ title, user }) {
+function Post({ title, user, voteCount, commentCount }) {
   return (
     <View style={styles.container}>
       <ThemeProvider>
         <TitleRegion title={title} profileName={user} postDate={DATE} />
-        <FooterRegion style={styles.container} votes={123469} commentsCount={4120} />
+        <FooterRegion
+          style={styles.container}
+          voteCount={voteCount}
+          commentCount={commentCount}
+          comments
+          save
+        />
       </ThemeProvider>
     </View>
   );
@@ -33,4 +39,6 @@ export default Post;
 Post.propTypes = {
   title: PropTypes.string.isRequired,
   user: PropTypes.string.isRequired,
+  voteCount: PropTypes.number.isRequired,
+  commentCount: PropTypes.number.isRequired,
 };

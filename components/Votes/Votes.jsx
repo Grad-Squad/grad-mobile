@@ -4,13 +4,14 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Icon } from 'react-native-elements';
-import { HIT_SLOP_OBJECT } from 'constants';
+import { UPVOTE_HIT_SLOP_OBJECT, DOWNVOTE_HIT_SLOP_OBJECT } from 'constants';
 import { formatNumber } from 'utility';
 
 const styles = StyleSheet.create({
   VotesContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    top: -2,
   },
   arrow: {
     padding: 2,
@@ -20,8 +21,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Votes({ votes }) {
-  const [vote, setVote] = useState(votes);
+function Votes({ voteCount }) {
+  const [vote, setVote] = useState(voteCount);
   const [IsUpVoted, setIsUpVoted] = useState(false);
   const [isDownVoted, setIsDownVoted] = useState(false);
 
@@ -57,7 +58,7 @@ export default function Votes({ votes }) {
       <TouchableOpacity
         style={styles.button}
         onPress={upVoteHandler}
-        hitSlop={HIT_SLOP_OBJECT}
+        hitSlop={UPVOTE_HIT_SLOP_OBJECT}
       >
         <View style={styles.arrow}>
           {IsUpVoted ? (
@@ -71,7 +72,7 @@ export default function Votes({ votes }) {
       <TouchableOpacity
         style={styles.button}
         onPress={downVoteHandler}
-        hitSlop={HIT_SLOP_OBJECT}
+        hitSlop={DOWNVOTE_HIT_SLOP_OBJECT}
       >
         <View style={styles.arrow}>
           {isDownVoted ? (
@@ -86,5 +87,7 @@ export default function Votes({ votes }) {
 }
 
 Votes.propTypes = {
-  votes: PropTypes.number.isRequired,
+  voteCount: PropTypes.number.isRequired,
 };
+
+export default Votes;

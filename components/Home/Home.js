@@ -1,5 +1,4 @@
 import Page from 'common/Page/Page';
-import Post from 'components/Post/Post';
 import { LocalizationContext } from 'localization';
 import React, { useContext } from 'react';
 import { Button, Text } from 'react-native';
@@ -16,7 +15,6 @@ const Home = ({ navigation }) => {
       <Button title="Arabic" onPress={() => setLanguage('ar')} />
       <Button title="English" onPress={() => setLanguage('en')} />
       <Text>{t('hello')}</Text>
-      <Post title="test" user="test" />
     </Page>
   );
 };

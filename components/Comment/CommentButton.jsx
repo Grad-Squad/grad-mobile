@@ -7,18 +7,19 @@ import { Icon } from 'react-native-elements';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { formatNumber } from 'utility';
 
-
 const styles = StyleSheet.create({
   CommentsContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    //alignItems: 'center',
+    maxWidth: 55,
+    left: -5,
   },
   button: {
     flexDirection: 'row',
   },
 });
 
-export default function Comments({ count }) {
+function CommentButton({ count }) {
   const onPress = () => {
     console.log('COMMENT');
   };
@@ -39,6 +40,8 @@ export default function Comments({ count }) {
   );
 }
 
-Comments.propTypes = {
+CommentButton.propTypes = {
   count: PropTypes.number.isRequired,
 };
+
+export default CommentButton;

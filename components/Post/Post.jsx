@@ -18,8 +18,7 @@ const styles = StyleSheet.create({
 // const DATE = new Date();
 
 function Post({ postData }) {
-  const { title, author, rating, priceInCents, createdAt } = postData;
-  const voteCount = rating.upvotes - rating.downvotes;
+  const { title, author, rating, priceInCents, createdAt, id } = postData;
   const creationDate = new Date(createdAt);
 
   return (
@@ -32,10 +31,12 @@ function Post({ postData }) {
         />
         <FooterRegion
           style={styles.container}
-          voteCount={voteCount}
+          rating={{
+            entityId: id,
+            ...rating,
+          }}
           commentCount={priceInCents}
-          hasComments
-          hasSave
+          isPost
         />
       </ThemeProvider>
     </View>
@@ -54,6 +55,7 @@ Post.propTypes = {
       id: PropTypes.number.isRequired,
       upvotes: PropTypes.number.isRequired,
       downvotes: PropTypes.number.isRequired,
+      currentUserStatus: PropTypes.string.isRequired,
     }).isRequired,
     createdAt: PropTypes.string.isRequired,
     author: PropTypes.exact({

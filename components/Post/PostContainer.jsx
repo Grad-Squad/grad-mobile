@@ -4,24 +4,17 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import Post from './Post';
+import { getPosts, getPostsById } from '../../api/posts';
 
 const PostContainer = () => {
   //   const queryClient = useQueryClient();
-  const { isLoading, isError, data, error } = useQuery('posts', async () => {
-    const response = await fetch('http://192.168.1.10:3000/posts/2');
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  });
+  const { isLoading, isError, data } = useQuery('posts', () => getPostsById(2));
 
   if (isLoading || isError) {
     return <View />;
     // todo render loading
   }
-  console.log(data);
-
-  return <Post postData={data} />;
+  return <Post postData={data.data} />;
 };
 
 PostContainer.propTypes = {};

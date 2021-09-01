@@ -108,7 +108,16 @@ function Comment({ profileName, text, commentDate, voteCount }) {
         <Text style={styles.date}>{formatDate(commentDate)}</Text>
       </View>
       <View style={styles.footerContainer}>
-        <FooterRegion voteCount={voteCount} style={styles.footer} />
+        <FooterRegion
+          rating={{
+            id: 0,
+            entityId: 0,
+            upvotes: 0,
+            downvotes: 0,
+            currentUserStatus: 'sad',
+          }}
+          style={styles.footer}
+        />
       </View>
     </View>
   );

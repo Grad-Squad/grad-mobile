@@ -60,6 +60,7 @@ const SixDigit = ({ navigation }) => {
         text={t('ForgotPassword/paste from clipboard')}
         onPress={onPasteClick}
         transparent
+        underline
         lightText
         style={styles.paste}
       />

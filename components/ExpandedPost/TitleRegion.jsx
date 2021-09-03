@@ -49,7 +49,14 @@ const styles = StyleSheet.create({
   },
 });
 
-function TitleRegion({ profileName, profileImageURI, title, postDate }) {
+function TitleRegion({
+  profileName,
+  profileImageURI,
+  title,
+  postDate,
+  upvotePercentage,
+  courseName,
+}) {
   return (
     <View style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
@@ -73,6 +80,10 @@ function TitleRegion({ profileName, profileImageURI, title, postDate }) {
       <Text style={{ marginLeft: 'auto', fontSize: 9 }}>
         {formatDate(postDate)}
       </Text>
+      <Text style={{ marginLeft: 'auto', fontSize: 9 }}>
+        upvoted {upvotePercentage}%
+      </Text>
+      <Text style={{ marginLeft: 'auto', fontSize: 9 }}>{courseName}</Text>
     </View>
   );
 }
@@ -84,6 +95,8 @@ TitleRegion.propTypes = {
   title: PropTypes.string.isRequired,
   postDate: PropTypes.instanceOf(Date).isRequired,
   profileImageURI: PropTypes.string,
+  upvotePercentage: PropTypes.number.isRequired,
+  courseName: PropTypes.string.isRequired,
 };
 
 TitleRegion.defaultProps = {

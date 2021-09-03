@@ -32,8 +32,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   outerContainer: {
-    marginTop: 15,
-    marginBottom: 5,
     justifyContent: 'space-between',
     borderRadius: 7,
     borderColor: 'rgba(0 ,0 , 0,0.5)',
@@ -80,7 +78,13 @@ const styles = StyleSheet.create({
   },
 });
 
-function Comment({ profileName, text, commentDate, voteCount }) {
+function Comment({
+  profileName,
+  text,
+  commentDate,
+  voteCount,
+  profileImageURI,
+}) {
   return (
     <View style={{ width: '100%', minWidth: '100%' }}>
       <View style={styles.outerContainer}>
@@ -89,7 +93,7 @@ function Comment({ profileName, text, commentDate, voteCount }) {
             <Image
               style={styles.profileImage}
               source={{
-                uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
+                uri: profileImageURI,
               }}
             />
           </View>
@@ -127,4 +131,10 @@ Comment.propTypes = {
   text: PropTypes.string.isRequired,
   commentDate: PropTypes.instanceOf(Date).isRequired,
   voteCount: PropTypes.number.isRequired,
+  profileImageURI: PropTypes.string,
+};
+
+Comment.defaultProps = {
+  profileImageURI:
+    'https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg',
 };

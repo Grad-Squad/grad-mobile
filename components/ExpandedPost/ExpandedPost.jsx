@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     marginTop: 0,
-    marginBottom: 5,
     alignSelf: 'center',
     width: '90%',
   },
@@ -27,7 +26,12 @@ function ExpandedPost() {
   //todo remove hardcoded data
   //const { title, author, rating, priceInCents, createdAt, id } = postData;
   const creationDate = new Date(); //createdAt);
-
+  const rating = {
+    id: 0,
+    upvotes: 69,
+    downvotes: 31,
+    currentUserStatus: 'yes',
+  };
   return (
     <Page>
       <TitleRegion
@@ -36,6 +40,10 @@ function ExpandedPost() {
         profileName="{author.name}"
         postDate={creationDate}
         profileImageURI="https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png"
+        upvotePercentage={
+          (rating.upvotes * 100) / (rating.upvotes + rating.downvotes)
+        }
+        courseName={'very advanced physics 2'}
       />
       <View style={styles.footerContainer}>
         <FooterRegion
@@ -49,8 +57,9 @@ function ExpandedPost() {
           isPost
         />
       </View>
-      <AddCommentButton />
+
       <CommentList />
+      <AddCommentButton />
     </Page>
   );
 }

@@ -9,6 +9,7 @@ const styles = StyleSheet.create({
     width: '80%',
     paddingLeft: '9%',
     paddingRight: '5%',
+    paddingVertical: 5,
   },
 });
 

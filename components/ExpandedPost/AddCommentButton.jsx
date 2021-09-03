@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     padding: 5,
     justifyContent: 'center',
     borderColor: Colors.addCommentBorder,
+    marginVertical: 10,
   },
   button: {
     flexDirection: 'row',

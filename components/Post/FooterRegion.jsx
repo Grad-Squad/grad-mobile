@@ -19,6 +19,9 @@ import {
 
 const styles = StyleSheet.create({
   outerContainer: {
+    ...Styles.cardFooter,
+    elevation: 1,
+
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -27,8 +30,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 7,
     top: -10,
-    borderColor: 'rgba(0 ,0 , 0,0.5)',
-    ...Styles.cardFooter,
   },
 });
 

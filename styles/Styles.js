@@ -26,6 +26,7 @@ const Styles = StyleSheet.create({
   cardFooter: {
     ...cardBase,
     backgroundColor: Colors.cardFooter,
+    zIndex: -3,
   },
 });
 

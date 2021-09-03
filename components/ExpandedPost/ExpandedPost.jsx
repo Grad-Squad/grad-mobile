@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 
 import PropTypes from 'prop-types';
 
@@ -9,16 +9,16 @@ import FooterRegion from '../Post/FooterRegion';
 import AddCommentButton from './AddCommentButton';
 import CommentList from './CommentList';
 
+const statusBarPadding = StatusBar.currentHeight || 0;
+
 const styles = StyleSheet.create({
   container: {
-    marginTop: 0,
-    marginBottom: 5,
     width: '100%',
   },
   footerContainer: {
-    marginTop: 0,
     alignSelf: 'center',
     width: '90%',
+    top: -1 * statusBarPadding,
   },
 });
 
@@ -32,6 +32,7 @@ function ExpandedPost() {
     downvotes: 31,
     currentUserStatus: 'yes',
   };
+
   return (
     <Page>
       <TitleRegion

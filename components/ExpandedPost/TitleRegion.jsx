@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
 
@@ -8,6 +8,7 @@ import { formatDate } from '../../utility';
 import { Colors, Styles } from '../../styles';
 
 const imageWidth = 50;
+const statusBarPadding = StatusBar.currentHeight || 0;
 
 const styles = StyleSheet.create({
   profileImage: {
@@ -20,7 +21,8 @@ const styles = StyleSheet.create({
   backIconContainer: {
     ...Styles.dropShadow,
     position: 'absolute',
-    top: '0%',
+    top: -1 * statusBarPadding,
+    paddingTop: 2 * statusBarPadding,
     left: '5%',
     backgroundColor: Colors.accent,
     padding: 5,
@@ -33,8 +35,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderColor: 'rgba(0 ,0 , 0,0.5)',
     backgroundColor: Colors.cardBody,
-    paddingVertical: 5,
     paddingHorizontal: 15,
+    paddingBottom: 5,
+
+    paddingTop: statusBarPadding,
+    top: -1 * statusBarPadding,
   },
   profileInfoContainer: {
     marginRight: 15,

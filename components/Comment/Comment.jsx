@@ -34,8 +34,6 @@ const styles = StyleSheet.create({
   outerContainer: {
     marginTop: 15,
     marginBottom: 5,
-    width: '73%',
-    minWidth: '73%',
     justifyContent: 'space-between',
     borderRadius: 7,
     borderColor: 'rgba(0 ,0 , 0,0.5)',
@@ -73,19 +71,18 @@ const styles = StyleSheet.create({
     fontSize: 9,
   },
   footerContainer: {
-    width: '20%',
     marginLeft: 'auto',
+    top: -6,
     zIndex: -1,
   },
   footer: {
-    width: '20%',
     marginLeft: 'auto',
   },
 });
 
 function Comment({ profileName, text, commentDate, voteCount }) {
   return (
-    <View>
+    <View style={{ width: '100%', minWidth: '100%' }}>
       <View style={styles.outerContainer}>
         <View>
           <View style={styles.imageContainer}>

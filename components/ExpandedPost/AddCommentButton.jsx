@@ -1,26 +1,31 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import PropTypes from 'prop-types';
+import { Colors } from '../../styles';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import { HIT_SLOP_OBJECT } from '../../constants';
-import { formatNumber } from '../../utility';
 
 const styles = StyleSheet.create({
   CommentsContainer: {
     flexDirection: 'row',
-    maxWidth: 55,
-    left: -5,
+    alignSelf: 'center',
+    borderRadius: 7,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    width: '90%',
+    padding: 5,
+    justifyContent: 'center',
+    borderColor: Colors.addCommentBorder,
   },
   button: {
     flexDirection: 'row',
   },
 });
 
-function CommentButton({ count }) {
+function AddCommentButton() {
   const onPress = () => {
-    console.log('COMMENT');
+    console.log('ADD COMMENT');
   };
 
   return (
@@ -30,17 +35,11 @@ function CommentButton({ count }) {
         onPress={onPress}
         hitSlop={HIT_SLOP_OBJECT}
       >
-        <View>
-          <Icon name="comment-outline" size={24} />
-        </View>
-        <Text>{formatNumber(count)}</Text>
+        <Icon name="plus" size={24} color={Colors.addCommentText} />
+        <Text style={{ color: Colors.addCommentText }}>Comment</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
-CommentButton.propTypes = {
-  count: PropTypes.number.isRequired,
-};
-
-export default CommentButton;
+export default AddCommentButton;

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import { Colors } from '../../styles';
+import { Colors, Styles } from '../../styles';
 import Votes from '../Votes/Votes';
 import Options from './Options/Options';
 import CommentButton from '../Comment/CommentButton';
@@ -26,18 +26,9 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingHorizontal: 10,
     borderRadius: 7,
-    backgroundColor: Colors.cardFooter,
-    zIndex: -1,
     top: -10,
     borderColor: 'rgba(0 ,0 , 0,0.5)',
-    shadowOpacity: 0.25,
-    shadowColor: '#000000',
-    shadowRadius: 7,
-    shadowOffset: {
-      width: 1,
-      height: 2,
-    },
-    elevation: 1,
+    ...Styles.cardFooter,
   },
 });
 

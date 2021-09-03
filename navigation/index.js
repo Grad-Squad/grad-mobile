@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
+import ExpandedPost from '../components/ExpandedPost/ExpandedPost';
 
 const { Screen, Navigator } = createNativeStackNavigator();
 
@@ -14,6 +15,10 @@ const screens = [
   {
     name: 'login',
     component: Login,
+  },
+  {
+    name: 'post',
+    component: ExpandedPost,
   },
 ];
 

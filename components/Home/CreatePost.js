@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 
-const Home = () => {
+const CreatePost = () => {
   return (
     <View>
-      <Text style={{ fontSize: 100 }}>Home</Text>
+      <Text style={{ fontSize: 100 }}>Create Post</Text>
     </View>
   );
 };
 
-Home.propTypes = {};
-Home.defaultProps = {};
+CreatePost.propTypes = {};
+CreatePost.defaultProps = {};
 
-export default Home;
+export default CreatePost;
 
 const styles = StyleSheet.create({});

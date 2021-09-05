@@ -42,5 +42,10 @@
   "InputValidationError/invalid email": "(البريد الإلكتروني غير صالح)",
   "InputValidationError/field required": "(مطلوب)",
   "InputValidationError/invalid password": "• 8 أحرف على الأقل\n• حرف كبير واحد على الأقل\n• حرف صغير واحد على الأقل\n• رقم واحد على الأقل",
-  "Time/just now":"الآن"
+  "Time/just now":"الآن",
+  "NavBar/Home": "الصفحة الرئيسية",
+  "NavBar/Search": "بحث",
+  "NavBar/Create": "إنشاء",
+  "NavBar/Bookmarks": "محفوظ",
+  "NavBar/Options": "إعدادات"
 }

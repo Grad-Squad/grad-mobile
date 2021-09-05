@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Text, View } from 'react-native';
 
-const Home = () => {
+const Options = () => {
   return (
     <View>
-      <Text style={{ fontSize: 100 }}>Home</Text>
+      <Text style={{ fontSize: 100 }}>Options</Text>
     </View>
   );
 };
 
-Home.propTypes = {};
-Home.defaultProps = {};
+Options.propTypes = {};
+Options.defaultProps = {};
 
-export default Home;
+export default Options;
 
 const styles = StyleSheet.create({});

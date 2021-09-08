@@ -19,13 +19,17 @@ i18n.fallbacks = true;
 
 export const LocalizationContext = createContext();
 
+const isRTLLocale = (locale) => locale.indexOf('ar') === 0;
+
 export const LocalizationProvider = ({ children }) => {
   const [locale, setLocale] = useState(Localization.locale);
+  const [isRTL, setIsRTL] = useState(isRTLLocale(locale));
 
   const setLanguage = (newLocale) => {
     i18n.locale = newLocale;
     setLocale(newLocale);
     AsyncStorage.setItem(STORAGE_KEY, newLocale);
+    setIsRTL(isRTLLocale(newLocale));
   };
 
   useEffect(() => {
@@ -43,6 +47,7 @@ export const LocalizationProvider = ({ children }) => {
         setLanguage,
         language: locale,
         t: i18n.t,
+        isRTL,
       }}
     >
       {children}

@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import Colors from './Colors';
 import Constants from './Constants';
+import Fonts from './Fonts';
 
 const dropShadow = {
   shadowColor: Colors.black,
@@ -27,6 +28,18 @@ const Styles = StyleSheet.create({
     ...cardBase,
     backgroundColor: Colors.cardFooter,
     zIndex: -3,
+  },
+  textInput: {
+    borderColor: Colors.border,
+    borderRadius: Constants.borderRadius,
+    borderWidth: 0.4,
+    backgroundColor: Colors.white,
+    fontFamily: Fonts.default,
+    minHeight: 40,
+  },
+  textInputError: {
+    borderColor: Colors.error,
+    borderWidth: 1,
   },
 });
 

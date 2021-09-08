@@ -1,14 +1,14 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   TextInput as TextInputNative,
   View,
   ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { Colors, Constants, Fonts } from '../../../../styles';
+import TitleText from 'common/Input/TitleText';
+import { Fonts, Styles } from 'styles';
 
 const TextInput = ({
   text,
@@ -20,20 +20,34 @@ const TextInput = ({
   isPassword,
   isEmail,
   style,
+  TextInputProps,
+  error,
+  errorMsg,
+  multiline,
 }) => (
-  <View style={style}>
-    <View style={styles.titleRow}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.subtitle}>{subtitle && `(${subtitle})`}</Text>
-    </View>
+  <View style={[styles.wrapper, style]}>
+    <TitleText
+      title={title}
+      subtitle={`${error ? errorMsg : ''}${
+        subtitle && error && errorMsg ? ', ' : ''
+      }${subtitle}`}
+      showSubtitle={subtitle || error}
+      error={error}
+    />
     <TextInputNative
       placeholder={placeholder}
-      style={styles.textInput}
+      style={[
+        styles.textInput,
+        error && Styles.textInputError,
+        multiline && styles.multilineTextInput,
+      ]}
       value={text}
       onChangeText={(txt) => setText(txt)}
       defaultValue={defaultValue}
       secureTextEntry={isPassword}
       keyboardType={isEmail ? 'email-address' : 'default'}
+      multiline={multiline}
+      {...TextInputProps}
     />
   </View>
 );
@@ -41,26 +55,28 @@ const TextInput = ({
 export default TextInput;
 
 const styles = StyleSheet.create({
-  titleRow: { flexDirection: 'row', alignItems: 'flex-end', marginBottom: 7 },
-  title: {
-    marginLeft: 5,
-    fontFamily: Fonts.titles,
-    color: Colors.offBlack,
-    fontSize: 20,
+  wrapper: {
+    width: '100%',
   },
-  subtitle: {
-    fontFamily: 'Lato_300Light',
-    fontSize: 16,
-    marginLeft: 2,
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    flexWrap: 'wrap',
+    marginBottom: 7,
+  },
+  titleRowRTL: {
+    flexDirection: 'row-reverse',
   },
   textInput: {
-    borderColor: Colors.border,
-    borderRadius: Constants.borderRadius,
-    borderWidth: 0.4,
-    backgroundColor: Colors.white,
+    ...Styles.textInput,
     fontFamily: Fonts.default,
     paddingHorizontal: 10,
-    height: 45,
+  },
+  multilineTextInput: {
+    minHeight: 45,
+    maxHeight: 90,
+    textAlignVertical: 'top',
+    paddingVertical: 10,
   },
 });
 
@@ -74,6 +90,10 @@ TextInput.propTypes = {
   isPassword: PropTypes.bool,
   isEmail: PropTypes.bool,
   style: ViewPropTypes.style,
+  TextInputProps: PropTypes.object, // ? TextInputProps interface from react-native
+  error: PropTypes.bool,
+  errorMsg: PropTypes.string,
+  multiline: PropTypes.bool,
 };
 
 TextInput.defaultProps = {
@@ -83,4 +103,8 @@ TextInput.defaultProps = {
   isPassword: false,
   isEmail: false,
   style: {},
+  TextInputProps: {},
+  error: false,
+  errorMsg: '',
+  multiline: false,
 };

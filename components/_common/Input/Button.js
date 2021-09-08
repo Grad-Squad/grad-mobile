@@ -2,14 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, ViewPropTypes } from 'react-native';
 
-import { Colors, Constants, Fonts, Styles } from '../../../../styles';
+import { Colors, Constants, Fonts, Styles } from 'styles';
 
 const Button = ({
   text,
   onPress,
   transparent,
   lightText,
-  largeButton,
+  smallButton,
   leftIcon,
   style,
 }) => (
@@ -20,18 +20,19 @@ const Button = ({
       transparent
         ? styles.transparentButton
         : [Styles.dropShadow, styles.button],
-      largeButton && styles.largeButton,
+      !(smallButton || transparent) && styles.largeButton,
       style,
     ]}
     android_ripple={{ color: Colors.androidRipple, borderless: false }}
   >
     {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
     <Text
-      style={
+      style={[
         lightText
           ? styles.lightText
-          : [styles.text, largeButton && styles.largeText]
-      }
+          : [styles.text, !(smallButton || transparent) && styles.largeText],
+        transparent && styles.transparentButtonText,
+      ]}
     >
       {text}
     </Text>
@@ -45,6 +46,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'center',
+    width: '100%',
   },
   transparentButton: {
     padding: 5,
@@ -61,6 +63,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato_300Light',
     fontSize: 17,
   },
+  transparentButtonText: {
+    textDecorationLine: 'underline',
+  },
   text: {
     fontFamily: Fonts.action,
     fontSize: 20,
@@ -76,7 +81,7 @@ Button.propTypes = {
   onPress: PropTypes.func.isRequired,
   transparent: PropTypes.bool,
   lightText: PropTypes.bool,
-  largeButton: PropTypes.bool,
+  smallButton: PropTypes.bool,
   leftIcon: PropTypes.node,
   style: ViewPropTypes.style,
 };
@@ -84,7 +89,7 @@ Button.propTypes = {
 Button.defaultProps = {
   transparent: false,
   lightText: false,
-  largeButton: false,
+  smallButton: false,
   leftIcon: undefined,
   style: {},
 };

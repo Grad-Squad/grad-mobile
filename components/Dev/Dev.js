@@ -13,6 +13,7 @@ const Dev = ({ navigation }) => {
         onPress={() => navigation.navigate('login')}
       />
       <Button title="Go to Home" onPress={() => navigation.navigate('home')} />
+      <Button title="Go to Post" onPress={() => navigation.navigate('post')} />
       <Button title="Arabic" onPress={() => setLanguage('ar')} />
       <Button title="English" onPress={() => setLanguage('en')} />
       <Text>{t('hello')}</Text>

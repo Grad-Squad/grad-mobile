@@ -3,14 +3,13 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import { Icon } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { formatNumber } from 'utility';
 
 const styles = StyleSheet.create({
   CommentsContainer: {
     flexDirection: 'row',
-    //alignItems: 'center',
     maxWidth: 55,
     left: -5,
   },
@@ -32,7 +31,7 @@ function CommentButton({ count }) {
         hitSlop={HIT_SLOP_OBJECT}
       >
         <View>
-          <Icon name="comment-outline" type="material-community" />
+          <Icon name="comment-outline" size={24} />
         </View>
         <Text>{formatNumber(count)}</Text>
       </TouchableOpacity>

@@ -47,5 +47,8 @@
   "NavBar/Search": "بحث",
   "NavBar/Create": "إنشاء",
   "NavBar/Bookmarks": "محفوظ",
-  "NavBar/Options": "إعدادات"
+  "NavBar/Options": "إعدادات",
+  "ContextMenu/Edit": "تعديل",
+  "ContextMenu/Share": "شارك",
+  "ContextMenu/Report": "إبلاغ"
 }

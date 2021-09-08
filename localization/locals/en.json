@@ -47,5 +47,8 @@
   "NavBar/Search": "Search",
   "NavBar/Create": "Create",
   "NavBar/Bookmarks": "Bookmarks",
-  "NavBar/Options": "Options"
+  "NavBar/Options": "Options",
+  "ContextMenu/Edit": "Edit",
+  "ContextMenu/Share": "Share",
+  "ContextMenu/Report": "Report"
 }

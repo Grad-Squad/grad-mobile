@@ -50,6 +50,7 @@ const Login = ({ navigation }) => {
           text={t('Login/forgot password?')}
           onPress={() => navigation.navigate('forgotPassword')}
           transparent
+          underline
           lightText
         />
       </TextInputGroup>

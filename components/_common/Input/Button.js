@@ -12,6 +12,8 @@ const Button = ({
   smallButton,
   leftIcon,
   style,
+  textStyle,
+  underline,
 }) => (
   <Pressable
     onPress={onPress}
@@ -31,7 +33,8 @@ const Button = ({
         lightText
           ? styles.lightText
           : [styles.text, !(smallButton || transparent) && styles.largeText],
-        transparent && styles.transparentButtonText,
+        underline && styles.underLineButtonText,
+        textStyle,
       ]}
     >
       {text}
@@ -63,7 +66,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato_300Light',
     fontSize: 17,
   },
-  transparentButtonText: {
+  underLineButtonText: {
     textDecorationLine: 'underline',
   },
   text: {
@@ -80,16 +83,20 @@ Button.propTypes = {
   text: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   transparent: PropTypes.bool,
+  underline: PropTypes.bool,
   lightText: PropTypes.bool,
   smallButton: PropTypes.bool,
   leftIcon: PropTypes.node,
   style: ViewPropTypes.style,
+  textStyle: ViewPropTypes.style,
 };
 
 Button.defaultProps = {
   transparent: false,
+  underline: false,
   lightText: false,
   smallButton: false,
   leftIcon: undefined,
+  textStyle: {},
   style: {},
 };

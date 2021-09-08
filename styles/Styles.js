@@ -27,6 +27,7 @@ const Styles = StyleSheet.create({
   cardFooter: {
     ...cardBase,
     backgroundColor: Colors.cardFooter,
+    zIndex: -3,
   },
   textInput: {
     borderColor: Colors.border,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import ExpandedPost from 'components/ExpandedPost/ExpandedPost';
 import Home from '../components/Home/Home';
 import Login from '../components/Login/Login';
 import ForgotPasswordNavigator from '../components/ForgotPassword/ForgotPasswordNavigator';
@@ -22,6 +23,10 @@ const screens = [
   {
     name: 'forgotPassword',
     component: ForgotPasswordNavigator,
+  },
+  {
+    name: 'post',
+    component: ExpandedPost,
   },
 ];
 

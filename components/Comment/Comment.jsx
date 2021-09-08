@@ -32,10 +32,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   outerContainer: {
-    marginTop: 15,
-    marginBottom: 5,
-    width: '73%',
-    minWidth: '73%',
     justifyContent: 'space-between',
     borderRadius: 7,
     borderColor: 'rgba(0 ,0 , 0,0.5)',
@@ -73,26 +69,31 @@ const styles = StyleSheet.create({
     fontSize: 9,
   },
   footerContainer: {
-    width: '20%',
     marginLeft: 'auto',
+    top: -6,
     zIndex: -1,
   },
   footer: {
-    width: '20%',
     marginLeft: 'auto',
   },
 });
 
-function Comment({ profileName, text, commentDate, voteCount }) {
+function Comment({
+  profileName,
+  text,
+  commentDate,
+  voteCount,
+  profileImageURI,
+}) {
   return (
-    <View>
+    <View style={{ width: '100%', minWidth: '100%' }}>
       <View style={styles.outerContainer}>
         <View>
           <View style={styles.imageContainer}>
             <Image
               style={styles.profileImage}
               source={{
-                uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
+                uri: profileImageURI,
               }}
             />
           </View>
@@ -108,7 +109,16 @@ function Comment({ profileName, text, commentDate, voteCount }) {
         <Text style={styles.date}>{formatDate(commentDate)}</Text>
       </View>
       <View style={styles.footerContainer}>
-        <FooterRegion voteCount={voteCount} style={styles.footer} />
+        <FooterRegion
+          rating={{
+            id: 0,
+            entityId: 0,
+            upvotes: 0,
+            downvotes: 0,
+            currentUserStatus: 'sad',
+          }}
+          style={styles.footer}
+        />
       </View>
     </View>
   );
@@ -121,4 +131,10 @@ Comment.propTypes = {
   text: PropTypes.string.isRequired,
   commentDate: PropTypes.instanceOf(Date).isRequired,
   voteCount: PropTypes.number.isRequired,
+  profileImageURI: PropTypes.string,
+};
+
+Comment.defaultProps = {
+  profileImageURI:
+    'https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg',
 };

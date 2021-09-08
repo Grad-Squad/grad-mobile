@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     paddingBottom: 18,
     paddingHorizontal: 17,
     alignSelf: 'center',
-    zIndex: -1,
     top: -10,
 
     elevation: 2, // ! temp

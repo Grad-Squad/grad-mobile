@@ -1,12 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import Page from 'common/Page/Page';
+import Header from './Header';
 
 const Home = () => {
   return (
-    <View>
+    <Page>
+      <Header />
       <Text style={{ fontSize: 100 }}>Home</Text>
-    </View>
+    </Page>
   );
 };
 

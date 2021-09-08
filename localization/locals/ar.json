@@ -6,7 +6,7 @@
   "Login/LOGIN": "تسجيل الدخول",
   "Login/REGISTER": "إنشاء حساب جديد",
   "Login/Sign In With Google": " تسجيل الدخول بجوجل",
-  "Login/Sign In With Facebook": " تسجيل الدخول بفيس بوك",
+  "Login/Sign In With Facebook": " تسجيل الدخول بفيسبوك",
   "ForgotPassword/To Reset": "لإعادة تعيين كلمة المرور الخاصة بك ، يرجى إدخال البريد الإلكتروني الذي استخدمته لتسجيل حسابك",
   "ForgotPassword/AnEmailWith": "سيتم إرسال بريد إلكتروني برمز إعادة تعيين كلمة المرور في حالة وجود حساب بالبريد الإلكتروني المقدم",
   "ForgotPassword/RESET PASSWORD": "إعادة تعيين كلمة المرور",
@@ -42,8 +42,12 @@
   "InputValidationError/invalid email": "(البريد الإلكتروني غير صالح)",
   "InputValidationError/field required": "(مطلوب)",
   "InputValidationError/invalid password": "• 8 أحرف على الأقل\n• حرف كبير واحد على الأقل\n• حرف صغير واحد على الأقل\n• رقم واحد على الأقل",
-  "Time/just now": "الآن",
-
+  "Time/just now":"الآن",
+  "NavBar/Home": "الصفحة الرئيسية",
+  "NavBar/Search": "بحث",
+  "NavBar/Create": "إنشاء",
+  "NavBar/Bookmarks": "محفوظ",
+  "NavBar/Options": "إعدادات",
   "ContextMenu/Edit": "تعديل",
   "ContextMenu/Share": "شارك",
   "ContextMenu/Report": "إبلاغ"

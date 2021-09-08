@@ -1,23 +1,21 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { StyleSheet, Text } from 'react-native';
 import Page from 'common/Page/Page';
-import { LocalizationContext } from 'localization';
-import React, { useContext } from 'react';
-import { Button, Text } from 'react-native';
+import Header from './Header';
 
-const Home = ({ navigation }) => {
-  const { t, setLanguage } = useContext(LocalizationContext);
+const Home = () => {
   return (
     <Page>
-      <Text>{t('hello')}</Text>
-      <Button
-        title="Go to Login"
-        onPress={() => navigation.navigate('login')}
-      />
-      <Button title="Go to Post" onPress={() => navigation.navigate('post')} />
-      <Button title="Arabic" onPress={() => setLanguage('ar')} />
-      <Button title="English" onPress={() => setLanguage('en')} />
-      <Text>{t('hello')}</Text>
+      <Header />
+      <Text style={{ fontSize: 100 }}>Home</Text>
     </Page>
   );
 };
 
+Home.propTypes = {};
+Home.defaultProps = {};
+
 export default Home;
+
+const styles = StyleSheet.create({});

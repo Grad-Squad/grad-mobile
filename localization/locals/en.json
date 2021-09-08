@@ -43,7 +43,11 @@
   "InputValidationError/field required": "(field required)",
   "InputValidationError/invalid password": "• at least 8 characters long\n• one uppercase letter\n• one lowercase letter\n• one number",
   "Time/just now": "just now",
-
+  "NavBar/Home": "Home",
+  "NavBar/Search": "Search",
+  "NavBar/Create": "Create",
+  "NavBar/Bookmarks": "Bookmarks",
+  "NavBar/Options": "Options",
   "ContextMenu/Edit": "Edit",
   "ContextMenu/Share": "Share",
   "ContextMenu/Report": "Report"

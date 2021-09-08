@@ -9,6 +9,7 @@ const Colors = {
   androidRipple: 'rgba(0, 0, 0, 0.05)',
   cardBody: '#E9E9E9',
   cardFooter: '#D2D4D4',
+  foreground: '#F8F8F8',
   addCommentBorder: 'rgba(221, 221, 221, 0.9)',
   addCommentText: '#000',
 };

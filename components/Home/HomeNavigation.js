@@ -5,10 +5,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Colors, Constants } from 'styles';
 import Feather from 'react-native-vector-icons/Feather';
 import { LocalizationContext } from 'localization';
+import EmptyComponent from 'common/EmptyComponent';
 import Home from './Home';
 import Search from './Search';
 import Options from './Options';
-import CreatePost from './CreatePost';
 import Bookmarks from './Bookmarks';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -52,7 +52,7 @@ const HomeNavigation = () => {
       />
       <Tab.Screen
         name="CreatePost"
-        component={CreatePost}
+        component={EmptyComponent}
         options={{
           tabBarLabel: t('NavBar/Create'),
           tabBarIcon: ({ color }) => (
@@ -63,6 +63,12 @@ const HomeNavigation = () => {
             />
           ),
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            e.preventDefault();
+            navigation.navigate('createPost');
+          },
+        })}
       />
       <Tab.Screen
         name="bookmarks"

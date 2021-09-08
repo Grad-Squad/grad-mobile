@@ -11,8 +11,13 @@ const Navigator = ({ screens, initialRouteName }) => (
       headerShown: false,
     }}
   >
-    {screens.map(({ name, component }) => (
-      <Screen key={name} name={name} component={component} />
+    {screens.map(({ name, component, presentation }) => (
+      <Screen
+        key={name}
+        name={name}
+        component={component}
+        presentation={presentation}
+      />
     ))}
   </NativeNavigator>
 );

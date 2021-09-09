@@ -16,7 +16,7 @@ const SixDigitFailed = ({ navigation }) => {
         {t('ForgotPassword/Failed too many times')}
       </Text>
       <Text style={styles.subtitle}>
-        {t('ForgotPassword/ Please request another password reset')}
+        {t('ForgotPassword/Please request another password reset')}
       </Text>
 
       <Image style={styles.image} source={IMAGE_SOURCE} />

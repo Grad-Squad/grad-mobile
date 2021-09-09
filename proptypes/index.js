@@ -6,4 +6,5 @@ export const childrenPropType = PropTypes.oneOfType([
 ]);
 export const navigationPropType = PropTypes.shape({
   navigate: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
 });

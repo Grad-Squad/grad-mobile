@@ -1,18 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import Page from 'common/Page/Page';
+import PressableIcon from 'common/PressableIcon';
+import { navigationPropType } from 'proptypes';
 
-const CreatePost = () => {
+const CreatePost = ({ navigation }) => {
   return (
-    <View>
-      <Text style={{ fontSize: 100 }}>Create Post</Text>
-    </View>
+    <Page>
+      <View style={styles.header}>
+        <PressableIcon name="close" onPress={() => navigation.goBack()} />
+      </View>
+      <View style={[{ flex: 1, backgroundColor: 'purple' }]} />
+    </Page>
   );
 };
 
-CreatePost.propTypes = {};
+CreatePost.propTypes = { navigation: navigationPropType.isRequired };
 CreatePost.defaultProps = {};
 
 export default CreatePost;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  header: { flexDirection: 'row', alignItems: 'center' },
+});

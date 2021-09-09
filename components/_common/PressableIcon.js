@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Pressable } from 'react-native';
-import { Colors } from 'styles';
 import Icon from './Icon';
+import pressableAndroidRipple from './pressableAndroidRipple';
 
 const PressableIcon = ({ onPress, ...rest }) => (
-  <Pressable
-    onPress={onPress}
-    android_ripple={{ color: Colors.androidRipple, borderless: false }}
-  >
+  <Pressable onPress={onPress} android_ripple={pressableAndroidRipple}>
     <Icon {...rest} />
   </Pressable>
 );

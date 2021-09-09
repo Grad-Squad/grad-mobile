@@ -1,3 +1,4 @@
+import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, ViewPropTypes } from 'react-native';
@@ -25,7 +26,7 @@ const Button = ({
       !(smallButton || transparent) && styles.largeButton,
       style,
     ]}
-    android_ripple={{ color: Colors.androidRipple, borderless: false }}
+    android_ripple={pressableAndroidRipple}
   >
     {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
     <Text

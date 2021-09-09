@@ -5,6 +5,7 @@ import { LocalizationContext } from 'localization';
 import { Colors, Constants } from 'styles';
 import { roles } from 'validation';
 import Icon from 'common/Icon';
+import pressableAndroidRipple from 'common/pressableAndroidRipple';
 
 const TeacherOrStudent = ({ value, setValue, style }) => {
   const { t } = useContext(LocalizationContext);
@@ -21,7 +22,7 @@ const TeacherOrStudent = ({ value, setValue, style }) => {
             onPress={() => setValue(itemValue)}
             key={itemValue}
             style={styles.radioButton}
-            android_ripple={{ color: Colors.androidRipple, borderless: false }}
+            android_ripple={pressableAndroidRipple}
           >
             <Text style={styles.emoji}>{emoji}</Text>
             <View style={styles.floating}>

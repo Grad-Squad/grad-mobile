@@ -16,6 +16,7 @@ const translations = {
 const availableLanguages = Object.keys(translations);
 i18n.translations = translations;
 i18n.fallbacks = true;
+i18n.defaultSeparator = '/';
 
 export const LocalizationContext = createContext();
 

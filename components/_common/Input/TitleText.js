@@ -12,7 +12,7 @@ const TitleText = ({ title, subtitle, showSubtitle, error, style }) => {
       style={[
         styles.titleRow,
         isRTL && styles.titleRowRTL,
-        (subtitle.indexOf('\n') !== -1) && styles.titleCol,
+        subtitle.indexOf('\n') !== -1 && styles.titleCol,
         style,
       ]}
     >
@@ -47,7 +47,6 @@ export default React.memo(TitleText);
 const styles = StyleSheet.create({
   titleRow: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
     flexWrap: 'wrap',
     marginBottom: 7,
   },

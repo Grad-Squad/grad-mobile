@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'common/Icon';
 import { Colors, Constants } from 'styles';
-import Feather from 'react-native-vector-icons/Feather';
 import { LocalizationContext } from 'localization';
 import EmptyComponent from 'common/EmptyComponent';
 import Home from './Home';
@@ -12,8 +10,6 @@ import Options from './Options';
 import Bookmarks from './Bookmarks';
 
 const Tab = createMaterialBottomTabNavigator();
-
-const iconSize = 26;
 
 const HomeNavigation = () => {
   const { t } = useContext(LocalizationContext);
@@ -35,9 +31,7 @@ const HomeNavigation = () => {
         component={Home}
         options={{
           tabBarLabel: t('NavBar/Home'),
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="home-outline" color={color} size={26} />
-          ),
+          tabBarIcon: ({ color }) => <Icon name="home-outline" color={color} />,
         }}
       />
       <Tab.Screen
@@ -45,9 +39,7 @@ const HomeNavigation = () => {
         component={Search}
         options={{
           tabBarLabel: t('NavBar/Search'),
-          tabBarIcon: ({ color }) => (
-            <MaterialIcons name="search" color={color} size={iconSize} />
-          ),
+          tabBarIcon: ({ color }) => <Icon name="search" color={color} />,
         }}
       />
       <Tab.Screen
@@ -56,11 +48,7 @@ const HomeNavigation = () => {
         options={{
           tabBarLabel: t('NavBar/Create'),
           tabBarIcon: ({ color }) => (
-            <MaterialIcons
-              name="add-circle-outline"
-              color={color}
-              size={iconSize}
-            />
+            <Icon name="add-circle-outline" color={color} />
           ),
         }}
         listeners={({ navigation }) => ({
@@ -75,9 +63,7 @@ const HomeNavigation = () => {
         component={Bookmarks}
         options={{
           tabBarLabel: t('NavBar/Bookmarks'),
-          tabBarIcon: ({ color }) => (
-            <Feather name="bookmark" color={color} size={iconSize} />
-          ),
+          tabBarIcon: ({ color }) => <Icon name="bookmark" color={color} />,
         }}
       />
       <Tab.Screen
@@ -85,9 +71,7 @@ const HomeNavigation = () => {
         component={Options}
         options={{
           tabBarLabel: t('NavBar/Options'),
-          tabBarIcon: ({ color }) => (
-            <Feather name="menu" color={color} size={iconSize} />
-          ),
+          tabBarIcon: ({ color }) => <Icon name="menu" color={color} />,
         }}
       />
     </Tab.Navigator>

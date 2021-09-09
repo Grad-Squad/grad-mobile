@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Pressable, StyleSheet, Text, View, ViewPropTypes } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LocalizationContext } from 'localization';
 import { Colors, Constants } from 'styles';
 import { roles } from 'validation';
+import Icon from 'common/Icon';
 
 const TeacherOrStudent = ({ value, setValue, style }) => {
   const { t } = useContext(LocalizationContext);

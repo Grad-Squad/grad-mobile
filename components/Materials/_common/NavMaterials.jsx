@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     transform: [{ rotateY: '180deg' }],
   },
   pressablePageNum: {
-    borderRadius: Constants.borderRadius * 2,
+    borderRadius: Constants.borderRadius,
     borderColor: Colors.dgrey,
     borderWidth: 1,
     // borderColor: '#000',
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
 
   arrowWrapper: {
     backgroundColor: Colors.foreground,
-    borderRadius: Constants.borderRadius * 2,
+    borderRadius: Constants.borderRadius,
     paddingHorizontal: 5,
   },
 

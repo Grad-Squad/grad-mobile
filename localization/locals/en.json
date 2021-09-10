@@ -66,5 +66,9 @@
     "Edit": "Edit",
     "Share": "Share",
     "Report": "Report"
+  },
+  "CreatePost": {
+    "Create New Post": "Create New Post",
+    "Post": "Post"
   }
 }

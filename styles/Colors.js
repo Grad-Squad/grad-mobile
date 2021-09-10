@@ -12,6 +12,7 @@ const Colors = {
   foreground: '#F8F8F8',
   addCommentBorder: 'rgba(221, 221, 221, 0.9)',
   addCommentText: '#000',
+  separator: '#dddddd',
 };
 
 export default Colors;

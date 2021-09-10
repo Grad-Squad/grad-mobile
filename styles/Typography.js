@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native';
 import Colors from './Colors';
 
+const defaultFont = 'Lato_400Regular';
+
 const forgotPasswordBase = {
-  fontFamily: 'Lato_400Regular',
+  fontFamily: defaultFont,
   textAlign: 'center',
 };
 
@@ -23,7 +25,7 @@ const forgotPassword = StyleSheet.create({
 const userInput = StyleSheet.create({
   title: {
     marginLeft: 5,
-    fontFamily: 'Lato_400Regular',
+    fontFamily: defaultFont,
     color: Colors.offBlack,
     fontSize: 20,
   },
@@ -32,4 +34,5 @@ const userInput = StyleSheet.create({
 export default {
   forgotPassword,
   userInput,
+  defaultFont,
 };

@@ -66,5 +66,9 @@
     "Edit": "تعديل",
     "Share": "شارك",
     "Report": "إبلاغ"
+  },
+  "CreatePost": {
+    "Create New Post": "إنشاء منشور جديد",
+    "Post": "نشر"
   }
 }

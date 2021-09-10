@@ -1,13 +1,14 @@
 import { useFormik } from 'formik';
 import React, { useContext, useState } from 'react';
 import * as yup from 'yup';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { LocalizationContext } from 'localization';
 import { passwordRequired } from 'validation';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { Button, TextInputFormik } from 'common/Input';
 import { navigationPropType } from 'proptypes';
 import { Colors, Typography } from 'styles';
+import EduText from 'common/EduText';
 
 const NewPassword = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
@@ -27,19 +28,19 @@ const NewPassword = ({ navigation }) => {
 
   return (
     <LoginBack>
-      <Text style={styles.header}>
+      <EduText style={styles.header}>
         {t('ForgotPassword/Reset your password')}
-      </Text>
+      </EduText>
       {samePasswordError ? (
-        <Text style={styles.newPasswordCannot}>
+        <EduText style={styles.newPasswordCannot}>
           {t(
             'ForgotPassword/your new password cannot be the same as the old password'
           )}
-        </Text>
+        </EduText>
       ) : (
-        <Text style={styles.subtitle}>
+        <EduText style={styles.subtitle}>
           {t('ForgotPassword/Enter a new password to replace the old password')}
-        </Text>
+        </EduText>
       )}
 
       <TextInputFormik

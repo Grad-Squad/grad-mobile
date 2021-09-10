@@ -1,6 +1,7 @@
+import EduText from 'common/EduText';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View, ViewPropTypes } from 'react-native';
+import { Pressable, StyleSheet, View, ViewPropTypes } from 'react-native';
 
 import { Colors, Constants, Fonts, Styles } from 'styles';
 
@@ -28,7 +29,7 @@ const Button = ({
     android_ripple={{ color: Colors.androidRipple, borderless: false }}
   >
     {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
-    <Text
+    <EduText
       style={[
         lightText
           ? styles.lightText
@@ -38,7 +39,7 @@ const Button = ({
       ]}
     >
       {text}
-    </Text>
+    </EduText>
   </Pressable>
 );
 

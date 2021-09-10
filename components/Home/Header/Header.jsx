@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { Colors, Constants, Styles } from 'styles';
+import EduText from 'common/EduText';
 
 const Header = () => (
   <View style={styles.wrapper}>
@@ -11,7 +12,7 @@ const Header = () => (
 
     <View style={styles.search}>
       <Octicons name="search" color={Colors.offBlack} size={20} />
-      <Text style={styles.searchText}>search</Text>
+      <EduText style={styles.searchText}>search</EduText>
     </View>
 
     <MaterialCommunityIcons

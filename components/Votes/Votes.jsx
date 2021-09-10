@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { useMutation } from 'react-query';
 
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { Icon } from 'react-native-elements';
 import { UPVOTE_HIT_SLOP_OBJECT, DOWNVOTE_HIT_SLOP_OBJECT } from 'constants';
 import { formatNumber } from 'utility';
+import EduText from 'common/EduText';
 
 const styles = StyleSheet.create({
   VotesContainer: {
@@ -109,7 +110,7 @@ function Votes({ voteCount, votingFunctions }) {
           )}
         </View>
       </TouchableOpacity>
-      <Text>{formatNumber(vote)}</Text>
+      <EduText>{formatNumber(vote)}</EduText>
       <TouchableOpacity
         style={styles.button}
         onPress={downVoteHandler}

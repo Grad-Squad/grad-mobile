@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import EduText from 'common/EduText';
 
 const CreatePost = () => {
   return (
     <View>
-      <Text style={{ fontSize: 100 }}>Create Post</Text>
+      <EduText style={{ fontSize: 100 }}>Create Post</EduText>
     </View>
   );
 };

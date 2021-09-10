@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import EduText from 'common/EduText';
 
 const Options = () => {
   return (
     <View>
-      <Text style={{ fontSize: 100 }}>Options</Text>
+      <EduText style={{ fontSize: 100 }}>Options</EduText>
     </View>
   );
 };

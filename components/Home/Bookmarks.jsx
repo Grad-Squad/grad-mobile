@@ -1,23 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import EduText from 'common/EduText';
 
 const Bookmarks = () => {
-    return (
-        <View>
-            <Text style={{ fontSize: 100 }}>Bookmarks</Text>
-        </View>
-    )
-}
+  return (
+    <View>
+      <EduText style={{ fontSize: 100 }}>Bookmarks</EduText>
+    </View>
+  );
+};
 
-Bookmarks.propTypes = {
+Bookmarks.propTypes = {};
+Bookmarks.defaultProps = {};
 
-}
-Bookmarks.defaultProps = {
-
-}
-
-export default Bookmarks
+export default Bookmarks;
 
 const styles = StyleSheet.create({});
-

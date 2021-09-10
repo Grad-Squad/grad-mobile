@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, Text, View, ViewPropTypes } from 'react-native';
+import { Pressable, StyleSheet, View, ViewPropTypes } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LocalizationContext } from 'localization';
 import { Colors, Constants } from 'styles';
 import { roles } from 'validation';
+import EduText from 'common/EduText';
 
 const TeacherOrStudent = ({ value, setValue, style }) => {
   const { t } = useContext(LocalizationContext);
@@ -23,7 +24,7 @@ const TeacherOrStudent = ({ value, setValue, style }) => {
             style={styles.radioButton}
             android_ripple={{ color: Colors.androidRipple, borderless: false }}
           >
-            <Text style={styles.emoji}>{emoji}</Text>
+            <EduText style={styles.emoji}>{emoji}</EduText>
             <View style={styles.floating}>
               <Icon
                 name={
@@ -33,7 +34,7 @@ const TeacherOrStudent = ({ value, setValue, style }) => {
                 }
                 size={25}
               />
-              <Text>{text}</Text>
+              <EduText>{text}</EduText>
             </View>
           </Pressable>
         );

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Pressable, StyleSheet, View, Text, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors, Constants } from 'styles';
+import EduText from 'common/EduText';
 
 const NavMaterials = ({
   onPressNext,
@@ -42,9 +43,9 @@ const NavMaterials = ({
           isPageNumPressable && styles.pressablePageNum,
         ]}
       >
-        <Text style={styles.text}>
+        <EduText style={styles.text}>
           {currentPageIndex + 1}/{maxPages}
-        </Text>
+        </EduText>
       </Pressable>
       {hasNextButton && nextButton}
     </View>

@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
+import EduText from 'common/EduText';
+import Icon from 'react-native-vector-icons/Feather';
 import { Colors } from '../../styles';
 
-import Icon from 'react-native-vector-icons/Feather';
 import { HIT_SLOP_OBJECT } from '../../constants';
 
 const styles = StyleSheet.create({
@@ -37,7 +38,7 @@ function AddCommentButton() {
         hitSlop={HIT_SLOP_OBJECT}
       >
         <Icon name="plus" size={24} color={Colors.addCommentText} />
-        <Text style={{ color: Colors.addCommentText }}>Comment</Text>
+        <EduText style={{ color: Colors.addCommentText }}>Comment</EduText>
       </TouchableOpacity>
     </View>
   );

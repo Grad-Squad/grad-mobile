@@ -7,7 +7,9 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import { Styles } from 'styles';
+import EduText from 'common/EduText';
 
+/* eslint-disable react/jsx-props-no-spreading */
 const CodeTextInput = ({
   cellCount,
   value,
@@ -37,13 +39,13 @@ const CodeTextInput = ({
         textContentType="oneTimeCode"
         onSubmitEditing={onFinish}
         renderCell={({ index, symbol, isFocused }) => (
-          <Text
+          <EduText
             key={index}
             style={[styles.cell, error && Styles.textInputError]}
             onLayout={getCellOnLayoutHandler(index)}
           >
             {symbol || (isFocused && <Cursor />)}
-          </Text>
+          </EduText>
         )}
       />
     </View>

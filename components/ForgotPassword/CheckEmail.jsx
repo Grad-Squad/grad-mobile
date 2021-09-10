@@ -6,6 +6,7 @@ import { navigationPropType } from 'proptypes';
 import { Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { Button } from 'common/Input';
+import EduText from 'common/EduText';
 
 const IMAGE_SOURCE = require('../../assets/images/CheckEmail.webp');
 
@@ -15,12 +16,12 @@ const CheckEmail = ({ navigation }) => {
   return (
     <LoginBack bodyStyle={styles.back}>
       <Image style={styles.image} source={IMAGE_SOURCE} />
-      <Text style={styles.checkEmail}>
+      <EduText style={styles.checkEmail}>
         {t('ForgotPassword/Check Your Email')}
-      </Text>
-      <Text style={styles.junkFolder}>
+      </EduText>
+      <EduText style={styles.junkFolder}>
         {t('ForgotPassword/you might need to check the junk folder')}
-      </Text>
+      </EduText>
       <Button
         text={t('ForgotPassword/OK')}
         onPress={() => navigation.navigate('forgotPassword/sixDigit')}

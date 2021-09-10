@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, ViewPropTypes } from 'react-native';
+import { StyleSheet, View, ViewPropTypes } from 'react-native';
 
 import { Colors, Typography } from 'styles';
 import { LocalizationContext } from 'localization';
+import EduText from 'common/EduText';
 
 const TitleText = ({ title, subtitle, showSubtitle, error, style }) => {
   const { isRTL } = useContext(LocalizationContext);
@@ -12,17 +13,17 @@ const TitleText = ({ title, subtitle, showSubtitle, error, style }) => {
       style={[
         styles.titleRow,
         isRTL && styles.titleRowRTL,
-        (subtitle.indexOf('\n') !== -1) && styles.titleCol,
+        subtitle.indexOf('\n') !== -1 && styles.titleCol,
         style,
       ]}
     >
-      <Text style={[Typography.userInput.title, error && styles.errorText]}>
+      <EduText style={[Typography.userInput.title, error && styles.errorText]}>
         {title}
-      </Text>
+      </EduText>
       {showSubtitle && (
-        <Text style={[styles.subtitle, error && styles.errorText]}>
+        <EduText style={[styles.subtitle, error && styles.errorText]}>
           {subtitle}
-        </Text>
+        </EduText>
       )}
     </View>
   );

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
 
+import EduText from 'common/EduText';
 import { Icon } from 'react-native-elements';
 import { BOOKMARK_HIT_SLOP_OBJECT } from '../../../constants';
 
@@ -40,12 +41,12 @@ export default function Bookmark({ saved }) {
           {isSaved ? (
             <>
               <Icon name="bookmark" type="material-community" />
-              <Text>saved</Text>
+              <EduText>saved</EduText>
             </>
           ) : (
             <>
               <Icon name="bookmark" type="feather" />
-              <Text>save</Text>
+              <EduText>save</EduText>
             </>
           )}
         </View>

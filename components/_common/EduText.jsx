@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { childrenPropType } from 'proptypes';
 import { Colors, Fonts } from 'styles';
-import { StyleSheet, Text, ViewPropTypes } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
 /* eslint-disable react/jsx-props-no-spreading */
 const EduText = ({ children, style, ...otherProps }) => (
@@ -12,8 +12,8 @@ const EduText = ({ children, style, ...otherProps }) => (
 export default EduText;
 
 EduText.propTypes = {
-  style: ViewPropTypes.style,
-  children: PropTypes.string.isRequired,
+  style: Text.propTypes.style,
+  children: childrenPropType.isRequired,
 };
 EduText.defaultProps = {
   style: {},

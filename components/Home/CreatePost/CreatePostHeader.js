@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import PressableIcon from 'common/PressableIcon';
 import { LocalizationContext } from 'localization';
 import RegularText from 'common/Text/RegularText';
 import { Colors, Styles } from 'styles';
+import { TransparentButton } from 'common/Input/Button';
 
 const CreatePostHeader = ({ onBackPress, onPostPress }) => {
   const { t, isRTL } = useContext(LocalizationContext);
@@ -14,7 +15,12 @@ const CreatePostHeader = ({ onBackPress, onPostPress }) => {
       <RegularText style={[styles.text, isRTL && styles.textRTL]}>
         {t('CreatePost/Create New Post')}
       </RegularText>
-      <Text style={[!isRTL && styles.postButton]}>{t('CreatePost/Post')}</Text>
+      <TransparentButton
+        text={t('CreatePost/Post')}
+        onPress={onPostPress}
+        style={[!isRTL && styles.postButtonRTL]}
+        textStyle={styles.postButton}
+      />
     </View>
   );
 };
@@ -45,7 +51,10 @@ const styles = StyleSheet.create({
   textRTL: {
     marginLeft: 'auto',
   },
-  postButton: {
+  postButtonRTL: {
     marginLeft: 'auto',
+  },
+  postButton: {
+    fontSize: 19
   },
 });

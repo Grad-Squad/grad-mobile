@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, View, Text, Dimensions } from 'react-native';
+import { Pressable, StyleSheet, View, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors, Constants } from 'styles';
 import EduText from 'common/EduText';
@@ -80,7 +80,6 @@ const styles = StyleSheet.create({
     borderRadius: Constants.borderRadius,
     borderColor: Colors.dgrey,
     borderWidth: 1,
-    // borderColor: '#000',
     backgroundColor: Colors.lighterForeground,
   },
 

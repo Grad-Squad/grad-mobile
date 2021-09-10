@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     backgroundColor: Colors.foreground,
-    // paddingHorizontal: Constants.commonMargin * 0.8,
     marginBottom: Constants.commonMargin * 0.6,
     flexDirection: 'row',
     borderRadius: Constants.borderRadius,
@@ -51,7 +50,6 @@ const styles = StyleSheet.create({
   separator: {
     backgroundColor: Colors.background,
     width: 4,
-    height: '100%',
   },
   letter: {
     borderRightWidth: 0,

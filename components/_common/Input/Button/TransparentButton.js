@@ -1,5 +1,6 @@
+import { stylePropType, TextPropType } from 'proptypes';
 import React from 'react';
-import { StyleSheet, Text, ViewPropTypes } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Colors } from 'styles';
 import Button from './Button';
 
@@ -12,8 +13,8 @@ const TransparentButton = ({ style, textStyle, ...props }) => (
 );
 
 TransparentButton.propTypes = {
-  style: ViewPropTypes.style,
-  textStyle: Text.propTypes.style,
+  style: stylePropType,
+  textStyle: TextPropType,
 };
 TransparentButton.defaultProps = {
   style: {},

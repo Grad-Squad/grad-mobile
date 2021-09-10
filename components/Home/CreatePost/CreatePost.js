@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
 import CreatePostHeader from './CreatePostHeader';

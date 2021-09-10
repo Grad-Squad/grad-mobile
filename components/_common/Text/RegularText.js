@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { Colors, Typography } from 'styles';
-import { childrenPropType } from 'proptypes';
+import { childrenPropType, TextPropType } from 'proptypes';
 
 const RegularText = ({ children, style, ...props }) => (
   <Text style={[styles.text, style]} {...props}>
@@ -11,7 +11,7 @@ const RegularText = ({ children, style, ...props }) => (
 
 RegularText.propTypes = {
   children: childrenPropType.isRequired,
-  style: Text.propTypes.style,
+  style: TextPropType,
 };
 RegularText.defaultProps = {
   style: {},

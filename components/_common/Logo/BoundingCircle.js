@@ -1,7 +1,7 @@
 import React from 'react';
-import { ViewPropTypes } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 import PropTypes from 'prop-types';
+import { stylePropType } from 'proptypes';
 
 function BoundingCircle({ color, style }) {
   return (
@@ -26,6 +26,6 @@ export default MemoBoundingCircle;
 
 BoundingCircle.propTypes = {
   color: PropTypes.string.isRequired,
-  style: ViewPropTypes.style,
+  style: stylePropType,
 };
 BoundingCircle.defaultProps = { style: {} };

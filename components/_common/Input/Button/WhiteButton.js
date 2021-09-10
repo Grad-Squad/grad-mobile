@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
+import { stylePropType } from 'proptypes';
 import React from 'react';
-import { StyleSheet, ViewPropTypes } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { Colors, Fonts, Styles } from 'styles';
 
@@ -43,8 +44,8 @@ const styles = StyleSheet.create({
 
 WhiteButton.propTypes = {
   smallButton: PropTypes.bool,
-  style: ViewPropTypes.style,
-  textStyle: ViewPropTypes.style,
+  style: stylePropType,
+  textStyle: stylePropType,
 };
 
 WhiteButton.defaultProps = {

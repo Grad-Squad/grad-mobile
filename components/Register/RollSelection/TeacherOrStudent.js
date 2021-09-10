@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, Text, View, ViewPropTypes } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { LocalizationContext } from 'localization';
 import { Colors, Constants } from 'styles';
 import { roles } from 'validation';
 import Icon from 'common/Icon';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
+import { stylePropType } from 'proptypes';
 
 const TeacherOrStudent = ({ value, setValue, style }) => {
   const { t } = useContext(LocalizationContext);
@@ -44,7 +45,7 @@ const TeacherOrStudent = ({ value, setValue, style }) => {
 };
 
 TeacherOrStudent.propTypes = {
-  style: ViewPropTypes.style,
+  style: stylePropType,
   value: PropTypes.string.isRequired,
   setValue: PropTypes.func.isRequired,
 };

@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, ViewPropTypes } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Colors, Typography } from 'styles';
 import { LocalizationContext } from 'localization';
+import { stylePropType } from 'proptypes';
 
 const TitleText = ({ title, subtitle, showSubtitle, error, style }) => {
   const { isRTL } = useContext(LocalizationContext);
@@ -33,7 +34,7 @@ TitleText.propTypes = {
   subtitle: PropTypes.string,
   showSubtitle: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   error: PropTypes.bool,
-  style: ViewPropTypes.style,
+  style: stylePropType,
 };
 TitleText.defaultProps = {
   subtitle: '',

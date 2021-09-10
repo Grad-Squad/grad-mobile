@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View, ViewPropTypes } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import {
   CodeField,
   Cursor,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import { Styles } from 'styles';
+import { stylePropType } from 'proptypes';
 
 const CodeTextInput = ({
   cellCount,
@@ -54,7 +55,7 @@ CodeTextInput.propTypes = {
   cellCount: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,
   setValue: PropTypes.func.isRequired,
-  style: ViewPropTypes.style,
+  style: stylePropType,
   onFinish: PropTypes.func.isRequired,
   error: PropTypes.bool,
 };

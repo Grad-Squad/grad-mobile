@@ -1,5 +1,5 @@
 const Colors = {
-  accent: '#0FB9EF',
+  accent: '#0A7DA4',
   background: '#FBFBFB',
   white: '#ffffff',
   black: '#000',
@@ -14,6 +14,9 @@ const Colors = {
   addCommentText: '#000',
   lighterForeground: '#F5F5F5',
   dgrey: '#dddddd',
+  materialGood: '#1C9B21',
+  materialWrong: '#D73B3B',
+  materialSkipped: '#D97213',
 };
 
 export default Colors;

@@ -1,4 +1,4 @@
-import { Button } from 'common/Input';
+import { WhiteButton } from 'common/Input/Button';
 import { LocalizationContext } from 'localization';
 import React, { useContext } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
@@ -10,14 +10,14 @@ const SignInWith = () => {
   const { t } = useContext(LocalizationContext);
   return (
     <View style={[Styles.cardFooter, styles.background]}>
-      <Button
+      <WhiteButton
         text={t('Login/Sign In With Google')}
         onPress={() => Alert.alert('google')}
         leftIcon={<Google />}
         style={styles.firstButtonGap}
         smallButton
       />
-      <Button
+      <WhiteButton
         text={t('Login/Sign In With Facebook')}
         onPress={() => Alert.alert('facebook')}
         leftIcon={<Facebook />}

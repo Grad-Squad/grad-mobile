@@ -1,5 +1,5 @@
 const Colors = {
-  accent: '#0FB9EF',
+  accent: '#0A7DA4',
   background: '#FBFBFB',
   white: '#ffffff',
   black: '#000',
@@ -12,6 +12,7 @@ const Colors = {
   foreground: '#F0F0F0',
   addCommentBorder: 'rgba(221, 221, 221, 0.9)',
   addCommentText: '#000',
+  separator: '#dddddd',
   lighterForeground: '#F5F5F5',
   dgrey: '#dddddd',
 };

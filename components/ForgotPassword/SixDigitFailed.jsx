@@ -1,6 +1,6 @@
 import LoginBack from 'common/backgrounds/LoginBack';
+import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
-import { Button } from 'common/Input';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
@@ -17,12 +17,12 @@ const SixDigitFailed = ({ navigation }) => {
         {t('ForgotPassword/Failed too many times')}
       </EduText>
       <EduText style={styles.subtitle}>
-        {t('ForgotPassword/ Please request another password reset')}
+        {t('ForgotPassword/Please request another password reset')}
       </EduText>
 
       <Image style={styles.image} source={IMAGE_SOURCE} />
 
-      <Button
+      <WhiteButton
         text={t('ForgotPassword/OK')}
         onPress={() => navigation.navigate('forgotPassword/enterEmail')}
       />

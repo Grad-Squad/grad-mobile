@@ -5,9 +5,9 @@ import {
   Pressable,
   StyleSheet,
   View,
-  ViewPropTypes,
 } from 'react-native';
 import { LocalizationContext } from 'localization';
+import { stylePropType } from 'proptypes';
 import TitleText from './TitleText';
 
 const IMAGE_SOURCE = require('../../../assets/images/input/AddProfilePictures.png');
@@ -31,7 +31,7 @@ const AddProfileImage = ({ style, optional, onPress }) => {
 };
 
 AddProfileImage.propTypes = {
-  style: ViewPropTypes.style,
+  style: stylePropType,
   optional: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
 };

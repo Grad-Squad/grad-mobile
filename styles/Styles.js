@@ -41,6 +41,10 @@ const Styles = StyleSheet.create({
     borderColor: Colors.error,
     borderWidth: 1,
   },
+  bottomBorder: {
+    borderBottomColor: Colors.separator,
+    borderBottomWidth: 2.25,
+  },
 });
 
 export default Styles;

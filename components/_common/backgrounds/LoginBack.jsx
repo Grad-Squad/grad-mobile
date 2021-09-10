@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, ViewPropTypes } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Styles } from 'styles';
-import { childrenPropType } from 'proptypes';
+import { childrenPropType, stylePropType } from 'proptypes';
 import Page from 'common/Page/Page';
 import Logo from 'common/Logo/Logo';
 
@@ -26,9 +26,9 @@ const LoginBack = ({
 LoginBack.propTypes = {
   children: childrenPropType.isRequired,
   componentAfterBackground: childrenPropType,
-  style: ViewPropTypes.style,
-  pageStyle: ViewPropTypes.style,
-  bodyStyle: ViewPropTypes.style,
+  style: stylePropType,
+  pageStyle: stylePropType,
+  bodyStyle: stylePropType,
 };
 LoginBack.defaultProps = {
   componentAfterBackground: <></>,

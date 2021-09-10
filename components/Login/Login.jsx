@@ -5,8 +5,10 @@ import * as yup from 'yup';
 import { LocalizationContext } from 'localization';
 import { emailRequired, requiredError } from 'validation';
 import LoginBack from 'common/backgrounds/LoginBack';
-import { Button, TextInputFormik, TextInputGroup } from 'common/Input';
+import { TransparentButton, WhiteButton } from 'common/Input/Button';
+import { TextInputFormik, TextInputGroup } from 'common/Input';
 import { navigationPropType } from 'proptypes';
+import { Colors } from 'styles';
 import SignInWith from './SignInWith/SignInWith';
 
 const Login = ({ navigation }) => {
@@ -46,20 +48,18 @@ const Login = ({ navigation }) => {
           isPassword
           style={styles.gap}
         />
-        <Button
+        <TransparentButton
           text={t('Login/forgot password?')}
           onPress={() => navigation.navigate('forgotPassword')}
-          transparent
-          underline
-          lightText
+          textStyle={styles.forgotPassword}
         />
       </TextInputGroup>
-      <Button
+      <WhiteButton
         text={t('Login/LOGIN')}
         onPress={formik.handleSubmit}
         style={styles.gap}
       />
-      <Button
+      <WhiteButton
         text={t('Login/REGISTER')}
         onPress={() => navigation.navigate('register')}
         smallButton
@@ -81,5 +81,11 @@ const styles = StyleSheet.create({
   textInputs: { marginBottom: 32 },
   gap: {
     marginBottom: 11,
+  },
+  forgotPassword: {
+    textDecorationLine: 'underline',
+    fontFamily: 'Lato_300Light',
+    fontSize: 17,
+    color: Colors.black,
   },
 });

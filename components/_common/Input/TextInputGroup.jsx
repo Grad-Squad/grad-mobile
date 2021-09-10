@@ -1,7 +1,7 @@
 import React, { createRef } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, ViewPropTypes } from 'react-native';
-import { childrenPropType } from 'proptypes';
+import { StyleSheet, View } from 'react-native';
+import { childrenPropType, stylePropType } from 'proptypes';
 import isTextInput from './isTextInput';
 
 function TextInputGroup({ children, onFinish, style }) {
@@ -52,7 +52,7 @@ function TextInputGroup({ children, onFinish, style }) {
 TextInputGroup.propTypes = {
   children: childrenPropType.isRequired,
   onFinish: PropTypes.func.isRequired,
-  style: ViewPropTypes.style,
+  style: stylePropType,
 };
 TextInputGroup.defaultProps = { style: {} };
 

@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, View, ViewPropTypes } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LocalizationContext } from 'localization';
-import { Colors, Constants } from 'styles';
 import { roles } from 'validation';
+import { Pressable, View, StyleSheet } from 'react-native';
+import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import EduText from 'common/EduText';
+import Icon from 'common/Icon';
+import { stylePropType } from 'proptypes';
+import { Colors, Constants } from 'styles';
 
 const TeacherOrStudent = ({ value, setValue, style }) => {
   const { t } = useContext(LocalizationContext);
@@ -22,7 +24,7 @@ const TeacherOrStudent = ({ value, setValue, style }) => {
             onPress={() => setValue(itemValue)}
             key={itemValue}
             style={styles.radioButton}
-            android_ripple={{ color: Colors.androidRipple, borderless: false }}
+            android_ripple={pressableAndroidRipple}
           >
             <EduText style={styles.emoji}>{emoji}</EduText>
             <View style={styles.floating}>
@@ -44,7 +46,7 @@ const TeacherOrStudent = ({ value, setValue, style }) => {
 };
 
 TeacherOrStudent.propTypes = {
-  style: ViewPropTypes.style,
+  style: stylePropType,
   value: PropTypes.string.isRequired,
   setValue: PropTypes.func.isRequired,
 };

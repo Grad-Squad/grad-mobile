@@ -1,5 +1,6 @@
 import LoginBack from 'common/backgrounds/LoginBack';
-import { Button, TextInputFormik, TextInputGroup } from 'common/Input';
+import { TextInputFormik, TextInputGroup } from 'common/Input';
+import { WhiteButton } from 'common/Input/Button';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
@@ -43,7 +44,7 @@ const RequiredInfo = ({ navigation }) => {
         />
       </TextInputGroup>
 
-      <Button text={t('Register/CONTINUE')} onPress={onContinueClick} />
+      <WhiteButton text={t('Register/CONTINUE')} onPress={onContinueClick} />
     </LoginBack>
   );
 };

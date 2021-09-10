@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-  StyleSheet,
-  TextInput as TextInputNative,
-  View,
-  ViewPropTypes,
-} from 'react-native';
+import { StyleSheet, TextInput as TextInputNative, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 import TitleText from 'common/Input/TitleText';
 import { Fonts, Styles } from 'styles';
+import { stylePropType } from 'proptypes';
 
 const TextInput = ({
   text,
@@ -89,7 +85,7 @@ TextInput.propTypes = {
   defaultValue: PropTypes.string,
   isPassword: PropTypes.bool,
   isEmail: PropTypes.bool,
-  style: ViewPropTypes.style,
+  style: stylePropType,
   TextInputProps: PropTypes.object, // ? TextInputProps interface from react-native
   error: PropTypes.bool,
   errorMsg: PropTypes.string,

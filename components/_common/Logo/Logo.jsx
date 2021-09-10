@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, View, ViewPropTypes } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
-
 import { Colors, Fonts } from 'styles';
+import { stylePropType } from 'proptypes';
 import EduText from 'common/EduText';
 import MemoBoundingCircle from './BoundingCircle';
 
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 
 Logo.propTypes = {
   hasBoundingCircle: PropTypes.bool,
-  style: ViewPropTypes.style,
+  style: stylePropType,
 };
 Logo.defaultProps = {
   hasBoundingCircle: false,

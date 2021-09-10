@@ -1,25 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Octicons from 'react-native-vector-icons/Octicons';
-import { Colors, Constants, Styles } from 'styles';
+import Icon from 'common/Icon';
 import EduText from 'common/EduText';
+import { Colors, Constants, Styles } from 'styles';
 
 const Header = () => (
   <View style={styles.wrapper}>
     <View style={{ backgroundColor: 'pink', width: 40, height: '100%' }} />
 
     <View style={styles.search}>
-      <Octicons name="search" color={Colors.offBlack} size={20} />
+      <Icon name="search" size={20} />
       <EduText style={styles.searchText}>search</EduText>
     </View>
 
-    <MaterialCommunityIcons
-      name="bell-outline"
-      color={Colors.offBlack}
-      size={28}
-    />
+    <Icon name="bell-outline" size={28} />
   </View>
 );
 

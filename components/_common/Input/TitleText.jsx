@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, ViewPropTypes } from 'react-native';
-
+import { StyleSheet, View } from 'react-native';
 import { Colors, Typography } from 'styles';
+import { stylePropType } from 'proptypes';
 import { LocalizationContext } from 'localization';
 import EduText from 'common/EduText';
 
@@ -34,7 +34,7 @@ TitleText.propTypes = {
   subtitle: PropTypes.string,
   showSubtitle: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   error: PropTypes.bool,
-  style: ViewPropTypes.style,
+  style: stylePropType,
 };
 TitleText.defaultProps = {
   subtitle: '',
@@ -48,7 +48,6 @@ export default React.memo(TitleText);
 const styles = StyleSheet.create({
   titleRow: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
     flexWrap: 'wrap',
     marginBottom: 7,
   },

@@ -5,9 +5,11 @@ import * as yup from 'yup';
 import { LocalizationContext } from 'localization';
 import { emailRequired } from 'validation';
 import LoginBack from 'common/backgrounds/LoginBack';
-import { Button, TextInputFormik } from 'common/Input';
+import { TextInputFormik } from 'common/Input';
 import { navigationPropType } from 'proptypes';
 import { Typography } from 'styles';
+import { WhiteButton } from 'common/Input/Button';
+
 import EduText from 'common/EduText';
 
 const EnterEmail = ({ navigation }) => {
@@ -41,7 +43,7 @@ const EnterEmail = ({ navigation }) => {
         {t('ForgotPassword/AnEmailWith')}
       </EduText>
 
-      <Button
+      <WhiteButton
         text={t('ForgotPassword/RESET PASSWORD')}
         onPress={formik.handleSubmit}
       />

@@ -12,6 +12,7 @@ const Colors = {
   foreground: '#F0F0F0',
   addCommentBorder: 'rgba(221, 221, 221, 0.9)',
   addCommentText: '#000',
+  separator: '#dddddd',
   lighterForeground: '#F5F5F5',
   dgrey: '#dddddd',
   materialGood: '#1C9B21',

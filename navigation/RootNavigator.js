@@ -7,6 +7,7 @@ import Login from '../components/Login/Login';
 import ForgotPasswordNavigator from '../components/ForgotPassword/ForgotPasswordNavigator';
 import RegisterNavigation from '../components/Register/RegisterNavigation';
 import Navigator from './Navigator';
+import SolveMcq from 'components/Materials/Mcq/SolveMcq';
 
 const screens = [
   {
@@ -32,6 +33,10 @@ const screens = [
   {
     name: 'post',
     component: ExpandedPost,
+  },
+  {
+    name: 'solveMcq',
+    component: SolveMcq,
   },
 ];
 

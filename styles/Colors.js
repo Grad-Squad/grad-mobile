@@ -9,9 +9,11 @@ const Colors = {
   androidRipple: 'rgba(0, 0, 0, 0.05)',
   cardBody: '#E9E9E9',
   cardFooter: '#D2D4D4',
-  foreground: '#F8F8F8',
+  foreground: '#F0F0F0',
   addCommentBorder: 'rgba(221, 221, 221, 0.9)',
   addCommentText: '#000',
+  lighterForeground: '#F5F5F5',
+  dgrey: '#dddddd',
 };
 
 export default Colors;

@@ -14,6 +14,10 @@ const Dev = ({ navigation }) => {
       />
       <Button title="Go to Home" onPress={() => navigation.navigate('home')} />
       <Button title="Go to Post" onPress={() => navigation.navigate('post')} />
+      <Button
+        title="Go to mcq"
+        onPress={() => navigation.navigate('solveMcq')}
+      />
       <Button title="Arabic" onPress={() => setLanguage('ar')} />
       <Button title="English" onPress={() => setLanguage('en')} />
       <Text>{t('hello')}</Text>

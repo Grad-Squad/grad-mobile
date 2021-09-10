@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, StyleSheet, View } from 'react-native';
-import { Button } from './Input';
 import FeatherIcons from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { LocalizationContext } from 'localization';
 import { Colors, Constants, Fonts, Styles } from 'styles';
+import { Button } from './Input';
 
 const ContextMenu = ({
   onShareButtonPressed,

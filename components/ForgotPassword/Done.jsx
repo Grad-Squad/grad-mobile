@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
-import { Image, StyleSheet, Text } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import { navigationPropType } from 'proptypes';
 import { LocalizationContext } from 'localization/LocalizationProvider';
 
 import { Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { WhiteButton } from 'common/Input/Button';
+import EduText from 'common/EduText';
 
 const IMAGE_SOURCE = require('../../assets/images/ForgotPasswordDone.webp');
 
@@ -16,10 +17,10 @@ const Done = ({ navigation }) => {
     <LoginBack>
       <Image style={styles.image} source={IMAGE_SOURCE} />
 
-      <Text style={styles.header}>{t('ForgotPassword/All Good')}</Text>
-      <Text style={styles.subtitle}>
+      <EduText style={styles.header}>{t('ForgotPassword/All Good')}</EduText>
+      <EduText style={styles.subtitle}>
         {t('ForgotPassword/Now you can login in with your new password')}
-      </Text>
+      </EduText>
       <WhiteButton
         text={t('Login/LOGIN')}
         onPress={() => navigation.navigate('login')}

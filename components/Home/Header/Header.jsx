@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
-import { Colors, Constants, Styles } from 'styles';
+import { StyleSheet, View } from 'react-native';
 import Icon from 'common/Icon';
+import EduText from 'common/EduText';
+import { Colors, Constants, Styles } from 'styles';
 
 const Header = () => (
   <View style={styles.wrapper}>
@@ -10,7 +11,7 @@ const Header = () => (
 
     <View style={styles.search}>
       <Icon name="search" size={20} />
-      <Text style={styles.searchText}>search</Text>
+      <EduText style={styles.searchText}>search</EduText>
     </View>
 
     <Icon name="bell-outline" size={28} />

@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
+import EduText from 'common/EduText';
 import ContentRegion from './ContentRegion';
 import { formatDate } from '../../../utility';
 import { Colors } from '../../../styles';
@@ -90,17 +91,17 @@ function TitleRegion({ profileName, title, postDate }) {
         </View>
         <View style={styles.innerContainer}>
           <View style={styles.profileInfoContainer}>
-            <Text style={styles.profileName}>{profileName}</Text>
+            <EduText style={styles.profileName}>{profileName}</EduText>
           </View>
           <View style={styles.postTitle}>
-            <Text style={styles.titleText}>{title}</Text>
+            <EduText style={styles.titleText}>{title}</EduText>
           </View>
         </View>
       </View>
       <View style={styles.contentContainer}>
         <ContentRegion />
       </View>
-      <Text style={styles.date}>{formatDate(postDate)}</Text>
+      <EduText style={styles.date}>{formatDate(postDate)}</EduText>
     </View>
   );
 }

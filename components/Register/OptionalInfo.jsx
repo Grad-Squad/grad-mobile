@@ -1,9 +1,10 @@
 import LoginBack from 'common/backgrounds/LoginBack';
 import { AddProfileImage, TextInputFormik } from 'common/Input';
 import { WhiteButton } from 'common/Input/Button';
+import EduText from 'common/EduText';
 import { LocalizationContext } from 'localization';
 import React, { useContext } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import RegisterContext from './RegisterContext';
 
 const OptionalInfo = () => {
@@ -26,9 +27,9 @@ const OptionalInfo = () => {
         multiline
         style={styles.bioGap}
       />
-      <Text style={styles.addLater}>
+      <EduText style={styles.addLater}>
         {t('Register/You can always add them later')}
-      </Text>
+      </EduText>
 
       <WhiteButton text={t('Register/REGISTER')} onPress={formik.handleSubmit} />
     </LoginBack>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, StatusBar } from 'react-native';
+import { View, Image, StyleSheet, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
 
+import EduText from 'common/EduText';
 import ContentRegion from './ContentRegion';
 import { formatDate } from '../../utility';
 import { Colors, Styles } from '../../styles';
@@ -68,7 +69,7 @@ function TitleRegion({
         <Icon name="arrow-left" size={40} color={Colors.background} />
       </View>
       <View style={{ marginLeft: imageWidth + 25, marginTop: 5 }}>
-        <Text style={{ fontSize: 18 }}>{title}</Text>
+        <EduText style={{ fontSize: 18 }}>{title}</EduText>
       </View>
       <View style={styles.contentContainer}>
         <View style={styles.profileInfoContainer}>
@@ -78,17 +79,19 @@ function TitleRegion({
               uri: profileImageURI,
             }}
           />
-          <Text style={{ fontSize: 9 }}>{profileName}</Text>
+          <EduText style={{ fontSize: 9 }}>{profileName}</EduText>
         </View>
         <ContentRegion />
       </View>
-      <Text style={{ marginLeft: 'auto', fontSize: 9 }}>
+      <EduText style={{ marginLeft: 'auto', fontSize: 9 }}>
         {formatDate(postDate)}
-      </Text>
-      <Text style={{ marginLeft: 'auto', fontSize: 9 }}>
+      </EduText>
+      <EduText style={{ marginLeft: 'auto', fontSize: 9 }}>
         upvoted {upvotePercentage}%
-      </Text>
-      <Text style={{ marginLeft: 'auto', fontSize: 9 }}>{courseName}</Text>
+      </EduText>
+      <EduText style={{ marginLeft: 'auto', fontSize: 9 }}>
+        {courseName}
+      </EduText>
     </View>
   );
 }

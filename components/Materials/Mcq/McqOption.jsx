@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 
-const Bookmarks = () => {
+const McqOption = ({ option }) => {
   return (
     <View>
-      <EduText style={{ fontSize: 100 }}>Bookmarks</EduText>
+      <EduText>{option}</EduText>
     </View>
   );
 };
 
-Bookmarks.propTypes = {};
-Bookmarks.defaultProps = {};
+McqOption.propTypes = {};
+McqOption.defaultProps = {};
 
-export default Bookmarks;
+export default McqOption;
 
 const styles = StyleSheet.create({});

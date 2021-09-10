@@ -1,9 +1,10 @@
 import LoginBack from 'common/backgrounds/LoginBack';
+import EduText from 'common/EduText';
 import { WhiteButton } from 'common/Input/Button';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Typography } from 'styles';
 import RegisterContext from '../RegisterContext';
 import TeacherOrStudent from './TeacherOrStudent';
@@ -17,7 +18,7 @@ const RollSelection = ({ navigation }) => {
   };
   return (
     <LoginBack>
-      <Text
+      <EduText
         style={[
           Typography.userInput.title,
           { alignSelf: isRTL ? 'flex-end' : 'flex-start' },
@@ -25,7 +26,7 @@ const RollSelection = ({ navigation }) => {
         ]}
       >
         {`${t('Register/Are you a student or a teacher ?')}`}
-      </Text>
+      </EduText>
 
       <TeacherOrStudent
         value={formik.values.role}

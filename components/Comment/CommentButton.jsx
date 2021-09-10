@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { formatNumber } from 'utility';
+import EduText from 'common/EduText';
 
 const styles = StyleSheet.create({
   CommentsContainer: {
@@ -33,7 +34,7 @@ function CommentButton({ count }) {
         <View>
           <Icon name="comment-outline" size={24} />
         </View>
-        <Text>{formatNumber(count)}</Text>
+        <EduText>{formatNumber(count)}</EduText>
       </TouchableOpacity>
     </View>
   );

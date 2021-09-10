@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
-
 import { Colors, Fonts } from 'styles';
 import { stylePropType } from 'proptypes';
+import EduText from 'common/EduText';
 import MemoBoundingCircle from './BoundingCircle';
 
 const Logo = ({ style, hasBoundingCircle }) => (
@@ -12,7 +12,7 @@ const Logo = ({ style, hasBoundingCircle }) => (
       style={hasBoundingCircle && styles.boundingCircle}
       color={Colors.background}
     />
-    <Text style={styles.text}>Educate</Text>
+    <EduText style={styles.text}>Educate</EduText>
   </View>
 );
 

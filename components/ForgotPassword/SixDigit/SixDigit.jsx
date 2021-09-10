@@ -8,6 +8,7 @@ import { Colors, Styles, Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { TransparentButton, WhiteButton } from 'common/Input/Button';
 import CodeTextInput from './CodeTextInput';
+import EduText from 'common/EduText';
 
 const CELL_COUNT = 6;
 
@@ -36,15 +37,17 @@ const SixDigit = ({ navigation }) => {
 
   return (
     <LoginBack>
-      <Text style={[Styles.forgotPasswordHeader, styles.enterCode]}>
+      <EduText style={[Styles.forgotPasswordHeader, styles.enterCode]}>
         {t('ForgotPassword/Please enter the 6 digit code sent to your email')}
-      </Text>
+      </EduText>
       {error ? (
-        <Text style={styles.wrongCode}>{t('ForgotPassword/wrong code')}</Text>
+        <EduText style={styles.wrongCode}>
+          {t('ForgotPassword/wrong code')}
+        </EduText>
       ) : (
-        <Text style={[Styles.forgotPasswordSubtitle, styles.junkFolder]}>
+        <EduText style={[Styles.forgotPasswordSubtitle, styles.junkFolder]}>
           {t('ForgotPassword/you might need to check the junk folder')}
-        </Text>
+        </EduText>
       )}
 
       <CodeTextInput

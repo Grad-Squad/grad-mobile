@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
+import EduText from 'common/EduText';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
 import Votes from '../Votes/Votes';
@@ -99,14 +100,14 @@ function Comment({
           </View>
           <View style={styles.innerContainer}>
             <View style={styles.profileInfoContainer}>
-              <Text style={styles.profileName}>{profileName}</Text>
+              <EduText style={styles.profileName}>{profileName}</EduText>
             </View>
             <View style={styles.postTitle}>
-              <Text style={styles.text}>{text}</Text>
+              <EduText style={styles.text}>{text}</EduText>
             </View>
           </View>
         </View>
-        <Text style={styles.date}>{formatDate(commentDate)}</Text>
+        <EduText style={styles.date}>{formatDate(commentDate)}</EduText>
       </View>
       <View style={styles.footerContainer}>
         <FooterRegion

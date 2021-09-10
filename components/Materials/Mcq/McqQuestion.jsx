@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { FlatList, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import { TransparentButton, SecondaryActionButton } from 'common/Input/Button';
+import { Constants } from 'styles';
 import McqOption from './McqOption';
 
-const McqQuestion = ({ question, questionIndex }) => {
+const McqQuestion = ({ question, questionIndex, handleAnswer }) => {
   const { id, title, options, answerIndices } = question;
   return (
     <View style={{ flex: 1 }}>
@@ -15,17 +16,23 @@ const McqQuestion = ({ question, questionIndex }) => {
       <FlatList
         contentContainerStyle={styles.flatListContainer}
         data={options}
+        keyExtractor={(item) => item}
         renderItem={({ item, index }) => (
           <McqOption
             key={item}
             option={item}
             index={index}
             isAnswer={answerIndices.includes(index)}
+            disabled
           />
         )}
         ListFooterComponent={
           <View style={styles.row}>
-            <TransparentButton text="Skip" style={styles.take35Width} />
+            <TransparentButton
+              text="Skip"
+              style={styles.take35Width}
+              onPress={() => handleAnswer(1)}
+            />
             <SecondaryActionButton
               text="Show Answer"
               style={styles.take65Width}
@@ -46,6 +53,7 @@ McqQuestion.propTypes = {
     title: PropTypes.string.isRequired,
   }).isRequired,
   questionIndex: PropTypes.number.isRequired,
+  handleAnswer: PropTypes.func.isRequired,
 };
 McqQuestion.defaultProps = {};
 
@@ -54,6 +62,8 @@ export default McqQuestion;
 const styles = StyleSheet.create({
   title: {
     fontSize: 24,
+    paddingHorizontal: Constants.commonMargin,
+    paddingBottom: Constants.commonMargin / 2,
   },
   row: {
     flexDirection: 'row',
@@ -66,6 +76,7 @@ const styles = StyleSheet.create({
   },
   flatListContainer: {
     flexGrow: 1,
+    padding: Constants.commonMargin,
   },
   footer: {
     flexGrow: 1,

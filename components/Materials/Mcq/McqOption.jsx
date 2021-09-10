@@ -1,24 +1,45 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View, Text } from 'react-native';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 
 const LETTER_A_CODE = 65;
-const McqOption = ({ option, index }) => {
+const McqOption = ({ option, index, disabled, isAnswer }) => {
   const [chosen, setChosen] = useState(false);
   const onPressOption = () => {
-    setChosen((state) => !state);
+    if (!disabled) {
+      setChosen((state) => !state);
+    }
   };
+
+  const BorderedText = ({ text, style }) => (
+    <EduText
+      style={[
+        styles.text,
+        chosen && styles.chosen,
+        disabled && chosen && isAnswer && styles.correct,
+        disabled && chosen && !isAnswer && styles.wrong,
+        style,
+      ]}
+    >
+      {text}
+    </EduText>
+  );
+
+  BorderedText.propTypes = {
+    text: PropTypes.string.isRequired,
+    style: Text.propTypes.style.isRequired,
+  };
+
   return (
     <Pressable style={[styles.container]} onPress={onPressOption}>
-      <EduText style={[styles.text, styles.letter, chosen && styles.chosen]}>
-        {String.fromCharCode(LETTER_A_CODE + index)}
-      </EduText>
+      <BorderedText
+        text={String.fromCharCode(LETTER_A_CODE + index)}
+        style={styles.letter}
+      />
       <View style={styles.separator} />
-      <EduText style={[styles.text, styles.answer, chosen && styles.chosen]}>
-        {option}
-      </EduText>
+      <BorderedText text={option} style={styles.answer} />
     </Pressable>
   );
 };
@@ -26,7 +47,10 @@ const McqOption = ({ option, index }) => {
 McqOption.propTypes = {
   option: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  isAnswer: PropTypes.bool.isRequired,
 };
+
 McqOption.defaultProps = {};
 
 export default McqOption;
@@ -64,5 +88,11 @@ const styles = StyleSheet.create({
   },
   chosen: {
     borderColor: Colors.accent,
+  },
+  correct: {
+    borderColor: Colors.materialGood,
+  },
+  wrong: {
+    borderColor: Colors.materialWrong,
   },
 });

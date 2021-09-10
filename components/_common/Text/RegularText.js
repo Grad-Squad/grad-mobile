@@ -11,6 +11,7 @@ const RegularText = ({ children, style, ...props }) => (
 
 RegularText.propTypes = {
   children: childrenPropType.isRequired,
+  style: Text.propTypes.style,
 };
 RegularText.defaultProps = {
   style: {},

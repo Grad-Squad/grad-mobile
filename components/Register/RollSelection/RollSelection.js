@@ -1,5 +1,5 @@
 import LoginBack from 'common/backgrounds/LoginBack';
-import { Button } from 'common/Input';
+import { WhiteButton } from 'common/Input/Button';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
@@ -33,7 +33,7 @@ const RollSelection = ({ navigation }) => {
         style={styles.radioButtonGap}
       />
 
-      <Button text={t('Register/CONTINUE')} onPress={onContinueClick} />
+      <WhiteButton text={t('Register/CONTINUE')} onPress={onContinueClick} />
     </LoginBack>
   );
 };

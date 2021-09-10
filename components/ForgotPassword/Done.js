@@ -5,7 +5,7 @@ import { LocalizationContext } from 'localization/LocalizationProvider';
 
 import { Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
-import { Button } from 'common/Input';
+import { WhiteButton } from 'common/Input/Button';
 
 const IMAGE_SOURCE = require('../../assets/images/ForgotPasswordDone.webp');
 
@@ -20,7 +20,7 @@ const Done = ({ navigation }) => {
       <Text style={styles.subtitle}>
         {t('ForgotPassword/Now you can login in with your new password')}
       </Text>
-      <Button
+      <WhiteButton
         text={t('Login/LOGIN')}
         onPress={() => navigation.navigate('login')}
       />

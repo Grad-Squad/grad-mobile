@@ -1,5 +1,5 @@
 import LoginBack from 'common/backgrounds/LoginBack';
-import { Button } from 'common/Input';
+import { WhiteButton } from 'common/Input/Button';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
@@ -21,7 +21,7 @@ const SixDigitFailed = ({ navigation }) => {
 
       <Image style={styles.image} source={IMAGE_SOURCE} />
 
-      <Button
+      <WhiteButton
         text={t('ForgotPassword/OK')}
         onPress={() => navigation.navigate('forgotPassword/enterEmail')}
       />

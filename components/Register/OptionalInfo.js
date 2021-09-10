@@ -1,5 +1,6 @@
 import LoginBack from 'common/backgrounds/LoginBack';
-import { AddProfileImage, Button, TextInputFormik } from 'common/Input';
+import { AddProfileImage, TextInputFormik } from 'common/Input';
+import { WhiteButton } from 'common/Input/Button';
 import { LocalizationContext } from 'localization';
 import React, { useContext } from 'react';
 import { StyleSheet, Text } from 'react-native';
@@ -29,7 +30,7 @@ const OptionalInfo = () => {
         {t('Register/You can always add them later')}
       </Text>
 
-      <Button text={t('Register/REGISTER')} onPress={formik.handleSubmit} />
+      <WhiteButton text={t('Register/REGISTER')} onPress={formik.handleSubmit} />
     </LoginBack>
   );
 };

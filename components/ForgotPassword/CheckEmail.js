@@ -5,7 +5,7 @@ import { LocalizationContext } from 'localization/LocalizationProvider';
 import { navigationPropType } from 'proptypes';
 import { Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
-import { Button } from 'common/Input';
+import { WhiteButton } from 'common/Input/Button';
 
 const IMAGE_SOURCE = require('../../assets/images/CheckEmail.webp');
 
@@ -21,7 +21,7 @@ const CheckEmail = ({ navigation }) => {
       <Text style={styles.junkFolder}>
         {t('ForgotPassword/you might need to check the junk folder')}
       </Text>
-      <Button
+      <WhiteButton
         text={t('ForgotPassword/OK')}
         onPress={() => navigation.navigate('forgotPassword/sixDigit')}
         style={styles.gap}

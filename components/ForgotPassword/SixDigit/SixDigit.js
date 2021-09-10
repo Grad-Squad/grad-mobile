@@ -6,7 +6,7 @@ import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import { Colors, Styles, Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
-import { Button } from 'common/Input';
+import { TransparentButton, WhiteButton } from 'common/Input/Button';
 import CodeTextInput from './CodeTextInput';
 
 const CELL_COUNT = 6;
@@ -56,15 +56,13 @@ const SixDigit = ({ navigation }) => {
         error={error}
       />
 
-      <Button
+      <TransparentButton
         text={t('ForgotPassword/paste from clipboard')}
         onPress={onPasteClick}
-        transparent
-        underline
-        lightText
+        textStyle={styles.pasteText}
         style={styles.paste}
       />
-      <Button text={t('ForgotPassword/DONE')} onPress={attemptSubmit} />
+      <WhiteButton text={t('ForgotPassword/DONE')} onPress={attemptSubmit} />
     </LoginBack>
   );
 };
@@ -93,5 +91,11 @@ const styles = StyleSheet.create({
   },
   paste: {
     marginBottom: 12,
+  },
+  pasteText: {
+    textDecorationLine: 'underline',
+    fontFamily: 'Lato_300Light',
+    fontSize: 17,
+    color: Colors.black,
   },
 });

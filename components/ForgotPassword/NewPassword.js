@@ -5,9 +5,10 @@ import { StyleSheet, Text } from 'react-native';
 import { LocalizationContext } from 'localization';
 import { passwordRequired } from 'validation';
 import LoginBack from 'common/backgrounds/LoginBack';
-import { Button, TextInputFormik } from 'common/Input';
+import { TextInputFormik } from 'common/Input';
 import { navigationPropType } from 'proptypes';
 import { Colors, Typography } from 'styles';
+import { WhiteButton } from 'common/Input/Button';
 
 const NewPassword = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
@@ -51,7 +52,7 @@ const NewPassword = ({ navigation }) => {
         style={styles.gap}
       />
 
-      <Button
+      <WhiteButton
         text={t('ForgotPassword/Reset Password')}
         onPress={formik.handleSubmit}
       />

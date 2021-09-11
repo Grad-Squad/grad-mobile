@@ -33,6 +33,15 @@ const McqQuestion = ({
     ]);
   };
 
+  const handleChoiceUnSelection = (selectedLetterIndex) => {
+    const letterToRemove = String.fromCharCode(
+      LETTER_A_CODE + selectedLetterIndex
+    );
+    setSelectedLetters((state) =>
+      state.filter((letter) => letter !== letterToRemove)
+    );
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <EduText style={styles.title}>
@@ -69,29 +78,40 @@ const McqQuestion = ({
             isAnswer={answerIndices.includes(index)}
             disabled={isQuestionAnswered}
             handleChoiceSelection={handleChoiceSelection}
+            handleChoiceUnSelection={handleChoiceUnSelection}
           />
         )}
         ListFooterComponent={
-          <View style={styles.row}>
-            <TransparentButton text="Skip" style={styles.take35Width} />
-            {isQuestionAnswered || isAlreadyAnswered ? (
-              <MainActionButton
-                text="Continue"
-                style={styles.take65Width}
-                onPress={() => {
-                  handleAnswer(1);
-                }}
-              />
-            ) : (
-              <SecondaryActionButton
-                text="Show Answer"
-                style={styles.take65Width}
-                onPress={() => {
-                  setIsQuestionAnswered(true);
-                }}
-              />
-            )}
-          </View>
+          isQuestionAnswered || isAlreadyAnswered ? (
+            <MainActionButton
+              text="Continue"
+              style={styles.take65Width}
+              onPress={() => {
+                handleAnswer(1);
+              }}
+            />
+          ) : (
+            <View style={styles.row}>
+              <TransparentButton text="Skip" style={styles.take35Width} />
+              {selectedLetters.length > 0 ? (
+                <MainActionButton
+                  text="Submit Answer"
+                  style={styles.take65Width}
+                  onPress={() => {
+                    setIsQuestionAnswered(true);
+                  }}
+                />
+              ) : (
+                <SecondaryActionButton
+                  text="Show Answer"
+                  style={styles.take65Width}
+                  onPress={() => {
+                    setIsQuestionAnswered(true);
+                  }}
+                />
+              )}
+            </View>
+          )
         }
         ListFooterComponentStyle={styles.footer}
       />

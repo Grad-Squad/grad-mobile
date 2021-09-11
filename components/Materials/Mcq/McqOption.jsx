@@ -11,12 +11,15 @@ const McqOption = ({
   disabled,
   isAnswer,
   handleChoiceSelection,
+  handleChoiceUnSelection,
 }) => {
   const [chosen, setChosen] = useState(false);
   const onPressOption = () => {
     if (!disabled) {
       if (!chosen) {
         handleChoiceSelection(index);
+      } else {
+        handleChoiceUnSelection(index);
       }
       setChosen((state) => !state);
     }
@@ -67,6 +70,7 @@ McqOption.propTypes = {
   disabled: PropTypes.bool.isRequired,
   isAnswer: PropTypes.bool.isRequired,
   handleChoiceSelection: PropTypes.func.isRequired,
+  handleChoiceUnSelection: PropTypes.func.isRequired,
 };
 
 McqOption.defaultProps = {};

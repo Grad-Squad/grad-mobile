@@ -26,6 +26,7 @@ export default MainActionButton;
 const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.accent,
+    margin: 3,
   },
   text: {
     color: Colors.white,

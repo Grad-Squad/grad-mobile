@@ -39,19 +39,25 @@ const SolveMcq = () => {
       <McqQuestion
         question={{
           id: 0,
-          title:
-            'Who is the first avenger in the MCU Marvel Cinematic Universe?',
+          title: 'choose the correct ans',
           options: [
             'hi',
             'buy',
-            'Loki—reael name: Loki Laufeyson. I know  that Loki’s last name is reflective of his noble birth, but I feel like I also knew an allergenic, bespectacled kid on my street growing up by the last Laufeyson. ',
-            'Loki—raeal name: Loki  an allergenic, bespectacled kid on my street growing up by the last name of Laufeyson. ',
-            'Loki—raeal name: Loki Laufeyson. I know that Loki’s last name is reflective of his noble birth, but I feel like I also knew an allergenic, bespectacled kid on my street growing up by the last name of Laufeyson. ',
+            'سيش',
+            'ssad',
+            'sad',
+            'yo',
+            // 'Loki—reael name: Loki Laufeyson. I know  that Loki’s last name is reflective of his noble birth, but I feel like I also knew an allergenic, bespectacled kid on my street growing up by the last Laufeyson. ',
+            // 'Loki—raeal name: Loki  an allergenic, bespectacled kid on my street growing up by the last name of Laufeyson. ',
+            'Loki—raeal name: Loki Laufeyson. I bespectacled kid on my street growing up by the last name of Laufeyson. ',
             // 'Loki—real name: Loki Laufeyson. I know that Loki’s last name is reflective of his noble birth, but I feel like I also knew an allergenic, bespectacled kid on my street growing up by the last name of Laufeyson. ',
           ],
-          answerIndices: [0, 2],
+          answerIndices: [0, 3],
         }}
-        questionIndex={4}
+        questionIndex={pageNum}
+        handleAnswer={() => {
+          incrementPage();
+        }}
       />
     </Page>
   );

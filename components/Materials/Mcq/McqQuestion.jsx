@@ -1,19 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
-import { TransparentButton, SecondaryActionButton } from 'common/Input/Button';
-import { Constants } from 'styles';
+import {
+  TransparentButton,
+  SecondaryActionButton,
+  MainActionButton,
+} from 'common/Input/Button';
+import { Colors, Constants } from 'styles';
+import ResponsiveImage from 'common/ResponsiveImage';
 import McqOption from './McqOption';
 
-const McqQuestion = ({ question, questionIndex, handleAnswer }) => {
+const LETTER_A_CODE = 65;
+const McqQuestion = ({
+  question,
+  questionIndex,
+  handleAnswer,
+  isAlreadyAnswered,
+}) => {
   const { id, title, options, answerIndices } = question;
+  const [isQuestionAnswered, setIsQuestionAnswered] =
+    useState(isAlreadyAnswered);
+  const [selectedLetters, setSelectedLetters] = useState([]);
+  const correctLetters = answerIndices.map((index) =>
+    String.fromCharCode(LETTER_A_CODE + index)
+  );
+
+  const handleChoiceSelection = (selectedLetterIndex) => {
+    setSelectedLetters((state) => [
+      ...state,
+      String.fromCharCode(LETTER_A_CODE + selectedLetterIndex),
+    ]);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <EduText style={styles.title}>
-        Q{questionIndex}: {title}
+        Q{questionIndex + 1}: {title}
       </EduText>
+      {isQuestionAnswered && (
+        <EduText style={{ paddingHorizontal: Constants.commonMargin }}>
+          Selected answer(s):{' '}
+          <EduText style={styles.selectedText}>
+            {selectedLetters.join(', ')}
+          </EduText>
+        </EduText>
+      )}
+      {isQuestionAnswered && (
+        <EduText style={{ paddingHorizontal: Constants.commonMargin }}>
+          The correct answer(s):{' '}
+          <EduText style={styles.correctText}>
+            {correctLetters.join(', ')}
+          </EduText>
+        </EduText>
+      )}
       <FlatList
+        ListHeaderComponent={
+          <ResponsiveImage imageURI="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDO6fu_ZbHOGVK-07zGC0RBubRtEr4ClOU0A&usqp=CAU" />
+        }
         contentContainerStyle={styles.flatListContainer}
         data={options}
         keyExtractor={(item) => item}
@@ -23,20 +67,30 @@ const McqQuestion = ({ question, questionIndex, handleAnswer }) => {
             option={item}
             index={index}
             isAnswer={answerIndices.includes(index)}
-            disabled
+            disabled={isQuestionAnswered}
+            handleChoiceSelection={handleChoiceSelection}
           />
         )}
         ListFooterComponent={
           <View style={styles.row}>
-            <TransparentButton
-              text="Skip"
-              style={styles.take35Width}
-              onPress={() => handleAnswer(1)}
-            />
-            <SecondaryActionButton
-              text="Show Answer"
-              style={styles.take65Width}
-            />
+            <TransparentButton text="Skip" style={styles.take35Width} />
+            {isQuestionAnswered || isAlreadyAnswered ? (
+              <MainActionButton
+                text="Continue"
+                style={styles.take65Width}
+                onPress={() => {
+                  handleAnswer(1);
+                }}
+              />
+            ) : (
+              <SecondaryActionButton
+                text="Show Answer"
+                style={styles.take65Width}
+                onPress={() => {
+                  setIsQuestionAnswered(true);
+                }}
+              />
+            )}
           </View>
         }
         ListFooterComponentStyle={styles.footer}
@@ -54,8 +108,11 @@ McqQuestion.propTypes = {
   }).isRequired,
   questionIndex: PropTypes.number.isRequired,
   handleAnswer: PropTypes.func.isRequired,
+  isAlreadyAnswered: PropTypes.bool,
 };
-McqQuestion.defaultProps = {};
+McqQuestion.defaultProps = {
+  isAlreadyAnswered: false,
+};
 
 export default McqQuestion;
 
@@ -82,5 +139,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     marginTop: 'auto',
     justifyContent: 'flex-end',
+  },
+  correctText: {
+    color: Colors.materialGood,
+  },
+  selectedText: {
+    color: Colors.accent,
   },
 });

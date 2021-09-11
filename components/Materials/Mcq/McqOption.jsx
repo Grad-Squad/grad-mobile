@@ -5,10 +5,19 @@ import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 
 const LETTER_A_CODE = 65;
-const McqOption = ({ option, index, disabled, isAnswer }) => {
+const McqOption = ({
+  option,
+  index,
+  disabled,
+  isAnswer,
+  handleChoiceSelection,
+}) => {
   const [chosen, setChosen] = useState(false);
   const onPressOption = () => {
     if (!disabled) {
+      if (!chosen) {
+        handleChoiceSelection(index);
+      }
       setChosen((state) => !state);
     }
   };
@@ -57,6 +66,7 @@ McqOption.propTypes = {
   index: PropTypes.number.isRequired,
   disabled: PropTypes.bool.isRequired,
   isAnswer: PropTypes.bool.isRequired,
+  handleChoiceSelection: PropTypes.func.isRequired,
 };
 
 McqOption.defaultProps = {};

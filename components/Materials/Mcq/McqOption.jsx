@@ -13,13 +13,21 @@ const McqOption = ({ option, index, disabled, isAnswer }) => {
     }
   };
 
+  const isChosen = disabled && chosen;
+  const isAnsweredCorrectly = disabled && isAnswer;
+  const isAnsweredWrong = isChosen && !isAnswer;
+  const ignoredChoice = disabled && !isAnswer && !chosen;
+
   const BorderedText = ({ text, style }) => (
     <EduText
       style={[
         styles.text,
         chosen && styles.chosen,
-        disabled && chosen && isAnswer && styles.correct,
-        disabled && chosen && !isAnswer && styles.wrong,
+
+        isAnsweredCorrectly && styles.correct,
+        isAnsweredWrong && styles.wrong,
+        ignoredChoice && styles.opacity,
+
         style,
       ]}
     >
@@ -36,7 +44,7 @@ const McqOption = ({ option, index, disabled, isAnswer }) => {
     <Pressable style={[styles.container]} onPress={onPressOption}>
       <BorderedText
         text={String.fromCharCode(LETTER_A_CODE + index)}
-        style={styles.letter}
+        style={[styles.letter, isChosen && styles.chosenDone]}
       />
       <View style={styles.separator} />
       <BorderedText text={option} style={styles.answer} />
@@ -57,7 +65,7 @@ export default McqOption;
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    flex: 1,
     backgroundColor: Colors.foreground,
     marginBottom: Constants.commonMargin * 0.6,
     flexDirection: 'row',
@@ -94,5 +102,18 @@ const styles = StyleSheet.create({
   },
   wrong: {
     borderColor: Colors.materialWrong,
+  },
+  opacity: {
+    opacity: 0.6,
+    backgroundColor: '#CCCCCC',
+    borderColor: '#CCCCCC',
+  },
+
+  chosenDone: {
+    backgroundColor: Colors.accent,
+    borderColor: Colors.accent,
+    borderWidth: 0,
+    marginHorizontal: 2,
+    color: 'white',
   },
 });

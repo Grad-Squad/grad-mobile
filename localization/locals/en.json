@@ -69,6 +69,13 @@
   },
   "CreatePost": {
     "Create New Post": "Create New Post",
-    "Post": "Post"
+    "Post": "Post",
+    "Add": {
+      "Flashcards": "Add Flashcards",
+      "MCQ": "Add MCQ",
+      "PDF": "Add PDF",
+      "Images": "Add Images",
+      "Video": "Add Video"
+    }
   }
 }

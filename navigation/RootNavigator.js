@@ -9,6 +9,11 @@ import ForgotPasswordNavigator from '../components/ForgotPassword/ForgotPassword
 import RegisterNavigation from '../components/Register/RegisterNavigation';
 import Navigator from './Navigator';
 import SolveMcq from 'components/Materials/Mcq/SolveMcq';
+import AddFlashCards from 'components/Home/CreatePost/AddMaterial/AddFlashCards';
+import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ';
+import AddPDF from 'components/Home/CreatePost/AddMaterial/AddPDF';
+import AddImages from 'components/Home/CreatePost/AddMaterial/AddImages';
+import AddVideo from 'components/Home/CreatePost/AddMaterial/AddVideo';
 
 const screens = [
   {
@@ -38,11 +43,30 @@ const screens = [
   {
     name: 'createPost',
     component: CreatePost,
-    presentation: 'modal',
   },
   {
     name: 'solveMcq',
     component: SolveMcq,
+  },
+  {
+    name: 'addFlashcards',
+    component: AddFlashCards,
+  },
+  {
+    name: 'addMCQ',
+    component: AddMCQ,
+  },
+  {
+    name: 'addPDF',
+    component: AddPDF,
+  },
+  {
+    name: 'addImages',
+    component: AddImages,
+  },
+  {
+    name: 'addVideo',
+    component: AddVideo,
   },
 ];
 

@@ -18,7 +18,9 @@ const McqQuestion = ({
   handleAnswer,
   isAlreadyAnswered,
 }) => {
-  const { id, title, options, answerIndices } = question;
+  const { title, options, answerIndices, imageURI } = question;
+  const hasOneAnswer = answerIndices.length === 1;
+  const [selectedChoiceIndex, setSelectedChoiceIndex] = useState(-1);
   const [isQuestionAnswered, setIsQuestionAnswered] =
     useState(isAlreadyAnswered);
   const [selectedLetters, setSelectedLetters] = useState([]);
@@ -26,11 +28,24 @@ const McqQuestion = ({
     String.fromCharCode(LETTER_A_CODE + index)
   );
 
+  useEffect(() => {
+    setSelectedChoiceIndex(-1);
+    setIsQuestionAnswered(isAlreadyAnswered);
+    setSelectedLetters([]);
+  }, [questionIndex]);
+
   const handleChoiceSelection = (selectedLetterIndex) => {
-    setSelectedLetters((state) => [
-      ...state,
-      String.fromCharCode(LETTER_A_CODE + selectedLetterIndex),
-    ]);
+    if (hasOneAnswer) {
+      setSelectedChoiceIndex(selectedLetterIndex);
+      setSelectedLetters([
+        String.fromCharCode(LETTER_A_CODE + selectedLetterIndex),
+      ]);
+    } else {
+      setSelectedLetters((state) => [
+        ...state,
+        String.fromCharCode(LETTER_A_CODE + selectedLetterIndex),
+      ]);
+    }
   };
 
   const handleChoiceUnSelection = (selectedLetterIndex) => {
@@ -44,9 +59,11 @@ const McqQuestion = ({
 
   return (
     <View style={{ flex: 1 }}>
-      <EduText style={styles.title}>
-        Q{questionIndex + 1}: {title}
-      </EduText>
+      {title && (
+        <EduText style={styles.title}>
+          Q{questionIndex + 1}: {title}
+        </EduText>
+      )}
       {isQuestionAnswered && (
         <EduText style={{ paddingHorizontal: Constants.commonMargin }}>
           Selected answer(s):{' '}
@@ -65,7 +82,7 @@ const McqQuestion = ({
       )}
       <FlatList
         ListHeaderComponent={
-          <ResponsiveImage imageURI="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDO6fu_ZbHOGVK-07zGC0RBubRtEr4ClOU0A&usqp=CAU" />
+          imageURI && <ResponsiveImage imageURI={imageURI} />
         }
         contentContainerStyle={styles.flatListContainer}
         data={options}
@@ -79,6 +96,8 @@ const McqQuestion = ({
             disabled={isQuestionAnswered}
             handleChoiceSelection={handleChoiceSelection}
             handleChoiceUnSelection={handleChoiceUnSelection}
+            hasOneAnswer={hasOneAnswer}
+            selectedChoiceIndex={selectedChoiceIndex}
           />
         )}
         ListFooterComponent={
@@ -124,7 +143,8 @@ McqQuestion.propTypes = {
     id: PropTypes.number,
     options: PropTypes.arrayOf(PropTypes.string).isRequired,
     answerIndices: PropTypes.arrayOf(PropTypes.number).isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    imageURI: PropTypes.string,
   }).isRequired,
   questionIndex: PropTypes.number.isRequired,
   handleAnswer: PropTypes.func.isRequired,

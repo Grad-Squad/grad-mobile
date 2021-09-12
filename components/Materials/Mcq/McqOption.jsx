@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Pressable, StyleSheet, View, Text } from 'react-native';
 import EduText from 'common/EduText';
@@ -12,8 +12,15 @@ const McqOption = ({
   isAnswer,
   handleChoiceSelection,
   handleChoiceUnSelection,
+  hasOneAnswer,
+  selectedChoiceIndex,
 }) => {
   const [chosen, setChosen] = useState(false);
+  useEffect(() => {
+    if (hasOneAnswer) {
+      setChosen(selectedChoiceIndex === index);
+    }
+  }, [selectedChoiceIndex, hasOneAnswer]);
   const onPressOption = () => {
     if (!disabled) {
       if (!chosen) {
@@ -26,7 +33,7 @@ const McqOption = ({
   };
 
   const isChosen = disabled && chosen;
-  const isAnsweredCorrectly = disabled && isAnswer;
+  const isAnswerAndDisabled = disabled && isAnswer;
   const isAnsweredWrong = isChosen && !isAnswer;
   const ignoredChoice = disabled && !isAnswer && !chosen;
 
@@ -36,7 +43,9 @@ const McqOption = ({
         styles.text,
         chosen && styles.chosen,
 
-        isAnsweredCorrectly && styles.correct,
+        isAnswerAndDisabled && styles.correct,
+        // isAnswerAndDisabled && styles.fillGood,
+        // isAnswerAndDisabled && chosen && styles.correct,
         isAnsweredWrong && styles.wrong,
         ignoredChoice && styles.opacity,
 
@@ -59,7 +68,15 @@ const McqOption = ({
         style={[styles.letter, isChosen && styles.chosenDone]}
       />
       <View style={styles.separator} />
-      <BorderedText text={option} style={styles.answer} />
+      <BorderedText
+        text={option}
+        style={[
+          styles.answer,
+          isAnswerAndDisabled && chosen && styles.fillGood,
+          isAnsweredWrong && styles.fillWrong,
+          // isAnswerAndDisabled && !chosen && styles.test,
+        ]}
+      />
     </Pressable>
   );
 };
@@ -71,9 +88,13 @@ McqOption.propTypes = {
   isAnswer: PropTypes.bool.isRequired,
   handleChoiceSelection: PropTypes.func.isRequired,
   handleChoiceUnSelection: PropTypes.func.isRequired,
+  hasOneAnswer: PropTypes.bool.isRequired,
+  selectedChoiceIndex: PropTypes.number,
 };
 
-McqOption.defaultProps = {};
+McqOption.defaultProps = {
+  selectedChoiceIndex: -1,
+};
 
 export default McqOption;
 
@@ -112,8 +133,19 @@ const styles = StyleSheet.create({
     borderColor: Colors.accent,
   },
   correct: {
+    // flex: 1,
     borderColor: Colors.materialGood,
   },
+  // test: {
+  //   flex: 0.3,
+  //   borderWidth: 2,
+  //   borderRadius: 2,
+  //   borderBottomLeftRadius: 2,
+  //   borderTopLeftRadius: 2,
+  //   borderLeftWidth: 0,
+  //   borderColor: Colors.materialGood,
+  //   borderStyle: 'dashed',
+  // },
   wrong: {
     borderColor: Colors.materialWrong,
   },
@@ -129,5 +161,15 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     marginHorizontal: 2,
     color: 'white',
+  },
+
+  fillGood: {
+    backgroundColor: '#d4f7d5',
+    // color: 'white',
+  },
+
+  fillWrong: {
+    backgroundColor: '#f6d5d5',
+    // color: 'white',
   },
 });

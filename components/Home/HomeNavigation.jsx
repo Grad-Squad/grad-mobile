@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import Icon from 'common/Icon';
+import {Icon} from 'common/Icon';
 import { Colors, Constants } from 'styles';
 import { LocalizationContext } from 'localization';
 import EmptyComponent from 'common/EmptyComponent';

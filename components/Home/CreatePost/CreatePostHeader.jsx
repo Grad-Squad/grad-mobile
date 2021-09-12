@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import PressableIcon from 'common/PressableIcon';
+import { PressableIcon } from 'common/Icon';
 import { LocalizationContext } from 'localization';
 import RegularText from 'common/Text/RegularText';
 import { Colors, Styles } from 'styles';
@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   postButton: {
-    fontSize: 19
+    fontSize: 19,
   },
 });

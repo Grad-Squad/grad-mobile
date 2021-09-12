@@ -1,34 +1,34 @@
 import React, { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { LocalizationContext } from 'localization';
-import Icon from 'common/Icon';
+import { Icon, MaterialTypeIconsMap } from 'common/Icon';
 import { Colors, Constants, Styles } from 'styles';
 import { navigationPropType } from 'proptypes';
 import { TransparentButton } from 'common/Input/Button';
 
-const getItems =  t => [
+const getItems = (t) => [
   {
-    iconName: 'cards-outline',
+    iconName: MaterialTypeIconsMap.Flashcards,
     title: t('CreatePost/Add/Flashcards'),
     route: 'addFlashcards',
   },
   {
-    iconName: 'format-list-checkbox',
+    iconName: MaterialTypeIconsMap.MCQ,
     title: t('CreatePost/Add/MCQ'),
     route: 'addMCQ',
   },
   {
-    iconName: 'pdffile1',
+    iconName: MaterialTypeIconsMap.PDF,
     title: t('CreatePost/Add/PDF'),
     route: 'addPDF',
   },
   {
-    iconName: 'image-outline',
+    iconName: MaterialTypeIconsMap.Images,
     title: t('CreatePost/Add/Images'),
     route: 'addImages',
   },
   {
-    iconName: 'play-video',
+    iconName: MaterialTypeIconsMap.Video,
     title: t('CreatePost/Add/Video'),
     route: 'addVideo',
   },

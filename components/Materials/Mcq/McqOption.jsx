@@ -1,82 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, View, Text } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 
 const LETTER_A_CODE = 65;
-const McqOption = ({
-  option,
-  index,
-  disabled,
-  isAnswer,
-  handleChoiceSelection,
-  handleChoiceUnSelection,
-  hasOneAnswer,
-  selectedChoiceIndex,
-}) => {
-  const [chosen, setChosen] = useState(false);
-  useEffect(() => {
-    if (hasOneAnswer) {
-      setChosen(selectedChoiceIndex === index);
-    }
-  }, [selectedChoiceIndex, hasOneAnswer]);
-  const onPressOption = () => {
-    if (!disabled) {
-      if (!chosen) {
-        handleChoiceSelection(index);
-      } else {
-        handleChoiceUnSelection(index);
-      }
-      setChosen((state) => !state);
-    }
-  };
-
+const McqOption = ({ option, index, disabled, isAnswer, onPress, chosen }) => {
   const isChosen = disabled && chosen;
   const isAnswerAndDisabled = disabled && isAnswer;
   const isAnsweredWrong = isChosen && !isAnswer;
   const ignoredChoice = disabled && !isAnswer && !chosen;
 
-  const BorderedText = ({ text, style }) => (
-    <EduText
-      style={[
-        styles.text,
-        chosen && styles.chosen,
+  const borderedTextStyles = [
+    styles.text,
+    chosen && styles.chosen,
 
-        isAnswerAndDisabled && styles.correct,
-        // isAnswerAndDisabled && styles.fillGood,
-        // isAnswerAndDisabled && chosen && styles.correct,
-        isAnsweredWrong && styles.wrong,
-        ignoredChoice && styles.opacity,
-
-        style,
-      ]}
-    >
-      {text}
-    </EduText>
-  );
-
-  BorderedText.propTypes = {
-    text: PropTypes.string.isRequired,
-    style: Text.propTypes.style.isRequired,
-  };
+    isAnswerAndDisabled && styles.correct,
+    isAnsweredWrong && styles.wrong,
+    ignoredChoice && styles.opacity,
+  ];
 
   return (
-    <Pressable style={[styles.container]} onPress={onPressOption}>
-      <BorderedText
-        text={String.fromCharCode(LETTER_A_CODE + index)}
-        style={[styles.letter, isChosen && styles.chosenDone]}
-      />
+    <Pressable style={[styles.container]} onPress={onPress}>
+      <EduText
+        style={[
+          ...borderedTextStyles,
+          styles.letter,
+          isChosen && styles.chosenDone,
+        ]}
+      >
+        {String.fromCharCode(LETTER_A_CODE + index)}
+      </EduText>
       <View style={styles.separator} />
-      <BorderedText
+      <EduText
         text={option}
         style={[
+          ...borderedTextStyles,
           styles.answer,
           isAnswerAndDisabled && chosen && styles.fillGood,
           isAnsweredWrong && styles.fillWrong,
           // isAnswerAndDisabled && !chosen && styles.test,
         ]}
-      />
+      >
+        {option}
+      </EduText>
     </Pressable>
   );
 };
@@ -86,14 +53,8 @@ McqOption.propTypes = {
   index: PropTypes.number.isRequired,
   disabled: PropTypes.bool.isRequired,
   isAnswer: PropTypes.bool.isRequired,
-  handleChoiceSelection: PropTypes.func.isRequired,
-  handleChoiceUnSelection: PropTypes.func.isRequired,
-  hasOneAnswer: PropTypes.bool.isRequired,
-  selectedChoiceIndex: PropTypes.number,
-};
-
-McqOption.defaultProps = {
-  selectedChoiceIndex: -1,
+  chosen: PropTypes.bool.isRequired,
+  onPress: PropTypes.func.isRequired,
 };
 
 export default McqOption;

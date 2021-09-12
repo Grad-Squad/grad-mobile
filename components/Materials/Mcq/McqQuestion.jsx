@@ -15,47 +15,20 @@ const LETTER_A_CODE = 65;
 const McqQuestion = ({
   question,
   questionIndex,
+  handleSkip,
   handleAnswer,
   isAlreadyAnswered,
 }) => {
   const { title, options, answerIndices, imageURI } = question;
   const hasOneAnswer = answerIndices.length === 1;
-  const [selectedChoiceIndex, setSelectedChoiceIndex] = useState(-1);
   const [isQuestionAnswered, setIsQuestionAnswered] =
     useState(isAlreadyAnswered);
-  const [selectedLetters, setSelectedLetters] = useState([]);
-  const correctLetters = answerIndices.map((index) =>
-    String.fromCharCode(LETTER_A_CODE + index)
-  );
+  const [selectedIndices, setSelectedIndices] = useState([]);
 
   useEffect(() => {
-    setSelectedChoiceIndex(-1);
     setIsQuestionAnswered(isAlreadyAnswered);
-    setSelectedLetters([]);
+    setSelectedIndices([]);
   }, [questionIndex]);
-
-  const handleChoiceSelection = (selectedLetterIndex) => {
-    if (hasOneAnswer) {
-      setSelectedChoiceIndex(selectedLetterIndex);
-      setSelectedLetters([
-        String.fromCharCode(LETTER_A_CODE + selectedLetterIndex),
-      ]);
-    } else {
-      setSelectedLetters((state) => [
-        ...state,
-        String.fromCharCode(LETTER_A_CODE + selectedLetterIndex),
-      ]);
-    }
-  };
-
-  const handleChoiceUnSelection = (selectedLetterIndex) => {
-    const letterToRemove = String.fromCharCode(
-      LETTER_A_CODE + selectedLetterIndex
-    );
-    setSelectedLetters((state) =>
-      state.filter((letter) => letter !== letterToRemove)
-    );
-  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -68,7 +41,9 @@ const McqQuestion = ({
         <EduText style={{ paddingHorizontal: Constants.commonMargin }}>
           Selected answer(s):{' '}
           <EduText style={styles.selectedText}>
-            {selectedLetters.join(', ')}
+            {selectedIndices
+              .map((index) => String.fromCharCode(LETTER_A_CODE + index))
+              .join(', ')}
           </EduText>
         </EduText>
       )}
@@ -76,7 +51,9 @@ const McqQuestion = ({
         <EduText style={{ paddingHorizontal: Constants.commonMargin }}>
           The correct answer(s):{' '}
           <EduText style={styles.correctText}>
-            {correctLetters.join(', ')}
+            {answerIndices
+              .map((index) => String.fromCharCode(LETTER_A_CODE + index))
+              .join(', ')}
           </EduText>
         </EduText>
       )}
@@ -94,10 +71,18 @@ const McqQuestion = ({
             index={index}
             isAnswer={answerIndices.includes(index)}
             disabled={isQuestionAnswered}
-            handleChoiceSelection={handleChoiceSelection}
-            handleChoiceUnSelection={handleChoiceUnSelection}
-            hasOneAnswer={hasOneAnswer}
-            selectedChoiceIndex={selectedChoiceIndex}
+            chosen={selectedIndices.indexOf(index) !== -1}
+            onPress={() => {
+              if (selectedIndices.indexOf(index) !== -1) {
+                setSelectedIndices((state) =>
+                  state.filter((storedIndex) => storedIndex !== index)
+                );
+              } else if (hasOneAnswer) {
+                setSelectedIndices([index]);
+              } else {
+                setSelectedIndices((state) => [...state, index]);
+              }
+            }}
           />
         )}
         ListFooterComponent={
@@ -106,13 +91,33 @@ const McqQuestion = ({
               text="Continue"
               style={styles.take65Width}
               onPress={() => {
-                handleAnswer(1);
+                let answeredCorrectly = true;
+                const sortedSelectedIndices = [...selectedIndices].sort();
+                const sortedCorrectIndices = [...answerIndices].sort();
+                if (
+                  sortedCorrectIndices.length === sortedSelectedIndices.length
+                ) {
+                  for (let i = 0; i < sortedCorrectIndices.length; i += 1) {
+                    if (sortedCorrectIndices[i] !== sortedSelectedIndices[i]) {
+                      answeredCorrectly = false;
+                    }
+                  }
+                } else {
+                  answeredCorrectly = false;
+                }
+                handleAnswer(answeredCorrectly);
               }}
             />
           ) : (
             <View style={styles.row}>
-              <TransparentButton text="Skip" style={styles.take35Width} />
-              {selectedLetters.length > 0 ? (
+              <TransparentButton
+                text="Skip"
+                onPress={() => {
+                  handleSkip();
+                }}
+                style={styles.take35Width}
+              />
+              {selectedIndices.length > 0 ? (
                 <MainActionButton
                   text="Submit Answer"
                   style={styles.take65Width}
@@ -147,6 +152,7 @@ McqQuestion.propTypes = {
     imageURI: PropTypes.string,
   }).isRequired,
   questionIndex: PropTypes.number.isRequired,
+  handleSkip: PropTypes.func.isRequired,
   handleAnswer: PropTypes.func.isRequired,
   isAlreadyAnswered: PropTypes.bool,
 };

@@ -3,5 +3,5 @@ export default {
   MCQ: 'format-list-checkbox',
   PDF: 'pdffile1',
   Images: 'image-outline',
-  Video: 'play-video',
+  Video: 'ondemand-video',
 };

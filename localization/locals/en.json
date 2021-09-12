@@ -70,6 +70,9 @@
   "CreatePost": {
     "Create New Post": "Create New Post",
     "Post": "Post",
+    "Materials:": "Materials:",
+    "add a material using any of the buttons below": "add a material using any of the buttons below",
+    "add at least one material": "add at least one material",
     "Add": {
       "Flashcards": "Add Flashcards",
       "MCQ": "Add MCQ",

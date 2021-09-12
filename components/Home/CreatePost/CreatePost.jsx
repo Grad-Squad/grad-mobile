@@ -4,6 +4,7 @@ import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
 import CreatePostHeader from './CreatePostHeader';
 import AddMaterialList from './AddMaterialList';
+import MaterialList from './MaterialList';
 
 const CreatePost = ({ navigation }) => (
   <Page>
@@ -11,7 +12,8 @@ const CreatePost = ({ navigation }) => (
       onBackPress={() => navigation.goBack()}
       onPostPress={() => Alert.alert('post')}
     />
-    <AddMaterialList navigation={navigation}/>
+    <MaterialList />
+    <AddMaterialList navigation={navigation} />
   </Page>
 );
 

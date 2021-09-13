@@ -1,6 +1,6 @@
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Constants } from 'styles';
 import NavMaterials from '../_common/NavMaterials';
@@ -9,11 +9,12 @@ import QUESTIONS from './TEMP_DATA';
 
 const SolveMcq = ({ navigation }) => {
   const [pageNum, setPageNum] = useState(0);
+  const [hasFinished, setHasFinished] = useState(false);
   const maxPages = QUESTIONS.length;
   const [storedAnswers, setStoredAnswers] = useState(() =>
     QUESTIONS.map(() => ({
       isCorrect: false,
-      isSkipped: true,
+      isSkipped: false,
       isAlreadyAnswered: false,
     }))
   );
@@ -21,7 +22,16 @@ const SolveMcq = ({ navigation }) => {
   const decrementPage = () => setPageNum((state) => Math.max(state - 1, 0));
   const incrementPage = () => {
     setPageNum((state) => Math.min(state + 1, maxPages - 1));
+    if (pageNum === maxPages - 1) {
+      setHasFinished(true);
+    }
   };
+
+  useEffect(() => {
+    if (hasFinished) {
+      navigation.navigate('reviewMcq', { storedAnswers });
+    }
+  }, [hasFinished]);
 
   return (
     <Page>
@@ -30,11 +40,6 @@ const SolveMcq = ({ navigation }) => {
           onPressNext={incrementPage}
           maxPages={maxPages}
           currentPageIndex={pageNum}
-        />
-        <NavMaterials
-          onPressNext={() => {}}
-          onPressBack={() => {}}
-          maxPages={maxPages}
         />
         <NavMaterials
           onPressNext={incrementPage}
@@ -48,7 +53,28 @@ const SolveMcq = ({ navigation }) => {
         question={QUESTIONS[pageNum]}
         questionIndex={pageNum}
         isAlreadyAnswered={false}
-        handleAnswer={() => {
+        isLastQuestion={pageNum === QUESTIONS.length - 1}
+        handleAnswer={(asnweredCorrectly) => {
+          setStoredAnswers((state) => {
+            const newStoredAnswers = [...state];
+            newStoredAnswers[pageNum] = {
+              isCorrect: asnweredCorrectly,
+              isAlreadyAnswered: true,
+              isSkipped: false,
+            };
+            return newStoredAnswers;
+          });
+          incrementPage();
+        }}
+        handleSkip={() => {
+          setStoredAnswers((state) => {
+            const newStoredAnswers = [...state];
+            newStoredAnswers[pageNum] = {
+              ...newStoredAnswers[pageNum],
+              isSkipped: true,
+            };
+            return newStoredAnswers;
+          });
           incrementPage();
         }}
       />

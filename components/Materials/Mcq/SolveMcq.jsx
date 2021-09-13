@@ -15,6 +15,7 @@ const SolveMcq = ({ navigation }) => {
     QUESTIONS.map(() => ({
       isCorrect: false,
       isSkipped: false,
+      isAnswerShown: false,
       isAlreadyAnswered: false,
     }))
   );
@@ -54,10 +55,25 @@ const SolveMcq = ({ navigation }) => {
         questionIndex={pageNum}
         isAlreadyAnswered={storedAnswers[pageNum].isAlreadyAnswered}
         isLastQuestion={pageNum === QUESTIONS.length - 1}
+        handleAnswerShown={() => {
+          setStoredAnswers((state) => {
+            const newStoredAnswers = [...state];
+            newStoredAnswers[pageNum] = {
+              ...newStoredAnswers[pageNum],
+              isCorrect: false,
+              isAnswerShown: true,
+              isAlreadyAnswered: true,
+              isSkipped: false,
+            };
+            return newStoredAnswers;
+          });
+          incrementPage();
+        }}
         handleAnswer={(asnweredCorrectly) => {
           setStoredAnswers((state) => {
             const newStoredAnswers = [...state];
             newStoredAnswers[pageNum] = {
+              ...newStoredAnswers[pageNum],
               isCorrect: asnweredCorrectly,
               isAlreadyAnswered: true,
               isSkipped: false,

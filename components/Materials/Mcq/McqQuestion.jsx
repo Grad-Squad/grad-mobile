@@ -17,6 +17,7 @@ const McqQuestion = ({
   questionIndex,
   handleSkip,
   handleAnswer,
+  handleAnswerShown,
   isAlreadyAnswered,
 }) => {
   const { title, options, answerIndices, imageURI } = question;
@@ -93,21 +94,27 @@ const McqQuestion = ({
             <MainActionButton
               text="Continue"
               onPress={() => {
-                let answeredCorrectly = true;
-                const sortedSelectedIndices = [...selectedIndices].sort();
-                const sortedCorrectIndices = [...answerIndices].sort();
-                if (
-                  sortedCorrectIndices.length === sortedSelectedIndices.length
-                ) {
-                  for (let i = 0; i < sortedCorrectIndices.length; i += 1) {
-                    if (sortedCorrectIndices[i] !== sortedSelectedIndices[i]) {
-                      answeredCorrectly = false;
-                    }
-                  }
+                if (selectedIndices.length === 0) {
+                  handleAnswerShown();
                 } else {
-                  answeredCorrectly = false;
+                  let answeredCorrectly = true;
+                  const sortedSelectedIndices = [...selectedIndices].sort();
+                  const sortedCorrectIndices = [...answerIndices].sort();
+                  if (
+                    sortedCorrectIndices.length === sortedSelectedIndices.length
+                  ) {
+                    for (let i = 0; i < sortedCorrectIndices.length; i += 1) {
+                      if (
+                        sortedCorrectIndices[i] !== sortedSelectedIndices[i]
+                      ) {
+                        answeredCorrectly = false;
+                      }
+                    }
+                  } else {
+                    answeredCorrectly = false;
+                  }
+                  handleAnswer(answeredCorrectly, false);
                 }
-                handleAnswer(answeredCorrectly);
               }}
             />
           ) : (
@@ -156,6 +163,7 @@ McqQuestion.propTypes = {
   questionIndex: PropTypes.number.isRequired,
   handleSkip: PropTypes.func.isRequired,
   handleAnswer: PropTypes.func.isRequired,
+  handleAnswerShown: PropTypes.func.isRequired,
   isAlreadyAnswered: PropTypes.bool,
 };
 McqQuestion.defaultProps = {

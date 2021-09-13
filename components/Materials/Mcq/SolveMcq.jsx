@@ -52,7 +52,7 @@ const SolveMcq = ({ navigation }) => {
       <McqQuestion
         question={QUESTIONS[pageNum]}
         questionIndex={pageNum}
-        isAlreadyAnswered={false}
+        isAlreadyAnswered={storedAnswers[pageNum].isAlreadyAnswered}
         isLastQuestion={pageNum === QUESTIONS.length - 1}
         handleAnswer={(asnweredCorrectly) => {
           setStoredAnswers((state) => {

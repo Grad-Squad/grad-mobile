@@ -31,6 +31,7 @@
     "react-native-confirmation-code-field": "^7.1.0",
     "react-native-elements": "^3.4.2",
     "react-native-paper": "^4.9.2",
+    "react-native-pie-chart": "^2.0.2",
     "react-native-popup-menu": "^0.15.11",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",

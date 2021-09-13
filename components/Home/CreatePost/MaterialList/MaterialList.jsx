@@ -10,7 +10,8 @@ const materials = [
   {
     id: '1',
     type: 'Flashcards',
-    title: 'long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long boi',
+    title:
+      'long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long boi',
     amount: 10,
   },
   {
@@ -57,6 +58,10 @@ const materials = [
   },
 ];
 
+const flatListRenderItem = ({ item: { title, amount, type } }) => (
+  <MaterialItem title={title} amount={amount} type={type} />
+);
+
 const MaterialList = ({ error }) => {
   const { t } = useContext(LocalizationContext);
   return (
@@ -69,9 +74,7 @@ const MaterialList = ({ error }) => {
           <FlatList
             style={[styles.content]}
             data={materials}
-            renderItem={({ item: { title, amount, type } }) => (
-              <MaterialItem title={title} amount={amount} type={type} />
-            )}
+            renderItem={flatListRenderItem}
             keyExtractor={(item) => item.id}
           />
         </>

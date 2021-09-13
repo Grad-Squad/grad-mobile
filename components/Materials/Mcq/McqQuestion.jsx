@@ -73,6 +73,9 @@ const McqQuestion = ({
             disabled={isQuestionAnswered}
             chosen={selectedIndices.indexOf(index) !== -1}
             onPress={() => {
+              if (isQuestionAnswered) {
+                return;
+              }
               if (selectedIndices.indexOf(index) !== -1) {
                 setSelectedIndices((state) =>
                   state.filter((storedIndex) => storedIndex !== index)
@@ -89,7 +92,6 @@ const McqQuestion = ({
           isQuestionAnswered || isAlreadyAnswered ? (
             <MainActionButton
               text="Continue"
-              style={styles.take65Width}
               onPress={() => {
                 let answeredCorrectly = true;
                 const sortedSelectedIndices = [...selectedIndices].sort();

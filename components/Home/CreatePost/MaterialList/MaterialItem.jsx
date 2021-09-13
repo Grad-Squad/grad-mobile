@@ -24,7 +24,7 @@ MaterialItem.propTypes = {
 };
 MaterialItem.defaultProps = {};
 
-export default MaterialItem;
+export default React.memo(MaterialItem);
 
 const styles = StyleSheet.create({
   materialItem: {

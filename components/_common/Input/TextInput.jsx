@@ -6,6 +6,7 @@ import TitleText from 'common/Input/TitleText';
 import { Fonts, Styles } from 'styles';
 import { stylePropType } from 'proptypes';
 import TextInputFormikHOC from './TextInputFormikHOC';
+import { errorSubtitleRender } from './textInputUtil';
 
 const TextInput = ({
   text,
@@ -25,9 +26,7 @@ const TextInput = ({
   <View style={[styles.wrapper, style]}>
     <TitleText
       title={title}
-      subtitle={`${error ? errorMsg : ''}${
-        subtitle && error && errorMsg ? ', ' : ''
-      }${subtitle}`}
+      subtitle={errorSubtitleRender(error, errorMsg, subtitle)}
       showSubtitle={subtitle || error}
       error={error}
     />

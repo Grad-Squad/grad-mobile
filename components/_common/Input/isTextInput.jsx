@@ -1,5 +1,4 @@
-import TextInput from './TextInput';
-import TextInputFormik from './TextInputFormik';
+import TextInput, { TextInputFormik } from './TextInput';
 
 const isTextInput = (type) => type === TextInput || type === TextInputFormik;
 

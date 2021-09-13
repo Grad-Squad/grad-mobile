@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import TitleText from 'common/Input/TitleText';
 import { Fonts, Styles } from 'styles';
 import { stylePropType } from 'proptypes';
+import TextInputFormikHOC from './TextInputFormikHOC';
 
 const TextInput = ({
   text,
@@ -104,3 +105,5 @@ TextInput.defaultProps = {
   errorMsg: '',
   multiline: false,
 };
+
+export const TextInputFormik = TextInputFormikHOC(TextInput);

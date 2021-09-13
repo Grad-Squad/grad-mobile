@@ -62,7 +62,7 @@ const flatListRenderItem = ({ item: { title, amount, type } }) => (
   <MaterialItem title={title} amount={amount} type={type} />
 );
 
-const MaterialList = ({ error }) => {
+const MaterialList = ({ errorMsg }) => {
   const { t } = useContext(LocalizationContext);
   return (
     <View style={styles.materialsList}>
@@ -82,11 +82,11 @@ const MaterialList = ({ error }) => {
         <EduText
           style={[
             styles.addMaterialUsing,
-            error && styles.addMaterialUsingError,
+            errorMsg && styles.addMaterialUsingError,
           ]}
         >
           {t(
-            error
+            errorMsg
               ? 'CreatePost/add at least one material'
               : 'CreatePost/add a material using any of the buttons below'
           )}
@@ -96,8 +96,8 @@ const MaterialList = ({ error }) => {
   );
 };
 
-MaterialList.propTypes = { error: PropTypes.bool };
-MaterialList.defaultProps = { error: false };
+MaterialList.propTypes = { errorMsg: PropTypes.string };
+MaterialList.defaultProps = { errorMsg: '' };
 
 export default MaterialList;
 

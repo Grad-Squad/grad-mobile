@@ -27,6 +27,7 @@ const McqOption = ({ option, index, disabled, isAnswer, onPress, chosen }) => {
           ...borderedTextStyles,
           styles.letter,
           isChosen && styles.chosenDone,
+          isAnswerAndDisabled && !chosen && styles.letterNotChosen,
         ]}
       >
         {String.fromCharCode(LETTER_A_CODE + index)}
@@ -37,6 +38,7 @@ const McqOption = ({ option, index, disabled, isAnswer, onPress, chosen }) => {
         style={[
           ...borderedTextStyles,
           styles.answer,
+          isAnswerAndDisabled && !chosen && styles.answerNotChosen,
           isAnswerAndDisabled && chosen && styles.fillGood,
           isAnsweredWrong && styles.fillWrong,
           // isAnswerAndDisabled && !chosen && styles.test,
@@ -58,6 +60,11 @@ McqOption.propTypes = {
 };
 
 export default McqOption;
+
+const answerNotChosenStyle = {
+  backgroundColor: '#d4f7d5',
+  borderStyle: 'dashed',
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -97,16 +104,21 @@ const styles = StyleSheet.create({
     // flex: 1,
     borderColor: Colors.materialGood,
   },
-  // test: {
-  //   flex: 0.3,
-  //   borderWidth: 2,
-  //   borderRadius: 2,
-  //   borderBottomLeftRadius: 2,
-  //   borderTopLeftRadius: 2,
-  //   borderLeftWidth: 0,
-  //   borderColor: Colors.materialGood,
-  //   borderStyle: 'dashed',
-  // },
+  letterNotChosen: {
+    ...answerNotChosenStyle,
+    borderRightWidth: 3,
+    marginLeft: -3.5,
+    left: 3.5,
+  },
+  answerNotChosen: {
+    ...answerNotChosenStyle,
+    borderLeftWidth: 3,
+    borderBottomLeftRadius: 3,
+    borderTopLeftRadius: 3,
+    left: -3.5,
+    marginRight: -3.5,
+    zIndex: -1,
+  },
   wrong: {
     borderColor: Colors.materialWrong,
   },

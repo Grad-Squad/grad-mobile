@@ -81,5 +81,8 @@
       "Images": "Add Images",
       "Video": "Add Video"
     }
+  },
+  "DropDown": {
+    "Search...": "Search..."
   }
 }

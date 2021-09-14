@@ -2,6 +2,7 @@ import React from 'react';
 import AppLoading from 'expo-app-loading';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { Provider as ReactNativePaperProvider } from 'react-native-paper';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { LocalizationProvider } from './localization';
@@ -20,10 +21,12 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <LocalizationProvider>
-        <SafeAreaProvider>
-          <StatusBar />
-          <RootNavigator />
-        </SafeAreaProvider>
+        <ReactNativePaperProvider>
+          <SafeAreaProvider>
+            <StatusBar />
+            <RootNavigator />
+          </SafeAreaProvider>
+        </ReactNativePaperProvider>
       </LocalizationProvider>
     </QueryClientProvider>
   );

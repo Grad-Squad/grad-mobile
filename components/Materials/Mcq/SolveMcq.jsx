@@ -2,7 +2,8 @@ import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Constants } from 'styles';
+import { Constants, Colors } from 'styles';
+import { ProgressBar } from 'react-native-paper';
 import NavMaterials from '../_common/NavMaterials';
 import McqQuestion from './McqQuestion';
 import QUESTIONS from './TEMP_DATA';
@@ -36,6 +37,7 @@ const SolveMcq = ({ navigation }) => {
 
   return (
     <Page>
+      <ProgressBar progress={pageNum / maxPages} color={Colors.accent} />
       <View style={styles.header}>
         <NavMaterials
           onPressNext={incrementPage}

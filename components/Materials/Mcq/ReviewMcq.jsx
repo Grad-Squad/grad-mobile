@@ -11,13 +11,14 @@ import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
 
 const ReviewMcq = ({ route }) => {
   const { storedAnswers } = route.params;
-  // console.log(storedAnswers);
+  console.log(storedAnswers);
   const correctCount = storedAnswers.filter((ans) => ans.isCorrect).length;
   const skippedCount = storedAnswers.filter((ans) => ans.isSkipped).length;
   const answersShownCount = storedAnswers.filter(
     (ans) => ans.isAnswerShown
   ).length;
-  const incorrectCount = storedAnswers.length - correctCount - skippedCount;
+  const incorrectCount =
+    storedAnswers.length - correctCount - skippedCount - answersShownCount;
 
   return (
     <Page>

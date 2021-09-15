@@ -5,7 +5,7 @@ import { roles } from 'validation';
 import { Pressable, View, StyleSheet } from 'react-native';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import EduText from 'common/EduText';
-import Icon from 'common/Icon';
+import { Icon } from 'common/Icon';
 import { stylePropType } from 'proptypes';
 import { Colors, Constants } from 'styles';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import Icon from 'common/Icon';
+import { Icon } from 'common/Icon';
 import EduText from 'common/EduText';
 import { Colors, Constants, Styles } from 'styles';
 

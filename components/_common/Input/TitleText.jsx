@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     marginBottom: 7,
+    alignItems: 'baseline',
   },
   titleRowRTL: {
     flexDirection: 'row-reverse',

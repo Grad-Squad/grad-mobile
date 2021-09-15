@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Pressable } from 'react-native';
+import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import Icon from './Icon';
-import pressableAndroidRipple from './pressableAndroidRipple';
 
 const PressableIcon = ({ onPress, ...rest }) => (
   <Pressable onPress={onPress} android_ripple={pressableAndroidRipple}>

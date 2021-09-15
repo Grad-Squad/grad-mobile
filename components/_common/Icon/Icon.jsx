@@ -6,6 +6,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const map = {
   close: Ionicons,
@@ -17,6 +18,11 @@ const map = {
   'add-circle-outline': MaterialIcons,
   bookmark: Feather,
   menu: Feather,
+  'cards-outline': MaterialCommunityIcons,
+  'format-list-checkbox': MaterialCommunityIcons,
+  pdffile1: AntDesign,
+  'image-outline': MaterialCommunityIcons,
+  'ondemand-video': MaterialIcons,
 };
 
 const Icon = ({ name, size, color }) => {

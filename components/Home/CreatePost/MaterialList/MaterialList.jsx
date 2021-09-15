@@ -85,11 +85,7 @@ const MaterialList = ({ errorMsg }) => {
             errorMsg && styles.addMaterialUsingError,
           ]}
         >
-          {t(
-            errorMsg
-              ? 'CreatePost/add at least one material'
-              : 'CreatePost/add a material using any of the buttons below'
-          )}
+          {errorMsg || t('CreatePost/add a material using any of the buttons below')}
         </EduText>
       )}
     </View>

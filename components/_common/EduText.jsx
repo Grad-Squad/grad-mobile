@@ -1,5 +1,5 @@
 import React from 'react';
-import { childrenPropType } from 'proptypes';
+import { childrenPropType, TextPropType } from 'proptypes';
 import { Colors, Fonts } from 'styles';
 import { StyleSheet, Text } from 'react-native';
 
@@ -12,7 +12,7 @@ const EduText = ({ children, style, ...otherProps }) => (
 export default EduText;
 
 EduText.propTypes = {
-  style: Text.propTypes.style,
+  style: TextPropType,
   children: childrenPropType.isRequired,
 };
 EduText.defaultProps = {

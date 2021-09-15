@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 0,
     borderRadius: 0,
     borderColor: Colors.separator,
+    backgroundColor: 'transparent',
   },
   pickerError: {
     borderColor: Colors.error,

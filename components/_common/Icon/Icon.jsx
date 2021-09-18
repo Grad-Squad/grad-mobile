@@ -9,6 +9,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const map = {
+  question: AntDesign,
   close: Ionicons,
   'home-outline': Ionicons,
   'radio-button-checked': MaterialIcons,
@@ -26,7 +27,7 @@ const map = {
 };
 
 const Icon = ({ name, size, color }) => {
-  const IconLibrary = map[name];
+  const IconLibrary = map[name] || map.question;
   return <IconLibrary name={name} size={size} color={color} />;
 };
 

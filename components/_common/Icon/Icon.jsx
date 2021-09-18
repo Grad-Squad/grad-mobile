@@ -7,6 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Octicons from 'react-native-vector-icons/Octicons';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { TextPropType } from 'proptypes';
 
 const map = {
   question: AntDesign,
@@ -28,19 +29,21 @@ const map = {
   square: Feather,
 };
 
-const Icon = ({ name, size, color }) => {
+const Icon = ({ name, size, color, style }) => {
   const IconLibrary = map[name] || map.question;
-  return <IconLibrary name={name} size={size} color={color} />;
+  return <IconLibrary name={name} size={size} color={color} style={style} />;
 };
 
 Icon.propTypes = {
   name: PropTypes.string.isRequired,
   size: PropTypes.number,
   color: PropTypes.string,
+  style: TextPropType,
 };
 Icon.defaultProps = {
   size: 26,
   color: Colors.offBlack,
+  style: {},
 };
 
 export default React.memo(Icon);

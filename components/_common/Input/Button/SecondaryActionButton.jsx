@@ -26,7 +26,7 @@ export default SecondaryActionButton;
 const styles = StyleSheet.create({
   button: {
     borderColor: Colors.accent,
-    borderWidth: 3,
+    borderWidth: 2,
   },
   text: {
     color: Colors.accent,

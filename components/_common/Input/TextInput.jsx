@@ -22,6 +22,8 @@ const TextInput = ({
   error,
   errorMsg,
   multiline,
+  textInputRightComponent,
+  textInputContainerStyle,
 }) => (
   <View style={[styles.wrapper, style]}>
     <TitleText
@@ -30,21 +32,24 @@ const TextInput = ({
       showSubtitle={subtitle || error}
       error={error}
     />
-    <TextInputNative
-      placeholder={placeholder}
-      style={[
-        styles.textInput,
-        error && Styles.textInputError,
-        multiline && styles.multilineTextInput,
-      ]}
-      value={text}
-      onChangeText={(txt) => setText(txt)}
-      defaultValue={defaultValue}
-      secureTextEntry={isPassword}
-      keyboardType={isEmail ? 'email-address' : 'default'}
-      multiline={multiline}
-      {...TextInputProps}
-    />
+    <View style={[styles.textInputContainer, textInputContainerStyle]}>
+      <TextInputNative
+        placeholder={placeholder}
+        style={[
+          styles.textInput,
+          error && Styles.textInputError,
+          multiline && styles.multilineTextInput,
+        ]}
+        value={text}
+        onChangeText={(txt) => setText(txt)}
+        defaultValue={defaultValue}
+        secureTextEntry={isPassword}
+        keyboardType={isEmail ? 'email-address' : 'default'}
+        multiline={multiline}
+        {...TextInputProps}
+      />
+      {textInputRightComponent}
+    </View>
   </View>
 );
 
@@ -63,10 +68,15 @@ const styles = StyleSheet.create({
   titleRowRTL: {
     flexDirection: 'row-reverse',
   },
+  textInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   textInput: {
     ...Styles.textInput,
     fontFamily: Fonts.default,
     paddingHorizontal: 10,
+    flex: 1,
   },
   multilineTextInput: {
     minHeight: 45,
@@ -90,6 +100,8 @@ TextInput.propTypes = {
   error: PropTypes.bool,
   errorMsg: PropTypes.string,
   multiline: PropTypes.bool,
+  textInputRightComponent: PropTypes.node,
+  textInputContainerStyle: stylePropType,
 };
 
 TextInput.defaultProps = {
@@ -103,6 +115,8 @@ TextInput.defaultProps = {
   error: false,
   errorMsg: '',
   multiline: false,
+  textInputRightComponent: false,
+  textInputContainerStyle: {},
 };
 
 export const TextInputFormik = TextInputFormikHOC(TextInput);

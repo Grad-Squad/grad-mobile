@@ -24,6 +24,8 @@ const map = {
   pdffile1: AntDesign,
   'image-outline': MaterialCommunityIcons,
   'ondemand-video': MaterialIcons,
+  'check-square': Feather,
+  square: Feather,
 };
 
 const Icon = ({ name, size, color }) => {

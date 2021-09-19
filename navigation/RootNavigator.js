@@ -4,16 +4,16 @@ import Dev from 'components/Dev/Dev';
 import HomeNavigation from 'components/Home/HomeNavigation';
 import CreatePost from 'components/Home/CreatePost';
 import ExpandedPost from 'components/ExpandedPost/ExpandedPost';
-import Login from '../components/Login/Login';
-import ForgotPasswordNavigator from '../components/ForgotPassword/ForgotPasswordNavigator';
-import RegisterNavigation from '../components/Register/RegisterNavigation';
-import Navigator from './Navigator';
+import Login from 'components/Login/Login';
+import ForgotPasswordNavigator from 'components/ForgotPassword/ForgotPasswordNavigator';
+import RegisterNavigation from 'components/Register/RegisterNavigation';
 import SolveMcq from 'components/Materials/Mcq/SolveMcq';
 import AddFlashCards from 'components/Home/CreatePost/AddMaterial/AddFlashCards';
-import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ';
 import AddPDF from 'components/Home/CreatePost/AddMaterial/AddPDF';
 import AddImages from 'components/Home/CreatePost/AddMaterial/AddImages';
 import AddVideo from 'components/Home/CreatePost/AddMaterial/AddVideo';
+import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ/AddMCQ';
+import Navigator from './Navigator';
 
 const screens = [
   {

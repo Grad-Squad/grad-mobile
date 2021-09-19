@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Fonts } from 'styles';
+import Fonts from './Fonts';
 import Colors from './Colors';
 
 const forgotPasswordBase = {

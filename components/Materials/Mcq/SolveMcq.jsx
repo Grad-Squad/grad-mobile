@@ -47,7 +47,7 @@ const SolveMcq = ({ navigation }) => {
         <NavMaterials
           onPressNext={incrementPage}
           onPressBack={decrementPage}
-          isPageNumPressable
+          onPressPageNum={(num) => setPageNum(num)}
           currentPageIndex={pageNum}
           maxPages={maxPages}
         />

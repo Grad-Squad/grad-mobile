@@ -7,7 +7,7 @@ import { Colors, Constants } from 'styles';
 import PieChart from 'react-native-pie-chart';
 import { TextPropType } from 'proptypes';
 import { MainActionButton } from 'common/Input/Button';
-import { Modal, Portal, Text, Button, Provider } from 'react-native-paper';
+import { Modal, Portal } from 'react-native-paper';
 import QUESTIONS from './TEMP_DATA';
 import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
 

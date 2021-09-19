@@ -69,6 +69,22 @@
   },
   "CreatePost": {
     "Create New Post": "Create New Post",
-    "Post": "Post"
+    "Post": "Post",
+    "Title": "Title",
+    "SubjectCourse": "Subject/Course",
+    "Tags": "Tags",
+    "Materials:": "Materials:",
+    "add a material using any of the buttons below": "add a material using any of the buttons below",
+    "add at least one material": "add at least one material",
+    "Add": {
+      "Flashcards": "Add Flashcards",
+      "MCQ": "Add MCQ",
+      "PDF": "Add PDF",
+      "Images": "Add Images",
+      "Video": "Add Video"
+    }
+  },
+  "DropDown": {
+    "Search...": "Search..."
   }
 }

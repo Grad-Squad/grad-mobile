@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import PressableIcon from 'common/PressableIcon';
+import { PressableIcon } from 'common/Icon';
 import { LocalizationContext } from 'localization';
-import RegularText from 'common/Text/RegularText';
+import EduText from 'common/EduText';
 import { Colors, Styles } from 'styles';
 import { TransparentButton } from 'common/Input/Button';
 
@@ -12,9 +12,9 @@ const CreatePostHeader = ({ onBackPress, onPostPress }) => {
   return (
     <View style={styles.wrapper}>
       <PressableIcon name="close" onPress={onBackPress} size={28} />
-      <RegularText style={[styles.text, isRTL && styles.textRTL]}>
+      <EduText style={[styles.text, isRTL && styles.textRTL]}>
         {t('CreatePost/Create New Post')}
-      </RegularText>
+      </EduText>
       <TransparentButton
         text={t('CreatePost/Post')}
         onPress={onPostPress}
@@ -55,6 +55,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
   postButton: {
-    fontSize: 19
+    fontSize: 19,
   },
 });

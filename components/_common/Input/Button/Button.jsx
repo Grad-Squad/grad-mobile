@@ -30,7 +30,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
-  leftIcon: { marginRight: 10 },
+  leftIcon: {
+    flexBasis: '10%',
+    alignItems: 'center',
+  },
   text: {
     fontSize: 22,
     color: Colors.offBlack,

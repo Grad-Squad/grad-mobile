@@ -6,8 +6,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import { TextPropType } from 'proptypes';
 
 const map = {
+  question: AntDesign,
   close: Ionicons,
   'home-outline': Ionicons,
   'radio-button-checked': MaterialIcons,
@@ -17,21 +20,30 @@ const map = {
   'add-circle-outline': MaterialIcons,
   bookmark: Feather,
   menu: Feather,
+  'cards-outline': MaterialCommunityIcons,
+  'format-list-checkbox': MaterialCommunityIcons,
+  pdffile1: AntDesign,
+  'image-outline': MaterialCommunityIcons,
+  'ondemand-video': MaterialIcons,
+  'check-square': Feather,
+  square: Feather,
 };
 
-const Icon = ({ name, size, color }) => {
-  const IconLibrary = map[name];
-  return <IconLibrary name={name} size={size} color={color} />;
+const Icon = ({ name, size, color, style }) => {
+  const IconLibrary = map[name] || map.question;
+  return <IconLibrary name={name} size={size} color={color} style={style} />;
 };
 
 Icon.propTypes = {
   name: PropTypes.string.isRequired,
   size: PropTypes.number,
   color: PropTypes.string,
+  style: TextPropType,
 };
 Icon.defaultProps = {
   size: 26,
   color: Colors.offBlack,
+  style: {},
 };
 
 export default React.memo(Icon);

@@ -22,7 +22,7 @@ const OptionalInfo = () => {
       <TextInputFormik
         formik={formik}
         formikKey="bio"
-        title={`${t('Register/Bio')}*`}
+        title={`${t('Register/Bio')}`}
         subtitle={t('TextInput/optional')}
         multiline
         style={styles.bioGap}

@@ -86,5 +86,24 @@
   },
   "DropDown": {
     "Search...": "Search..."
+  },
+  "AddMaterial": {
+    "MCQ": {
+      "Exercise Title": "Exercise Title",
+      "Question": "Question",
+      "Choice": "Choice",
+      "Correct?": "Correct?",
+      "errors": {
+        "(choice already exists)": "(choice already exists)",
+        "(question already exists)": "(question already exists)",
+        "At least one choice should be correct": "At least one choice should be correct",
+        "add at least one choice": "add at least one choice",
+        "(maximum number of choices reached)": "(maximum number of choices reached)"
+      }
+    },
+    "Add": "Add",
+    "Add Question": "Add Question",
+    "Questions": "Questions",
+    "image name: ": "image name: "
   }
 }

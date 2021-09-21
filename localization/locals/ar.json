@@ -86,5 +86,24 @@
   },
   "DropDown": {
     "Search...": "بحث..."
+  },
+  "AddMaterial": {
+    "MCQ": {
+      "Exercise Title": "عنوان التمرين",
+      "Question": "السؤال",
+      "Choice": "اختيار",
+      "Correct?": "صحيح؟",
+      "errors": {
+        "(choice already exists)": "(الاختيار موجود بالفعل)",
+        "(question already exists)": "(السؤال موجود بالفعل)",
+        "At least one choice should be correct": "يجب أن يكون اختيار واحد على الأقل صحيحًا",
+        "add at least one choice": "إضافة اختيار واحد على الأقل",
+        "(maximum number of choices reached)": "(تم الوصول إلى الحد الأقصى لعدد الاختيارات)"
+      }
+    },
+    "Add": "أضف",
+    "Add Question": "أضف السؤال",
+    "Questions": "أسئلة",
+    "image name: ": "اسم الصورة: "
   }
 }

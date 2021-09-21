@@ -7,39 +7,27 @@ import {
   TouchableOpacity,
   Image,
   View,
-  Platform
+  Platform,
+  Alert
 } from 'react-native';
 import { useFormik } from 'formik';
 import { LocalizationContext } from 'localization';
 import { comment } from 'validation';
 import { TransparentTextInputFormik } from 'common/Input';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { PressableIcon } from 'common/Icon';
 import { Colors, Styles } from '../../styles';
 
 function NewComment({profileImageURI}) {
   const { t } = useContext(LocalizationContext);
-  const [text, setText] = useState('');
-
-  const [keyboardOffset, setKeyboardOffset] = useState(false)
-  const textInputRef = useRef(null)
 
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0
-  
-  useEffect(() => {
-    console.log("OUTSIDE")
-    if (textInputRef.current){
-      console.log("WE'RE IN")
-      textInputRef.current.focus()
-    }
-    setKeyboardOffset(true)
-  }, [textInputRef.current])
 
   const formik = useFormik({
     initialValues: {
       commentText: '',
     },
     onSubmit: ({ commentText }) => {
-      Alert.alert(`Comment: ${commentText}`);
+      Alert.alert(`Comment: ${commentText}`); //TODO submit comment behavior
     },
     validationSchema: yup.object().shape({
       commentText: comment(t),
@@ -48,7 +36,8 @@ function NewComment({profileImageURI}) {
 
   return (
     <View>
-      <KeyboardAvoidingView behavior="position" contentContainerStyle={styles.container}  keyboardVerticalOffset={keyboardVerticalOffset}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}  keyboardVerticalOffset={keyboardVerticalOffset}>
+        <View style={{flexDirection:'row',alignItems:'center'}}>
         <TouchableOpacity>
           <Image
             style={styles.profileImage}
@@ -61,13 +50,15 @@ function NewComment({profileImageURI}) {
           <TransparentTextInputFormik
             formik={formik}
             formikKey="commentText"
-            TextInputProps={{placeholder:t('Comment/Add'),ref:textInputRef}}
+            TextInputProps={{placeholder:t('Comment/Add'), autoFocus:true, multiline:true}}
             hideTitle
             style={{
               flex:1,}}
           />
 
-        <Icon name="send" size={30} color={Colors.black} />
+        <PressableIcon name="send" size={30} color={Colors.black} onPress={formik.handleSubmit}/>
+        </View>
+        <View style={{width:'100%',height:5}}/>
       </KeyboardAvoidingView>
     </View>
   );
@@ -79,18 +70,18 @@ NewComment.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
     width: '100%',
     backgroundColor: Colors.background,
     paddingHorizontal: 10,
     paddingVertical:10,
     paddingTop:5,
-    alignItems:'flex-start',
+    alignItems:'center',
   },
   profileImage: {
-    // borderRadius: 50,
-    width: 20,
-    // borderWidth: 0.1,
-    // borderColor: 'black',
+    borderRadius: 50,
+    width: 30,
+    height:30,
+    borderWidth: 0.1,
+    borderColor: 'black',
   },
 });

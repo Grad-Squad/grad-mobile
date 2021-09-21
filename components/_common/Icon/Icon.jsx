@@ -27,6 +27,9 @@ const map = {
   'ondemand-video': MaterialIcons,
   'check-square': Feather,
   square: Feather,
+  'send':MaterialIcons,
+  "arrow-left":MaterialCommunityIcons,
+  'plus':Feather,
 };
 
 const Icon = ({ name, size, color, style }) => {

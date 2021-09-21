@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet, StatusBar } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Icon } from 'common/Icon';
 import PropTypes from 'prop-types';
 
 import EduText from 'common/EduText';
@@ -20,16 +20,16 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   backIconContainer: {
-    ...Styles.dropShadow,
     position: 'absolute',
     top: -1 * statusBarPadding,
     paddingTop: 3 * statusBarPadding,
     left: '5%',
-    backgroundColor: Colors.accent,
+    backgroundColor: Colors.cardBody,
     padding: 5,
+    borderWidth:1,
+    borderColor:Colors.black,
     borderBottomLeftRadius: 7,
     borderBottomRightRadius: 7,
-    elevation: 5,
   },
   outerContainer: {
     ...Styles.dropShadow,
@@ -66,7 +66,7 @@ function TitleRegion({
   return (
     <View style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
-        <Icon name="arrow-left" size={40} color={Colors.background} />
+        <Icon name="arrow-left" size={40} color={Colors.black} />
       </View>
       <View style={{ marginLeft: imageWidth + 25, marginTop: 5 }}>
         <EduText style={{ fontSize: 18 }}>{title}</EduText>

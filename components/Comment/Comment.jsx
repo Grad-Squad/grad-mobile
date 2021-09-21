@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import EduText from 'common/EduText';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
-import Votes from '../Votes/Votes';
-import Options from '../Post/Options/Options';
 import FooterRegion from '../Post/FooterRegion';
 
 const imageWidth = 55;

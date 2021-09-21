@@ -15,9 +15,12 @@ const Colors = {
   separator: '#dddddd',
   lighterForeground: '#F5F5F5',
   dgrey: '#dddddd',
+  cgrey: '#cccccc',
   materialGood: '#1C9B21',
   materialWrong: '#D73B3B',
   materialSkipped: '#D97213',
+  materialLightGood: '#d4f7d5',
+  materialLightWrong: '#f6d5d5',
 };
 
 export default Colors;

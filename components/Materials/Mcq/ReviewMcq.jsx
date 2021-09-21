@@ -26,7 +26,7 @@ const ReviewMcq = ({ route }) => {
 
   const [cheeringWord, setCheeringWord] = useState(
     passedExercise
-      ? getCheeringWords(wordTypes.bad)
+      ? getCheeringWords(wordTypes.good)
       : getCheeringWords(wordTypes.bad)
   );
 

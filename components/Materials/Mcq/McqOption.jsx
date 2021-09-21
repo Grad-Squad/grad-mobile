@@ -62,7 +62,7 @@ McqOption.propTypes = {
 export default McqOption;
 
 const answerNotChosenStyle = {
-  backgroundColor: '#d4f7d5',
+  backgroundColor: Colors.materialLightGood,
   borderStyle: 'dashed',
 };
 
@@ -101,7 +101,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.accent,
   },
   correct: {
-    // flex: 1,
     borderColor: Colors.materialGood,
   },
   letterNotChosen: {
@@ -124,10 +123,9 @@ const styles = StyleSheet.create({
   },
   opacity: {
     opacity: 0.6,
-    backgroundColor: '#CCCCCC',
-    borderColor: '#CCCCCC',
+    backgroundColor: Colors.cgrey,
+    borderColor: Colors.cgrey,
   },
-
   chosenDone: {
     backgroundColor: Colors.accent,
     borderColor: Colors.accent,
@@ -135,14 +133,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
     color: 'white',
   },
-
   fillGood: {
-    backgroundColor: '#d4f7d5',
-    // color: 'white',
+    backgroundColor: Colors.materialLightGood,
   },
-
   fillWrong: {
-    backgroundColor: '#f6d5d5',
-    // color: 'white',
+    backgroundColor: Colors.materialLightWrong,
   },
 });

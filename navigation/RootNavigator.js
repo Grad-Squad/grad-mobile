@@ -12,7 +12,7 @@ import AddFlashCards from 'components/Home/CreatePost/AddMaterial/AddFlashCards'
 import AddPDF from 'components/Home/CreatePost/AddMaterial/AddPDF';
 import AddImages from 'components/Home/CreatePost/AddMaterial/AddImages';
 import AddVideo from 'components/Home/CreatePost/AddMaterial/AddVideo';
-import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ';
+import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ/AddMCQ';
 import Navigator from './Navigator';
 
 const screens = [

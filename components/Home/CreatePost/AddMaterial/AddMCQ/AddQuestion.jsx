@@ -15,7 +15,7 @@ import { Colors } from 'styles';
 import { mcqQuestionPropType, stylePropType } from 'proptypes';
 import SubmittedChoice from './SubmittedChoice';
 
-const MaxNumberOfChoices = 1000;
+const MaxNumberOfChoices = 26;
 const MaxNumberOfQuestions = 1000;
 
 const AddQuestion = ({ addQuestion, contentStyle, questions }) => {

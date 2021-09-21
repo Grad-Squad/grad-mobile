@@ -37,7 +37,7 @@ const AddMCQ = () => {
         formik={formik}
         formikKey="title"
       />
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <AddQuestion
           addQuestion={(question) => {
             formik.values.questions.push(question);

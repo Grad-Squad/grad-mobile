@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { LocalizationContext } from 'localization';
 import { mcqChoicePropType } from 'proptypes';
 import EduText from 'common/EduText';
 import SubmittedChoice from './SubmittedChoice';
 
-const ChoicesList = ({ choices, setFormikChoiceField }) => {
+const ChoicesList = ({ choices, setFormikChoiceField, onEditPress }) => {
   const { t } = useContext(LocalizationContext);
   return (
     choices.length !== 0 && (
@@ -17,20 +17,23 @@ const ChoicesList = ({ choices, setFormikChoiceField }) => {
         {choices
           .slice()
           .reverse()
-          .map(({ text, isCorrect }, index) => (
-            <SubmittedChoice
-              key={text}
-              text={text}
-              isCorrect={isCorrect}
-              setIsCorrect={(newIsCorrect) =>
-                setFormikChoiceField(
-                  `choices[${choices.length - index - 1}].isCorrect`,
-                  newIsCorrect
-                )
-              }
-              onEditPress={() => Alert.alert('on edit press')}
-            />
-          ))}
+          .map(({ text, isCorrect }, index) => {
+            const correctOrderIndex = choices.length - index - 1;
+            return (
+              <SubmittedChoice
+                key={text}
+                text={text}
+                isCorrect={isCorrect}
+                setIsCorrect={(newIsCorrect) =>
+                  setFormikChoiceField(
+                    `choices[${correctOrderIndex}].isCorrect`,
+                    newIsCorrect
+                  )
+                }
+                onEditPress={() => onEditPress(correctOrderIndex)}
+              />
+            );
+          })}
       </>
     )
   );
@@ -39,6 +42,7 @@ const ChoicesList = ({ choices, setFormikChoiceField }) => {
 ChoicesList.propTypes = {
   choices: PropTypes.arrayOf(mcqChoicePropType).isRequired,
   setFormikChoiceField: PropTypes.func.isRequired,
+  onEditPress: PropTypes.func.isRequired,
 };
 ChoicesList.defaultProps = {};
 

@@ -171,6 +171,20 @@ const AddQuestion = ({ addQuestion, contentStyle, questions }) => {
         <ChoicesList
           choices={currentQuestionFormik.values.choices}
           setFormikChoiceField={currentQuestionFormik.setFieldValue}
+          onEditPress={(i) => {
+            if (currentChoiceFormik.values.currentChoice) {
+              Alert.alert('You will lose the text already in choice');
+              return;
+            }
+            currentChoiceFormik.setFieldValue(
+              'currentChoice',
+              currentQuestionFormik.values.choices[i].text
+            );
+            currentChoiceFormik.setFieldValue(
+              'choices',
+              currentQuestionFormik.values.choices.splice(i, 1)
+            );
+          }}
         />
         <SecondaryActionButton
           text={t('AddMaterial/Add Question')}

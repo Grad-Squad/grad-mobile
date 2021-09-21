@@ -7,7 +7,7 @@ import EduText from 'common/EduText';
 import { LocalizationContext } from 'localization';
 import SubmittedQuestion from './SubmittedQuestion';
 
-const QuestionsList = ({ questions, contentStyle, onDelete }) => {
+const QuestionsList = ({ questions, contentStyle, onEdit, onDelete }) => {
   const { t } = useContext(LocalizationContext);
   return (
     questions.length !== 0 && (
@@ -23,6 +23,7 @@ const QuestionsList = ({ questions, contentStyle, onDelete }) => {
               key={question}
               question={question}
               numOfMCQ={choices.length}
+              onEdit={() => onEdit(index)}
               onDelete={() => onDelete(index)}
             />
           ))}
@@ -34,6 +35,7 @@ const QuestionsList = ({ questions, contentStyle, onDelete }) => {
 
 QuestionsList.propTypes = {
   questions: PropTypes.arrayOf(mcqQuestionPropType).isRequired,
+  onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   contentStyle: stylePropType,
 };

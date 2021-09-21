@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Icon, MaterialTypeIconsMap, PressableIcon } from 'common/Icon';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import ContextMenu from 'common/ContextMenu';
 
-const SubmittedQuestion = ({ question, numOfMCQ, onDelete }) => {
+const SubmittedQuestion = ({ question, numOfMCQ, onEdit, onDelete }) => {
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
 
   const contextMenuItems = [
     {
       titleKey: 'ContextMenu/Edit',
-      onPress: () => {
-        Alert.alert('edit');
-      },
+      onPress: onEdit,
       iconName: 'edit-2',
     },
     { divider: true, key: 'divider' },
@@ -53,6 +51,7 @@ const SubmittedQuestion = ({ question, numOfMCQ, onDelete }) => {
 SubmittedQuestion.propTypes = {
   question: PropTypes.string.isRequired,
   numOfMCQ: PropTypes.number.isRequired,
+  onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 SubmittedQuestion.defaultProps = {};

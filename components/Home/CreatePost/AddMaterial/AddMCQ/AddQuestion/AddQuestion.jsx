@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, StyleSheet, View } from 'react-native';
 import { LocalizationContext } from 'localization';
@@ -18,7 +18,12 @@ import ChoicesList from './ChoicesList';
 const MaxNumberOfChoices = 26;
 const MaxNumberOfQuestions = 1000;
 
-const AddQuestion = ({ addQuestion, contentStyle, questions }) => {
+const AddQuestion = ({
+  addQuestion,
+  contentStyle,
+  questions,
+  currentlyEditingQuestion,
+}) => {
   const { t } = useContext(LocalizationContext);
   const [imageName, setImageName] = useState('');
   const currentQuestionFormik = useFormik({
@@ -86,6 +91,20 @@ const AddQuestion = ({ addQuestion, contentStyle, questions }) => {
         .max(400, t('TextInput/max char error', { max: 400 })),
     }),
   });
+
+  useEffect(() => {
+    if (currentlyEditingQuestion) {
+      currentQuestionFormik.setFieldValue(
+        'question',
+        currentlyEditingQuestion.question
+      );
+      currentQuestionFormik.setFieldValue(
+        'choices',
+        currentlyEditingQuestion.choices
+      );
+      currentChoiceFormik.resetForm();
+    }
+  }, [currentlyEditingQuestion]);
 
   const canAddChoices =
     currentQuestionFormik.values.choices.length < MaxNumberOfChoices;
@@ -204,8 +223,12 @@ AddQuestion.propTypes = {
   addQuestion: PropTypes.func.isRequired,
   questions: PropTypes.arrayOf(mcqQuestionPropType).isRequired,
   contentStyle: stylePropType,
+  currentlyEditingQuestion: mcqQuestionPropType,
 };
-AddQuestion.defaultProps = { contentStyle: {} };
+AddQuestion.defaultProps = {
+  contentStyle: {},
+  currentlyEditingQuestion: undefined,
+};
 
 export default AddQuestion;
 

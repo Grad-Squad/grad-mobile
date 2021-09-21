@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
 import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
@@ -12,6 +12,8 @@ import QuestionsList from './QuestionsList';
 
 const AddMCQ = () => {
   const { t } = useContext(LocalizationContext);
+  const [currentlyEditingQuestion, setCurrentlyEditingQuestion] =
+    useState(undefined);
 
   const formik = useFormik({
     initialValues: {
@@ -30,6 +32,11 @@ const AddMCQ = () => {
     }),
   });
 
+  const deleteQuestion = (i) => {
+    formik.values.questions.splice(i, 1);
+    formik.setFieldValue('questions', formik.values.questions);
+  };
+
   return (
     <Page>
       <EduText>INSERT HEADER HERE</EduText>
@@ -46,14 +53,16 @@ const AddMCQ = () => {
           }}
           questions={formik.values.questions}
           contentStyle={styles.content}
+          currentlyEditingQuestion={currentlyEditingQuestion}
         />
         <QuestionsList
           questions={formik.values.questions}
           contentStyle={styles.content}
-          onDelete={(i) => {
-            formik.values.questions.splice(i, 1);
-            formik.setFieldValue('questions', formik.values.questions);
+          onEdit={(i) => {
+            setCurrentlyEditingQuestion(formik.values.questions[i]);
+            deleteQuestion(i);
           }}
+          onDelete={deleteQuestion}
         />
       </ScrollView>
     </Page>

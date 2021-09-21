@@ -15,12 +15,13 @@ const TransparentTextInput = ({
   error,
   errorMsg,
   TextInputProps,
+  hideTitle,
   ...props
 }) => (
   <TextInput
     value={text}
     onChangeText={setText}
-    label={`${title} ${errorSubtitleRender(error, errorMsg, subtitle)}`}
+    label={ !hideTitle && `${title} ${errorSubtitleRender(error, errorMsg, subtitle)}`}
     style={[styles.textInput, style]}
     error={error}
     dense
@@ -32,10 +33,11 @@ const TransparentTextInput = ({
 TransparentTextInput.propTypes = {
   text: PropTypes.string.isRequired,
   setText: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   subtitle: PropTypes.string,
   style: stylePropType,
   error: PropTypes.bool,
+  hideTitle: PropTypes.bool,
   errorMsg: PropTypes.string,
 };
 TransparentTextInput.defaultProps = {
@@ -43,6 +45,8 @@ TransparentTextInput.defaultProps = {
   style: {},
   error: false,
   errorMsg: '',
+  hideTitle: false,
+  title: "",
 };
 
 export default TransparentTextInput;

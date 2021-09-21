@@ -32,6 +32,10 @@ const map = {
   square: Feather,
   AddImage: SVGIcons,
   'delete-outline': MaterialIcons,
+  'send':MaterialIcons,
+  "arrow-left":MaterialCommunityIcons,
+  'plus':Feather,
+  'comment-outline':MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

@@ -107,5 +107,8 @@
     "Add Question": "Add Question",
     "Questions": "Questions",
     "image name: ": "image name: "
+  },
+  "Comment": {
+    "Add": "Add a comment..."
   }
 }

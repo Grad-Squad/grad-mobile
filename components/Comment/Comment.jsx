@@ -1,12 +1,10 @@
 import React from 'react';
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import EduText from 'common/EduText';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
-import Votes from '../Votes/Votes';
-import Options from '../Post/Options/Options';
 import FooterRegion from '../Post/FooterRegion';
 
 const imageWidth = 55;
@@ -74,9 +72,9 @@ const styles = StyleSheet.create({
     top: -6,
     zIndex: -1,
   },
-  footer: {
-    marginLeft: 'auto',
-  },
+  // footer: {
+  //   marginLeft: 'auto',
+  // },
 });
 
 function Comment({

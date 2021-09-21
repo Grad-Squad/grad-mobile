@@ -29,6 +29,7 @@ const AddMCQ = () => {
         .required(requiredError(t)),
     }),
   });
+
   return (
     <Page>
       <EduText>INSERT HEADER HERE</EduText>
@@ -49,6 +50,10 @@ const AddMCQ = () => {
         <QuestionsList
           questions={formik.values.questions}
           contentStyle={styles.content}
+          onDelete={(i) => {
+            formik.values.questions.splice(i, 1);
+            formik.setFieldValue('questions', formik.values.questions);
+          }}
         />
       </ScrollView>
     </Page>

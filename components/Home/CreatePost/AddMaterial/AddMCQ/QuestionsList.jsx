@@ -7,7 +7,7 @@ import EduText from 'common/EduText';
 import { LocalizationContext } from 'localization';
 import SubmittedQuestion from './SubmittedQuestion';
 
-const QuestionsList = ({ questions, contentStyle }) => {
+const QuestionsList = ({ questions, contentStyle, onDelete }) => {
   const { t } = useContext(LocalizationContext);
   return (
     questions.length !== 0 && (
@@ -18,11 +18,12 @@ const QuestionsList = ({ questions, contentStyle }) => {
             {questions.length} {t('AddMaterial/Questions')}
           </EduText>
 
-          {questions.map(({ question, choices }) => (
+          {questions.map(({ question, choices }, index) => (
             <SubmittedQuestion
               key={question}
               question={question}
               numOfMCQ={choices.length}
+              onDelete={() => onDelete(index)}
             />
           ))}
         </View>
@@ -33,6 +34,7 @@ const QuestionsList = ({ questions, contentStyle }) => {
 
 QuestionsList.propTypes = {
   questions: PropTypes.arrayOf(mcqQuestionPropType).isRequired,
+  onDelete: PropTypes.func.isRequired,
   contentStyle: stylePropType,
 };
 QuestionsList.defaultProps = {

@@ -6,7 +6,7 @@ import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import ContextMenu from 'common/ContextMenu';
 
-const SubmittedQuestion = ({ question, numOfMCQ }) => {
+const SubmittedQuestion = ({ question, numOfMCQ, onDelete }) => {
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
 
   const contextMenuItems = [
@@ -20,9 +20,7 @@ const SubmittedQuestion = ({ question, numOfMCQ }) => {
     { divider: true, key: 'divider' },
     {
       titleKey: 'ContextMenu/Delete',
-      onPress: () => {
-        Alert.alert('delete');
-      },
+      onPress: onDelete,
       iconName: 'delete-outline',
     },
   ];
@@ -55,6 +53,7 @@ const SubmittedQuestion = ({ question, numOfMCQ }) => {
 SubmittedQuestion.propTypes = {
   question: PropTypes.string.isRequired,
   numOfMCQ: PropTypes.number.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 SubmittedQuestion.defaultProps = {};
 

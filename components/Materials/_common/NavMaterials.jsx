@@ -14,6 +14,7 @@ import EduText from 'common/EduText';
 import { Modal, Portal } from 'react-native-paper';
 import { TransparentButton } from 'common/Input/Button';
 import TextInput from 'common/Input/TextInput';
+import { TransparentTextInput } from 'common/Input';
 
 const NavMaterials = ({
   onPressNext,
@@ -83,16 +84,17 @@ const NavMaterials = ({
                 </Pressable>
               )}
             />
-            {/* <View style={styles.container}>
-              <TextInput
-                style={{ backgroundColor: 'red' }}
-                title=""
+            <View style={styles.container}>
+              <TransparentTextInput
+                title="Enter question number"
                 placeholder="Enter question number"
                 setText={() => {}}
+                text=""
+                style={{ flex: 1 }}
               />
-              <EduText>(1-{maxPages})</EduText>
+              <EduText style>(1-{maxPages})</EduText>
               <TransparentButton text="Go" onPress={() => {}} />
-            </View> */}
+            </View>
           </View>
         </Modal>
       </Portal>

@@ -33,14 +33,14 @@ export default function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <PaperProvider theme={theme}>
-        <LocalizationProvider>
+      <LocalizationProvider>
+        <PaperProvider theme={theme}>
           <SafeAreaProvider>
             <StatusBar />
             <RootNavigator />
           </SafeAreaProvider>
-        </LocalizationProvider>
-      </PaperProvider>
+        </PaperProvider>
+      </LocalizationProvider>
     </QueryClientProvider>
   );
 }

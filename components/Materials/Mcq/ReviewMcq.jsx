@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
@@ -7,13 +7,16 @@ import { Colors, Constants } from 'styles';
 import PieChart from 'react-native-pie-chart';
 import { TextPropType } from 'proptypes';
 import { MainActionButton } from 'common/Input/Button';
-import { Modal, Portal } from 'react-native-paper';
+import { Portal } from 'react-native-paper';
+import { LocalizationContext } from 'localization';
 import QUESTIONS from './TEMP_DATA';
 import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
+import ReviewMcqModal from './ReviewMcqModal';
 
 const ReviewMcq = ({ route }) => {
-  const { storedAnswers } = route.params;
+  const { t } = useContext(LocalizationContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { storedAnswers } = route.params;
   const correctCount = storedAnswers.filter((ans) => ans.isCorrect).length;
   const skippedCount = storedAnswers.filter((ans) => ans.isSkipped).length;
   const answersShownCount = storedAnswers.filter(
@@ -63,22 +66,22 @@ const ReviewMcq = ({ route }) => {
         />
         <View style={styles.legendContainer}>
           <LegendItem
-            label="Correct"
+            label={t('McqReview/Correct')}
             style={styles.correct}
             count={correctCount}
           />
           <LegendItem
-            label="Wrong"
+            label={t('McqReview/Wrong')}
             style={styles.incorrect}
             count={incorrectCount}
           />
           <LegendItem
-            label="Answers Shown"
+            label={t('McqReview/AnswersShown')}
             style={styles.answersShown}
             count={answersShownCount}
           />
           <LegendItem
-            label="Skipped"
+            label={t('McqReview/Skipped')}
             style={styles.skipped}
             count={skippedCount}
           />
@@ -86,31 +89,14 @@ const ReviewMcq = ({ route }) => {
         <View style={styles.footer}>
           <EduText style={styles.footerText}>{footerText}</EduText>
           <MainActionButton
-            text="Go again ?"
+            text={t('McqReview/Again?')}
             onPress={() => setIsModalVisible(true)}
           />
         </View>
-        <Modal
-          visible={isModalVisible}
-          onDismiss={() => setIsModalVisible(false)}
-          contentContainerStyle={styles.modalWrapper}
-          style={styles.modal}
-        >
-          <View style={styles.modalItemsContainer}>
-            <EduText style={styles.modalTitle}>What Should we include?</EduText>
-            <View style={styles.optionsWrapper}>
-              <EduText style={styles.reviewOption}>option I</EduText>
-              <EduText style={styles.reviewOption}>option II</EduText>
-              <EduText style={styles.reviewOption}>option III</EduText>
-              <EduText style={styles.reviewOption}>option IV</EduText>
-            </View>
-            <MainActionButton
-              style={styles.startButton}
-              text="Start"
-              onPress={() => {}}
-            />
-          </View>
-        </Modal>
+        <ReviewMcqModal
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+        />
       </Portal>
     </Page>
   );
@@ -193,28 +179,5 @@ const styles = StyleSheet.create({
     marginBottom: Constants.commonMargin / 2,
     fontSize: 20,
     textAlign: 'center',
-  },
-  modalTitle: {
-    // marginTop: Constants.commonMargin / 2,
-    fontSize: 28,
-    textAlign: 'center',
-  },
-  modalItemsContainer: {
-    backgroundColor: Colors.foreground,
-    // height: Dimensions.get('window').height * 0.37,
-    width: '100%',
-    padding: Constants.commonMargin / 2,
-    paddingTop: Constants.commonMargin,
-  },
-  modal: {
-    justifyContent: 'flex-end',
-  },
-  reviewOption: {
-    fontSize: 20,
-    paddingVertical: Constants.commonMargin / 3,
-    paddingHorizontal: Constants.commonMargin,
-  },
-  startButton: {
-    marginTop: (Constants.commonMargin * 2) / 3,
   },
 });

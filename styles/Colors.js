@@ -1,5 +1,6 @@
 const Colors = {
   accent: '#0A7DA4',
+  disabledAccent: '#075c78',
   background: '#FBFBFB',
   white: '#ffffff',
   black: '#000',
@@ -21,6 +22,7 @@ const Colors = {
   materialSkipped: '#D97213',
   materialLightGood: '#d4f7d5',
   materialLightWrong: '#f6d5d5',
+  disabledButton: '#999999',
 };
 
 export default Colors;

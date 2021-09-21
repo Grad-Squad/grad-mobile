@@ -5,18 +5,31 @@ import { LocalizationContext } from 'localization';
 
 const LETTER_A_CODE = 65;
 const ARABIC_LETTERS = 'أبجدهوزحطيكلمنسعفصقرشتثخذوضظغ';
-const LetterFromIndex = ({ index }) => {
+const LetterFromIndex = ({ index, hasTrailingComma }) => {
   const { language } = useContext(LocalizationContext);
 
   if (language.substr(0, 2) === 'ar') {
-    return <EduText>{ARABIC_LETTERS[index]}</EduText>;
+    return (
+      <EduText inheritColor>
+        {`${ARABIC_LETTERS[index]} ${hasTrailingComma ? ', ' : ''}`}
+      </EduText>
+    );
   }
-  return <EduText>{String.fromCharCode(LETTER_A_CODE + index)}</EduText>;
+  return (
+    <EduText inheritColor>
+      {`${String.fromCharCode(LETTER_A_CODE + index)} ${
+        hasTrailingComma ? ', ' : ''
+      }`}
+    </EduText>
+  );
 };
 
 LetterFromIndex.propTypes = {
   index: PropTypes.number.isRequired,
+  hasTrailingComma: PropTypes.bool,
 };
-LetterFromIndex.defaultProps = {};
+LetterFromIndex.defaultProps = {
+  hasTrailingComma: false,
+};
 
 export default LetterFromIndex;

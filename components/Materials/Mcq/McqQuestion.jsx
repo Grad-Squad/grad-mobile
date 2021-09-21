@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
@@ -7,8 +7,9 @@ import {
   SecondaryActionButton,
   MainActionButton,
 } from 'common/Input/Button';
-import { Colors, Constants } from 'styles';
+import { Constants } from 'styles';
 import ResponsiveImage from 'common/ResponsiveImage';
+import { LocalizationContext } from 'localization';
 import McqOption from './McqOption';
 import AnswerFeedbackText from './AnswerFeedbackText';
 
@@ -25,6 +26,7 @@ const McqQuestion = ({
   const [isQuestionAnswered, setIsQuestionAnswered] =
     useState(isAlreadyAnswered);
   const [selectedIndices, setSelectedIndices] = useState([]);
+  const { t } = useContext(LocalizationContext);
 
   useEffect(() => {
     setIsQuestionAnswered(isAlreadyAnswered);
@@ -68,11 +70,11 @@ const McqQuestion = ({
 
   const footer =
     isQuestionAnswered || isAlreadyAnswered ? (
-      <MainActionButton text="Continue" onPress={onContinuePressed} />
+      <MainActionButton text={t('Mcq/Continue')} onPress={onContinuePressed} />
     ) : (
       <View style={styles.row}>
         <TransparentButton
-          text="Skip"
+          text={t('Mcq/Skip')}
           onPress={() => {
             handleSkip();
           }}
@@ -80,7 +82,7 @@ const McqQuestion = ({
         />
         {selectedIndices.length > 0 ? (
           <MainActionButton
-            text="Submit Answer"
+            text={t('Mcq/SubmitAnswer')}
             style={styles.take65Width}
             onPress={() => {
               setIsQuestionAnswered(true);
@@ -88,7 +90,7 @@ const McqQuestion = ({
           />
         ) : (
           <SecondaryActionButton
-            text="Show Answer"
+            text={t('Mcq/ShowAnswer')}
             style={styles.take65Width}
             onPress={() => {
               setIsQuestionAnswered(true);
@@ -179,11 +181,5 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     marginTop: 'auto',
     justifyContent: 'flex-end',
-  },
-  correctText: {
-    color: Colors.materialGood,
-  },
-  selectedText: {
-    color: Colors.accent,
   },
 });

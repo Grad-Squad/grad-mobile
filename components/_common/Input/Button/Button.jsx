@@ -6,11 +6,13 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Colors, Constants } from 'styles';
 
-const Button = ({ text, onPress, leftIcon, style, textStyle }) => (
+const Button = ({ text, onPress, leftIcon, style, textStyle, ...props }) => (
   <Pressable
     onPress={onPress}
     style={[styles.button, style]}
     android_ripple={pressableAndroidRipple}
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    {...props}
   >
     {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
     <Text style={[styles.text, textStyle]}>{text}</Text>

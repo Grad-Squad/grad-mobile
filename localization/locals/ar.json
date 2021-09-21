@@ -86,5 +86,22 @@
   },
   "DropDown": {
     "Search...": "بحث..."
+  },
+  "Mcq": {
+    "Continue": "استمر",
+    "Skip": "تخطى",
+    "SubmitAnswer": "سلم الاجابة",
+    "ShowAnswer": "اظهر الاجابة",
+    "selectedAnswers": "الإجابات المحددة: ",
+    "correctAnswers": "الجواب الصحيح: "
+  },
+  "McqReview": {
+    "Correct": "صحيح",
+    "Wrong": "خطأ",
+    "AnswersShown": "تم عرض الإجابات",
+    "Skipped": "تم تخطيه",
+    "Again?": "إعادة التمرين؟",
+    "What should we include?": "ماذا تريد أن تراجع؟",
+    "Start": "ابدأ"
   }
 }

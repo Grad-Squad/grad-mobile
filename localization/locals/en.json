@@ -86,5 +86,22 @@
   },
   "DropDown": {
     "Search...": "Search..."
+  },
+  "Mcq": {
+    "Continue": "Continue",
+    "Skip": "Skip",
+    "SubmitAnswer": "Submit Answer",
+    "ShowAnswer": "Show Answer",
+    "selectedAnswers": "Selected answer(s): ",
+    "correctAnswers": "The correct answer(s): "
+  },
+  "McqReview": {
+    "Correct": "Correct",
+    "Wrong": "Wrong",
+    "AnswersShown": "Answers Shown",
+    "Skipped": "Skipped",
+    "Again?": "Go again ?",
+    "What should we include?": "What should we include?",
+    "Start": "Start"
   }
 }

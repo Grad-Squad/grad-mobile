@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.accent,
     borderWidth: 0,
     marginHorizontal: 2,
-    color: 'white',
+    color: Colors.white,
   },
   fillGood: {
     backgroundColor: Colors.materialLightGood,

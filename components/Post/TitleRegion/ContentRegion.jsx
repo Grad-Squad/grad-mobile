@@ -4,18 +4,15 @@ import { View, StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   material: {
     marginVertical: 5,
-    // marginHorizontal: 15,
     minHeight: 90,
-    borderWidth: 1,
-    backgroundColor: '#86B3DD',
-    borderRadius: 7,
+    width:'100%',
   },
 });
 
 function ContentRegion() {
   return (
-    <View width="100%">
-      <View style={styles.material} />
+    <View style={styles.material}>
+      <PostContentList/>
     </View>
   );
 }

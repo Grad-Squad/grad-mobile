@@ -11,3 +11,12 @@ export const navigationPropType = PropTypes.shape({
 });
 export const stylePropType = ViewPropTypes.style;
 export const TextPropType = Text.propTypes.style;
+
+export const mcqChoicePropType = PropTypes.exact({
+  text: PropTypes.string.isRequired,
+  isCorrect: PropTypes.bool.isRequired,
+});
+export const mcqQuestionPropType = PropTypes.exact({
+  question: PropTypes.string.isRequired,
+  choices: PropTypes.arrayOf(mcqChoicePropType.isRequired).isRequired,
+});

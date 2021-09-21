@@ -44,3 +44,12 @@ export const roleRequired = (t) =>
     .string()
     .oneOf(Object.keys(roles))
     .required(t('InputValidationError/field required'));
+
+const commentMaxChar = 700;
+export const comment = (t) =>
+  yup
+    .string()
+    .max(
+      commentMaxChar,
+      t('TextInput/max char error', { max: commentMaxChar })
+    );

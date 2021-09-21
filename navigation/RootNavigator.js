@@ -6,14 +6,14 @@ import CreatePost from 'components/Home/CreatePost';
 import ExpandedPost from 'components/ExpandedPost/ExpandedPost';
 import SolveMcq from 'components/Materials/Mcq/SolveMcq';
 import ReviewMcq from 'components/Materials/Mcq/ReviewMcq';
-import Login from '../components/Login/Login';
-import ForgotPasswordNavigator from '../components/ForgotPassword/ForgotPasswordNavigator';
-import RegisterNavigation from '../components/Register/RegisterNavigation';
 import AddFlashCards from 'components/Home/CreatePost/AddMaterial/AddFlashCards';
 import AddPDF from 'components/Home/CreatePost/AddMaterial/AddPDF';
 import AddImages from 'components/Home/CreatePost/AddMaterial/AddImages';
 import AddVideo from 'components/Home/CreatePost/AddMaterial/AddVideo';
-import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ';
+import Login from 'components/Login/Login';
+import RegisterNavigation from 'components/Register/RegisterNavigation';
+import ForgotPasswordNavigator from 'components/ForgotPassword/ForgotPasswordNavigator';
+import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ/AddMCQ'
 import Navigator from './Navigator';
 
 const screens = [

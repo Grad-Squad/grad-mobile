@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Icon} from 'common/Icon';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { formatNumber } from 'utility';
 import EduText from 'common/EduText';

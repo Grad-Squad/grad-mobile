@@ -20,7 +20,8 @@ const PressableText = ({ children, onPress, pressableProps, ...props }) => (
 PressableText.propTypes = {
   children: childrenPropType.isRequired,
   onPress: PropTypes.func.isRequired,
-  pressableProps: PropTypes.any,
+  // eslint-disable-next-line react/forbid-prop-types
+  pressableProps: PropTypes.object,
 };
 PressableText.defaultProps = { pressableProps: {} };
 

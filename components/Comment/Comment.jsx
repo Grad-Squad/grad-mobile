@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import EduText from 'common/EduText';

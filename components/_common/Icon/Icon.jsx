@@ -30,6 +30,7 @@ const map = {
   'send':MaterialIcons,
   "arrow-left":MaterialCommunityIcons,
   'plus':Feather,
+  'comment-outline':MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

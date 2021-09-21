@@ -25,22 +25,16 @@ const styles = StyleSheet.create({
   },
 });
 
-function AddCommentButton() {
-  const onPress = () => {
-    console.log('ADD COMMENT');
-  };
-
+function AddCommentButton({ postID, onPress }) {
   return (
-    <View style={styles.CommentsContainer}>
       <TouchableOpacity
-        style={styles.button}
+        style={styles.CommentsContainer}
         onPress={onPress}
         hitSlop={HIT_SLOP_OBJECT}
       >
         <Icon name="plus" size={24} color={Colors.addCommentText} />
         <EduText style={{ color: Colors.addCommentText }}>Comment</EduText>
       </TouchableOpacity>
-    </View>
   );
 }
 

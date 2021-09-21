@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useContext, useState } from 'react';
 import { View, StyleSheet, StatusBar } from 'react-native';
+import { Modal, Portal } from 'react-native-paper';
 
 import PropTypes from 'prop-types';
 
@@ -8,6 +9,8 @@ import TitleRegion from './TitleRegion';
 import FooterRegion from '../Post/FooterRegion';
 import AddCommentButton from './AddCommentButton';
 import CommentList from './CommentList';
+import NewComment from './NewComment';
+
 
 const statusBarPadding = StatusBar.currentHeight || 0;
 
@@ -20,47 +23,49 @@ const styles = StyleSheet.create({
     width: '90%',
     top: -1 * statusBarPadding,
   },
+  modalWrapper:{
+    marginTop:'auto',
+  },
 });
 
-function ExpandedPost() {
+function ExpandedPost({ route, postData }) {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   //todo remove hardcoded data
-  //const { title, author, rating, priceInCents, createdAt, id } = postData;
-  const creationDate = new Date(); //createdAt);
-  const rating = {
-    id: 0,
-    upvotes: 69,
-    downvotes: 31,
-    currentUserStatus: 'yes',
-  };
+  const { title, subject, author, rating, priceInCents, createdAt, id } =
+    route.params;
 
   return (
     <Page>
-      <TitleRegion
-        style={styles.container}
-        title="{title}"
-        profileName="{author.name}"
-        postDate={creationDate}
-        profileImageURI="https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png"
-        upvotePercentage={
-          (rating.upvotes * 100) / (rating.upvotes + rating.downvotes)
-        }
-        courseName={'very advanced physics 2'}
-      />
-      <View style={styles.footerContainer}>
-        <FooterRegion
-          rating={{
-            entityId: 0,
-            upvotes: 5,
-            downvotes: 3,
-            currentUserStatus: 'upvoted',
-          }}
-          commentCount={0} //{priceInCents}
-          isPost
+      <Portal>
+        <TitleRegion
+          style={styles.container}
+          title={title}
+          profileName={author.name}
+          postDate={createdAt}
+          profileImageURI={author.profilePicture}
+          upvotePercentage={
+            (rating.upvotes * 100) / (rating.upvotes + rating.downvotes)
+          }
+          courseName={subject}
         />
-      </View>
+        <View style={styles.footerContainer}>
+          <FooterRegion rating={rating} commentCount={priceInCents} isPost />
+        </View>
 
-      <CommentList />
-      <AddCommentButton />
+        <CommentList />
+        <AddCommentButton postID={id} onPress={() => setIsModalVisible(true)} />
+        <Modal
+          visible={isModalVisible}
+          onDismiss={() => setIsModalVisible(false)}
+          contentContainerStyle={styles.modalWrapper}
+          style={styles.modal}
+        >
+          <NewComment
+            profileImageURI={author.profilePicture}
+          />
+        </Modal>
+      </Portal>
     </Page>
   );
 }

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     ...Styles.dropShadow,
     position: 'absolute',
     top: -1 * statusBarPadding,
-    paddingTop: 2 * statusBarPadding,
+    paddingTop: 3 * statusBarPadding,
     left: '5%',
     backgroundColor: Colors.accent,
     padding: 5,
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingBottom: 5,
 
-    paddingTop: statusBarPadding,
+    paddingTop: 2 * statusBarPadding,
     top: -1 * statusBarPadding,
   },
   profileInfoContainer: {

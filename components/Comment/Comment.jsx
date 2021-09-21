@@ -74,9 +74,9 @@ const styles = StyleSheet.create({
     top: -6,
     zIndex: -1,
   },
-  footer: {
-    marginLeft: 'auto',
-  },
+  // footer: {
+  //   marginLeft: 'auto',
+  // },
 });
 
 function Comment({

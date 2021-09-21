@@ -8,6 +8,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Feather from 'react-native-vector-icons/Feather';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { TextPropType } from 'proptypes';
+import SVGIcons from './SVGIcons';
 
 const map = {
   question: AntDesign,
@@ -25,8 +26,12 @@ const map = {
   pdffile1: AntDesign,
   'image-outline': MaterialCommunityIcons,
   'ondemand-video': MaterialIcons,
+  'dots-horizontal': MaterialCommunityIcons,
+  'edit-2': Feather,
   'check-square': Feather,
   square: Feather,
+  AddImage: SVGIcons,
+  'delete-outline': MaterialIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

@@ -35,6 +35,47 @@ const SolveMcq = ({ navigation }) => {
     }
   }, [hasFinished]);
 
+  const handleAnswerShown = () => {
+    setStoredAnswers((state) => {
+      const newStoredAnswers = [...state];
+      newStoredAnswers[pageNum] = {
+        ...newStoredAnswers[pageNum],
+        isCorrect: false,
+        isAnswerShown: true,
+        isAlreadyAnswered: true,
+        isSkipped: false,
+      };
+      return newStoredAnswers;
+    });
+    incrementPage();
+  };
+
+  const handleAnswer = (asnweredCorrectly) => {
+    setStoredAnswers((state) => {
+      const newStoredAnswers = [...state];
+      newStoredAnswers[pageNum] = {
+        ...newStoredAnswers[pageNum],
+        isCorrect: asnweredCorrectly,
+        isAlreadyAnswered: true,
+        isSkipped: false,
+      };
+      return newStoredAnswers;
+    });
+    incrementPage();
+  };
+
+  const handleSkip = () => {
+    setStoredAnswers((state) => {
+      const newStoredAnswers = [...state];
+      newStoredAnswers[pageNum] = {
+        ...newStoredAnswers[pageNum],
+        isSkipped: true,
+      };
+      return newStoredAnswers;
+    });
+    incrementPage();
+  };
+
   return (
     <Page>
       <ProgressBar progress={pageNum / maxPages} color={Colors.accent} />
@@ -57,44 +98,9 @@ const SolveMcq = ({ navigation }) => {
         questionIndex={pageNum}
         isAlreadyAnswered={storedAnswers[pageNum].isAlreadyAnswered}
         isLastQuestion={pageNum === QUESTIONS.length - 1}
-        handleAnswerShown={() => {
-          setStoredAnswers((state) => {
-            const newStoredAnswers = [...state];
-            newStoredAnswers[pageNum] = {
-              ...newStoredAnswers[pageNum],
-              isCorrect: false,
-              isAnswerShown: true,
-              isAlreadyAnswered: true,
-              isSkipped: false,
-            };
-            return newStoredAnswers;
-          });
-          incrementPage();
-        }}
-        handleAnswer={(asnweredCorrectly) => {
-          setStoredAnswers((state) => {
-            const newStoredAnswers = [...state];
-            newStoredAnswers[pageNum] = {
-              ...newStoredAnswers[pageNum],
-              isCorrect: asnweredCorrectly,
-              isAlreadyAnswered: true,
-              isSkipped: false,
-            };
-            return newStoredAnswers;
-          });
-          incrementPage();
-        }}
-        handleSkip={() => {
-          setStoredAnswers((state) => {
-            const newStoredAnswers = [...state];
-            newStoredAnswers[pageNum] = {
-              ...newStoredAnswers[pageNum],
-              isSkipped: true,
-            };
-            return newStoredAnswers;
-          });
-          incrementPage();
-        }}
+        handleAnswerShown={handleAnswerShown}
+        handleAnswer={handleAnswer}
+        handleSkip={handleSkip}
       />
     </Page>
   );

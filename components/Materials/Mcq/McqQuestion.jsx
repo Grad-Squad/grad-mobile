@@ -10,8 +10,8 @@ import {
 import { Colors, Constants } from 'styles';
 import ResponsiveImage from 'common/ResponsiveImage';
 import McqOption from './McqOption';
+import AnswerFeedbackText from './AnswerFeedbackText';
 
-const LETTER_A_CODE = 65;
 const McqQuestion = ({
   question,
   questionIndex,
@@ -31,6 +31,73 @@ const McqQuestion = ({
     setSelectedIndices([]);
   }, [questionIndex]);
 
+  const onOptionPressed = (index) => {
+    if (isQuestionAnswered) {
+      return;
+    }
+    if (selectedIndices.indexOf(index) !== -1) {
+      setSelectedIndices((state) =>
+        state.filter((storedIndex) => storedIndex !== index)
+      );
+    } else if (hasOneAnswer) {
+      setSelectedIndices([index]);
+    } else {
+      setSelectedIndices((state) => [...state, index]);
+    }
+  };
+
+  const onContinuePressed = () => {
+    if (selectedIndices.length === 0) {
+      handleAnswerShown();
+    } else {
+      let answeredCorrectly = true;
+      const sortedSelectedIndices = [...selectedIndices].sort();
+      const sortedCorrectIndices = [...answerIndices].sort();
+      if (sortedCorrectIndices.length === sortedSelectedIndices.length) {
+        for (let i = 0; i < sortedCorrectIndices.length; i += 1) {
+          if (sortedCorrectIndices[i] !== sortedSelectedIndices[i]) {
+            answeredCorrectly = false;
+          }
+        }
+      } else {
+        answeredCorrectly = false;
+      }
+      handleAnswer(answeredCorrectly, false);
+    }
+  };
+
+  const footer =
+    isQuestionAnswered || isAlreadyAnswered ? (
+      <MainActionButton text="Continue" onPress={onContinuePressed} />
+    ) : (
+      <View style={styles.row}>
+        <TransparentButton
+          text="Skip"
+          onPress={() => {
+            handleSkip();
+          }}
+          style={styles.take35Width}
+        />
+        {selectedIndices.length > 0 ? (
+          <MainActionButton
+            text="Submit Answer"
+            style={styles.take65Width}
+            onPress={() => {
+              setIsQuestionAnswered(true);
+            }}
+          />
+        ) : (
+          <SecondaryActionButton
+            text="Show Answer"
+            style={styles.take65Width}
+            onPress={() => {
+              setIsQuestionAnswered(true);
+            }}
+          />
+        )}
+      </View>
+    );
+
   return (
     <View style={{ flex: 1 }}>
       {title && (
@@ -39,24 +106,10 @@ const McqQuestion = ({
         </EduText>
       )}
       {isQuestionAnswered && (
-        <EduText style={{ paddingHorizontal: Constants.commonMargin }}>
-          Selected answer(s):{' '}
-          <EduText style={styles.selectedText}>
-            {selectedIndices
-              .map((index) => String.fromCharCode(LETTER_A_CODE + index))
-              .join(', ')}
-          </EduText>
-        </EduText>
-      )}
-      {isQuestionAnswered && (
-        <EduText style={{ paddingHorizontal: Constants.commonMargin }}>
-          The correct answer(s):{' '}
-          <EduText style={styles.correctText}>
-            {answerIndices
-              .map((index) => String.fromCharCode(LETTER_A_CODE + index))
-              .join(', ')}
-          </EduText>
-        </EduText>
+        <AnswerFeedbackText
+          selectedIndices={selectedIndices}
+          answerIndices={answerIndices}
+        />
       )}
       <FlatList
         ListHeaderComponent={
@@ -73,79 +126,10 @@ const McqQuestion = ({
             isAnswer={answerIndices.includes(index)}
             disabled={isQuestionAnswered}
             chosen={selectedIndices.indexOf(index) !== -1}
-            onPress={() => {
-              if (isQuestionAnswered) {
-                return;
-              }
-              if (selectedIndices.indexOf(index) !== -1) {
-                setSelectedIndices((state) =>
-                  state.filter((storedIndex) => storedIndex !== index)
-                );
-              } else if (hasOneAnswer) {
-                setSelectedIndices([index]);
-              } else {
-                setSelectedIndices((state) => [...state, index]);
-              }
-            }}
+            onPress={() => onOptionPressed(index)}
           />
         )}
-        ListFooterComponent={
-          isQuestionAnswered || isAlreadyAnswered ? (
-            <MainActionButton
-              text="Continue"
-              onPress={() => {
-                if (selectedIndices.length === 0) {
-                  handleAnswerShown();
-                } else {
-                  let answeredCorrectly = true;
-                  const sortedSelectedIndices = [...selectedIndices].sort();
-                  const sortedCorrectIndices = [...answerIndices].sort();
-                  if (
-                    sortedCorrectIndices.length === sortedSelectedIndices.length
-                  ) {
-                    for (let i = 0; i < sortedCorrectIndices.length; i += 1) {
-                      if (
-                        sortedCorrectIndices[i] !== sortedSelectedIndices[i]
-                      ) {
-                        answeredCorrectly = false;
-                      }
-                    }
-                  } else {
-                    answeredCorrectly = false;
-                  }
-                  handleAnswer(answeredCorrectly, false);
-                }
-              }}
-            />
-          ) : (
-            <View style={styles.row}>
-              <TransparentButton
-                text="Skip"
-                onPress={() => {
-                  handleSkip();
-                }}
-                style={styles.take35Width}
-              />
-              {selectedIndices.length > 0 ? (
-                <MainActionButton
-                  text="Submit Answer"
-                  style={styles.take65Width}
-                  onPress={() => {
-                    setIsQuestionAnswered(true);
-                  }}
-                />
-              ) : (
-                <SecondaryActionButton
-                  text="Show Answer"
-                  style={styles.take65Width}
-                  onPress={() => {
-                    setIsQuestionAnswered(true);
-                  }}
-                />
-              )}
-            </View>
-          )
-        }
+        ListFooterComponent={footer}
         ListFooterComponentStyle={styles.footer}
       />
     </View>

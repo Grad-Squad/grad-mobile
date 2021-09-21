@@ -176,13 +176,16 @@ const AddQuestion = ({ addQuestion, contentStyle, questions }) => {
               Alert.alert('You will lose the text already in choice');
               return;
             }
+
             currentChoiceFormik.setFieldValue(
               'currentChoice',
               currentQuestionFormik.values.choices[i].text
             );
-            currentChoiceFormik.setFieldValue(
+
+            currentQuestionFormik.values.choices.splice(i, 1);
+            currentQuestionFormik.setFieldValue(
               'choices',
-              currentQuestionFormik.values.choices.splice(i, 1)
+              currentQuestionFormik.values.choices
             );
           }}
         />

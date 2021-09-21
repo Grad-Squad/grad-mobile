@@ -65,7 +65,8 @@
   "ContextMenu": {
     "Edit": "Edit",
     "Share": "Share",
-    "Report": "Report"
+    "Report": "Report",
+    "Delete": "Delete"
   },
   "CreatePost": {
     "Create New Post": "Create New Post",

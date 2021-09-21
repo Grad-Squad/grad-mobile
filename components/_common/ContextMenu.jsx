@@ -1,86 +1,69 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, StyleSheet, View } from 'react-native';
-import FeatherIcons from 'react-native-vector-icons/Feather';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import { StyleSheet, View } from 'react-native';
+import { Menu, Divider } from 'react-native-paper';
 import { LocalizationContext } from 'localization';
-import { Colors, Constants, Fonts, Styles } from 'styles';
-import { Button } from './Input';
+import { Icon } from './Icon';
+import EduText from './EduText';
 
-const ContextMenu = ({
-  onShareButtonPressed,
-  onEditButtonPressed,
-  onReportButtonPressed,
-}) => {
-  const { t, setLanguage } = useContext(LocalizationContext);
-
-  const HorizontalSeparator = () => <View style={styles.horizontalSeparator} />;
-
-  const ContextMenuButton = ({ text, onPress, icon }) => (
-    <Button
-      text={text}
-      onPress={onPress}
-      leftIcon={icon}
-      transparent
-      style={styles.button}
-      textStyle={styles.textStyle}
-    />
-  );
-
+const ContextMenu = ({ visible, setVisible, anchor, items }) => {
+  const { t } = useContext(LocalizationContext);
   return (
-    <View style={{ alignItems: 'center' }}>
-      <View style={styles.container}>
-        <ContextMenuButton
-          text={t('ContextMenu/Edit')}
-          onPress={onEditButtonPressed}
-          icon={EditIcon}
-        />
-        <HorizontalSeparator />
-        <ContextMenuButton
-          text={t('ContextMenu/Share')}
-          onPress={onShareButtonPressed}
-          icon={ShareIcon}
-        />
-        <HorizontalSeparator />
-        <ContextMenuButton
-          text={t('ContextMenu/Report')}
-          onPress={onReportButtonPressed}
-          icon={ReportIcon}
-        />
-      </View>
-    </View>
+    <Menu visible={visible} onDismiss={() => setVisible(false)} anchor={anchor}>
+      {items.map(({ titleKey, divider, key, onPress, iconName }) => {
+        if (divider) {
+          return <Divider key={key} />;
+        }
+        return (
+          <Menu.Item
+            key={titleKey}
+            onPress={() => {
+              onPress();
+              setVisible(false);
+            }}
+            title={
+              <View style={styles.menuItemTitle}>
+                <Icon name={iconName} />
+                <EduText style={styles.menuItemText}>{t(titleKey)}</EduText>
+              </View>
+            }
+          />
+        );
+      })}
+    </Menu>
   );
 };
 
-const EditIcon = <FeatherIcons name={'edit-2'} size={25} />;
-const ShareIcon = <AntDesign name={'sharealt'} size={25} />;
-const ReportIcon = <AntDesign name={'flag'} size={25} />;
-
 ContextMenu.propTypes = {
-  onShareButtonPressed: PropTypes.func.isRequired,
-  onEditButtonPressed: PropTypes.func.isRequired,
-  onReportButtonPressed: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
+  anchor: PropTypes.node.isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.exact({
+        titleKey: PropTypes.string.isRequired,
+        onPress: PropTypes.func.isRequired,
+        iconName: PropTypes.string.isRequired,
+      }).isRequired,
+      PropTypes.exact({
+        divider: PropTypes.bool.isRequired,
+        key: PropTypes.string.isRequired,
+      }).isRequired,
+    ])
+  ).isRequired,
 };
 ContextMenu.defaultProps = {};
 
 export default ContextMenu;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 10,
-    paddingVertical: 3,
-    ...Styles.dropShadow,
-    borderRadius: Constants.borderRadius,
+  menuItemTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
-  button: {
-    justifyContent: 'flex-start',
-  },
-  horizontalSeparator: {
-    backgroundColor: 'white',
-    height: 3,
-    marginHorizontal: 8,
-  },
-  textStyle: {
-    flexBasis: 'auto',
+  menuItemText: {
+    marginLeft: 10,
+    fontSize: 16,
   },
 });

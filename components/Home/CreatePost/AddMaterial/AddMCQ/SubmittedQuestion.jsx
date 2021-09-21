@@ -1,27 +1,56 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Icon, MaterialTypeIconsMap, PressableIcon } from 'common/Icon';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
+import ContextMenu from 'common/ContextMenu';
 
-const SubmittedQuestion = ({ question, numOfMCQ }) => (
-  <View style={styles.wrapper}>
-    <EduText style={styles.text}>{question}</EduText>
-    <View>
-      <View style={styles.numOfMCQ}>
-        <EduText style={styles.numOfMCQTextGap}>{numOfMCQ}</EduText>
-        <Icon name={MaterialTypeIconsMap.MCQ} />
-      </View>
-      <View style={{ alignItems: 'flex-end' }}>
-        <PressableIcon
-          onPress={() => Alert.alert('triple dot')}
-          name="dots-horizontal"
-        />
+const SubmittedQuestion = ({ question, numOfMCQ }) => {
+  const [contextMenuVisible, setContextMenuVisible] = useState(false);
+
+  const contextMenuItems = [
+    {
+      titleKey: 'ContextMenu/Edit',
+      onPress: () => {
+        Alert.alert('edit');
+      },
+      iconName: 'edit-2',
+    },
+    { divider: true, key: 'divider' },
+    {
+      titleKey: 'ContextMenu/Delete',
+      onPress: () => {
+        Alert.alert('delete');
+      },
+      iconName: 'delete-outline',
+    },
+  ];
+  return (
+    <View style={styles.wrapper}>
+      <EduText style={styles.text}>{question}</EduText>
+      <View>
+        <View style={styles.numOfMCQ}>
+          <EduText style={styles.numOfMCQTextGap}>{numOfMCQ}</EduText>
+          <Icon name={MaterialTypeIconsMap.MCQ} />
+        </View>
+        <View style={{ alignItems: 'flex-end' }}>
+          <ContextMenu
+            visible={contextMenuVisible}
+            setVisible={setContextMenuVisible}
+            anchor={
+              <PressableIcon
+                onPress={() => setContextMenuVisible(true)}
+                name="dots-horizontal"
+              />
+            }
+            items={contextMenuItems}
+          />
+        </View>
       </View>
     </View>
-  </View>
-);
+  );
+};
 
 SubmittedQuestion.propTypes = {
   question: PropTypes.string.isRequired,

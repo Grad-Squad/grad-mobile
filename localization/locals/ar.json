@@ -65,7 +65,8 @@
   "ContextMenu": {
     "Edit": "تعديل",
     "Share": "شارك",
-    "Report": "إبلاغ"
+    "Report": "إبلاغ",
+    "Delete": "حذف"
   },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",

@@ -98,6 +98,7 @@
         "(question already exists)": "(question already exists)",
         "At least one choice should be correct": "At least one choice should be correct",
         "add at least one choice": "add at least one choice",
+        "(maximum number of questions reached)": "(maximum number of questions reached)",
         "(maximum number of choices reached)": "(maximum number of choices reached)"
       }
     },

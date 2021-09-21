@@ -98,6 +98,7 @@
         "(question already exists)": "(السؤال موجود بالفعل)",
         "At least one choice should be correct": "يجب أن يكون اختيار واحد على الأقل صحيحًا",
         "add at least one choice": "إضافة اختيار واحد على الأقل",
+        "(maximum number of questions reached)": "(تم الوصول إلى الحد الأقصى لعدد الأسئلة)",
         "(maximum number of choices reached)": "(تم الوصول إلى الحد الأقصى لعدد الاختيارات)"
       }
     },

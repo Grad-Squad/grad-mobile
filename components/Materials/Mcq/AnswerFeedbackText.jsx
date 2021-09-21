@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import EduText from 'components/_common/EduText';
-import { Constants } from 'styles';
+import { Colors, Constants } from 'styles';
+import LetterFromIndex from '../_common/LetterFromIndex';
 
-const LETTER_A_CODE = 65;
 const AnswerFeedbackText = ({ selectedIndices, answerIndices }) => (
   <>
     (
@@ -12,7 +12,7 @@ const AnswerFeedbackText = ({ selectedIndices, answerIndices }) => (
       Selected answer(s):{' '}
       <EduText style={styles.selectedText}>
         {selectedIndices
-          .map((index) => String.fromCharCode(LETTER_A_CODE + index))
+          .map((index) => <LetterFromIndex index={index} />)
           .join(', ')}
       </EduText>
     </EduText>
@@ -21,7 +21,7 @@ const AnswerFeedbackText = ({ selectedIndices, answerIndices }) => (
       The correct answer(s):{' '}
       <EduText style={styles.correctText}>
         {answerIndices
-          .map((index) => String.fromCharCode(LETTER_A_CODE + index))
+          .map((index) => <LetterFromIndex index={index} />)
           .join(', ')}
       </EduText>
     </EduText>
@@ -37,4 +37,11 @@ AnswerFeedbackText.defaultProps = {};
 
 export default AnswerFeedbackText;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  correctText: {
+    color: Colors.materialGood,
+  },
+  selectedText: {
+    color: Colors.accent,
+  },
+});

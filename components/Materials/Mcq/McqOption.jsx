@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Pressable, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
+import LetterFromIndex from '../_common/LetterFromIndex';
 
-const LETTER_A_CODE = 65;
 const McqOption = ({ option, index, disabled, isAnswer, onPress, chosen }) => {
   const isChosen = disabled && chosen;
   const isAnswerAndDisabled = disabled && isAnswer;
@@ -30,7 +30,7 @@ const McqOption = ({ option, index, disabled, isAnswer, onPress, chosen }) => {
           isAnswerAndDisabled && !chosen && styles.letterNotChosen,
         ]}
       >
-        {String.fromCharCode(LETTER_A_CODE + index)}
+        <LetterFromIndex index={index} />
       </EduText>
       <View style={styles.separator} />
       <EduText

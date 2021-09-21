@@ -13,7 +13,7 @@ import Separator from 'common/Separator';
 import EduText from 'common/EduText';
 import { Colors } from 'styles';
 import { mcqQuestionPropType, stylePropType } from 'proptypes';
-import SubmittedChoice from './SubmittedChoice';
+import ChoicesList from './ChoicesList';
 
 const MaxNumberOfChoices = 26;
 const MaxNumberOfQuestions = 1000;
@@ -168,30 +168,10 @@ const AddQuestion = ({ addQuestion, contentStyle, questions }) => {
             </EduText>
           )}
 
-        {currentQuestionFormik.values.choices.length !== 0 && (
-          <>
-            <EduText style={styles.correctQuestionMark}>
-              {t('AddMaterial/MCQ/Correct?')}
-            </EduText>
-            {currentQuestionFormik.values.choices
-              .slice()
-              .reverse()
-              .map(({ text, isCorrect }, index) => (
-                <SubmittedChoice
-                  key={text}
-                  text={text}
-                  isCorrect={isCorrect}
-                  setIsCorrect={(newIsCorrect) =>
-                    currentQuestionFormik.setFieldValue(
-                      `choices[${index}].isCorrect`,
-                      newIsCorrect
-                    )
-                  }
-                  onEditPress={() => Alert.alert('on edit press')}
-                />
-              ))}
-          </>
-        )}
+        <ChoicesList
+          choices={currentQuestionFormik.values.choices}
+          setFormikChoiceField={currentQuestionFormik.setFieldValue}
+        />
         <SecondaryActionButton
           text={t('AddMaterial/Add Question')}
           onPress={currentQuestionFormik.handleSubmit}
@@ -229,7 +209,6 @@ const styles = StyleSheet.create({
     width: 180,
     alignSelf: 'flex-end',
   },
-  correctQuestionMark: { alignSelf: 'flex-end', marginBottom: 10 },
   choicesError: {
     color: Colors.error,
   },

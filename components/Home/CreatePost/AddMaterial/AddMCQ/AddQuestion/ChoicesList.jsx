@@ -24,7 +24,7 @@ const ChoicesList = ({ choices, setFormikChoiceField }) => {
               isCorrect={isCorrect}
               setIsCorrect={(newIsCorrect) =>
                 setFormikChoiceField(
-                  `choices[${index}].isCorrect`,
+                  `choices[${choices.length - index - 1}].isCorrect`,
                   newIsCorrect
                 )
               }

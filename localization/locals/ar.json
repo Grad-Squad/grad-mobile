@@ -126,7 +126,11 @@
     },
     "Add": "أضف",
     "Add Question": "أضف السؤال",
-    "Questions": "أسئلة",
+    "Questions": {
+      "one": "سؤال واحد",
+      "other": "{{number}} أسئلة",
+      "zero": "0 أسئلة"
+    },
     "image name: ": "اسم الصورة: "
   },
   "Comment": {

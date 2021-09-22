@@ -126,7 +126,11 @@
     },
     "Add": "Add",
     "Add Question": "Add Question",
-    "Questions": "Questions",
+    "Questions": {
+      "one": "1 Question",
+      "other": "{{number}} Questions",
+      "zero": "0 Questions"
+    },
     "image name: ": "image name: "
   },
   "Comment": {

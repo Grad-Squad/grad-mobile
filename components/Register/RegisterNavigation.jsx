@@ -44,7 +44,7 @@ const RegisterNavigation = () => {
       profileImage: '',
       bio: '',
     },
-    onSubmit: ({ name, email, password, role, profileImage, bio }) => {
+    onSubmit: (user) => {
       Alert.alert('register submit');
     },
     validationSchema: yup.object().shape({

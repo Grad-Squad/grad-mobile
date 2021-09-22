@@ -7,11 +7,9 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
 import { LocalizationContext } from 'localization';
-import CreatePostHeader from './CreatePostHeader';
+import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
-import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
-import { StatusBar } from 'expo-status-bar';
 
 const dropdownInitialItems = [
   { label: 'Apple', value: 'apple' },

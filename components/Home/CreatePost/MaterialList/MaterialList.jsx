@@ -4,65 +4,14 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { Colors } from 'styles';
 import { LocalizationContext } from 'localization';
 import EduText from 'common/EduText';
+import { MaterialTypeIconsMap } from 'common/Icon';
 import MaterialItem from './MaterialItem';
-
-const materials = [
-  {
-    id: '1',
-    type: 'Flashcards',
-    title:
-      'long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long boi',
-    amount: 10,
-  },
-  {
-    id: '2',
-    type: 'MCQ',
-    title: 'Unit 2: lesson 417',
-    amount: 100,
-  },
-  {
-    id: '3',
-    type: 'Images',
-    title: 'Unit 11: lesson 7',
-    amount: 2,
-  },
-  {
-    id: '4',
-    type: 'PDF',
-    title: 'Unit 12: lesson 7',
-    amount: 2,
-  },
-  {
-    id: '5',
-    type: 'Video',
-    title: 'Unit 13: lesson 7',
-    amount: 2,
-  },
-  {
-    id: '6',
-    type: 'Flashcards',
-    title: 'Unit 14: lesson 7',
-    amount: 2,
-  },
-  {
-    id: '7',
-    type: 'Flashcards',
-    title: 'Unit 15: lesson 7',
-    amount: 2,
-  },
-  {
-    id: '8',
-    type: 'Flashcards',
-    title: 'Unit 16: lesson 7',
-    amount: 2,
-  },
-];
 
 const flatListRenderItem = ({ item: { title, amount, type } }) => (
   <MaterialItem title={title} amount={amount} type={type} />
 );
 
-const MaterialList = ({ errorMsg }) => {
+const MaterialList = ({ materials, errorMsg }) => {
   const { t } = useContext(LocalizationContext);
   return (
     <View style={styles.materialsList}>
@@ -85,14 +34,25 @@ const MaterialList = ({ errorMsg }) => {
             errorMsg && styles.addMaterialUsingError,
           ]}
         >
-          {errorMsg || t('CreatePost/add a material using any of the buttons below')}
+          {errorMsg ||
+            t('CreatePost/add a material using any of the buttons below')}
         </EduText>
       )}
     </View>
   );
 };
 
-MaterialList.propTypes = { errorMsg: PropTypes.string };
+MaterialList.propTypes = {
+  errorMsg: PropTypes.string,
+  materials: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.oneOf(Object.keys(MaterialTypeIconsMap)).isRequired,
+      title: PropTypes.string.isRequired,
+      amount: PropTypes.number.isRequired,
+    }).isRequired
+  ).isRequired,
+};
 MaterialList.defaultProps = { errorMsg: '' };
 
 export default MaterialList;

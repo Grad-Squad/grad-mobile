@@ -78,7 +78,7 @@ const SolveMcq = ({ navigation }) => {
 
   return (
     <Page>
-      <ProgressBar progress={pageNum / maxPages} color={Colors.accent} />
+      <ProgressBar progress={(pageNum+1) / maxPages} color={Colors.accent} />
       <View style={styles.header}>
         <NavMaterials
           onPressNext={incrementPage}

@@ -3,6 +3,7 @@ import Page from 'common/Page/Page';
 import { LocalizationContext } from 'localization';
 import React, { useContext } from 'react';
 import { Button } from 'react-native';
+import { Constants } from 'styles';
 
 const Dev = ({ navigation }) => {
   const { t, setLanguage } = useContext(LocalizationContext);
@@ -21,7 +22,7 @@ const Dev = ({ navigation }) => {
     },
   };
   return (
-    <Page>
+    <Page style={{ paddingTop: Constants.fromScreenStartPadding }}>
       <EduText>{t('hello')}</EduText>
       <Button
         title="Go to Login"

@@ -45,7 +45,11 @@
   },
   "TextInput": {
     "optional": "(اختياري)",
-    "max char error": "(يجب أن يكون أقل من %{max} حرف)"
+    "max char error": "(يجب أن يكون أقل من %{max} حرف)",
+    "max": "(الحد الأقصى: %{max})",
+    "min": "(الحد الأدنى: %{min})",
+    "number": "(يجب أن يكون رقما)",
+    "integer": "(يجب أن يكون عددًا صحيحًا)"
   },
   "InputValidationError": {
     "invalid email": "(البريد الإلكتروني غير صالح)",
@@ -66,7 +70,8 @@
     "Edit": "تعديل",
     "Share": "شارك",
     "Report": "إبلاغ",
-    "Delete": "حذف"
+    "Delete": "حذف",
+    "Save": "حفظ"
   },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",
@@ -88,8 +93,27 @@
   "DropDown": {
     "Search...": "بحث..."
   },
+  "Mcq": {
+    "Continue": "استمر",
+    "Skip": "تخطى",
+    "SubmitAnswer": "سلم الاجابة",
+    "ShowAnswer": "اظهر الاجابة",
+    "selectedAnswers": "الإجابات المحددة: ",
+    "correctAnswers": "الجواب الصحيح: "
+  },
+  "McqReview": {
+    "Correct": "صحيح",
+    "Wrong": "خطأ",
+    "AnswersShown": "تم عرض الإجابات",
+    "Skipped": "تم تخطيه",
+    "Again?": "إعادة التمرين؟",
+    "What should we include?": "ماذا تريد أن تراجع؟",
+    "Start": "ابدأ"
+  },
   "AddMaterial": {
+    "Finish": "اتمام",
     "MCQ": {
+      "Create MCQ": "إنشاء سؤال اختر",
       "Exercise Title": "عنوان التمرين",
       "Question": "السؤال",
       "Choice": "اختيار",
@@ -105,10 +129,18 @@
     },
     "Add": "أضف",
     "Add Question": "أضف السؤال",
-    "Questions": "أسئلة",
+    "Questions": {
+      "one": "سؤال واحد",
+      "other": "{{number}} أسئلة",
+      "zero": "0 أسئلة"
+    },
     "image name: ": "اسم الصورة: "
   },
   "Comment": {
     "Add": "أضف تعليق..."
+  },
+  "MaterialNav": {
+    "Go to question": "انتقل إلى السؤال",
+    "Question Number": "رقم السؤال"
   }
 }

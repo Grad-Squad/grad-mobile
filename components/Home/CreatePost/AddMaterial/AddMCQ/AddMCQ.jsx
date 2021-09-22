@@ -7,10 +7,12 @@ import * as yup from 'yup';
 import { requiredError } from 'validation';
 import { useFormik } from 'formik';
 import { TransparentTextInputFormik } from 'common/Input';
+import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
+import { navigationPropType } from 'proptypes';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 
-const AddMCQ = () => {
+const AddMCQ = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
   const [currentlyEditingQuestion, setCurrentlyEditingQuestion] =
     useState(undefined);
@@ -38,8 +40,13 @@ const AddMCQ = () => {
   };
 
   return (
-    <Page>
-      <EduText>INSERT HEADER HERE</EduText>
+    <Page useSafeArea={false}>
+      <MaterialCreateHeader
+        title={t('AddMaterial/MCQ/Create MCQ')}
+        rightButtonText={t('AddMaterial/Finish')}
+        onPress={() => Alert.alert('clicked')}
+        onBackPress={() => navigation.goBack()}
+      />
       <TransparentTextInputFormik
         title={t('AddMaterial/MCQ/Exercise Title')}
         formik={formik}
@@ -69,7 +76,7 @@ const AddMCQ = () => {
   );
 };
 
-AddMCQ.propTypes = {};
+AddMCQ.propTypes = { navigation: navigationPropType.isRequired };
 AddMCQ.defaultProps = {};
 
 export default AddMCQ;

@@ -10,6 +10,8 @@ import { LocalizationContext } from 'localization';
 import CreatePostHeader from './CreatePostHeader';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
+import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
+import { StatusBar } from 'expo-status-bar';
 
 const dropdownInitialItems = [
   { label: 'Apple', value: 'apple' },
@@ -52,9 +54,11 @@ const CreatePost = ({ navigation }) => {
   });
   return (
     <Page>
-      <CreatePostHeader
+      <MaterialCreateHeader
+        title={t('CreatePost/Create New Post')}
+        rightButtonText={t('CreatePost/Post')}
+        onPress={formik.handleSubmit}
         onBackPress={() => navigation.goBack()}
-        onPostPress={formik.handleSubmit}
       />
 
       <TransparentTextInputFormik

@@ -1,6 +1,7 @@
-import React, {useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, StatusBar } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
+import { Constants } from 'styles';
 
 import PropTypes from 'prop-types';
 
@@ -10,7 +11,6 @@ import FooterRegion from '../Post/FooterRegion';
 import AddCommentButton from './AddCommentButton';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
-
 
 const statusBarPadding = StatusBar.currentHeight || 0;
 
@@ -23,8 +23,11 @@ const styles = StyleSheet.create({
     width: '90%',
     top: -1 * statusBarPadding,
   },
-  modalWrapper:{
-    marginTop:'auto',
+  modalWrapper: {
+    marginTop: 'auto',
+  },
+  page: {
+    paddingTop: Constants.fromScreenStartPadding,
   },
 });
 
@@ -36,7 +39,7 @@ function ExpandedPost({ route, postData }) {
     route.params;
 
   return (
-    <Page>
+    <Page style={styles.page}>
       <Portal>
         <TitleRegion
           style={styles.container}
@@ -61,9 +64,7 @@ function ExpandedPost({ route, postData }) {
           contentContainerStyle={styles.modalWrapper}
           style={styles.modal}
         >
-          <NewComment
-            profileImageURI={author.profilePicture}
-          />
+          <NewComment profileImageURI={author.profilePicture} />
         </Modal>
       </Portal>
     </Page>

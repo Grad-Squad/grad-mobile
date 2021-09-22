@@ -45,7 +45,11 @@
   },
   "TextInput": {
     "optional": "(optional)",
-    "max char error": "(should be less than %{max} characters)"
+    "max char error": "(should be less than %{max} characters)",
+    "max": "(max: %{max})",
+    "min": "(min: %{min})",
+    "number": "(must be a number)",
+    "integer": "(must be an integer)"
   },
   "InputValidationError": {
     "invalid email": "(invalid email)",
@@ -127,5 +131,9 @@
   },
   "Comment": {
     "Add": "Add a comment..."
+  },
+  "MaterialNav": {
+    "Go to question": "Go to question",
+    "Question Number": "Question Number"
   }
 }

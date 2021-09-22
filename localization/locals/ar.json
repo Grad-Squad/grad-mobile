@@ -45,7 +45,11 @@
   },
   "TextInput": {
     "optional": "(اختياري)",
-    "max char error": "(يجب أن يكون أقل من %{max} حرف)"
+    "max char error": "(يجب أن يكون أقل من %{max} حرف)",
+    "max": "(الحد الأقصى: %{max})",
+    "min": "(الحد الأدنى: %{min})",
+    "number": "(يجب أن يكون رقما)",
+    "integer": "(يجب أن يكون عددًا صحيحًا)"
   },
   "InputValidationError": {
     "invalid email": "(البريد الإلكتروني غير صالح)",
@@ -127,5 +131,9 @@
   },
   "Comment": {
     "Add": "أضف تعليق..."
+  },
+  "MaterialNav": {
+    "Go to question": "انتقل إلى السؤال",
+    "Question Number": "رقم السؤال"
   }
 }

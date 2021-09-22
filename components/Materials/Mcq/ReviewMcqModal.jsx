@@ -11,10 +11,10 @@ import pressableAndroidRipple from 'common/pressableAndroidRipple';
 
 const ReviewMcqModal = ({ isModalVisible, setIsModalVisible }) => {
   const { t } = useContext(LocalizationContext);
-  const [isCorrectChecked, setIsCorrectChecked] = useState(false);
-  const [isAnswersShownChecked, setIsAnswersShownChecked] = useState(false);
-  const [isWrongChecked, setIsWrongChecked] = useState(false);
-  const [isSkippedChecked, setIsSkippedChecked] = useState(false);
+  const [isCorrectChecked, setIsCorrectChecked] = useState(true);
+  const [isAnswersShownChecked, setIsAnswersShownChecked] = useState(true);
+  const [isWrongChecked, setIsWrongChecked] = useState(true);
+  const [isSkippedChecked, setIsSkippedChecked] = useState(true);
   return (
     <Modal
       visible={isModalVisible}

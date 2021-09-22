@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { Menu, Divider } from 'react-native-paper';
 import { LocalizationContext } from 'localization';
+import { contextMenuItemsPropType } from 'proptypes';
 import { Icon } from './Icon';
 import EduText from './EduText';
 
@@ -38,19 +39,7 @@ ContextMenu.propTypes = {
   visible: PropTypes.bool.isRequired,
   setVisible: PropTypes.func.isRequired,
   anchor: PropTypes.node.isRequired,
-  items: PropTypes.arrayOf(
-    PropTypes.oneOfType([
-      PropTypes.exact({
-        titleKey: PropTypes.string.isRequired,
-        onPress: PropTypes.func.isRequired,
-        iconName: PropTypes.string.isRequired,
-      }).isRequired,
-      PropTypes.exact({
-        divider: PropTypes.bool.isRequired,
-        key: PropTypes.string.isRequired,
-      }).isRequired,
-    ])
-  ).isRequired,
+  items: contextMenuItemsPropType.isRequired,
 };
 ContextMenu.defaultProps = {};
 

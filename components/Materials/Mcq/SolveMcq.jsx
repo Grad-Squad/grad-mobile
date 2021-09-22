@@ -78,13 +78,8 @@ const SolveMcq = ({ navigation }) => {
 
   return (
     <Page>
-      <ProgressBar progress={(pageNum+1) / maxPages} color={Colors.accent} />
-      <View style={styles.header}>
-        <NavMaterials
-          onPressNext={incrementPage}
-          maxPages={maxPages}
-          currentPageIndex={pageNum}
-        />
+      <ProgressBar progress={(pageNum + 1) / maxPages} color={Colors.accent} />
+      <View style={styles.navMaterials}>
         <NavMaterials
           onPressNext={incrementPage}
           onPressBack={decrementPage}
@@ -114,7 +109,9 @@ SolveMcq.defaultProps = {};
 export default SolveMcq;
 
 const styles = StyleSheet.create({
-  header: {
-    padding: Constants.commonMargin,
+  navMaterials: {
+    paddingHorizontal: Constants.commonMargin,
+    paddingVertical: Constants.commonMargin / 2,
+    alignSelf: 'flex-end',
   },
 });

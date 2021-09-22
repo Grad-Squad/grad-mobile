@@ -70,7 +70,8 @@
     "Edit": "تعديل",
     "Share": "شارك",
     "Report": "إبلاغ",
-    "Delete": "حذف"
+    "Delete": "حذف",
+    "Save": "حفظ"
   },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",
@@ -110,7 +111,9 @@
     "Start": "ابدأ"
   },
   "AddMaterial": {
+    "Finish": "اتمام",
     "MCQ": {
+      "Create MCQ": "إنشاء سؤال اختر",
       "Exercise Title": "عنوان التمرين",
       "Question": "السؤال",
       "Choice": "اختيار",

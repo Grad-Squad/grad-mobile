@@ -70,7 +70,8 @@
     "Edit": "Edit",
     "Share": "Share",
     "Report": "Report",
-    "Delete": "Delete"
+    "Delete": "Delete",
+    "Save": "Save"
   },
   "CreatePost": {
     "Create New Post": "Create New Post",
@@ -110,7 +111,9 @@
     "Start": "Start"
   },
   "AddMaterial": {
+    "Finish": "Finish",
     "MCQ": {
+      "Create MCQ": "Create MCQ",
       "Exercise Title": "Exercise Title",
       "Question": "Question",
       "Choice": "Choice",

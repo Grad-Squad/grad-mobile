@@ -1,9 +1,10 @@
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { Constants, Colors } from 'styles';
 import { ProgressBar } from 'react-native-paper';
+import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import NavMaterials from '../_common/NavMaterials';
 import McqQuestion from './McqQuestion';
 import QUESTIONS from './TEMP_DATA';
@@ -78,6 +79,18 @@ const SolveMcq = ({ navigation }) => {
 
   return (
     <Page>
+      <MaterialViewHeader
+        onBackPress={() => {}}
+        author="Ramez"
+        title="When the potato took over"
+        contextMenuItems={[
+          {
+            titleKey: 'ContextMenu/Save',
+            onPress: () => Alert.alert('WIP'),
+            iconName: 'bookmark',
+          },
+        ]}
+      />
       <ProgressBar progress={(pageNum + 1) / maxPages} color={Colors.accent} />
       <View style={styles.navMaterials}>
         <NavMaterials

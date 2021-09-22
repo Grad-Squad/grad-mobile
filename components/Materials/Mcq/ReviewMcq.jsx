@@ -1,19 +1,20 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Alert, Dimensions, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
 import { Colors, Constants } from 'styles';
 import PieChart from 'react-native-pie-chart';
-import { TextPropType } from 'proptypes';
+import { navigationPropType, TextPropType } from 'proptypes';
 import { MainActionButton } from 'common/Input/Button';
 import { Portal } from 'react-native-paper';
 import { LocalizationContext } from 'localization';
+import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import QUESTIONS from './TEMP_DATA';
 import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
 import ReviewMcqModal from './ReviewMcqModal';
 
-const ReviewMcq = ({ route }) => {
+const ReviewMcq = ({ navigation, route }) => {
   const { t } = useContext(LocalizationContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const { storedAnswers } = route.params;
@@ -44,6 +45,18 @@ const ReviewMcq = ({ route }) => {
 
   return (
     <Page>
+      <MaterialViewHeader
+        onBackPress={() => navigation.goBack()}
+        author="Ramez"
+        title="When the potato took over"
+        contextMenuItems={[
+          {
+            titleKey: 'ContextMenu/Save',
+            onPress: () => Alert.alert('WIP'),
+            iconName: 'bookmark',
+          },
+        ]}
+      />
       <Portal>
         <EduText style={styles.header}>{cheeringWord}</EduText>
         <PieChart
@@ -115,6 +128,7 @@ ReviewMcq.propTypes = {
       ).isRequired,
     }),
   }).isRequired,
+  navigation: navigationPropType.isRequired,
 };
 ReviewMcq.defaultProps = {};
 

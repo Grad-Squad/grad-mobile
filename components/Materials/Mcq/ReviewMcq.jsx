@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Dimensions, StyleSheet, View } from 'react-native';
+import { Alert, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
 import { Colors, Constants } from 'styles';
@@ -45,60 +45,62 @@ const ReviewMcq = ({ navigation, route }) => {
 
   return (
     <Page>
-      <MaterialViewHeader
-        onBackPress={() => navigation.goBack()}
-        author="Ramez"
-        title="When the potato took over"
-        contextMenuItems={[
-          {
-            titleKey: 'ContextMenu/Save',
-            onPress: () => Alert.alert('WIP'),
-            iconName: 'bookmark',
-          },
-        ]}
-      />
       <Portal>
-        <EduText style={styles.header}>{cheeringWord}</EduText>
-        <PieChart
-          widthAndHeight={Dimensions.get('window').width * 0.64}
-          style={styles.pieChart}
-          series={[
-            correctCount,
-            incorrectCount,
-            answersShownCount,
-            skippedCount,
+        <MaterialViewHeader
+          onBackPress={() => navigation.goBack()}
+          author="Ramez"
+          title="When the potato took over"
+          contextMenuItems={[
+            {
+              titleKey: 'ContextMenu/Save',
+              onPress: () => Alert.alert('WIP'),
+              iconName: 'bookmark',
+            },
           ]}
-          sliceColor={[
-            Colors.materialGood,
-            Colors.materialWrong,
-            Colors.accent,
-            Colors.materialSkipped,
-          ]}
-          doughnut
-          coverRadius={0.68}
         />
-        <View style={styles.legendContainer}>
-          <LegendItem
-            label={t('McqReview/Correct')}
-            style={styles.correct}
-            count={correctCount}
+        <ScrollView>
+          <EduText style={styles.header}>{cheeringWord}</EduText>
+          <PieChart
+            widthAndHeight={Dimensions.get('window').width * 0.54}
+            style={styles.pieChart}
+            series={[
+              correctCount,
+              incorrectCount,
+              answersShownCount,
+              skippedCount,
+            ]}
+            sliceColor={[
+              Colors.materialGood,
+              Colors.materialWrong,
+              Colors.accent,
+              Colors.materialSkipped,
+            ]}
+            doughnut
+            coverRadius={0.68}
           />
-          <LegendItem
-            label={t('McqReview/Wrong')}
-            style={styles.incorrect}
-            count={incorrectCount}
-          />
-          <LegendItem
-            label={t('McqReview/AnswersShown')}
-            style={styles.answersShown}
-            count={answersShownCount}
-          />
-          <LegendItem
-            label={t('McqReview/Skipped')}
-            style={styles.skipped}
-            count={skippedCount}
-          />
-        </View>
+          <View style={styles.legendContainer}>
+            <LegendItem
+              label={t('McqReview/Correct')}
+              style={styles.correct}
+              count={correctCount}
+            />
+            <LegendItem
+              label={t('McqReview/Wrong')}
+              style={styles.incorrect}
+              count={incorrectCount}
+            />
+            <LegendItem
+              label={t('McqReview/AnswersShown')}
+              style={styles.answersShown}
+              count={answersShownCount}
+            />
+            <LegendItem
+              label={t('McqReview/Skipped')}
+              style={styles.skipped}
+              count={skippedCount}
+            />
+          </View>
+        </ScrollView>
         <View style={styles.footer}>
           <EduText style={styles.footerText}>{footerText}</EduText>
           <MainActionButton
@@ -154,7 +156,6 @@ const styles = StyleSheet.create({
   header: {
     alignSelf: 'center',
     textAlign: 'center',
-    marginTop: Constants.commonMargin * 2,
     margin: Constants.commonMargin,
     fontSize: 32,
   },
@@ -188,6 +189,7 @@ const styles = StyleSheet.create({
   footer: {
     marginTop: 'auto',
     margin: Constants.commonMargin,
+    paddingTop: 5,
   },
   footerText: {
     marginBottom: Constants.commonMargin / 2,

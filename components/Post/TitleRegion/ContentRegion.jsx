@@ -1,3 +1,4 @@
+import PostContentList from 'common/PostContentList';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 

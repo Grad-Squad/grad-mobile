@@ -8,19 +8,6 @@ import { Constants } from 'styles';
 const Dev = ({ navigation }) => {
   const { t, setLanguage } = useContext(LocalizationContext);
 
-  const postData = {
-    id: 0,
-    title: 'KMS',
-    priceInCents: 10,
-    subject: 'advanced nothing',
-    rating: { id: 0, upvotes: 100, downvotes: 50, currentUserStatus: 'sad' },
-    createdAt: new Date(),
-    author: {
-      id: 0,
-      name: 'sad ek',
-      profilePicture: 'https://pbs.twimg.com/media/EVgKUNnWoAIX9MF.jpg',
-    },
-  };
   return (
     <Page style={{ paddingTop: Constants.fromScreenStartPadding }}>
       <EduText>{t('hello')}</EduText>
@@ -31,7 +18,7 @@ const Dev = ({ navigation }) => {
       <Button title="Go to Home" onPress={() => navigation.navigate('home')} />
       <Button
         title="Go to Post"
-        onPress={() => navigation.navigate('post', postData)}
+        onPress={() => navigation.navigate('post')}
       />
       <Button
         title="Go to mcq"

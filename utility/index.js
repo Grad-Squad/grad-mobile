@@ -12,7 +12,8 @@ export const formatNumber = (num) => {
 };
 
 const daysOfWeek = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
-export const formatDate = (date) => {
+export const formatDate = (givenDate) => {
+  const date = new Date(givenDate)
   const dif = new Date() - date;
   const minutes = 60000;
   const hours = minutes * 60;

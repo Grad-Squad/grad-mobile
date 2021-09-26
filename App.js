@@ -6,6 +6,7 @@ import { Provider as ReactNativePaperProvider } from 'react-native-paper';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
+import GlobalStore from 'globalstore/GlobalStore';
 import { Colors } from 'styles';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
@@ -37,7 +38,9 @@ export default function App() {
         <PaperProvider theme={theme}>
           <SafeAreaProvider>
             <StatusBar />
-            <RootNavigator />
+            <GlobalStore>
+              <RootNavigator />
+            </GlobalStore>
           </SafeAreaProvider>
         </PaperProvider>
       </LocalizationProvider>

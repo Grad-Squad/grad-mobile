@@ -6,13 +6,13 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
 import { TextInputFormik } from 'common/Input';
-import { PressableIcon } from 'common/Icon';
 import PressableText from 'common/PressableText';
 import { SecondaryActionButton, TransparentButton } from 'common/Input/Button';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
 import { Colors } from 'styles';
 import { mcqQuestionPropType, stylePropType } from 'proptypes';
+import ImageSelector from 'common/ImageSelector';
 import ChoicesList from './ChoicesList';
 
 const MaxNumberOfChoices = 26;
@@ -25,7 +25,7 @@ const AddQuestion = ({
   currentlyEditingQuestion,
 }) => {
   const { t } = useContext(LocalizationContext);
-  const [imageName, setImageName] = useState('');
+  const [image, setImage] = useState({});
   const currentQuestionFormik = useFormik({
     initialValues: {
       question: '',
@@ -128,10 +128,8 @@ const AddQuestion = ({
           }}
           textInputRightComponent={
             <View style={styles.textInputRightComponent}>
-              <PressableIcon
-                onPress={() => setImageName('potato.png')}
-                name="AddImage"
-                size={30}
+              <ImageSelector
+                setImage={setImage}
                 pressableProps={{
                   disabled: !canAddQuestions,
                 }}
@@ -140,7 +138,7 @@ const AddQuestion = ({
           }
           style={[styles.textInputGap, !canAddQuestions && styles.disabled]}
         />
-        {imageName !== '' && (
+        {!!image.fileName && (
           <PressableText
             onPress={() => Alert.alert('Image name click')}
             pressableProps={{
@@ -148,7 +146,7 @@ const AddQuestion = ({
             }}
           >
             {t('AddMaterial/image name: ')}
-            {imageName}
+            {image.fileName}
           </PressableText>
         )}
         <TextInputFormik

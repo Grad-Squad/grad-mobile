@@ -9,7 +9,7 @@ import RegisterContext from './RegisterContext';
 
 const OptionalInfo = () => {
   const { t } = useContext(LocalizationContext);
-  const formik = useContext(RegisterContext);
+  const { formik } = useContext(RegisterContext);
 
   return (
     <LoginBack>
@@ -31,7 +31,10 @@ const OptionalInfo = () => {
         {t('Register/You can always add them later')}
       </EduText>
 
-      <WhiteButton text={t('Register/REGISTER')} onPress={formik.handleSubmit} />
+      <WhiteButton
+        text={t('Register/REGISTER')}
+        onPress={formik.handleSubmit}
+      />
     </LoginBack>
   );
 };

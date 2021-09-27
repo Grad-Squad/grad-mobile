@@ -1,4 +1,5 @@
-import { createAccount } from 'api/account';
+import { createAccount } from 'api/useAccount';
+import { AuthContext } from 'api/axiosInstance';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { TextInputFormik, TextInputGroup } from 'common/Input';
 import { WhiteButton } from 'common/Input/Button';
@@ -14,10 +15,13 @@ import * as yup from 'yup';
 
 const RequiredInfo = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
+  const { setToken } = useContext(AuthContext);
 
   const registerMutation = useMutation((user) => createAccount(user), {
     onError: () => {},
     onSuccess: (data, variables, context) => {
+      const { data: responseBody } = data?.data;
+      const { id: profileId } = responseBody?.user?.profile;
       const code = data?.data?.code;
       if (code === ApiConstants.duplicate_email) {
         navigation.navigate('forgotPassword', {
@@ -27,7 +31,8 @@ const RequiredInfo = ({ navigation }) => {
           },
         });
       } else {
-        navigation.navigate('register/rollSelection');
+        setToken(responseBody?.payload?.token);
+        navigation.navigate('register/rollSelection', { profileId });
       }
     },
   });
@@ -82,7 +87,11 @@ const RequiredInfo = ({ navigation }) => {
         />
       </TextInputGroup>
 
-      <WhiteButton text={t('Register/CONTINUE')} onPress={onContinueClick} />
+      <WhiteButton
+        disabled={registerMutation.status === 'loading'}
+        text={t('Register/CONTINUE')}
+        onPress={onContinueClick}
+      />
     </LoginBack>
   );
 };

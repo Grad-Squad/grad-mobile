@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Navigator from 'navigation/Navigator';
 import * as yup from 'yup';
 import {
@@ -12,10 +12,13 @@ import {
 import { useFormik } from 'formik';
 import { LocalizationContext } from 'localization';
 import { Alert } from 'react-native';
+import { useMutation } from 'react-query';
+import { updateAccount } from 'api/useAccount';
 import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
 import RollSelection from './RollSelection/RollSelection';
 import RegisterContext from './RegisterContext';
+import { AuthContext } from 'api/axiosInstance';
 
 const screens = [
   {
@@ -34,29 +37,34 @@ const screens = [
 
 const RegisterNavigation = () => {
   const { t } = useContext(LocalizationContext);
+  const { headers } = useContext(AuthContext);
+  const [profileId, setProfileId] = useState();
+
+  const addInfoMutation = useMutation(
+    (userInfo) => updateAccount(userInfo, profileId, headers),
+    {
+      onError: () => {},
+    }
+  );
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      password: '',
       role: roles.student,
       profileImage: '',
       bio: '',
     },
-    onSubmit: (user) => {
-      Alert.alert('register submit');
+    onSubmit: (userInfo) => {
+      Alert.alert('tes');
+      addInfoMutation.mutate(userInfo);
     },
     validationSchema: yup.object().shape({
-      name: nameRequired(t),
-      email: emailRequired(t),
-      password: passwordRequired(t),
       role: roleRequired(t),
       bio: biography(t),
     }),
   });
   return (
-    <RegisterContext.Provider value={formik}>
+    // <RegisterContext.Provider value={formik}>
+    <RegisterContext.Provider value={{ formik, profileId, setProfileId }}>
       <Navigator screens={screens} />
     </RegisterContext.Provider>
   );

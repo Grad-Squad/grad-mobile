@@ -9,8 +9,8 @@ import React, {
 import Axios from 'axios';
 import { childrenPropType } from 'proptypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import localStorageKeys from 'localStorageKeys';
 
-const STORAGE_KEY = 'auth';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      setHeaders(await AsyncStorage.getItem(STORAGE_KEY));
+      setHeaders(await AsyncStorage.getItem(localStorageKeys.auth));
     })();
   }, []);
 

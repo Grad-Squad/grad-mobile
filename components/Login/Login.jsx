@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { LocalizationContext } from 'localization';
@@ -9,10 +9,13 @@ import { TransparentButton, WhiteButton } from 'common/Input/Button';
 import { TextInputFormik, TextInputGroup } from 'common/Input';
 import { navigationPropType } from 'proptypes';
 import { Colors } from 'styles';
+import { useAPILogin } from 'api/endpoints/auth';
 import SignInWith from './SignInWith/SignInWith';
 
 const Login = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
+
+  const loginMutation = useAPILogin();
 
   const formik = useFormik({
     initialValues: {
@@ -20,7 +23,7 @@ const Login = ({ navigation }) => {
       password: '',
     },
     onSubmit: ({ email, password }) => {
-      Alert.alert(`Login: ${email}, ${password}`);
+      loginMutation.mutate({ email, password });
     },
     validationSchema: yup.object().shape({
       email: emailRequired(t),

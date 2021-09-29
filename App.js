@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 import { Colors } from 'styles';
+import AxiosProvider from 'api/AxiosProvider';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
@@ -31,15 +32,17 @@ export default function App() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <LocalizationProvider>
-        <PaperProvider theme={theme}>
-          <SafeAreaProvider>
-            <StatusBar />
-            <RootNavigator />
-          </SafeAreaProvider>
-        </PaperProvider>
-      </LocalizationProvider>
-    </QueryClientProvider>
+    <LocalizationProvider>
+      <PaperProvider theme={theme}>
+        <AxiosProvider>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider>
+              <StatusBar />
+              <RootNavigator />
+            </SafeAreaProvider>
+          </QueryClientProvider>
+        </AxiosProvider>
+      </PaperProvider>
+    </LocalizationProvider>
   );
 }

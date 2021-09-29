@@ -1,41 +1,41 @@
-import { createAccount } from 'api/useAccount';
-import { AuthContext } from 'api/axiosInstance';
+// import { createAccount } from 'api/useAccount';
+// import { AuthContext } from 'api/axiosInstance';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { TextInputFormik, TextInputGroup } from 'common/Input';
 import { WhiteButton } from 'common/Input/Button';
-import { ApiConstants } from 'constants';
+// import { ApiConstants } from 'constants';
 import { useFormik } from 'formik';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
 import { Alert, StyleSheet } from 'react-native';
-import { useMutation } from 'react-query';
+// import { useMutation } from 'react-query';
 import { emailRequired, nameRequired, passwordRequired } from 'validation';
 import * as yup from 'yup';
 
 const RequiredInfo = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
-  const { setToken } = useContext(AuthContext);
+  // const { setToken } = useContext(AuthContext);
 
-  const registerMutation = useMutation((user) => createAccount(user), {
-    onError: () => {},
-    onSuccess: (data, variables, context) => {
-      const { data: responseBody } = data?.data;
-      const { id: profileId } = responseBody?.user?.profile;
-      const code = data?.data?.code;
-      if (code === ApiConstants.duplicate_email) {
-        navigation.navigate('forgotPassword', {
-          screen: 'forgotPassword/enterEmail',
-          params: {
-            existingEmail: variables.email,
-          },
-        });
-      } else {
-        setToken(responseBody?.payload?.token);
-        navigation.navigate('register/rollSelection', { profileId });
-      }
-    },
-  });
+  // const registerMutation = useMutation((user) => createAccount(user), {
+  //   onError: () => {},
+  //   onSuccess: (data, variables, context) => {
+  //     const { data: responseBody } = data?.data;
+  //     const { id: profileId } = responseBody?.user?.profile;
+  //     const code = data?.data?.code;
+  //     if (code === ApiConstants.duplicate_email) {
+  //       navigation.navigate('forgotPassword', {
+  //         screen: 'forgotPassword/enterEmail',
+  //         params: {
+  //           existingEmail: variables.email,
+  //         },
+  //       });
+  //     } else {
+  //       // setToken(responseBody?.payload?.token);
+  //       navigation.navigate('register/rollSelection', { profileId });
+  //     }
+  //   },
+  // });
 
   const formik = useFormik({
     initialValues: {
@@ -44,7 +44,7 @@ const RequiredInfo = ({ navigation }) => {
       password: '',
     },
     onSubmit: (user) => {
-      registerMutation.mutate(user, { email: user.email });
+      // registerMutation.mutate(user, { email: user.email });
       Alert.alert('register submit');
     },
     validationSchema: yup.object().shape({
@@ -56,7 +56,7 @@ const RequiredInfo = ({ navigation }) => {
 
   const onContinueClick = () => {
     if (formik.isValid && formik.dirty) {
-      registerMutation.mutate(formik.values);
+      // registerMutation.mutate(formik.values);
     } else {
       formik.setFieldTouched('email');
       formik.setFieldTouched('password');
@@ -88,7 +88,7 @@ const RequiredInfo = ({ navigation }) => {
       </TextInputGroup>
 
       <WhiteButton
-        disabled={registerMutation.status === 'loading'}
+        // disabled={registerMutation.status === 'loading'}
         text={t('Register/CONTINUE')}
         onPress={onContinueClick}
       />

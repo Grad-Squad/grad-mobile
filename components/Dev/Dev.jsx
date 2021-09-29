@@ -1,12 +1,23 @@
+import { useAxios } from 'api/AxiosProvider';
 import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
 import { LocalizationContext } from 'localization';
-import React, { useContext } from 'react';
-import { Button } from 'react-native';
+import { navigationPropType } from 'proptypes';
+import React, { useContext, useEffect } from 'react';
+import { Alert, Button } from 'react-native';
 
 const Dev = ({ navigation }) => {
   const { t, setLanguage } = useContext(LocalizationContext);
 
+  //! temp: should be moved somewhere else where it will always get called
+  const { setUnauthorizedRedirect } = useAxios();
+
+  useEffect(() => {
+    setUnauthorizedRedirect(() => () => {
+      navigation.navigate('login');
+      Alert.alert('Sorry, You have to login again');
+    });
+  }, []);
   const postData = {
     id: 0,
     title: 'KMS',
@@ -42,5 +53,7 @@ const Dev = ({ navigation }) => {
     </Page>
   );
 };
-
+Dev.propTypes = {
+  navigation: navigationPropType.isRequired,
+}
 export default Dev;

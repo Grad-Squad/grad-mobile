@@ -12,13 +12,13 @@ import {
 import { useFormik } from 'formik';
 import { LocalizationContext } from 'localization';
 import { Alert } from 'react-native';
-import { useMutation } from 'react-query';
-import { updateAccount } from 'api/useAccount';
+// import { useMutation } from 'react-query';
+// import { updateAccount } from 'api/useAccount';
 import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
 import RollSelection from './RollSelection/RollSelection';
 import RegisterContext from './RegisterContext';
-import { AuthContext } from 'api/axiosInstance';
+// import { AuthContext } from 'api/axiosInstance';
 
 const screens = [
   {
@@ -37,15 +37,15 @@ const screens = [
 
 const RegisterNavigation = () => {
   const { t } = useContext(LocalizationContext);
-  const { headers } = useContext(AuthContext);
+  // const { headers } = useContext(AuthContext);
   const [profileId, setProfileId] = useState();
 
-  const addInfoMutation = useMutation(
-    (userInfo) => updateAccount(userInfo, profileId, headers),
-    {
-      onError: () => {},
-    }
-  );
+  // const addInfoMutation = useMutation(
+  //   (userInfo) => updateAccount(userInfo, profileId, headers),
+  //   {
+  //     onError: () => {},
+  //   }
+  // );
 
   const formik = useFormik({
     initialValues: {
@@ -55,7 +55,7 @@ const RegisterNavigation = () => {
     },
     onSubmit: (userInfo) => {
       Alert.alert('tes');
-      addInfoMutation.mutate(userInfo);
+      // addInfoMutation.mutate(userInfo);
     },
     validationSchema: yup.object().shape({
       role: roleRequired(t),

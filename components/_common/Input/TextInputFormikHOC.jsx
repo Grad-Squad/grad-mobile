@@ -14,13 +14,17 @@ const TextInputFormikHOC = (Component) => {
         onBlur: formik.handleBlur(formikKey),
         ...TextInputProps,
       }}
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
     />
   );
   wrapped.propTypes = {
     formik: PropTypes.shape({
+      // eslint-disable-next-line react/forbid-prop-types
       values: PropTypes.object.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
       errors: PropTypes.object.isRequired,
+      // eslint-disable-next-line react/forbid-prop-types
       touched: PropTypes.object.isRequired,
       handleChange: PropTypes.func.isRequired,
       handleBlur: PropTypes.func.isRequired,
@@ -28,6 +32,7 @@ const TextInputFormikHOC = (Component) => {
     }).isRequired,
     formikKey: PropTypes.string.isRequired,
     error: PropTypes.bool,
+    // eslint-disable-next-line react/forbid-prop-types
     TextInputProps: PropTypes.object,
   };
   wrapped.defaultProps = {

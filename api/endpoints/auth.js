@@ -2,7 +2,7 @@ import { useAxios } from 'api/AxiosProvider';
 import { useMutation } from 'react-query';
 import endpoints from './endpoints';
 
-export const useAPILogin = () => {
+export const useAPILogin = (mutationConfig) => {
   const { axios } = useAxios();
   return useMutation(async ({ email, password }) => {
     const {
@@ -15,5 +15,5 @@ export const useAPILogin = () => {
     });
 
     return user;
-  });
+  }, mutationConfig);
 };

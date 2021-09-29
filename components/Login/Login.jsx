@@ -15,7 +15,14 @@ import SignInWith from './SignInWith/SignInWith';
 const Login = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
 
-  const loginMutation = useAPILogin();
+  const loginMutation = useAPILogin({
+    onSuccess: () => {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'home' }],
+      });
+    },
+  });
 
   const formik = useFormik({
     initialValues: {

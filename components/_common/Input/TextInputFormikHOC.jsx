@@ -3,12 +3,19 @@ import PropTypes from 'prop-types';
 
 // I'm not actually sure if this is an HOC
 const TextInputFormikHOC = (Component) => {
-  const wrapped = ({ formik, formikKey, error, TextInputProps, ...props }) => (
+  const wrapped = ({
+    formik,
+    formikKey,
+    error,
+    errorMsg,
+    TextInputProps,
+    ...props
+  }) => (
     <Component
       text={formik.values[formikKey]}
       setText={formik.handleChange(formikKey)}
       error={error || (formik.errors[formikKey] && formik.touched[formikKey])}
-      errorMsg={formik.errors[formikKey]}
+      errorMsg={formik.errors[formikKey] || errorMsg}
       TextInputProps={{
         onSubmitEditing: formik.handleSubmit,
         onBlur: formik.handleBlur(formikKey),
@@ -32,11 +39,13 @@ const TextInputFormikHOC = (Component) => {
     }).isRequired,
     formikKey: PropTypes.string.isRequired,
     error: PropTypes.bool,
+    errorMsg: PropTypes.string,
     // eslint-disable-next-line react/forbid-prop-types
     TextInputProps: PropTypes.object,
   };
   wrapped.defaultProps = {
     error: false,
+    errorMsg: '',
     TextInputProps: {},
   };
   return wrapped;

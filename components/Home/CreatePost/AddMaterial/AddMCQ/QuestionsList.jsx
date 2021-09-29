@@ -9,13 +9,17 @@ import SubmittedQuestion from './SubmittedQuestion';
 
 const QuestionsList = ({ questions, contentStyle, onEdit, onDelete }) => {
   const { t } = useContext(LocalizationContext);
+
   return (
     questions.length !== 0 && (
       <>
         <Separator />
         <View style={[contentStyle, styles.questionsList]}>
           <EduText style={styles.questionsNum}>
-            {questions.length} {t('AddMaterial/Questions')}
+            {t('AddMaterial/Questions', {
+              count: questions.length,
+              number: questions.length,
+            })}
           </EduText>
 
           {questions.map(({ question, choices }, index) => (

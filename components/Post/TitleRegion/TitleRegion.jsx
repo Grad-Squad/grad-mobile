@@ -111,5 +111,5 @@ export default TitleRegion;
 TitleRegion.propTypes = {
   profileName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  postDate: PropTypes.instanceOf(Date).isRequired,
+  postDate: PropTypes.string.isRequired,
 };

@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet, View, Text, Dimensions } from 'react-native';
+import { Pressable, StyleSheet, View, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors, Constants } from 'styles';
 import EduText from 'common/EduText';
+import GoToModal from './GoToModal';
 
 const NavMaterials = ({
   onPressNext,
   onPressBack,
-  isPageNumPressable,
+  onPressPageNum,
   currentPageIndex,
   maxPages,
 }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const hasNextButton = !!onPressNext;
   const hasBackButton = !!onPressBack;
 
@@ -27,42 +29,47 @@ const NavMaterials = ({
     </Pressable>
   );
 
-  const onPressPageNum = isPageNumPressable
-    ? () => {
-        console.log('test');
-      }
-    : () => {};
-
   return (
-    <View style={styles.container}>
-      {hasBackButton && backButton}
-      <Pressable
-        onPress={onPressPageNum}
-        style={[
-          styles.pageNumWrapper,
-          isPageNumPressable && styles.pressablePageNum,
-        ]}
-      >
-        <EduText style={styles.text}>
-          {currentPageIndex + 1}/{maxPages}
-        </EduText>
-      </Pressable>
-      {hasNextButton && nextButton}
-    </View>
+    <>
+      <View style={styles.container}>
+        {hasBackButton && backButton}
+        <Pressable
+          onPress={() => setIsModalVisible(true)}
+          style={[
+            styles.pageNumWrapper,
+            onPressPageNum && styles.pressablePageNum,
+          ]}
+        >
+          <EduText style={styles.text}>
+            {currentPageIndex + 1}/{maxPages}
+          </EduText>
+        </Pressable>
+        {hasNextButton && nextButton}
+      </View>
+      <GoToModal
+        isVisible={isModalVisible}
+        setIsVisible={setIsModalVisible}
+        changeIndex={(i) => {
+          onPressPageNum(i);
+        }}
+        currentIndex={currentPageIndex}
+        maxIndex={maxPages}
+      />
+    </>
   );
 };
 
 NavMaterials.propTypes = {
   onPressNext: PropTypes.func,
   onPressBack: PropTypes.func,
-  isPageNumPressable: PropTypes.bool,
+  onPressPageNum: PropTypes.func,
   currentPageIndex: PropTypes.number,
   maxPages: PropTypes.number.isRequired,
 };
 NavMaterials.defaultProps = {
   onPressNext: undefined,
   onPressBack: undefined,
-  isPageNumPressable: false,
+  onPressPageNum: undefined,
   currentPageIndex: 0,
 };
 
@@ -71,22 +78,21 @@ export default NavMaterials;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   rotate180: {
     transform: [{ rotateY: '180deg' }],
   },
   pressablePageNum: {
-    borderRadius: Constants.borderRadius * 2,
+    borderRadius: Constants.borderRadius,
     borderColor: Colors.dgrey,
     borderWidth: 1,
-    // borderColor: '#000',
     backgroundColor: Colors.lighterForeground,
   },
 
   arrowWrapper: {
     backgroundColor: Colors.foreground,
-    borderRadius: Constants.borderRadius * 2,
+    borderRadius: Constants.borderRadius,
     paddingHorizontal: 5,
   },
 

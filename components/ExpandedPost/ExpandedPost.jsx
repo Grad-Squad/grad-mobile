@@ -1,8 +1,7 @@
-import React, {useContext, useState } from 'react';
-import { View, StyleSheet, StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, StatusBar, Alert } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
-
-import PropTypes from 'prop-types';
+import { Constants } from 'styles';
 
 import Page from '../_common/Page/Page';
 import TitleRegion from './TitleRegion';
@@ -11,32 +10,40 @@ import AddCommentButton from './AddCommentButton';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
 
-
 const statusBarPadding = StatusBar.currentHeight || 0;
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
+const postData = { // todo remove hardcoded data
+  id: 0,
+  title: 'KMS',
+  priceInCents: 10,
+  subject: 'advanced nothing',
+  rating: {
+    id: 0,
+    entityId:0,
+    upvotes: 100,
+    downvotes: 50,
+    currentUserStatus: 'sad',
   },
-  footerContainer: {
-    alignSelf: 'center',
-    width: '90%',
-    top: -1 * statusBarPadding,
+  createdAt: new Date().toDateString(),
+  author: {
+    id: 0,
+    name: 'sad ek',
+    profilePicture: 'https://pbs.twimg.com/media/EVgKUNnWoAIX9MF.jpg',
   },
-  modalWrapper:{
-    marginTop:'auto',
-  },
-});
+};
 
-function ExpandedPost({ route, postData }) {
+function ExpandedPost() {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  //todo remove hardcoded data
   const { title, subject, author, rating, priceInCents, createdAt, id } =
-    route.params;
+  postData;
+
+  const onSubmitHandle = (text) =>{
+    Alert.alert(`comment \n ${text}`)
+  }
 
   return (
-    <Page>
+    <Page style={styles.page}>
       <Portal>
         <TitleRegion
           style={styles.container}
@@ -54,16 +61,14 @@ function ExpandedPost({ route, postData }) {
         </View>
 
         <CommentList />
-        <AddCommentButton postID={id} onPress={() => setIsModalVisible(true)} />
+        <AddCommentButton postID={id} onPressHandler={() => setIsModalVisible(true)} />
         <Modal
           visible={isModalVisible}
           onDismiss={() => setIsModalVisible(false)}
           contentContainerStyle={styles.modalWrapper}
           style={styles.modal}
         >
-          <NewComment
-            profileImageURI={author.profilePicture}
-          />
+          <NewComment profileImageURI={author.profilePicture} onSubmitHandleFunction={onSubmitHandle}/>
         </Modal>
       </Portal>
     </Page>
@@ -73,22 +78,21 @@ function ExpandedPost({ route, postData }) {
 export default ExpandedPost;
 
 ExpandedPost.propTypes = {
-  postData: PropTypes.exact({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    priceInCents: PropTypes.number.isRequired,
-    subject: PropTypes.string.isRequired,
-    rating: PropTypes.exact({
-      id: PropTypes.number.isRequired,
-      upvotes: PropTypes.number.isRequired,
-      downvotes: PropTypes.number.isRequired,
-      currentUserStatus: PropTypes.string.isRequired,
-    }).isRequired,
-    createdAt: PropTypes.string.isRequired,
-    author: PropTypes.exact({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      profilePicture: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+  },
+  footerContainer: {
+    alignSelf: 'center',
+    width: '90%',
+    top: -1 * statusBarPadding,
+  },
+  modalWrapper: {
+    marginTop: 'auto',
+  },
+  page: {
+    paddingTop: Constants.fromScreenStartPadding,
+  },
+});

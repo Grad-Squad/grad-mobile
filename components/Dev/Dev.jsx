@@ -5,6 +5,7 @@ import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext, useEffect } from 'react';
 import { Alert, Button } from 'react-native';
+import { Constants } from 'styles';
 
 const Dev = ({ navigation }) => {
   const { t, setLanguage } = useContext(LocalizationContext);
@@ -32,17 +33,14 @@ const Dev = ({ navigation }) => {
     },
   };
   return (
-    <Page>
+    <Page style={{ paddingTop: Constants.fromScreenStartPadding }}>
       <EduText>{t('hello')}</EduText>
       <Button
         title="Go to Login"
         onPress={() => navigation.navigate('login')}
       />
       <Button title="Go to Home" onPress={() => navigation.navigate('home')} />
-      <Button
-        title="Go to Post"
-        onPress={() => navigation.navigate('post', postData)}
-      />
+      <Button title="Go to Post" onPress={() => navigation.navigate('post')} />
       <Button
         title="Go to mcq"
         onPress={() => navigation.navigate('solveMcq')}
@@ -55,5 +53,5 @@ const Dev = ({ navigation }) => {
 };
 Dev.propTypes = {
   navigation: navigationPropType.isRequired,
-}
+};
 export default Dev;

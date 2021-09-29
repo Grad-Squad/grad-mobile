@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
+import PropTypes from 'prop-types';
+
 import EduText from 'common/EduText';
 import {Icon} from 'common/Icon';
 import { Colors } from '../../styles';
@@ -26,11 +28,11 @@ const styles = StyleSheet.create({
   },
 });
 
-function AddCommentButton({ postID, onPress }) {
+function AddCommentButton({ onPressHandler }) {
   return (
       <TouchableOpacity
         style={styles.CommentsContainer}
-        onPress={onPress}
+        onPress={onPressHandler}
         hitSlop={HIT_SLOP_OBJECT}
       >
         <Icon name="plus" size={24} color={Colors.addCommentText} />
@@ -40,3 +42,7 @@ function AddCommentButton({ postID, onPress }) {
 }
 
 export default AddCommentButton;
+
+AddCommentButton.propTypes = {
+  onPressHandler: PropTypes.func.isRequired,
+};

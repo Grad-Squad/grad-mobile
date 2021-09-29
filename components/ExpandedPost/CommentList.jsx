@@ -13,55 +13,55 @@ const styles = StyleSheet.create({
   },
 });
 
-//todo remove this Data list
+// todo remove this Data list
 const DATA = [
   {
     id: 0,
     profileName: 'User 1',
     text: 'FIRST',
-    commentDate: new Date(),
+    commentDate: new Date().toDateString(),
     voteCount: 69,
   },
   {
     id: 1,
     profileName: 'User 1',
     text: 'FIRST',
-    commentDate: new Date(),
+    commentDate: new Date().toDateString(),
     voteCount: 2,
   },
   {
     id: 2,
     profileName: 'User 2',
     text: 'FIRST',
-    commentDate: new Date(),
+    commentDate: new Date().toDateString(),
     voteCount: 23,
   },
   {
     id: 3,
     profileName: 'User 3',
     text: 'FIRST',
-    commentDate: new Date(),
+    commentDate: new Date().toDateString(),
     voteCount: 46,
   },
   {
     id: 4,
     profileName: 'User 4',
     text: 'FIRST',
-    commentDate: new Date(),
+    commentDate: new Date().toDateString(),
     voteCount: 69,
   },
   {
     id: 5,
     profileName: 'User 5',
     text: 'I am in a very sad list and I need a somewhat of a big boi comment so this text will be a little bit larger than the others but not by much',
-    commentDate: new Date(),
+    commentDate: new Date().toDateString(),
     voteCount: 69,
   },
   {
     id: 6,
     profileName: 'User 6',
     text: 'ffs everyone get a life',
-    commentDate: new Date(),
+    commentDate: new Date().toDateString(),
     voteCount: 69,
   },
 ];
@@ -81,7 +81,7 @@ function CommentList() {
       contentContainerStyle={styles.container}
       data={DATA}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.id.toString()}
     />
   );
 }

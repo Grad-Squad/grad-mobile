@@ -1,27 +1,33 @@
 import React, { useContext, useState } from 'react';
-import { Alert, ScrollView, StyleSheet } from 'react-native';
-import EduText from 'common/EduText';
+import { ScrollView, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { LocalizationContext } from 'localization';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
 import { useFormik } from 'formik';
 import { TransparentTextInputFormik } from 'common/Input';
+import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
+import { navigationPropType } from 'proptypes';
+import ReducerActions from 'globalstore/ReducerActions';
+import { useStore } from 'globalstore/GlobalStore';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 
-const AddMCQ = () => {
+const AddMCQ = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
   const [currentlyEditingQuestion, setCurrentlyEditingQuestion] =
     useState(undefined);
+
+  const [, dispatch] = useStore();
 
   const formik = useFormik({
     initialValues: {
       title: '',
       questions: [],
     },
-    onSubmit: ({ title }) => {
-      Alert.alert(`main formik: ${title}`);
+    onSubmit: (mcq) => {
+      dispatch({ type: ReducerActions.addMCQ, payload: mcq });
+      navigation.goBack();
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -38,8 +44,13 @@ const AddMCQ = () => {
   };
 
   return (
-    <Page>
-      <EduText>INSERT HEADER HERE</EduText>
+    <Page useSafeArea={false}>
+      <MaterialCreateHeader
+        title={t('AddMaterial/MCQ/Create MCQ')}
+        rightButtonText={t('AddMaterial/Finish')}
+        onPress={formik.handleSubmit}
+        onBackPress={() => navigation.goBack()}
+      />
       <TransparentTextInputFormik
         title={t('AddMaterial/MCQ/Exercise Title')}
         formik={formik}
@@ -69,7 +80,7 @@ const AddMCQ = () => {
   );
 };
 
-AddMCQ.propTypes = {};
+AddMCQ.propTypes = { navigation: navigationPropType.isRequired };
 AddMCQ.defaultProps = {};
 
 export default AddMCQ;

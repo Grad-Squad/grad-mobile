@@ -1,33 +1,37 @@
-import React, { useContext, useState, useRef, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import * as yup from 'yup';
 import {
-  Keyboard,
   KeyboardAvoidingView,
   StyleSheet,
   TouchableOpacity,
   Image,
   View,
   Platform,
-  Alert
 } from 'react-native';
+import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import { LocalizationContext } from 'localization';
 import { comment } from 'validation';
 import { TransparentTextInputFormik } from 'common/Input';
 import { PressableIcon } from 'common/Icon';
-import { Colors, Styles } from '../../styles';
+import { Colors } from '../../styles';
 
-function NewComment({profileImageURI}) {
+const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0
+
+function NewComment({profileImageURI, onSubmitHandleFunction}) {
   const { t } = useContext(LocalizationContext);
+  const [isDisabeld, setDisabled] = useState(false)
 
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0
+  const onPressHandler = () =>{
+    setDisabled(true);
+  }
 
   const formik = useFormik({
     initialValues: {
       commentText: '',
     },
     onSubmit: ({ commentText }) => {
-      Alert.alert(`Comment: ${commentText}`); //TODO submit comment behavior
+      onSubmitHandleFunction(commentText)
     },
     validationSchema: yup.object().shape({
       commentText: comment(t),
@@ -56,7 +60,7 @@ function NewComment({profileImageURI}) {
               flex:1,}}
           />
 
-        <PressableIcon name="send" size={30} color={Colors.black} onPress={formik.handleSubmit}/>
+        <PressableIcon pressableProps={{disabled:isDisabeld,onClick:onPressHandler}} name="send" size={30} color={Colors.black} onPress={formik.handleSubmit}/>
         </View>
         <View style={{width:'100%',height:5}}/>
       </KeyboardAvoidingView>
@@ -66,7 +70,10 @@ function NewComment({profileImageURI}) {
 
 export default NewComment;
 
-NewComment.propTypes = {};
+NewComment.propTypes = {
+  onSubmitHandleFunction: PropTypes.func.isRequired,
+  profileImageURI: PropTypes.string.isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {

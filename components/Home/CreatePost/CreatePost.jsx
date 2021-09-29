@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
@@ -7,7 +7,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
 import { LocalizationContext } from 'localization';
-import CreatePostHeader from './CreatePostHeader';
+import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
+import { useStore } from 'globalstore/GlobalStore';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -27,6 +28,8 @@ const dropdownInitialItems = [
 
 const CreatePost = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
+
+  const [state] = useStore();
 
   const formik = useFormik({
     initialValues: {
@@ -50,11 +53,19 @@ const CreatePost = ({ navigation }) => {
         .min(1, t('CreatePost/add at least one material')), // todo .max(10, 'error'): disallow it in add material
     }),
   });
+
+  useEffect(() => {
+    if (state.createPost.materialList) {
+      formik.setFieldValue('materialList', state.createPost.materialList);
+    }
+  }, [state.createPost.materialList]);
   return (
     <Page>
-      <CreatePostHeader
+      <MaterialCreateHeader
+        title={t('CreatePost/Create New Post')}
+        rightButtonText={t('CreatePost/Post')}
+        onPress={formik.handleSubmit}
         onBackPress={() => navigation.goBack()}
-        onPostPress={formik.handleSubmit}
       />
 
       <TransparentTextInputFormik
@@ -85,6 +96,14 @@ const CreatePost = ({ navigation }) => {
       />
 
       <MaterialList
+        materials={formik.values.materialList.map(
+          ({ questions, title }, index) => ({
+            id: `${index}`, // ! index as key
+            type: 'MCQ',
+            title,
+            amount: questions.length,
+          })
+        )}
         errorMsg={formik.touched.materialList && formik.errors.materialList}
       />
       <AddMaterialList navigation={navigation} />

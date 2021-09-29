@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import { Colors, Styles } from '../../styles';
+import { Styles } from '../../styles';
 import Votes from '../Votes/Votes';
 import Options from './Options/Options';
 import CommentButton from '../Comment/CommentButton';

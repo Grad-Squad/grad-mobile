@@ -27,6 +27,7 @@ const map = {
   'image-outline': MaterialCommunityIcons,
   'ondemand-video': MaterialIcons,
   'dots-horizontal': MaterialCommunityIcons,
+  'dots-vertical': MaterialCommunityIcons,
   'edit-2': Feather,
   'check-square': Feather,
   square: Feather,

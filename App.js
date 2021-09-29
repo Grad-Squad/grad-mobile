@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
+import GlobalStore from 'globalstore/GlobalStore';
 import { Colors } from 'styles';
 import AxiosProvider from 'api/AxiosProvider';
 import { LocalizationProvider } from './localization';
@@ -38,7 +39,9 @@ export default function App() {
           <QueryClientProvider client={queryClient}>
             <SafeAreaProvider>
               <StatusBar />
-              <RootNavigator />
+              <GlobalStore>
+                <RootNavigator />
+              </GlobalStore>
             </SafeAreaProvider>
           </QueryClientProvider>
         </AxiosProvider>

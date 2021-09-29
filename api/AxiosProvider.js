@@ -8,6 +8,7 @@ import React, {
 import { childrenPropType } from 'proptypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import localStorageKeys from 'localStorageKeys';
+import { API_URL } from '@env';
 
 import Axios from 'axios';
 import unauthorizedRedirectBlacklist from './unauthorizedRedirectBlacklist';
@@ -32,8 +33,7 @@ const AxiosProvider = ({ children }) => {
 
   const axios = useMemo(() => {
     const newAxios = Axios.create({
-      //!   baseURL: API_URL,
-      baseURL: 'http://192.168.1.108:3000',
+      baseURL: API_URL,
       headers: {
         'Content-Type': 'application/json',
       },

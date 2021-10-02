@@ -7,7 +7,7 @@ import Facebook from './Facebook/Facebook';
 import Google from './Google/Google';
 import * as FacebookSdk from 'expo-facebook';
 
-const SignInWith = () => {
+const SignInWith = ({disabled}) => {
   const { t } = useContext(LocalizationContext);
 
   const loginWithFacebook = async () => {
@@ -45,12 +45,14 @@ const SignInWith = () => {
         leftIcon={<Google />}
         style={styles.firstButtonGap}
         smallButton
-      />
+        disabled={disabled}
+        />
       <WhiteButton
         text={t('Login/Sign In With Facebook')}
         onPress={loginWithFacebook}
         leftIcon={<Facebook />}
         smallButton
+        disabled={disabled}
       />
     </View>
   );

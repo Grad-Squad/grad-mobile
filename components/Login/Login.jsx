@@ -41,7 +41,7 @@ const Login = ({ navigation }) => {
   return (
     <LoginBack
       bodyStyle={styles.loginBack}
-      componentAfterBackground={<SignInWith />}
+      componentAfterBackground={<SignInWith  disabled={loginMutation.isLoading}/>}
     >
       <TextInputGroup style={styles.textInputs} onFinish={formik.handleSubmit}>
         <TextInputFormik
@@ -65,17 +65,21 @@ const Login = ({ navigation }) => {
           text={t('Login/forgot password?')}
           onPress={() => navigation.navigate('forgotPassword')}
           textStyle={styles.forgotPassword}
+          disabled={loginMutation.isLoading}
         />
       </TextInputGroup>
       <WhiteButton
         text={t('Login/LOGIN')}
         onPress={formik.handleSubmit}
         style={styles.gap}
+        loading={loginMutation.isLoading}
+        disabled={loginMutation.isLoading}
       />
       <WhiteButton
         text={t('Login/REGISTER')}
         onPress={() => navigation.navigate('register')}
         smallButton
+        disabled={loginMutation.isLoading}
       />
     </LoginBack>
   );

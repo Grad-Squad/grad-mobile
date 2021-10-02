@@ -2,12 +2,12 @@ import React from 'react';
 import AppLoading from 'expo-app-loading';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { Provider as ReactNativePaperProvider } from 'react-native-paper';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 import GlobalStore from 'globalstore/GlobalStore';
 import { Colors } from 'styles';
+import AxiosProvider from 'api/AxiosProvider';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
@@ -33,17 +33,19 @@ export default function App() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <LocalizationProvider>
-        <PaperProvider theme={theme}>
-          <SafeAreaProvider>
-            <StatusBar />
-            <GlobalStore>
-              <RootNavigator />
-            </GlobalStore>
-          </SafeAreaProvider>
-        </PaperProvider>
-      </LocalizationProvider>
-    </QueryClientProvider>
+    <LocalizationProvider>
+      <PaperProvider theme={theme}>
+        <AxiosProvider>
+          <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider>
+              <StatusBar />
+              <GlobalStore>
+                <RootNavigator />
+              </GlobalStore>
+            </SafeAreaProvider>
+          </QueryClientProvider>
+        </AxiosProvider>
+      </PaperProvider>
+    </LocalizationProvider>
   );
 }

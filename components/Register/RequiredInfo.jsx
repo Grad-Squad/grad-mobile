@@ -1,19 +1,62 @@
+// import { createAccount } from 'api/useAccount';
+// import { AuthContext } from 'api/axiosInstance';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { TextInputFormik, TextInputGroup } from 'common/Input';
 import { WhiteButton } from 'common/Input/Button';
+// import { ApiConstants } from 'constants';
+import { useFormik } from 'formik';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
-import { StyleSheet } from 'react-native';
-import RegisterContext from './RegisterContext';
+import { Alert, StyleSheet } from 'react-native';
+// import { useMutation } from 'react-query';
+import { emailRequired, nameRequired, passwordRequired } from 'validation';
+import * as yup from 'yup';
 
 const RequiredInfo = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
-  const formik = useContext(RegisterContext);
+  // const { setToken } = useContext(AuthContext);
+
+  // const registerMutation = useMutation((user) => createAccount(user), {
+  //   onError: () => {},
+  //   onSuccess: (data, variables, context) => {
+  //     const { data: responseBody } = data?.data;
+  //     const { id: profileId } = responseBody?.user?.profile;
+  //     const code = data?.data?.code;
+  //     if (code === ApiConstants.duplicate_email) {
+  //       navigation.navigate('forgotPassword', {
+  //         screen: 'forgotPassword/enterEmail',
+  //         params: {
+  //           existingEmail: variables.email,
+  //         },
+  //       });
+  //     } else {
+  //       // setToken(responseBody?.payload?.token);
+  //       navigation.navigate('register/rollSelection', { profileId });
+  //     }
+  //   },
+  // });
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
+    onSubmit: (user) => {
+      // registerMutation.mutate(user, { email: user.email });
+      Alert.alert('register submit');
+    },
+    validationSchema: yup.object().shape({
+      name: nameRequired(t),
+      email: emailRequired(t),
+      password: passwordRequired(t),
+    }),
+  });
 
   const onContinueClick = () => {
     if (formik.isValid && formik.dirty) {
-      navigation.navigate('register/rollSelection');
+      // registerMutation.mutate(formik.values);
     } else {
       formik.setFieldTouched('email');
       formik.setFieldTouched('password');
@@ -44,7 +87,11 @@ const RequiredInfo = ({ navigation }) => {
         />
       </TextInputGroup>
 
-      <WhiteButton text={t('Register/CONTINUE')} onPress={onContinueClick} />
+      <WhiteButton
+        // disabled={registerMutation.status === 'loading'}
+        text={t('Register/CONTINUE')}
+        onPress={onContinueClick}
+      />
     </LoginBack>
   );
 };

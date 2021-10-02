@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Image, StyleSheet, Text } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 
 import { LocalizationContext } from 'localization/LocalizationProvider';
 import { navigationPropType } from 'proptypes';

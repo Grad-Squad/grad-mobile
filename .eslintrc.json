@@ -27,6 +27,11 @@
             "functions": true,
             "classes": true,
             "variables": false
+        }],
+        "import/no-unresolved": [2, {
+            "ignore": [
+                "^@env$"
+            ]
         }]
     },
     "settings": {

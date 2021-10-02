@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { LocalizationContext } from 'localization';
@@ -9,10 +9,20 @@ import { TransparentButton, WhiteButton } from 'common/Input/Button';
 import { TextInputFormik, TextInputGroup } from 'common/Input';
 import { navigationPropType } from 'proptypes';
 import { Colors } from 'styles';
+import { useAPILogin } from 'api/endpoints/auth';
 import SignInWith from './SignInWith/SignInWith';
 
 const Login = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
+
+  const loginMutation = useAPILogin({
+    onSuccess: () => {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'home' }],
+      });
+    },
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -20,7 +30,7 @@ const Login = ({ navigation }) => {
       password: '',
     },
     onSubmit: ({ email, password }) => {
-      Alert.alert(`Login: ${email}, ${password}`);
+      loginMutation.mutate({ email, password });
     },
     validationSchema: yup.object().shape({
       email: emailRequired(t),
@@ -31,7 +41,7 @@ const Login = ({ navigation }) => {
   return (
     <LoginBack
       bodyStyle={styles.loginBack}
-      componentAfterBackground={<SignInWith />}
+      componentAfterBackground={<SignInWith  disabled={loginMutation.isLoading}/>}
     >
       <TextInputGroup style={styles.textInputs} onFinish={formik.handleSubmit}>
         <TextInputFormik
@@ -40,6 +50,8 @@ const Login = ({ navigation }) => {
           title={t('Login/Email')}
           isEmail
           style={styles.gap}
+          error={loginMutation.isError}
+          errorMsg={t('Login/(incorrect email or password)')}
         />
         <TextInputFormik
           formik={formik}
@@ -47,22 +59,27 @@ const Login = ({ navigation }) => {
           title={t('Login/Password')}
           isPassword
           style={styles.gap}
+          error={loginMutation.isError}
         />
         <TransparentButton
           text={t('Login/forgot password?')}
           onPress={() => navigation.navigate('forgotPassword')}
           textStyle={styles.forgotPassword}
+          disabled={loginMutation.isLoading}
         />
       </TextInputGroup>
       <WhiteButton
         text={t('Login/LOGIN')}
         onPress={formik.handleSubmit}
         style={styles.gap}
+        loading={loginMutation.isLoading}
+        disabled={loginMutation.isLoading}
       />
       <WhiteButton
         text={t('Login/REGISTER')}
         onPress={() => navigation.navigate('register')}
         smallButton
+        disabled={loginMutation.isLoading}
       />
     </LoginBack>
   );

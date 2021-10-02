@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -12,12 +13,13 @@ import { WhiteButton } from 'common/Input/Button';
 
 import EduText from 'common/EduText';
 
-const EnterEmail = ({ navigation }) => {
+const EnterEmail = ({ navigation, route }) => {
   const { t } = useContext(LocalizationContext);
+  const { existingEmail = '' } = route.params;
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      email: existingEmail,
     },
     onSubmit: ({ email }) => {
       navigation.navigate('forgotPassword/checkEmail');
@@ -53,6 +55,11 @@ const EnterEmail = ({ navigation }) => {
 
 EnterEmail.propTypes = {
   navigation: navigationPropType.isRequired,
+  route: PropTypes.shape({
+    params: {
+      email: PropTypes.string,
+    },
+  }).isRequired,
 };
 EnterEmail.defaultProps = {};
 

@@ -39,7 +39,6 @@ function Votes({ voteCount, votingFunctions }) {
     setVote((currentVote) => currentVote - offset);
     setIsUpVoted(isPrevUpvoted);
     setIsDownVoted(isPrevDownvoted);
-    console.log(`rolling back optimistic update`);
   };
 
   const upvoteMutation = useMutation(upvoteFunction, {

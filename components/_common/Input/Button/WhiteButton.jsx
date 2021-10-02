@@ -7,7 +7,7 @@ import { Colors, Fonts, Styles } from 'styles';
 
 import Button from './Button';
 
-const WhiteButton = ({ smallButton, style, textStyle, ...props }) => (
+const WhiteButton = ({ smallButton, style, textStyle, loading, ...props }) => (
   <Button
     style={[
       styles.baseButton,
@@ -15,7 +15,9 @@ const WhiteButton = ({ smallButton, style, textStyle, ...props }) => (
       styles.button,
       !smallButton && styles.largeButton,
       style,
+      loading && styles.disabledButton,
     ]}
+    loading={loading}
     textStyle={[styles.text, !smallButton && styles.largeText, textStyle]}
     {...props}
   />
@@ -40,16 +42,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   largeText: { fontSize: 24 },
+  disabledButton: {
+    backgroundColor: Colors.disabledButton,
+  },
 });
 
 WhiteButton.propTypes = {
   smallButton: PropTypes.bool,
   style: stylePropType,
   textStyle: stylePropType,
+  loading: PropTypes.bool,
 };
 
 WhiteButton.defaultProps = {
   smallButton: false,
   textStyle: {},
   style: {},
+  loading: false,
 };

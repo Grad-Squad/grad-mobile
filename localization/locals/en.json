@@ -7,7 +7,8 @@
     "LOGIN": "LOGIN",
     "REGISTER": "REGISTER",
     "Sign In With Google": "Sign In With Google",
-    "Sign In With Facebook": "Sign In With Facebook"
+    "Sign In With Facebook": "Sign In With Facebook",
+    "(incorrect email or password)": "(incorrect email or password)"
   },
   "ForgotPassword": {
     "To Reset": "To reset your password, Please enter the Email you used to register your account",

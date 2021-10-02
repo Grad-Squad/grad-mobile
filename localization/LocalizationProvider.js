@@ -2,12 +2,11 @@ import React, { createContext, useEffect, useState } from 'react';
 import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from 'i18n-js';
+import localStorageKeys from 'localStorageKeys';
 
 import { childrenPropType } from '../proptypes';
 import ar from './locals/ar.json';
 import en from './locals/en.json';
-
-const STORAGE_KEY = 'appLocale';
 
 const translations = {
   en,
@@ -29,14 +28,15 @@ export const LocalizationProvider = ({ children }) => {
   const setLanguage = (newLocale) => {
     i18n.locale = newLocale;
     setLocale(newLocale);
-    AsyncStorage.setItem(STORAGE_KEY, newLocale);
+    AsyncStorage.setItem(localStorageKeys.appLocale, newLocale);
     setIsRTL(isRTLLocale(newLocale));
   };
 
   useEffect(() => {
     (async () => {
       setLanguage(
-        (await AsyncStorage.getItem(STORAGE_KEY)) || Localization.locale
+        (await AsyncStorage.getItem(localStorageKeys.appLocale)) ||
+          Localization.locale
       );
     })();
   }, []);

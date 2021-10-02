@@ -1,11 +1,12 @@
 import { useAxios } from 'api/AxiosProvider';
+import { Alert, Button } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { navigationPropType } from 'proptypes';
+import { LocalizationContext } from 'localization';
 import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
-import { LocalizationContext } from 'localization';
-import { navigationPropType } from 'proptypes';
-import React, { useContext, useEffect } from 'react';
-import { Alert, Button } from 'react-native';
 import { Constants } from 'styles';
+import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 
 const Dev = ({ navigation }) => {
   const { t, setLanguage } = useContext(LocalizationContext);
@@ -32,6 +33,9 @@ const Dev = ({ navigation }) => {
       profilePicture: 'https://pbs.twimg.com/media/EVgKUNnWoAIX9MF.jpg',
     },
   };
+
+  const { showErrorSnackbar } = useErrorSnackbar();
+
   return (
     <Page style={{ paddingTop: Constants.fromScreenStartPadding }}>
       <EduText>{t('hello')}</EduText>
@@ -48,6 +52,10 @@ const Dev = ({ navigation }) => {
       <Button title="Arabic" onPress={() => setLanguage('ar')} />
       <Button title="English" onPress={() => setLanguage('en')} />
       <EduText>{t('hello')}</EduText>
+      <Button
+        title="Show Error"
+        onPress={() => showErrorSnackbar('the potatoes nooo')}
+      />
     </Page>
   );
 };

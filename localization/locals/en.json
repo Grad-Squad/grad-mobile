@@ -143,5 +143,6 @@
   "MaterialNav": {
     "Go to question": "Go to question",
     "Question Number": "Question Number"
-  }
+  },
+  "Error: ": "Error: "
 }

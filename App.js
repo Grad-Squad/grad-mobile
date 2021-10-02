@@ -8,6 +8,7 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import GlobalStore from 'globalstore/GlobalStore';
 import { Colors } from 'styles';
 import AxiosProvider from 'api/AxiosProvider';
+import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
@@ -40,7 +41,9 @@ export default function App() {
             <SafeAreaProvider>
               <StatusBar />
               <GlobalStore>
-                <RootNavigator />
+                <ErrorSnackbarProvider>
+                  <RootNavigator />
+                </ErrorSnackbarProvider>
               </GlobalStore>
             </SafeAreaProvider>
           </QueryClientProvider>

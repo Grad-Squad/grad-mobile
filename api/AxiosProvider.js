@@ -11,6 +11,8 @@ import localStorageKeys from 'localStorageKeys';
 import { API_URL } from '@env';
 
 import Axios from 'axios';
+import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
+import { LocalizationContext } from 'localization';
 import unauthorizedRedirectBlacklist from './unauthorizedRedirectBlacklist';
 
 const UNAUTHORIZED_STATUS_CODE = 401;
@@ -18,6 +20,8 @@ const UNAUTHORIZED_STATUS_CODE = 401;
 const AxiosContext = createContext();
 
 const AxiosProvider = ({ children }) => {
+  const { t } = useContext(LocalizationContext);
+
   const [apiToken, setAPIToken] = useState('');
   useEffect(() => {
     (async () => {
@@ -31,12 +35,15 @@ const AxiosProvider = ({ children }) => {
 
   const [unauthorizedRedirect, setUnauthorizedRedirect] = useState(undefined);
 
+  const { showErrorSnackbar } = useErrorSnackbar();
+
   const axios = useMemo(() => {
     const newAxios = Axios.create({
       baseURL: API_URL,
       headers: {
         'Content-Type': 'application/json',
       },
+      timeout: 10000,
     });
 
     newAxios.interceptors.request.use((config) => {
@@ -62,12 +69,16 @@ const AxiosProvider = ({ children }) => {
       },
       (error) => {
         const { response } = error;
-        if (
-          response.status === UNAUTHORIZED_STATUS_CODE &&
-          unauthorizedRedirectBlacklist.indexOf(response.config.url) === -1 &&
-          unauthorizedRedirect
-        ) {
-          unauthorizedRedirect();
+        if (response) {
+          if (
+            response.status === UNAUTHORIZED_STATUS_CODE &&
+            unauthorizedRedirectBlacklist.indexOf(response.config.url) === -1 &&
+            unauthorizedRedirect
+          ) {
+            unauthorizedRedirect();
+          }
+        } else if (error.request) {
+          showErrorSnackbar(t('Snackbar/Could not connect to the server'));
         }
         return Promise.reject(error);
       }

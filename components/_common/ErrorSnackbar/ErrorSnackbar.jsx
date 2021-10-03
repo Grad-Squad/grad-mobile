@@ -11,7 +11,7 @@ const ErrorSnackbar = ({ visible, setVisible, error }) => {
   return (
     <Snackbar visible={visible} onDismiss={() => setVisible(false)}>
       <EduText style={styles.text}>
-        <EduText style={styles.errorWord}>{t('Error: ')} </EduText>
+        <EduText style={styles.errorWord}>{t('Snackbar/Error: ')} </EduText>
         {error}
       </EduText>
     </Snackbar>

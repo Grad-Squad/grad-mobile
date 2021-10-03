@@ -144,5 +144,8 @@
     "Go to question": "Go to question",
     "Question Number": "Question Number"
   },
-  "Error: ": "Error: "
+  "Snackbar": {
+    "Error: ": "Error: ",
+    "Could not connect to the server": "Could not connect to the server"
+  }
 }

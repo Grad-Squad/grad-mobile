@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 });
 
 function Votes({ voteCount, votingFunctions }) {
-  const { upvoteFunction, downvoteFunction, unvoteFunction } = votingFunctions;
+  // const { upvoteFunction, downvoteFunction, unvoteFunction } = votingFunctions; // todo use refactored api functions
   const [vote, setVote] = useState(voteCount);
   const [isUpVoted, setIsUpVoted] = useState(false);
   const [isDownVoted, setIsDownVoted] = useState(false);
@@ -41,36 +41,36 @@ function Votes({ voteCount, votingFunctions }) {
     setIsDownVoted(isPrevDownvoted);
   };
 
-  const upvoteMutation = useMutation(upvoteFunction, {
-    onError: onErrorCallback,
-  });
-  const downvoteMutation = useMutation(downvoteFunction, {
-    onError: onErrorCallback,
-  });
-  const unvoteMutation = useMutation(unvoteFunction, {
-    onError: onErrorCallback,
-  });
+  // const upvoteMutation = useMutation(upvoteFunction, {
+  //   onError: onErrorCallback,
+  // });
+  // const downvoteMutation = useMutation(downvoteFunction, {
+  //   onError: onErrorCallback,
+  // });
+  // const unvoteMutation = useMutation(unvoteFunction, {
+  //   onError: onErrorCallback,
+  // });
 
   useEffect(() => {
     setVote(voteCount);
   }, [voteCount]);
 
-  const passCurrentState = (offset) => ({
-    offset,
-    isPrevUpvoted: isUpVoted,
-    isPrevDownvoted: isDownVoted,
-  });
+  // const passCurrentState = (offset) => ({
+  //   offset,
+  //   isPrevUpvoted: isUpVoted,
+  //   isPrevDownvoted: isDownVoted,
+  // });
   const upVoteHandler = () => {
     let offset = 0;
     if (isUpVoted) {
       offset = -1;
-      unvoteMutation.mutate(passCurrentState(offset));
+      // unvoteMutation.mutate(passCurrentState(offset));
     } else if (isDownVoted) {
       offset = 2;
-      upvoteMutation.mutate(passCurrentState(offset));
+      // upvoteMutation.mutate(passCurrentState(offset));
     } else {
       offset = 1;
-      upvoteMutation.mutate(passCurrentState(offset));
+      // upvoteMutation.mutate(passCurrentState(offset));
     }
     setVote((currentVote) => currentVote + offset);
     setIsUpVoted((currentState) => !currentState);
@@ -81,13 +81,13 @@ function Votes({ voteCount, votingFunctions }) {
     let offset = 0;
     if (isUpVoted) {
       offset = -2;
-      downvoteMutation.mutate(passCurrentState(offset));
+      // downvoteMutation.mutate(passCurrentState(offset));
     } else if (isDownVoted) {
       offset = 1;
-      unvoteMutation.mutate(passCurrentState(offset));
+      // unvoteMutation.mutate(passCurrentState(offset));
     } else {
       offset = -1;
-      downvoteMutation.mutate(passCurrentState(offset));
+      // downvoteMutation.mutate(passCurrentState(offset));
     }
     setVote((currentVote) => currentVote + offset);
     setIsDownVoted((currentState) => !currentState);

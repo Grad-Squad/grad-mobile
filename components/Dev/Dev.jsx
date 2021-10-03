@@ -21,7 +21,7 @@ const Dev = ({ navigation }) => {
     });
   }, []);
   const postData = {
-    id: 0,
+    id: 4,
     title: 'KMS',
     priceInCents: 10,
     subject: 'advanced nothing',
@@ -44,7 +44,7 @@ const Dev = ({ navigation }) => {
         onPress={() => navigation.navigate('login')}
       />
       <Button title="Go to Home" onPress={() => navigation.navigate('home')} />
-      <Button title="Go to Post" onPress={() => navigation.navigate('post')} />
+      <Button title="Go to Post" onPress={() => navigation.navigate('post',postData.id)} />
       <Button
         title="Go to mcq"
         onPress={() => navigation.navigate('solveMcq')}

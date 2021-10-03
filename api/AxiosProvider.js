@@ -36,7 +36,7 @@ const AxiosProvider = ({ children }) => {
   const [unauthorizedRedirect, setUnauthorizedRedirect] = useState(undefined);
 
   const { showErrorSnackbar } = useErrorSnackbar();
-
+  console.log("outside: ",apiToken)
   const axios = useMemo(() => {
     const newAxios = Axios.create({
       baseURL: API_URL,
@@ -47,6 +47,7 @@ const AxiosProvider = ({ children }) => {
     });
 
     newAxios.interceptors.request.use((config) => {
+      console.log("inside",apiToken)
       if (apiToken) {
         // eslint-disable-next-line no-param-reassign
         config.headers.Authorization = `Bearer ${apiToken}`;

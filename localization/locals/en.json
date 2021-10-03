@@ -143,5 +143,9 @@
   "MaterialNav": {
     "Go to question": "Go to question",
     "Question Number": "Question Number"
+  },
+  "Snackbar": {
+    "Error: ": "Error: ",
+    "Could not connect to the server": "Could not connect to the server"
   }
 }

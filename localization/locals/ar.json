@@ -143,5 +143,9 @@
   "MaterialNav": {
     "Go to question": "انتقل إلى السؤال",
     "Question Number": "رقم السؤال"
+  },
+  "Snackbar": {
+    "Error: ": "خطأ: ",
+    "Could not connect to the server": "تعذر الاتصال بالخادم"
   }
 }

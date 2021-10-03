@@ -8,6 +8,7 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import GlobalStore from 'globalstore/GlobalStore';
 import { Colors } from 'styles';
 import AxiosProvider from 'api/AxiosProvider';
+import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
@@ -35,16 +36,18 @@ export default function App() {
   return (
     <LocalizationProvider>
       <PaperProvider theme={theme}>
-        <AxiosProvider>
-          <QueryClientProvider client={queryClient}>
-            <SafeAreaProvider>
-              <StatusBar />
-              <GlobalStore>
-                <RootNavigator />
-              </GlobalStore>
-            </SafeAreaProvider>
-          </QueryClientProvider>
-        </AxiosProvider>
+        <ErrorSnackbarProvider>
+          <AxiosProvider>
+            <QueryClientProvider client={queryClient}>
+              <SafeAreaProvider>
+                <StatusBar />
+                <GlobalStore>
+                  <RootNavigator />
+                </GlobalStore>
+              </SafeAreaProvider>
+            </QueryClientProvider>
+          </AxiosProvider>
+        </ErrorSnackbarProvider>
       </PaperProvider>
     </LocalizationProvider>
   );

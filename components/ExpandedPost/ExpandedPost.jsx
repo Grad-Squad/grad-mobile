@@ -48,8 +48,9 @@ function ExpandedPost() {
   const onSubmitHandle = (content) =>{
     commentMutation.mutate({ postID:postData.id,content });
   }
-  if(commentMutation.error)
-  {console.log("test",commentMutation.error.response)}
+  if(commentMutation.error){
+    // console.log("🚀 ~ file: ExpandedPost.jsx ~ line 53 ~ ExpandedPost ~ commentMutation.error.response", commentMutation.error.response)
+  }
 
   return (
     <Page style={styles.page}>

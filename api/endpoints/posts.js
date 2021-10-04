@@ -7,15 +7,13 @@ export const useAPIAddComment = (mutationConfig) => {
   const { axios } = useAxios();
   return useMutation(async ({ postID, content }) => {
     const {
-      data: {
-        data: { comment },
-      },
+      data,
     } = await axios.post(formatString(endpoints.posts.comments,postID), {
         comment:{
             content,
         }
     });
 
-    return comment;
+    return data;
   }, mutationConfig);
 };

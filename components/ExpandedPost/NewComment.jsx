@@ -7,6 +7,7 @@ import {
   Image,
   View,
   Platform,
+  Alert,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
@@ -22,10 +23,7 @@ function NewComment({profileImageURI, onSubmitHandleFunction}) {
   const { t } = useContext(LocalizationContext);
   const [isDisabeld, setDisabled] = useState(false)
 
-  const onPressHandler = () =>{
-    setDisabled(true);
-  }
-
+  
   const formik = useFormik({
     initialValues: {
       commentText: '',
@@ -37,6 +35,10 @@ function NewComment({profileImageURI, onSubmitHandleFunction}) {
       commentText: comment(t),
     }),
   });
+
+  const onPressHandler = () =>{
+    setDisabled(true);
+  }
 
   return (
     <View>

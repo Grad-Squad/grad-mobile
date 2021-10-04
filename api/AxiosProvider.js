@@ -48,13 +48,8 @@ const AxiosProvider = ({ children }) => {
 
     newAxios.interceptors.response.use(
       (response) => {
-        const {
-          data: {
-            data: { payload },
-          },
-        } = response;
-        if (payload) {
-          updateAPIToken(payload.token);
+        if (response.data?.data?.payload) {
+          updateAPIToken(response.data.data.payload.token);
         }
         return response;
       },

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, StatusBar, Alert } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import { Constants } from 'styles';
+import { useAPIAddComment } from 'api/endpoints/posts';
 
 import Page from '../_common/Page/Page';
 import TitleRegion from './TitleRegion';
@@ -13,7 +14,7 @@ import NewComment from './NewComment';
 const statusBarPadding = StatusBar.currentHeight || 0;
 
 const postData = { // todo remove hardcoded data
-  id: 0,
+  id: 4,
   title: 'KMS',
   priceInCents: 10,
   subject: 'advanced nothing',
@@ -38,8 +39,17 @@ function ExpandedPost() {
   const { title, subject, author, rating, priceInCents, createdAt, id } =
   postData;
 
-  const onSubmitHandle = (text) =>{
-    Alert.alert(`comment \n ${text}`)
+  const commentMutation = useAPIAddComment({
+    onSuccess: () => {
+      Alert.alert('success') // TODO show new comments list
+    },
+  });
+
+  const onSubmitHandle = (content) =>{
+    commentMutation.mutate({ postID:postData.id,content });
+  }
+  if(commentMutation.error){
+    // console.log("🚀 ~ file: ExpandedPost.jsx ~ line 53 ~ ExpandedPost ~ commentMutation.error.response", commentMutation.error.response)
   }
 
   return (
@@ -61,7 +71,7 @@ function ExpandedPost() {
         </View>
 
         <CommentList />
-        <AddCommentButton postID={id} onPressHandler={() => setIsModalVisible(true)} />
+        <AddCommentButton postID={id} onPressHandler={() => setIsModalVisible(true)} disabled={commentMutation.isLoading} />
         <Modal
           visible={isModalVisible}
           onDismiss={() => setIsModalVisible(false)}

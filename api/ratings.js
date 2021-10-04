@@ -1,4 +1,4 @@
-// import axios from './axiosInstance';
+// import axios from './AxiosProvider';
 
 // export const upvotePost = async (postId, ratingId) =>
 //   axios.patch(`/posts/${postId}/ratings/${ratingId}`, {

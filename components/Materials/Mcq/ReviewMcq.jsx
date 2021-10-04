@@ -129,7 +129,7 @@ const ReviewMcq = ({ navigation }) => {
                   (ans.isSkipped && isSkipped)
               ),
             });
-            navigation.replace('solveMcq'); // !! test replace
+            navigation.replace('solveMcq');
           }}
         />
       </Portal>

@@ -1,3 +1,8 @@
 export default {
-  createPost: {},
+  createPost: {
+    materialList: [],
+  },
+  material: {
+    mcqQuestions: [],
+  },
 };

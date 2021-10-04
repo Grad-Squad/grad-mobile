@@ -9,12 +9,21 @@ import { Colors, Constants } from 'styles';
 import Checkbox from 'common/Input/Checkbox';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 
-const ReviewMcqModal = ({ isModalVisible, setIsModalVisible }) => {
+const ReviewMcqModal = ({
+  isModalVisible,
+  setIsModalVisible,
+  isCorrectAllowed,
+  isWrongAllowed,
+  isSkippedAllowed,
+  isShownAllowed,
+  onFinish,
+}) => {
   const { t } = useContext(LocalizationContext);
-  const [isCorrectChecked, setIsCorrectChecked] = useState(true);
-  const [isAnswersShownChecked, setIsAnswersShownChecked] = useState(true);
-  const [isWrongChecked, setIsWrongChecked] = useState(true);
-  const [isSkippedChecked, setIsSkippedChecked] = useState(true);
+  const [isCorrectChecked, setIsCorrectChecked] = useState(isCorrectAllowed);
+  const [isWrongChecked, setIsWrongChecked] = useState(isWrongAllowed);
+  const [isSkippedChecked, setIsSkippedChecked] = useState(isSkippedAllowed);
+  const [isAnswersShownChecked, setIsAnswersShownChecked] =
+    useState(isShownAllowed);
   return (
     <Modal
       visible={isModalVisible}
@@ -31,10 +40,15 @@ const ReviewMcqModal = ({ isModalVisible, setIsModalVisible }) => {
             style={styles.row}
             onPress={() => setIsCorrectChecked((state) => !state)}
             android_ripple={pressableAndroidRipple}
+            disabled={!isCorrectAllowed}
           >
             <Checkbox
               checked={isCorrectChecked}
               setChecked={setIsCorrectChecked}
+              disabled={!isCorrectAllowed}
+              pressableProps={{
+                disabled: !isCorrectAllowed,
+              }}
             />
             <EduText style={styles.reviewOption}>
               {t('McqReview/Correct')}
@@ -44,8 +58,15 @@ const ReviewMcqModal = ({ isModalVisible, setIsModalVisible }) => {
             style={styles.row}
             onPress={() => setIsWrongChecked((state) => !state)}
             android_ripple={pressableAndroidRipple}
+            disabled={!isWrongAllowed}
           >
-            <Checkbox checked={isWrongChecked} setChecked={setIsWrongChecked} />
+            <Checkbox
+              checked={isWrongChecked}
+              setChecked={setIsWrongChecked}
+              pressableProps={{
+                disabled: !isWrongAllowed,
+              }}
+            />
             <EduText style={styles.reviewOption}>
               {t('McqReview/Wrong')}
             </EduText>
@@ -54,10 +75,14 @@ const ReviewMcqModal = ({ isModalVisible, setIsModalVisible }) => {
             style={styles.row}
             onPress={() => setIsAnswersShownChecked((state) => !state)}
             android_ripple={pressableAndroidRipple}
+            disabled={!isShownAllowed}
           >
             <Checkbox
               checked={isAnswersShownChecked}
               setChecked={setIsAnswersShownChecked}
+              pressableProps={{
+                disabled: !isShownAllowed,
+              }}
             />
             <EduText style={styles.reviewOption}>
               {t('McqReview/AnswersShown')}
@@ -67,10 +92,14 @@ const ReviewMcqModal = ({ isModalVisible, setIsModalVisible }) => {
             style={styles.row}
             onPress={() => setIsSkippedChecked((state) => !state)}
             android_ripple={pressableAndroidRipple}
+            disabled={!isSkippedAllowed}
           >
             <Checkbox
               checked={isSkippedChecked}
               setChecked={setIsSkippedChecked}
+              pressableProps={{
+                disabled: !isSkippedAllowed,
+              }}
             />
             <EduText style={styles.reviewOption}>
               {t('McqReview/Skipped')}
@@ -80,7 +109,14 @@ const ReviewMcqModal = ({ isModalVisible, setIsModalVisible }) => {
         <MainActionButton
           style={styles.startButton}
           text={t('McqReview/Start')}
-          onPress={() => {}}
+          onPress={() =>
+            onFinish(
+              isCorrectChecked,
+              isWrongChecked,
+              isAnswersShownChecked,
+              isSkippedChecked
+            )
+          }
           disabled={
             !(
               isAnswersShownChecked ||
@@ -98,6 +134,11 @@ const ReviewMcqModal = ({ isModalVisible, setIsModalVisible }) => {
 ReviewMcqModal.propTypes = {
   isModalVisible: PropTypes.bool.isRequired,
   setIsModalVisible: PropTypes.func.isRequired,
+  onFinish: PropTypes.func.isRequired,
+  isCorrectAllowed: PropTypes.bool.isRequired,
+  isWrongAllowed: PropTypes.bool.isRequired,
+  isSkippedAllowed: PropTypes.bool.isRequired,
+  isShownAllowed: PropTypes.bool.isRequired,
 };
 ReviewMcqModal.defaultProps = {};
 

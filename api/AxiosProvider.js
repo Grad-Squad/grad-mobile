@@ -46,15 +46,6 @@ const AxiosProvider = ({ children }) => {
       timeout: 10000,
     });
 
-    newAxios.interceptors.request.use((config) => {
-      if (apiToken) {
-        // eslint-disable-next-line no-param-reassign
-        config.headers.Authorization = `Bearer ${apiToken}`;
-      }
-
-      return config;
-    });
-
     newAxios.interceptors.response.use(
       (response) => {
         const {
@@ -86,6 +77,23 @@ const AxiosProvider = ({ children }) => {
 
     return newAxios;
   }, []);
+  const [axiosRequestInterceptor, setAxiosRequestInterceptor] =
+    useState(undefined);
+
+  useEffect(() => {
+    if (axiosRequestInterceptor !== undefined) {
+      axios.interceptors.request.eject(axiosRequestInterceptor);
+    }
+    const requestInterceptor = axios.interceptors.request.use((config) => {
+      if (apiToken) {
+        // eslint-disable-next-line no-param-reassign
+        config.headers.Authorization = `Bearer ${apiToken}`;
+      }
+
+      return config;
+    });
+    setAxiosRequestInterceptor(requestInterceptor);
+  }, [apiToken]);
 
   return (
     <AxiosContext.Provider

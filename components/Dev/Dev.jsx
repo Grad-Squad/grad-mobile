@@ -47,7 +47,7 @@ const Dev = ({ navigation }) => {
       <Button title="Go to Post" onPress={() => navigation.navigate('post')} />
       <Button
         title="Go to mcq"
-        onPress={() => navigation.navigate('solveMcq')}
+        onPress={() => navigation.navigate('solveMcq', {materialID: "1"})}
       />
       <Button title="Arabic" onPress={() => setLanguage('ar')} />
       <Button title="English" onPress={() => setLanguage('en')} />

@@ -32,3 +32,5 @@ export const formatDate = (givenDate) => {
   }
   return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`; // return date if more than a week
 };
+
+export const formatString = (str2Format, ...args) => str2Format.replace(/({\d+})/g, a => args[+(a.substr(1, a.length - 2)) || 0]);

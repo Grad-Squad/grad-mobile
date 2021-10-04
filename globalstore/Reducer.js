@@ -13,6 +13,14 @@ const Reducer = (state, action) => {
           ],
         },
       };
+    case ReducerActions.setMCQQuestions:
+      return {
+        ...state,
+        material: {
+          ...state.material,
+          mcqQuestions: action.payload,
+        },
+      };
     default:
       return state;
   }

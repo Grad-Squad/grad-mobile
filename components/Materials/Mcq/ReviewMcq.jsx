@@ -10,14 +10,17 @@ import { MainActionButton } from 'common/Input/Button';
 import { Portal } from 'react-native-paper';
 import { LocalizationContext } from 'localization';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
-import QUESTIONS from './TEMP_DATA';
+import ReducerActions from 'globalstore/ReducerActions';
+import { useStore } from 'globalstore/GlobalStore';
 import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
 import ReviewMcqModal from './ReviewMcqModal';
 
-const ReviewMcq = ({ navigation, route }) => {
+const ReviewMcq = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { storedAnswers } = route.params;
+  const [state, dispatch] = useStore();
+  const storedAnswers = state.material.mcqQuestions;
+
   const correctCount = storedAnswers.filter((ans) => ans.isCorrect).length;
   const skippedCount = storedAnswers.filter((ans) => ans.isSkipped).length;
   const answersShownCount = storedAnswers.filter(
@@ -111,6 +114,23 @@ const ReviewMcq = ({ navigation, route }) => {
         <ReviewMcqModal
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}
+          isCorrectAllowed={correctCount > 0}
+          isWrongAllowed={incorrectCount > 0}
+          isSkippedAllowed={skippedCount > 0}
+          isShownAllowed={answersShownCount > 0}
+          onFinish={(isCorrect, isWrong, isAnswerShown, isSkipped) => {
+            dispatch({
+              type: ReducerActions.setMCQQuestions,
+              payload: storedAnswers.filter(
+                (ans) =>
+                  (ans.isCorrect && isCorrect) ||
+                  (!ans.isCorrect && ans.isAlreadyAnswered && isWrong) ||
+                  (ans.isAnswerShown && isAnswerShown) ||
+                  (ans.isSkipped && isSkipped)
+              ),
+            });
+            navigation.replace('solveMcq'); // !! test replace
+          }}
         />
       </Portal>
     </Page>
@@ -118,18 +138,6 @@ const ReviewMcq = ({ navigation, route }) => {
 };
 
 ReviewMcq.propTypes = {
-  route: PropTypes.shape({
-    params: PropTypes.exact({
-      storedAnswers: PropTypes.arrayOf(
-        PropTypes.exact({
-          isCorrect: PropTypes.bool.isRequired,
-          isSkipped: PropTypes.bool.isRequired,
-          isAlreadyAnswered: PropTypes.bool.isRequired,
-          isAnswerShown: PropTypes.bool.isRequired,
-        })
-      ).isRequired,
-    }),
-  }).isRequired,
   navigation: navigationPropType.isRequired,
 };
 ReviewMcq.defaultProps = {};

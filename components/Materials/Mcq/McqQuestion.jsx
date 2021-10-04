@@ -139,7 +139,7 @@ const McqQuestion = ({
 };
 
 McqQuestion.propTypes = {
-  question: PropTypes.exact({
+  question: PropTypes.shape({
     id: PropTypes.number,
     options: PropTypes.arrayOf(PropTypes.string).isRequired,
     answerIndices: PropTypes.arrayOf(PropTypes.number).isRequired,

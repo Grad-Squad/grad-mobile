@@ -1,50 +1,64 @@
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Constants, Colors } from 'styles';
 import { ProgressBar } from 'react-native-paper';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
+import { useStore } from 'globalstore/GlobalStore';
+import ReducerActions from 'globalstore/ReducerActions';
 import NavMaterials from '../_common/NavMaterials';
 import McqQuestion from './McqQuestion';
 import QUESTIONS from './TEMP_DATA';
 
-const SolveMcq = ({ navigation }) => {
-  const [pageNum, setPageNum] = useState(0);
-  const [hasFinished, setHasFinished] = useState(false);
-  const maxPages = QUESTIONS.length;
-  const [storedAnswers, setStoredAnswers] = useState(() =>
-    QUESTIONS.map(() => ({
-      isCorrect: false,
-      isSkipped: false,
-      isAnswerShown: false,
-      isAlreadyAnswered: false,
+const initialQuestionState = {
+  isCorrect: false,
+  isSkipped: false,
+  isAnswerShown: false,
+  isAlreadyAnswered: false,
+};
+
+const SolveMcq = ({ navigation, route }) => {
+  const { materialID } = route.params || {};
+
+  const [state, dispatch] = useStore();
+
+  const rawQuestions = materialID ? QUESTIONS : state.material.mcqQuestions;
+  const [questions, setQuestions] = useState(() =>
+    rawQuestions.map((question) => ({
+      ...question,
+      ...initialQuestionState,
     }))
   );
 
-  const decrementPage = () => setPageNum((state) => Math.max(state - 1, 0));
+  const [pageNum, setPageNum] = useState(0);
+  const [hasFinished, setHasFinished] = useState(false);
+
+  const decrementPage = () => setPageNum((prev) => Math.max(prev - 1, 0));
   const incrementPage = () => {
-    setPageNum((state) => Math.min(state + 1, maxPages - 1));
-    if (pageNum === maxPages - 1) {
+    // by default set skipped to true ?
+    setPageNum((prev) => Math.min(prev + 1, questions.length - 1));
+    if (pageNum === questions.length - 1) {
       setHasFinished(true);
     }
   };
 
   useEffect(() => {
     if (hasFinished) {
-      navigation.navigate('reviewMcq', { storedAnswers });
+      dispatch({ type: ReducerActions.setMCQQuestions, payload: questions });
+      navigation.navigate('reviewMcq');
     }
   }, [hasFinished]);
 
   const handleAnswerShown = () => {
-    setStoredAnswers((state) => {
-      const newStoredAnswers = [...state];
+    setQuestions((prev) => {
+      const newStoredAnswers = [...prev];
       newStoredAnswers[pageNum] = {
         ...newStoredAnswers[pageNum],
-        isCorrect: false,
+        ...initialQuestionState,
         isAnswerShown: true,
         isAlreadyAnswered: true,
-        isSkipped: false,
       };
       return newStoredAnswers;
     });
@@ -52,13 +66,13 @@ const SolveMcq = ({ navigation }) => {
   };
 
   const handleAnswer = (asnweredCorrectly) => {
-    setStoredAnswers((state) => {
-      const newStoredAnswers = [...state];
+    setQuestions((prev) => {
+      const newStoredAnswers = [...prev];
       newStoredAnswers[pageNum] = {
         ...newStoredAnswers[pageNum],
+        ...initialQuestionState,
         isCorrect: asnweredCorrectly,
         isAlreadyAnswered: true,
-        isSkipped: false,
       };
       return newStoredAnswers;
     });
@@ -66,10 +80,11 @@ const SolveMcq = ({ navigation }) => {
   };
 
   const handleSkip = () => {
-    setStoredAnswers((state) => {
-      const newStoredAnswers = [...state];
+    setQuestions((prev) => {
+      const newStoredAnswers = [...prev];
       newStoredAnswers[pageNum] = {
         ...newStoredAnswers[pageNum],
+        ...initialQuestionState,
         isSkipped: true,
       };
       return newStoredAnswers;
@@ -91,21 +106,24 @@ const SolveMcq = ({ navigation }) => {
           },
         ]}
       />
-      <ProgressBar progress={(pageNum + 1) / maxPages} color={Colors.accent} />
+      <ProgressBar
+        progress={(pageNum + 1) / questions.length}
+        color={Colors.accent}
+      />
       <View style={styles.navMaterials}>
         <NavMaterials
           onPressNext={incrementPage}
           onPressBack={decrementPage}
           onPressPageNum={(num) => setPageNum(num)}
           currentPageIndex={pageNum}
-          maxPages={maxPages}
+          maxPages={questions.length}
         />
       </View>
       <McqQuestion
-        question={QUESTIONS[pageNum]}
+        question={questions[pageNum]}
         questionIndex={pageNum}
-        isAlreadyAnswered={storedAnswers[pageNum].isAlreadyAnswered}
-        isLastQuestion={pageNum === QUESTIONS.length - 1}
+        isAlreadyAnswered={questions[pageNum].isAlreadyAnswered}
+        isLastQuestion={pageNum === questions.length - 1}
         handleAnswerShown={handleAnswerShown}
         handleAnswer={handleAnswer}
         handleSkip={handleSkip}
@@ -116,6 +134,11 @@ const SolveMcq = ({ navigation }) => {
 
 SolveMcq.propTypes = {
   navigation: navigationPropType.isRequired,
+  route: PropTypes.shape({
+    params: PropTypes.exact({
+      materialID: PropTypes.string,
+    }),
+  }).isRequired,
 };
 SolveMcq.defaultProps = {};
 

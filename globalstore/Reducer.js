@@ -7,10 +7,7 @@ const Reducer = (state, action) => {
         ...state,
         createPost: {
           ...state.createPost,
-          materialList: [
-            action.payload,
-            ...(state.createPost.materialList || []),
-          ],
+          materialList: [action.payload, ...state.createPost.materialList],
         },
       };
     case ReducerActions.setMCQQuestions:

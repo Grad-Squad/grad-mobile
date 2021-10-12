@@ -19,8 +19,8 @@ const postData = { // todo remove hardcoded data
   priceInCents: 10,
   subject: 'advanced nothing',
   rating: {
-    id: 0,
-    entityId:0,
+    id: 4,
+    entityId: 0,
     upvotes: 100,
     downvotes: 50,
     currentUserStatus: 'sad',
@@ -49,7 +49,7 @@ function ExpandedPost() {
     commentMutation.mutate({ postID:postData.id,content });
   }
   if(commentMutation.error){
-    // console.log("🚀 ~ file: ExpandedPost.jsx ~ line 53 ~ ExpandedPost ~ commentMutation.error.response", commentMutation.error.response)
+    console.log("🚀 ~ file: ExpandedPost.jsx ~ line 53 ~ ExpandedPost ~ commentMutation.error.response", commentMutation.error.response) // TODO error message
   }
 
   return (
@@ -70,7 +70,7 @@ function ExpandedPost() {
           <FooterRegion rating={rating} commentCount={priceInCents} isPost />
         </View>
 
-        <CommentList />
+        {/* <CommentList /> */}
         <AddCommentButton postID={id} onPressHandler={() => setIsModalVisible(true)} disabled={commentMutation.isLoading} />
         <Modal
           visible={isModalVisible}

@@ -16,7 +16,7 @@ import { ScreenNames } from 'constants';
 
 const EnterEmail = ({ navigation, route }) => {
   const { t } = useContext(LocalizationContext);
-  const { existingEmail = '' } = route.params;
+  const { existingEmail = '' } = route?.params || {};
 
   const formik = useFormik({
     initialValues: {

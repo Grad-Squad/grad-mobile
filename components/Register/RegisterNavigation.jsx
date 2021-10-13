@@ -51,7 +51,7 @@ const RegisterNavigation = () => {
     initialValues: {
       role: roles.student,
       profileImage: '',
-      bio: '',
+      biography: '',
     },
     onSubmit: (userInfo) => {
       Alert.alert('tes');
@@ -59,7 +59,7 @@ const RegisterNavigation = () => {
     },
     validationSchema: yup.object().shape({
       role: roleRequired(t),
-      bio: biography(t),
+      biography: biography(t),
     }),
   });
   return (

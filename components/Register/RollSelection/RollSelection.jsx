@@ -1,23 +1,17 @@
 import LoginBack from 'common/backgrounds/LoginBack';
-import PropTypes from 'prop-types';
 import EduText from 'common/EduText';
 import { WhiteButton } from 'common/Input/Button';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Typography } from 'styles';
 import RegisterContext from '../RegisterContext';
 import TeacherOrStudent from './TeacherOrStudent';
 
-const RollSelection = ({ navigation, route }) => {
+const RollSelection = ({ navigation }) => {
   const { t, isRTL } = useContext(LocalizationContext);
-  const profileId = route.params?.profileId;
-  const { formik, setProfileId } = useContext(RegisterContext);
-
-  useEffect(() => {
-    setProfileId(profileId);
-  }, []);
+  const { formik } = useContext(RegisterContext);
 
   const onContinueClick = () => {
     navigation.navigate('register/optionalInfo');
@@ -47,11 +41,6 @@ const RollSelection = ({ navigation, route }) => {
 
 RollSelection.propTypes = {
   navigation: navigationPropType.isRequired,
-  route: PropTypes.shape({
-    params: {
-      profileId: PropTypes.string.isRequired,
-    },
-  }).isRequired,
 };
 RollSelection.defaultProps = {};
 

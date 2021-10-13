@@ -1,5 +1,6 @@
 import { useAxios } from 'api/AxiosProvider';
 import { useMutation } from 'react-query';
+import { formatString } from 'utility';
 import endpoints from './endpoints';
 
 export const useAPILogin = (mutationConfig) => {
@@ -29,7 +30,7 @@ export const useAPILogin = (mutationConfig) => {
 };
 
 export const useAPIRefreshToken = (mutationConfig) => {
-  const { updateRefreshToken } = useAxios();
+  const { axios, updateRefreshToken } = useAxios();
   return useMutation(
     async ({ refreshToken }) => {
       const { data } = await axios.post(endpoints.auth.refresh, {
@@ -51,14 +52,10 @@ export const useAPIRefreshToken = (mutationConfig) => {
 };
 
 export const useAPIRegister = (mutationConfig) => {
-  const { updateAccessToken, updateRefreshToken } = useAxios();
+  const { axios, updateAccessToken, updateRefreshToken } = useAxios();
   return useMutation(
     async ({ email, password, name }) => {
-      const {
-        data: {
-          data: { user },
-        },
-      } = await axios.post(endpoints.auth.register, {
+      const { data } = await axios.post(endpoints.auth.register, {
         user: {
           email,
           password,
@@ -68,7 +65,7 @@ export const useAPIRegister = (mutationConfig) => {
         },
       });
 
-      return user;
+      return data.data ? data.data : data;
     },
     {
       ...mutationConfig,
@@ -76,29 +73,27 @@ export const useAPIRegister = (mutationConfig) => {
         // todo el one line elli ta7t da sus
         mutationConfig.onSuccess?.(data, variables, context);
 
-        updateAccessToken(data?.data?.payload?.token);
-        updateRefreshToken(data?.data?.payload?.refresh_token);
+        if (data?.payload?.token) {
+          updateAccessToken(data?.payload?.token);
+        }
+        if (data?.payload?.refresh_token) {
+          updateRefreshToken(data?.payload?.refresh_token);
+        }
       },
     }
   );
 };
 
-export const useAPIUpdateAccount = (mutationConfig) => {
-  // const { axios } = useAxios();
-  return useMutation(async ({ userInfo, profileId }) => {
+export const useAPIUpdateProfile = (mutationConfig) => {
+  const { axios } = useAxios();
+  return useMutation(async ({ profileInfo, profileId }) => {
     const {
-      data: {
-        data: { user },
-      },
-    } = await axios.post(endpoints.auth.register, {
-      user: {
-        ...userInfo,
-      },
-      profile: {
-        name,
-      },
-    });
+      data: { data },
+    } = await axios.patch(
+      formatString(endpoints.profile.update, profileId),
+      profileInfo
+    );
 
-    return user;
+    return data;
   }, mutationConfig);
 };

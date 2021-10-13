@@ -1,24 +1,15 @@
 import React, { useContext, useState } from 'react';
 import Navigator from 'navigation/Navigator';
 import * as yup from 'yup';
-import {
-  biography,
-  emailRequired,
-  nameRequired,
-  passwordRequired,
-  roleRequired,
-  roles,
-} from 'validation';
+import { biography, roleRequired, roles } from 'validation';
 import { useFormik } from 'formik';
 import { LocalizationContext } from 'localization';
-import { Alert } from 'react-native';
-// import { useMutation } from 'react-query';
-// import { updateAccount } from 'api/useAccount';
+import { useAPIUpdateProfile } from 'api/endpoints/auth';
+import { navigationPropType } from 'proptypes';
 import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
 import RollSelection from './RollSelection/RollSelection';
 import RegisterContext from './RegisterContext';
-// import { AuthContext } from 'api/axiosInstance';
 
 const screens = [
   {
@@ -35,17 +26,18 @@ const screens = [
   },
 ];
 
-const RegisterNavigation = () => {
+const RegisterNavigation = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
   // const { headers } = useContext(AuthContext);
   const [profileId, setProfileId] = useState();
 
-  // const addInfoMutation = useMutation(
-  //   (userInfo) => updateAccount(userInfo, profileId, headers),
-  //   {
-  //     onError: () => {},
-  //   }
-  // );
+  const updateProfileMutation = useAPIUpdateProfile({
+    onSuccess: () =>
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'home' }],
+      }),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -53,9 +45,8 @@ const RegisterNavigation = () => {
       profileImage: '',
       biography: '',
     },
-    onSubmit: (userInfo) => {
-      Alert.alert('tes');
-      // addInfoMutation.mutate(userInfo);
+    onSubmit: (profileInfo) => {
+      updateProfileMutation.mutate({ profileInfo, profileId });
     },
     validationSchema: yup.object().shape({
       role: roleRequired(t),
@@ -68,6 +59,10 @@ const RegisterNavigation = () => {
       <Navigator screens={screens} />
     </RegisterContext.Provider>
   );
+};
+
+RegisterNavigation.propTypes = {
+  navigation: navigationPropType.isRequired,
 };
 
 export default RegisterNavigation;

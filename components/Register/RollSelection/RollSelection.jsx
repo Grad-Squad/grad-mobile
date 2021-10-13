@@ -1,6 +1,7 @@
 import LoginBack from 'common/backgrounds/LoginBack';
 import EduText from 'common/EduText';
 import { WhiteButton } from 'common/Input/Button';
+import { ScreenNames } from 'constants';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
@@ -14,7 +15,7 @@ const RollSelection = ({ navigation }) => {
   const { formik } = useContext(RegisterContext);
 
   const onContinueClick = () => {
-    navigation.navigate('register/optionalInfo');
+    navigation.navigate(ScreenNames.Register.OPTIONAL_INFO);
   };
   return (
     <LoginBack>

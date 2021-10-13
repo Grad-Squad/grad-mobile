@@ -10,18 +10,19 @@ import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
 import RollSelection from './RollSelection/RollSelection';
 import RegisterContext from './RegisterContext';
+import { ScreenNames } from 'constants';
 
 const screens = [
   {
-    name: 'register/requiredInfo',
+    name: ScreenNames.Register.REQUIRED_INFO,
     component: RequiredInfo,
   },
   {
-    name: 'register/rollSelection',
+    name: ScreenNames.Register.ROLL_SELECTION,
     component: RollSelection,
   },
   {
-    name: 'register/optionalInfo',
+    name: ScreenNames.Register.OPTIONAL_INFO,
     component: OptionalInfo,
   },
 ];
@@ -35,7 +36,7 @@ const RegisterNavigation = ({ navigation }) => {
     onSuccess: () =>
       navigation.reset({
         index: 0,
-        routes: [{ name: 'home' }],
+        routes: [{ name: ScreenNames.HOME }],
       }),
   });
 

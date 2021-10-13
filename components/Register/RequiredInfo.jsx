@@ -3,6 +3,7 @@ import LoginBack from 'common/backgrounds/LoginBack';
 import { TextInputFormik, TextInputGroup } from 'common/Input';
 import { WhiteButton } from 'common/Input/Button';
 import { ApiConstants } from 'constants';
+import ScreenNames from 'constants/screenNames';
 import { useFormik } from 'formik';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
@@ -20,8 +21,8 @@ const RequiredInfo = ({ navigation }) => {
     onSuccess: (data, variables) => {
       const code = data?.code;
       if (code === ApiConstants.duplicate_email) {
-        navigation.navigate('forgotPassword', {
-          screen: 'forgotPassword/enterEmail',
+        navigation.navigate(ScreenNames.FORGOT_PASSWORD, {
+          screen: ScreenNames.ForgotPassword.ENTER_EMAIL,
           params: {
             existingEmail: variables.email,
           },
@@ -29,7 +30,7 @@ const RequiredInfo = ({ navigation }) => {
       } else {
         const { id: profileId } = data?.user?.profile;
         setProfileId(profileId);
-        navigation.navigate('register/rollSelection');
+        navigation.navigate(ScreenNames.Register.ROLL_SELECTION);
       }
     },
   });

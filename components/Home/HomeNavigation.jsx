@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import {Icon} from 'common/Icon';
+import { Icon } from 'common/Icon';
 import { Colors, Constants } from 'styles';
 import { LocalizationContext } from 'localization';
 import EmptyComponent from 'common/EmptyComponent';
@@ -8,6 +8,7 @@ import Home from './Home';
 import Search from './Search';
 import Options from './Options';
 import Bookmarks from './Bookmarks';
+import { ScreenNames } from 'constants';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -54,7 +55,7 @@ const HomeNavigation = () => {
         listeners={({ navigation }) => ({
           tabPress: (e) => {
             e.preventDefault();
-            navigation.navigate('createPost');
+            navigation.navigate(ScreenNames.CREATE_POST);
           },
         })}
       />

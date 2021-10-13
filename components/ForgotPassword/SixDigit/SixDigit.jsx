@@ -9,6 +9,7 @@ import LoginBack from 'common/backgrounds/LoginBack';
 import { TransparentButton, WhiteButton } from 'common/Input/Button';
 import CodeTextInput from './CodeTextInput';
 import EduText from 'common/EduText';
+import { ScreenNames } from 'constants';
 
 const CELL_COUNT = 6;
 
@@ -19,7 +20,7 @@ const SixDigit = ({ navigation }) => {
 
   const attemptSubmit = () => {
     if (code && code.length === CELL_COUNT) {
-      navigation.navigate('forgotPassword/newPassword');
+      navigation.navigate(ScreenNames.ForgotPassword.NEW_PASSWORD);
     }
   };
 

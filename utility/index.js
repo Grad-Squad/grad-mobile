@@ -3,10 +3,10 @@ import I18n from "i18n-js";
 export const formatNumber = (num) => {
   const anum = Math.abs(num);
   if (anum > 999 && anum < 1000000) {
-    return `${(num / 1000).toFixed(1)}K`; // convert to K for number from > 1000 < 1 million
+    return `${parseFloat((num / 1000).toFixed(1))}K`; // convert to K for number from > 1000 < 1 million
   }
   if (anum >= 1000000) {
-    return `${(num / 1000000).toFixed(1)}M`; // convert to M for number from > 1 million
+    return `${parseFloat((num / 1000000).toFixed(1))}M`; // convert to M for number from > 1 million
   }
   return num; // if value < 1000, nothing to do
 };

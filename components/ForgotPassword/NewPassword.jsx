@@ -10,7 +10,7 @@ import { navigationPropType } from 'proptypes';
 import { Colors, Typography } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
-import { ScreenNames } from 'constants';
+import ScreenNames from 'navigation/ScreenNames';
 
 const NewPassword = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);

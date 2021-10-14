@@ -7,7 +7,7 @@ import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
 import { Constants } from 'styles';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
-import { ScreenNames } from 'constants';
+import ScreenNames from 'navigation/ScreenNames';
 
 const Dev = ({ navigation }) => {
   const { t, setLanguage } = useContext(LocalizationContext);

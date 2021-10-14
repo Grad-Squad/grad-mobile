@@ -4,11 +4,11 @@ import { Icon } from 'common/Icon';
 import { Colors, Constants } from 'styles';
 import { LocalizationContext } from 'localization';
 import EmptyComponent from 'common/EmptyComponent';
+import ScreenNames from 'navigation/ScreenNames';
 import Home from './Home';
 import Search from './Search';
 import Options from './Options';
 import Bookmarks from './Bookmarks';
-import { ScreenNames } from 'constants';
 
 const Tab = createMaterialBottomTabNavigator();
 

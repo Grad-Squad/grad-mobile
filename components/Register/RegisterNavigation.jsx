@@ -6,11 +6,11 @@ import { useFormik } from 'formik';
 import { LocalizationContext } from 'localization';
 import { useAPIUpdateProfile } from 'api/endpoints/auth';
 import { navigationPropType } from 'proptypes';
+import ScreenNames from 'navigation/ScreenNames';
 import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
 import RollSelection from './RollSelection/RollSelection';
 import RegisterContext from './RegisterContext';
-import { ScreenNames } from 'constants';
 
 const screens = [
   {

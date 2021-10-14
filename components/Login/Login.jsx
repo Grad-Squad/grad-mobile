@@ -10,8 +10,8 @@ import { TextInputFormik, TextInputGroup } from 'common/Input';
 import { navigationPropType } from 'proptypes';
 import { Colors } from 'styles';
 import { useAPILogin } from 'api/endpoints/auth';
+import ScreenNames from 'navigation/ScreenNames';
 import SignInWith from './SignInWith/SignInWith';
-import { ScreenNames } from 'constants';
 
 const Login = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);

@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Colors, Constants } from 'styles';
 import EduText from 'common/EduText';
 import { Icon, MaterialTypeIconsMap } from 'common/Icon';
+import pressableAndroidRipple from 'common/pressableAndroidRipple';
 
-const MaterialItem = ({ title, amount, type }) => (
-  <View style={styles.materialItem}>
+const MaterialItem = ({ title, amount, type, onPress }) => (
+  <Pressable
+    onPress={onPress}
+    android_ripple={pressableAndroidRipple}
+    style={styles.materialItem}
+  >
     <EduText style={styles.materialItemTitle} numberOfLines={2}>
       {title}
     </EduText>
@@ -14,13 +19,14 @@ const MaterialItem = ({ title, amount, type }) => (
       <EduText style={styles.materialItemAmount}>{amount}x</EduText>
       <Icon name={MaterialTypeIconsMap[type]} size={34} />
     </View>
-  </View>
+  </Pressable>
 );
 
 MaterialItem.propTypes = {
   title: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
 };
 MaterialItem.defaultProps = {};
 

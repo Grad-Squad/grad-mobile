@@ -106,6 +106,7 @@ const CreatePost = ({ navigation }) => {
             type: 'MCQ',
             title,
             amount: questions.length,
+            onPress: () => Alert.alert(`${index}`),
           })
         )}
         errorMsg={formik.touched.materialList && formik.errors.materialList}

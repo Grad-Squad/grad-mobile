@@ -6,7 +6,7 @@ import SixDigit from './SixDigit/SixDigit';
 import SixDigitFailed from './SixDigitFailed';
 import NewPassword from './NewPassword';
 import Done from './Done';
-import { ScreenNames } from 'constants';
+import ScreenNames from 'navigation/ScreenNames';
 
 const screens = [
   {

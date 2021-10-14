@@ -3,7 +3,7 @@ import LoginBack from 'common/backgrounds/LoginBack';
 import { TextInputFormik, TextInputGroup } from 'common/Input';
 import { WhiteButton } from 'common/Input/Button';
 import { ApiConstants } from 'constants';
-import ScreenNames from 'constants/screenNames';
+import ScreenNames from 'navigation/ScreenNames';
 import { useFormik } from 'formik';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';

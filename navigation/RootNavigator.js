@@ -14,8 +14,8 @@ import Login from 'components/Login/Login';
 import RegisterNavigation from 'components/Register/RegisterNavigation';
 import ForgotPasswordNavigator from 'components/ForgotPassword/ForgotPasswordNavigator';
 import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ/AddMCQ';
+import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
-import { ScreenNames } from 'constants';
 
 const screens = [
   {

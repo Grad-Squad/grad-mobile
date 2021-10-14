@@ -7,7 +7,7 @@ import { Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
-import { ScreenNames } from 'constants';
+import ScreenNames from 'navigation/ScreenNames';
 
 const IMAGE_SOURCE = require('../../assets/images/CheckEmail.webp');
 

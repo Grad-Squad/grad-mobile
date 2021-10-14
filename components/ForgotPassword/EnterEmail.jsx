@@ -12,7 +12,7 @@ import { Typography } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 
 import EduText from 'common/EduText';
-import { ScreenNames } from 'constants';
+import ScreenNames from 'navigation/ScreenNames';
 
 const EnterEmail = ({ navigation, route }) => {
   const { t } = useContext(LocalizationContext);

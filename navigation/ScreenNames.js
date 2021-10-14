@@ -1,4 +1,4 @@
-export const ScreenNames = {
+export default {
   DEV: 'DEV',
   HOME: 'HOME',
   LOGIN: 'LOGIN',
@@ -30,4 +30,3 @@ export const ScreenNames = {
   },
 };
 
-export default ScreenNames;

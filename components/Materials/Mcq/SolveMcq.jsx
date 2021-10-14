@@ -8,10 +8,10 @@ import { ProgressBar } from 'react-native-paper';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import { useStore } from 'globalstore/GlobalStore';
 import ReducerActions from 'globalstore/ReducerActions';
+import ScreenNames from 'navigation/ScreenNames';
 import NavMaterials from '../_common/NavMaterials';
 import McqQuestion from './McqQuestion';
 import QUESTIONS from './TEMP_DATA';
-import { ScreenNames } from 'constants';
 
 const initialQuestionState = {
   isCorrect: false,

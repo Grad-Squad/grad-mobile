@@ -18,6 +18,14 @@ const Reducer = (state, action) => {
           mcqQuestions: action.payload,
         },
       };
+    case ReducerActions.clearMaterialList:
+      return {
+        ...state,
+        createPost: {
+          ...state.createPost,
+          materialList: [],
+        },
+      };
     default:
       return state;
   }

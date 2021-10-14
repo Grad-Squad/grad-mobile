@@ -9,6 +9,7 @@ import { requiredError } from 'validation';
 import { LocalizationContext } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { useStore } from 'globalstore/GlobalStore';
+import ReducerActions from 'globalstore/ReducerActions';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -29,7 +30,7 @@ const dropdownInitialItems = [
 const CreatePost = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
 
-  const [state] = useStore();
+  const [state, dispatch] = useStore();
 
   const formik = useFormik({
     initialValues: {
@@ -65,7 +66,10 @@ const CreatePost = ({ navigation }) => {
         title={t('CreatePost/Create New Post')}
         rightButtonText={t('CreatePost/Post')}
         onPress={formik.handleSubmit}
-        onBackPress={() => navigation.goBack()}
+        onBackPress={() => {
+          dispatch({ type: ReducerActions.clearMaterialList });
+          navigation.goBack();
+        }}
       />
 
       <TransparentTextInputFormik

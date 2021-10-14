@@ -1,13 +1,12 @@
-import PropTypes from 'prop-types';
 import React, { createContext, useEffect, useState } from 'react';
 import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from 'i18n-js';
+import localStorageKeys from 'localStorageKeys';
 
+import { childrenPropType } from '../proptypes';
 import ar from './locals/ar.json';
 import en from './locals/en.json';
-
-const STORAGE_KEY = 'appLocale';
 
 const translations = {
   en,
@@ -16,22 +15,28 @@ const translations = {
 const availableLanguages = Object.keys(translations);
 i18n.translations = translations;
 i18n.fallbacks = true;
+i18n.defaultSeparator = '/';
 
 export const LocalizationContext = createContext();
 
+const isRTLLocale = (locale) => locale.indexOf('ar') === 0;
+
 export const LocalizationProvider = ({ children }) => {
   const [locale, setLocale] = useState(Localization.locale);
+  const [isRTL, setIsRTL] = useState(isRTLLocale(locale));
 
   const setLanguage = (newLocale) => {
     i18n.locale = newLocale;
     setLocale(newLocale);
-    AsyncStorage.setItem(STORAGE_KEY, newLocale);
+    AsyncStorage.setItem(localStorageKeys.appLocale, newLocale);
+    setIsRTL(isRTLLocale(newLocale));
   };
 
   useEffect(() => {
     (async () => {
       setLanguage(
-        (await AsyncStorage.getItem(STORAGE_KEY)) || Localization.locale
+        (await AsyncStorage.getItem(localStorageKeys.appLocale)) ||
+          Localization.locale
       );
     })();
   }, []);
@@ -43,6 +48,7 @@ export const LocalizationProvider = ({ children }) => {
         setLanguage,
         language: locale,
         t: i18n.t,
+        isRTL,
       }}
     >
       {children}
@@ -51,5 +57,5 @@ export const LocalizationProvider = ({ children }) => {
 };
 
 LocalizationProvider.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: childrenPropType.isRequired,
 };

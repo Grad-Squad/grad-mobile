@@ -1,7 +1,8 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "jest/globals": true
     },
     "extends": [
         "plugin:react/recommended",
@@ -16,11 +17,28 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "module-resolver",
+        "jest"
     ],
     "rules": {
         "react/jsx-filename-extension": [1, {
             "extensions": [".js", ".jsx"]
+        }],
+        "no-use-before-define": ["error", {
+            "functions": true,
+            "classes": true,
+            "variables": false
+        }],
+        "import/no-unresolved": [2, {
+            "ignore": [
+                "^@env$"
+            ]
         }]
+    },
+    "settings": {
+        "import/resolver": {
+            "babel-module": {}
+        }
     }
 }

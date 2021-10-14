@@ -5,34 +5,78 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "test": "jest",
+    "test::debug": "jest -o --watch --coverage=false"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transform": {
+      "^.+\\.[jt]sx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|@expo-google-fonts/.*)"
+    ],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ]
   },
   "dependencies": {
+    "@expo-google-fonts/lato": "^0.2.0",
+    "@expo-google-fonts/poppins": "^0.2.0",
+    "@expo-google-fonts/roboto": "^0.2.0",
+    "@expo-google-fonts/roboto-mono": "^0.2.0",
+    "@react-native-async-storage/async-storage": "~1.15.0",
+    "@react-native-community/art": "^1.2.0",
+    "@react-navigation/material-bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.0.3",
+    "axios": "^0.21.1",
     "expo": "~42.0.1",
+    "expo-app-loading": "^1.1.2",
+    "expo-clipboard": "~1.1.0",
+    "expo-facebook": "~11.3.1",
     "expo-localization": "~10.2.0",
     "expo-status-bar": "~1.0.4",
+    "formik": "^2.2.9",
     "i18n-js": "^3.8.0",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-confirmation-code-field": "^7.1.0",
+    "react-native-dotenv": "^3.2.0",
+    "react-native-dropdown-picker": "^5.1.25",
+    "react-native-elements": "^3.4.2",
+    "react-native-paper": "^4.9.2",
+    "react-native-pie-chart": "^2.0.2",
+    "react-native-popup-menu": "^0.15.11",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
-    "react-native-web": "~0.13.12",
-    "@react-native-async-storage/async-storage": "~1.15.0"
+    "react-native-svg": "12.1.1",
+    "react-native-vector-icons": "^8.1.0",
+    "react-native-web": "^0.17.1",
+    "react-query": "^3.21.1",
+    "yup": "^0.32.9",
+    "expo-image-picker": "~10.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@testing-library/jest-native": "^4.0.2",
+    "@testing-library/react-native": "^7.2.0",
+    "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-babel-module": "^5.3.1",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-module-resolver": "^1.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "prettier": "^2.3.2"
+    "jest-expo": "^42.1.0",
+    "prettier": "^2.3.2",
+    "react-test-renderer": "^17.0.2"
   },
   "private": true
 }

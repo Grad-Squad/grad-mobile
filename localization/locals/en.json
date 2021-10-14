@@ -1,3 +1,151 @@
 {
-  "hello": "Open up App.js to start working on your app! Nice"
+  "hello": "Open up App.js to start working on your app! Nice👨‍🎓👩‍🎓",
+  "Login": {
+    "Email": "Email",
+    "Password": "Password",
+    "forgot password?": "forgot password?",
+    "LOGIN": "LOGIN",
+    "REGISTER": "REGISTER",
+    "Sign In With Google": "Sign In With Google",
+    "Sign In With Facebook": "Sign In With Facebook",
+    "(incorrect email or password)": "(incorrect email or password)"
+  },
+  "ForgotPassword": {
+    "To Reset": "To reset your password, Please enter the Email you used to register your account",
+    "AnEmailWith": "An Email with a reset password code will be sent if an account with the email provided exists",
+    "RESET PASSWORD": "RESET PASSWORD",
+    "Check Your Email": "Check Your Email",
+    "you might need to check the junk folder": "you might need to check the junk folder",
+    "OK": "OK",
+    "Please enter the 6 digit code sent to your email": "Please enter the 6 digit code sent to your email",
+    "paste from clipboard": "paste from clipboard",
+    "DONE": "DONE",
+    "Reset your password": "Reset your password",
+    "Enter a new password to replace the old password": "Enter a new password to replace the old password",
+    "New Password": "New Password",
+    "Reset Password": "Reset Password",
+    "All Good": "All Good",
+    "Now you can login in with your new password": "Now you can login in with your new password",
+    "Failed too many times": "Failed too many times",
+    "Please request another password reset": "Please request another password reset",
+    "your new password cannot be the same as the old password": "your new password cannot be the same as the old password",
+    "wrong code": "wrong code"
+  },
+  "Register": {
+    "Name": "Name",
+    "CONTINUE": "CONTINUE",
+    "REGISTER": "REGISTER",
+    "Are you a student or a teacher ?": "Are you a student or a teacher ?",
+    "Student": "Student",
+    "Student Emoji": "👨‍🎓👩‍🎓",
+    "Teacher": "Teacher",
+    "Teacher Emoji": "👩‍🏫👨‍🏫",
+    "Profile Picture": "Profile Picture",
+    "Bio": "Bio",
+    "You can always add them later": "You can always add them later"
+  },
+  "TextInput": {
+    "optional": "(optional)",
+    "max char error": "(should be less than %{max} characters)",
+    "max": "(max: %{max})",
+    "min": "(min: %{min})",
+    "number": "(must be a number)",
+    "integer": "(must be an integer)"
+  },
+  "InputValidationError": {
+    "invalid email": "(invalid email)",
+    "field required": "(field required)",
+    "invalid password": "• at least 8 characters long\n• one uppercase letter\n• one lowercase letter\n• one number"
+  },
+  "Time": {
+    "just now": "just now"
+  },
+  "NavBar": {
+    "Home": "Home",
+    "Search": "Search",
+    "Create": "Create",
+    "Bookmarks": "Bookmarks",
+    "Options": "Options"
+  },
+  "ContextMenu": {
+    "Edit": "Edit",
+    "Share": "Share",
+    "Report": "Report",
+    "Delete": "Delete",
+    "Save": "Save"
+  },
+  "CreatePost": {
+    "Create New Post": "Create New Post",
+    "Post": "Post",
+    "Title": "Title",
+    "SubjectCourse": "Subject/Course",
+    "Tags": "Tags",
+    "Materials:": "Materials:",
+    "add a material using any of the buttons below": "add a material using any of the buttons below",
+    "add at least one material": "add at least one material",
+    "Add": {
+      "Flashcards": "Add Flashcards",
+      "MCQ": "Add MCQ",
+      "PDF": "Add PDF",
+      "Images": "Add Images",
+      "Video": "Add Video"
+    }
+  },
+  "DropDown": {
+    "Search...": "Search..."
+  },
+  "Mcq": {
+    "Continue": "Continue",
+    "Skip": "Skip",
+    "SubmitAnswer": "Submit Answer",
+    "ShowAnswer": "Show Answer",
+    "selectedAnswers": "Selected answer(s): ",
+    "correctAnswers": "The correct answer(s): "
+  },
+  "McqReview": {
+    "Correct": "Correct",
+    "Wrong": "Wrong",
+    "AnswersShown": "Answers Shown",
+    "Skipped": "Skipped",
+    "Again?": "Go again ?",
+    "What should we include?": "What should we include?",
+    "Start": "Start"
+  },
+  "AddMaterial": {
+    "Finish": "Finish",
+    "MCQ": {
+      "Create MCQ": "Create MCQ",
+      "Exercise Title": "Exercise Title",
+      "Question": "Question",
+      "Choice": "Choice",
+      "Correct?": "Correct?",
+      "errors": {
+        "(choice already exists)": "(choice already exists)",
+        "(question already exists)": "(question already exists)",
+        "At least one choice should be correct": "At least one choice should be correct",
+        "add at least one choice": "add at least one choice",
+        "(maximum number of questions reached)": "(maximum number of questions reached)",
+        "(maximum number of choices reached)": "(maximum number of choices reached)"
+      }
+    },
+    "Add": "Add",
+    "Add Question": "Add Question",
+    "Questions": {
+      "one": "1 Question",
+      "other": "{{number}} Questions",
+      "zero": "0 Questions"
+    },
+    "image name: ": "image name: "
+  },
+  "Comment": {
+    "Add": "Add a comment..."
+  },
+  "MaterialNav": {
+    "Go to question": "Go to question",
+    "Question Number": "Question Number"
+  },
+  "Snackbar": {
+    "Error: ": "Error: ",
+    "Could not connect to the server": "Could not connect to the server"
+  }
 }

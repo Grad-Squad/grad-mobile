@@ -7,6 +7,7 @@ import { Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
+import { ScreenNames } from 'constants';
 
 const IMAGE_SOURCE = require('../../assets/images/ForgotPasswordDone.webp');
 
@@ -23,7 +24,7 @@ const Done = ({ navigation }) => {
       </EduText>
       <WhiteButton
         text={t('Login/LOGIN')}
-        onPress={() => navigation.navigate('login')}
+        onPress={() => navigation.navigate(ScreenNames.LOGIN)}
       />
     </LoginBack>
   );

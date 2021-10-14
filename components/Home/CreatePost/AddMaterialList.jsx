@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   row: {
     ...Styles.bottomBorder,
-    paddingVertical: 6,
+    paddingVertical: 10,
     paddingHorizontal: 10,
 
     justifyContent: 'flex-start',

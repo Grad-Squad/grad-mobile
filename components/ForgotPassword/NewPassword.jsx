@@ -10,6 +10,7 @@ import { navigationPropType } from 'proptypes';
 import { Colors, Typography } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
+import { ScreenNames } from 'constants';
 
 const NewPassword = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
@@ -20,7 +21,7 @@ const NewPassword = ({ navigation }) => {
       password: '',
     },
     onSubmit: ({ password: newPassword }) => {
-      navigation.navigate('forgotPassword/done');
+      navigation.navigate(ScreenNames.ForgotPassword.DONE);
     },
     validationSchema: yup.object().shape({
       password: passwordRequired(t),

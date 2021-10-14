@@ -11,6 +11,7 @@ import { navigationPropType } from 'proptypes';
 import { Colors } from 'styles';
 import { useAPILogin } from 'api/endpoints/auth';
 import SignInWith from './SignInWith/SignInWith';
+import { ScreenNames } from 'constants';
 
 const Login = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
@@ -19,7 +20,7 @@ const Login = ({ navigation }) => {
     onSuccess: () => {
       navigation.reset({
         index: 0,
-        routes: [{ name: 'home' }],
+        routes: [{ name: ScreenNames.HOME }],
       });
     },
   });
@@ -41,7 +42,9 @@ const Login = ({ navigation }) => {
   return (
     <LoginBack
       bodyStyle={styles.loginBack}
-      componentAfterBackground={<SignInWith  disabled={loginMutation.isLoading}/>}
+      componentAfterBackground={
+        <SignInWith disabled={loginMutation.isLoading} />
+      }
     >
       <TextInputGroup style={styles.textInputs} onFinish={formik.handleSubmit}>
         <TextInputFormik
@@ -63,7 +66,7 @@ const Login = ({ navigation }) => {
         />
         <TransparentButton
           text={t('Login/forgot password?')}
-          onPress={() => navigation.navigate('forgotPassword')}
+          onPress={() => navigation.navigate(ScreenNames.FORGOT_PASSWORD)}
           textStyle={styles.forgotPassword}
           disabled={loginMutation.isLoading}
         />
@@ -77,7 +80,7 @@ const Login = ({ navigation }) => {
       />
       <WhiteButton
         text={t('Login/REGISTER')}
-        onPress={() => navigation.navigate('register')}
+        onPress={() => navigation.navigate(ScreenNames.REGISTER)}
         smallButton
         disabled={loginMutation.isLoading}
       />

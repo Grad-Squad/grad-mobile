@@ -7,6 +7,7 @@ import { Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
+import { ScreenNames } from 'constants';
 
 const IMAGE_SOURCE = require('../../assets/images/CheckEmail.webp');
 
@@ -24,7 +25,9 @@ const CheckEmail = ({ navigation }) => {
       </EduText>
       <WhiteButton
         text={t('ForgotPassword/OK')}
-        onPress={() => navigation.navigate('forgotPassword/sixDigit')}
+        onPress={() =>
+          navigation.navigate(ScreenNames.ForgotPassword.SIX_DIGIT)
+        }
         style={styles.gap}
       />
     </LoginBack>

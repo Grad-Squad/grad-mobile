@@ -7,6 +7,7 @@ import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
 import { Constants } from 'styles';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
+import { ScreenNames } from 'constants';
 
 const Dev = ({ navigation }) => {
   const { t, setLanguage } = useContext(LocalizationContext);
@@ -16,7 +17,7 @@ const Dev = ({ navigation }) => {
 
   useEffect(() => {
     setUnauthorizedRedirect(() => () => {
-      navigation.navigate('login');
+      navigation.navigate(ScreenNames.LOGIN);
       Alert.alert('Sorry, You have to login again');
     });
   }, []);
@@ -41,13 +42,21 @@ const Dev = ({ navigation }) => {
       <EduText>{t('hello')}</EduText>
       <Button
         title="Go to Login"
-        onPress={() => navigation.navigate('login')}
+        onPress={() => navigation.navigate(ScreenNames.LOGIN)}
       />
-      <Button title="Go to Home" onPress={() => navigation.navigate('home')} />
-      <Button title="Go to Post" onPress={() => navigation.navigate('post',postData.id)} />
+      <Button
+        title="Go to Home"
+        onPress={() => navigation.navigate(ScreenNames.HOME)}
+      />
+      <Button
+        title="Go to Post"
+        onPress={() => navigation.navigate(ScreenNames.POST, postData.id)}
+      />
       <Button
         title="Go to mcq"
-        onPress={() => navigation.navigate('solveMcq', {materialID: "1"})}
+        onPress={() =>
+          navigation.navigate(ScreenNames.SOLVE_MCQ, { materialID: '1' })
+        }
       />
       <Button title="Arabic" onPress={() => setLanguage('ar')} />
       <Button title="English" onPress={() => setLanguage('en')} />

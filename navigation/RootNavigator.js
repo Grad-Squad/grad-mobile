@@ -13,64 +13,65 @@ import AddVideo from 'components/Home/CreatePost/AddMaterial/AddVideo';
 import Login from 'components/Login/Login';
 import RegisterNavigation from 'components/Register/RegisterNavigation';
 import ForgotPasswordNavigator from 'components/ForgotPassword/ForgotPasswordNavigator';
-import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ/AddMCQ'
+import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ/AddMCQ';
 import Navigator from './Navigator';
+import { ScreenNames } from 'constants';
 
 const screens = [
   {
-    name: 'dev',
+    name: ScreenNames.DEV,
     component: Dev,
   },
   {
-    name: 'home',
+    name: ScreenNames.HOME,
     component: HomeNavigation,
   },
   {
-    name: 'login',
+    name: ScreenNames.LOGIN,
     component: Login,
   },
   {
-    name: 'register',
+    name: ScreenNames.REGISTER,
     component: RegisterNavigation,
   },
   {
-    name: 'forgotPassword',
+    name: ScreenNames.FORGOT_PASSWORD,
     component: ForgotPasswordNavigator,
   },
   {
-    name: 'post',
+    name: ScreenNames.POST,
     component: ExpandedPost,
   },
   {
-    name: 'createPost',
+    name: ScreenNames.CREATE_POST,
     component: CreatePost,
   },
   {
-    name: 'solveMcq',
+    name: ScreenNames.SOLVE_MCQ,
     component: SolveMcq,
   },
   {
-    name: 'reviewMcq',
+    name: ScreenNames.REVIEW_MCQ,
     component: ReviewMcq,
   },
   {
-    name: 'addFlashcards',
+    name: ScreenNames.ADD_FLASHCARDS,
     component: AddFlashCards,
   },
   {
-    name: 'addMCQ',
+    name: ScreenNames.ADD_MCQ,
     component: AddMCQ,
   },
   {
-    name: 'addPDF',
+    name: ScreenNames.ADD_PDF,
     component: AddPDF,
   },
   {
-    name: 'addImages',
+    name: ScreenNames.ADD_IMAGES,
     component: AddImages,
   },
   {
-    name: 'addVideo',
+    name: ScreenNames.ADD_VIDEO,
     component: AddVideo,
   },
 ];

@@ -21,7 +21,7 @@ const OptionalInfo = () => {
 
       <TextInputFormik
         formik={formik}
-        formikKey="bio"
+        formikKey="biography"
         title={`${t('Register/Bio')}`}
         subtitle={t('TextInput/optional')}
         multiline

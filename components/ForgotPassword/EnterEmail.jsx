@@ -12,17 +12,18 @@ import { Typography } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 
 import EduText from 'common/EduText';
+import { ScreenNames } from 'constants';
 
 const EnterEmail = ({ navigation, route }) => {
   const { t } = useContext(LocalizationContext);
-  const { existingEmail = '' } = route.params;
+  const { existingEmail = '' } = route?.params || {};
 
   const formik = useFormik({
     initialValues: {
       email: existingEmail,
     },
     onSubmit: ({ email }) => {
-      navigation.navigate('forgotPassword/checkEmail');
+      navigation.navigate(ScreenNames.ForgotPassword.CHECK_EMAIL);
     },
     validationSchema: yup.object().shape({
       email: emailRequired(t),

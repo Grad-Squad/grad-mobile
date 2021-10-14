@@ -6,6 +6,7 @@ import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Typography } from 'styles';
+import { ScreenNames } from 'constants';
 
 const IMAGE_SOURCE = require('../../assets/images/ForgotPasswordFailed.webp');
 
@@ -24,7 +25,7 @@ const SixDigitFailed = ({ navigation }) => {
 
       <WhiteButton
         text={t('ForgotPassword/OK')}
-        onPress={() => navigation.navigate('forgotPassword/enterEmail')}
+        onPress={() => navigation.navigate(ScreenNames.ENTER_EMAIL)}
       />
     </LoginBack>
   );

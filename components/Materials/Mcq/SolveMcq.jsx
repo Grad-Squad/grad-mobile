@@ -11,6 +11,7 @@ import ReducerActions from 'globalstore/ReducerActions';
 import NavMaterials from '../_common/NavMaterials';
 import McqQuestion from './McqQuestion';
 import QUESTIONS from './TEMP_DATA';
+import { ScreenNames } from 'constants';
 
 const initialQuestionState = {
   isCorrect: false,
@@ -47,7 +48,7 @@ const SolveMcq = ({ navigation, route }) => {
   useEffect(() => {
     if (hasFinished) {
       dispatch({ type: ReducerActions.setMCQQuestions, payload: questions });
-      navigation.navigate('reviewMcq');
+      navigation.navigate(ScreenNames.REVIEW_MCQ);
     }
   }, [hasFinished]);
 

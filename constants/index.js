@@ -21,3 +21,4 @@ export const BOOKMARK_HIT_SLOP_OBJECT = {
 };
 
 export { default as ApiConstants } from './api';
+export { ScreenNames } from './screenNames';

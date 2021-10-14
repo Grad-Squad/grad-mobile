@@ -7,13 +7,16 @@ import { requiredError } from 'validation';
 import { useFormik } from 'formik';
 import { TransparentTextInputFormik } from 'common/Input';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
-import { navigationPropType } from 'proptypes';
+import { navigationPropType, routeParamPropType } from 'proptypes';
+import PropTypes from 'prop-types';
 import ReducerActions from 'globalstore/ReducerActions';
 import { useStore } from 'globalstore/GlobalStore';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 
-const AddMCQ = ({ navigation }) => {
+const AddMCQ = ({ navigation, route }) => {
+  const editIndex = route.params?.index;
+
   const { t } = useContext(LocalizationContext);
   const [currentlyEditingQuestion, setCurrentlyEditingQuestion] =
     useState(undefined);
@@ -80,7 +83,10 @@ const AddMCQ = ({ navigation }) => {
   );
 };
 
-AddMCQ.propTypes = { navigation: navigationPropType.isRequired };
+AddMCQ.propTypes = {
+  navigation: navigationPropType.isRequired,
+  route: routeParamPropType({ index: PropTypes.number.isRequired }).isRequired,
+};
 AddMCQ.defaultProps = {};
 
 export default AddMCQ;

@@ -10,6 +10,7 @@ import { LocalizationContext } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { useStore } from 'globalstore/GlobalStore';
 import ReducerActions from 'globalstore/ReducerActions';
+import ScreenNames from 'navigation/ScreenNames';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -106,7 +107,7 @@ const CreatePost = ({ navigation }) => {
             type: 'MCQ',
             title,
             amount: questions.length,
-            onPress: () => Alert.alert(`${index}`),
+            onPress: ()=> navigation.navigate(ScreenNames.ADD_MCQ, {index})
           })
         )}
         errorMsg={formik.touched.materialList && formik.errors.materialList}

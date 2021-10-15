@@ -15,18 +15,22 @@ import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 
 const AddMCQ = ({ navigation, route }) => {
-  const editIndex = route.params?.index;
+  const editIndex = route?.params?.index;
 
   const { t } = useContext(LocalizationContext);
   const [currentlyEditingQuestion, setCurrentlyEditingQuestion] =
     useState(undefined);
 
-  const [, dispatch] = useStore();
+  const [state, dispatch] = useStore();
+
+  const editMCQ = state.createPost.materialList[editIndex];
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      questions: [],
+      title: editMCQ?.title ?? '',
+      questions: editMCQ?.questions
+        ? JSON.parse(JSON.stringify(editMCQ?.questions))
+        : [], // Deep Clone
     },
     onSubmit: (mcq) => {
       dispatch({ type: ReducerActions.addMCQ, payload: mcq });
@@ -85,9 +89,11 @@ const AddMCQ = ({ navigation, route }) => {
 
 AddMCQ.propTypes = {
   navigation: navigationPropType.isRequired,
-  route: routeParamPropType({ index: PropTypes.number.isRequired }).isRequired,
+  route: routeParamPropType(
+    PropTypes.shape({ index: PropTypes.number.isRequired })
+  ),
 };
-AddMCQ.defaultProps = {};
+AddMCQ.defaultProps = { route: undefined };
 
 export default AddMCQ;
 

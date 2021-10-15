@@ -35,5 +35,5 @@ export const contextMenuItemsPropType = PropTypes.arrayOf(
 );
 export const routeParamPropType = (paramsPropTypes) =>
   PropTypes.shape({
-    params: PropTypes.shape(paramsPropTypes).isRequired,
+    params: paramsPropTypes,
   });

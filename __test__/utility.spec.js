@@ -1,4 +1,4 @@
-import { formatNumber } from 'utility';
+import { formatNumber, formatString } from 'utility';
 
 describe('formatNumber', () => {
   describe('below 1k', () => {

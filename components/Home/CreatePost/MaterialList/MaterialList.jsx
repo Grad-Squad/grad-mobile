@@ -7,8 +7,8 @@ import EduText from 'common/EduText';
 import { MaterialTypeIconsMap } from 'common/Icon';
 import MaterialItem from './MaterialItem';
 
-const flatListRenderItem = ({ item: { title, amount, type } }) => (
-  <MaterialItem title={title} amount={amount} type={type} />
+const flatListRenderItem = ({ item: { title, amount, type, onPress } }) => (
+  <MaterialItem title={title} amount={amount} type={type} onPress={onPress}/>
 );
 
 const MaterialList = ({ materials, errorMsg }) => {

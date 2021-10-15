@@ -49,6 +49,9 @@ const AddMCQ = ({ navigation, route }) => {
         .trim()
         .max(100, t('TextInput/max char error'))
         .required(requiredError(t)),
+      questions: yup
+        .array()
+        .min(1, t('AddMaterial/MCQ/errors/add at least one question')),
     }),
   });
 
@@ -57,12 +60,17 @@ const AddMCQ = ({ navigation, route }) => {
     formik.setFieldValue('questions', formik.values.questions);
   };
 
+  const attemptSubmit = () => {
+    formik.setFieldTouched('questions', true);
+    formik.handleSubmit();
+  };
+
   return (
     <Page useSafeArea={false}>
       <MaterialCreateHeader
         title={t('AddMaterial/MCQ/Create MCQ')}
         rightButtonText={t('AddMaterial/Finish')}
-        onPress={formik.handleSubmit}
+        onPress={attemptSubmit}
         onBackPress={() => navigation.goBack()}
       />
       <TransparentTextInputFormik
@@ -88,6 +96,7 @@ const AddMCQ = ({ navigation, route }) => {
             deleteQuestion(i);
           }}
           onDelete={deleteQuestion}
+          error={formik.touched.questions && formik.errors.questions}
         />
       </ScrollView>
     </Page>

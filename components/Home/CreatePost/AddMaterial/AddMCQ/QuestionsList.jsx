@@ -5,12 +5,26 @@ import { mcqQuestionPropType, stylePropType } from 'proptypes';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
 import { LocalizationContext } from 'localization';
+import { Colors } from 'styles';
 import SubmittedQuestion from './SubmittedQuestion';
 
-const QuestionsList = ({ questions, contentStyle, onEdit, onDelete }) => {
+const QuestionsList = ({
+  questions,
+  contentStyle,
+  onEdit,
+  error,
+  onDelete,
+}) => {
   const { t } = useContext(LocalizationContext);
 
-  return (
+  return error ? (
+    <>
+      <Separator />
+      <View style={contentStyle}>
+        <EduText style={styles.error}>{error}</EduText>
+      </View>
+    </>
+  ) : (
     questions.length !== 0 && (
       <>
         <Separator />
@@ -42,9 +56,11 @@ QuestionsList.propTypes = {
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   contentStyle: stylePropType,
+  error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
 };
 QuestionsList.defaultProps = {
   contentStyle: {},
+  error: false,
 };
 
 export default QuestionsList;
@@ -54,4 +70,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   questionsList: { marginBottom: 20 },
+  error: {
+    color: Colors.error,
+  },
 });

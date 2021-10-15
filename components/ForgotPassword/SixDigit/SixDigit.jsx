@@ -9,7 +9,7 @@ import LoginBack from 'common/backgrounds/LoginBack';
 import { TransparentButton, WhiteButton } from 'common/Input/Button';
 import CodeTextInput from './CodeTextInput';
 import EduText from 'common/EduText';
-import { ScreenNames } from 'constants';
+import ScreenNames from 'navigation/ScreenNames';
 
 const CELL_COUNT = 6;
 

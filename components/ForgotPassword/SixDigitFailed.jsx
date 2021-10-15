@@ -6,7 +6,7 @@ import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Typography } from 'styles';
-import { ScreenNames } from 'constants';
+import ScreenNames from 'navigation/ScreenNames';
 
 const IMAGE_SOURCE = require('../../assets/images/ForgotPasswordFailed.webp');
 

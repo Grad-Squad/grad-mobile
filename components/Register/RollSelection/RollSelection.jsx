@@ -1,7 +1,7 @@
 import LoginBack from 'common/backgrounds/LoginBack';
 import EduText from 'common/EduText';
 import { WhiteButton } from 'common/Input/Button';
-import { ScreenNames } from 'constants';
+import ScreenNames from 'navigation/ScreenNames';
 import { LocalizationContext } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';

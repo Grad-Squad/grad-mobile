@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { Alert, ScrollView, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { LocalizationContext } from 'localization';
 import * as yup from 'yup';
@@ -71,7 +71,10 @@ const AddMCQ = ({ navigation, route }) => {
         title={t('AddMaterial/MCQ/Create MCQ')}
         rightButtonText={t('AddMaterial/Finish')}
         onPress={attemptSubmit}
-        onBackPress={() => navigation.goBack()}
+        onBackPress={() => {
+          Alert.alert('changes lost (if any)'); // ! WIP
+          navigation.goBack();
+        }}
       />
       <TransparentTextInputFormik
         title={t('AddMaterial/MCQ/Exercise Title')}

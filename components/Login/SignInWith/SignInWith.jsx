@@ -1,14 +1,41 @@
 import { WhiteButton } from 'common/Input/Button';
 import { LocalizationContext } from 'localization';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Styles } from 'styles';
 import Facebook from './Facebook/Facebook';
 import Google from './Google/Google';
 import * as FacebookSdk from 'expo-facebook';
+import * as GoogleSignIn from 'expo-google-sign-in';
+import { useState } from 'react';
 
-const SignInWith = ({disabled}) => {
+const SignInWith = ({ disabled }) => {
   const { t } = useContext(LocalizationContext);
+  const [user, setUser] = useState({});
+
+  const signInWithGoogle = async () => {
+    try {
+      await GoogleSignIn.askForPlayServicesAsync();
+      const { type, user } = await GoogleSignIn.signInAsync();
+      if (type === 'success') {
+        setUser(user);
+        alert('user:' + JSON.stringify(user));
+        alert('user:' + user);
+      }
+    } catch ({ message }) {
+      alert('login: Error:' + message);
+    }
+  };
+
+  useEffect(() => {
+    const initAsync = async () => {
+      await GoogleSignIn.initAsync({
+        // You may ommit the clientId when the firebase `googleServicesFile` is configured
+        signInType: GoogleSignIn.TYPES.DEFAULT,
+      });
+    };
+    initAsync();
+  }, []);
 
   const loginWithFacebook = async () => {
     try {
@@ -26,14 +53,15 @@ const SignInWith = ({disabled}) => {
         const response = await fetch(
           `https://graph.facebook.com/me?access_token=${token}`
         );
-        Alert.alert('Logged in!', `Hi ${(await response.json()).name}!`);
-        console.log(`Hi ${(await response.json()).name}!`);
+        const parsed = await response.json();
+        Alert.alert('Logged in!', `Hi ${parsed.name}!`);
+        console.log(`Hi ${JSON.stringify(parsed)}!`);
       } else {
         console.log(type);
         // type === 'cancel'
       }
-    } catch ({ message }) {
-      alert(`Facebook Login Error: ${message}`);
+    } catch (x) {
+      alert(`Facebook Login Error: ${x}`);
     }
   };
 
@@ -41,12 +69,12 @@ const SignInWith = ({disabled}) => {
     <View style={[Styles.cardFooter, styles.background]}>
       <WhiteButton
         text={t('Login/Sign In With Google')}
-        onPress={() => Alert.alert('google')}
+        onPress={signInWithGoogle}
         leftIcon={<Google />}
         style={styles.firstButtonGap}
         smallButton
         disabled={disabled}
-        />
+      />
       <WhiteButton
         text={t('Login/Sign In With Facebook')}
         onPress={loginWithFacebook}

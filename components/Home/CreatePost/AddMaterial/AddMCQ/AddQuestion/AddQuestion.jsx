@@ -79,7 +79,11 @@ const AddQuestion = ({
       currentChoice: yup
         .string()
         .trim()
-        .required(requiredError(t))
+        .test(
+          'required if no other choices exist',
+          requiredError(t),
+          (value) => value || currentQuestionFormik.values.choices.length > 0
+        )
         .test(
           'not already in choices',
           t('AddMaterial/MCQ/errors/(choice already exists)'),

@@ -33,7 +33,14 @@ const AddMCQ = ({ navigation, route }) => {
         : [], // Deep Clone
     },
     onSubmit: (mcq) => {
-      dispatch({ type: ReducerActions.addMCQ, payload: mcq });
+      if (editIndex === undefined) {
+        dispatch({ type: ReducerActions.addMCQ, payload: mcq });
+      } else {
+        dispatch({
+          type: ReducerActions.editMCQ,
+          payload: { index: editIndex, mcq },
+        });
+      }
       navigation.goBack();
     },
     validationSchema: yup.object().shape({

@@ -47,3 +47,28 @@ describe('formatNumber', () => {
     });
   });
 });
+
+
+describe('formatString', () => {
+  it('should return the same string if there are no args', () => {
+    expect(formatString('Test')).toBe('Test');
+  });
+  it('should return empty string for input empty string', () => {
+    expect(formatString('')).toBe('');
+  });
+  it('should format string (1 arg, number)', () => {
+    expect(formatString('Test {0}', 5)).toBe('Test 5');
+  });
+  it('should format string (1 arg, string)', () => {
+    expect(formatString('Test {0}', '5')).toBe('Test 5');
+  });
+  it('should format string (1 arg, used twice)', () => {
+    expect(formatString('Test {0} {0}', '5')).toBe('Test 5 5');
+  });
+  it('should format string (2 arg, string)', () => {
+    expect(formatString('Test {0} {1}', '5', '6')).toBe('Test 5 6');
+  });
+  it('should format string (1 arg, 2nd undefined)', () => {
+    expect(formatString('Test {0} {1}', '5')).toBe('Test 5 undefined');
+  });
+});

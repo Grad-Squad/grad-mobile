@@ -32,10 +32,10 @@ const ReviewMcq = ({ navigation }) => {
 
   const passedExercise = correctCount >= incorrectCount + answersShownCount;
 
-  const [cheeringWord, setCheeringWord] = useState(
+  const [cheeringWord, ] = useState(
     passedExercise
-      ? getCheeringWords(wordTypes.good)
-      : getCheeringWords(wordTypes.bad)
+      ? getCheeringWords(wordTypes.good, t)
+      : getCheeringWords(wordTypes.bad, t)
   );
 
   let footerText = '';

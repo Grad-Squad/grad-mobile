@@ -44,7 +44,6 @@ const SolveMcq = ({ navigation, route }) => {
       setHasFinished(true);
     }
   };
-
   useEffect(() => {
     if (hasFinished) {
       dispatch({ type: ReducerActions.setMCQQuestions, payload: questions });
@@ -63,7 +62,6 @@ const SolveMcq = ({ navigation, route }) => {
       };
       return newStoredAnswers;
     });
-    incrementPage();
   };
 
   const handleAnswer = (asnweredCorrectly) => {
@@ -77,7 +75,6 @@ const SolveMcq = ({ navigation, route }) => {
       };
       return newStoredAnswers;
     });
-    incrementPage();
   };
 
   const handleSkip = () => {
@@ -108,7 +105,10 @@ const SolveMcq = ({ navigation, route }) => {
         ]}
       />
       <ProgressBar
-        progress={(pageNum + 1) / questions.length}
+        progress={
+          (pageNum + 1 * questions[pageNum].isAlreadyAnswered) /
+          questions.length
+        }
         color={Colors.accent}
       />
       <View style={styles.navMaterials}>
@@ -128,6 +128,7 @@ const SolveMcq = ({ navigation, route }) => {
         handleAnswerShown={handleAnswerShown}
         handleAnswer={handleAnswer}
         handleSkip={handleSkip}
+        handleContinue={incrementPage}
       />
     </Page>
   );

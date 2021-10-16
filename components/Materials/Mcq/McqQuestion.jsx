@@ -20,6 +20,7 @@ const McqQuestion = ({
   handleAnswer,
   handleAnswerShown,
   isAlreadyAnswered,
+  handleContinue,
 }) => {
   const { title, options, answerIndices, imageURI } = question;
   const hasOneAnswer = answerIndices.length === 1;
@@ -48,29 +49,25 @@ const McqQuestion = ({
     }
   };
 
-  const onContinuePressed = () => {
-    if (selectedIndices.length === 0) {
-      handleAnswerShown();
-    } else {
-      let answeredCorrectly = true;
-      const sortedSelectedIndices = [...selectedIndices].sort();
-      const sortedCorrectIndices = [...answerIndices].sort();
-      if (sortedCorrectIndices.length === sortedSelectedIndices.length) {
-        for (let i = 0; i < sortedCorrectIndices.length; i += 1) {
-          if (sortedCorrectIndices[i] !== sortedSelectedIndices[i]) {
-            answeredCorrectly = false;
-          }
+  const onAnswerSubmitted = () => {
+    let answeredCorrectly = true;
+    const sortedSelectedIndices = [...selectedIndices].sort();
+    const sortedCorrectIndices = [...answerIndices].sort();
+    if (sortedCorrectIndices.length === sortedSelectedIndices.length) {
+      for (let i = 0; i < sortedCorrectIndices.length; i += 1) {
+        if (sortedCorrectIndices[i] !== sortedSelectedIndices[i]) {
+          answeredCorrectly = false;
         }
-      } else {
-        answeredCorrectly = false;
       }
-      handleAnswer(answeredCorrectly, false);
+    } else {
+      answeredCorrectly = false;
     }
+    handleAnswer(answeredCorrectly, false);
   };
 
   const footer =
     isQuestionAnswered || isAlreadyAnswered ? (
-      <MainActionButton text={t('Mcq/Continue')} onPress={onContinuePressed} />
+      <MainActionButton text={t('Mcq/Continue')} onPress={handleContinue} />
     ) : (
       <View style={styles.row}>
         <TransparentButton
@@ -86,6 +83,7 @@ const McqQuestion = ({
             style={styles.take65Width}
             onPress={() => {
               setIsQuestionAnswered(true);
+              onAnswerSubmitted();
             }}
           />
         ) : (
@@ -94,6 +92,7 @@ const McqQuestion = ({
             style={styles.take65Width}
             onPress={() => {
               setIsQuestionAnswered(true);
+              handleAnswerShown();
             }}
           />
         )}
@@ -150,6 +149,7 @@ McqQuestion.propTypes = {
   handleSkip: PropTypes.func.isRequired,
   handleAnswer: PropTypes.func.isRequired,
   handleAnswerShown: PropTypes.func.isRequired,
+  handleContinue: PropTypes.func.isRequired,
   isAlreadyAnswered: PropTypes.bool,
 };
 McqQuestion.defaultProps = {

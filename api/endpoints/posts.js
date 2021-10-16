@@ -18,3 +18,14 @@ export const useAPIAddComment = (mutationConfig) => {
     return data;
   }, mutationConfig);
 };
+
+export const useAPICreatePost = (mutationConfig) => {
+  const { axios } = useAxios();
+  return useMutation(async (post) => {
+    const { data } = await axios.post(endpoints.posts.create, {
+      post,
+    });
+
+    return data;
+  }, mutationConfig);
+};

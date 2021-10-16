@@ -13,6 +13,7 @@ import ReducerActions from 'globalstore/ReducerActions';
 import ScreenNames from 'navigation/ScreenNames';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
+import { useAPICreatePost } from 'api/endpoints/posts';
 
 const dropdownInitialItems = [
   { label: 'Apple', value: 'apple' },
@@ -32,6 +33,7 @@ const CreatePost = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
 
   const [state, dispatch] = useStore();
+  const createPostMutation = useAPICreatePost();
 
   const formik = useFormik({
     initialValues: {
@@ -42,6 +44,22 @@ const CreatePost = ({ navigation }) => {
     },
     onSubmit: ({ title, subject, tags, materialList }) => {
       Alert.alert(`post: ${title}`);
+      createPostMutation.mutate({
+        title,
+        priceInCents: 0,
+        subject,
+        materials: materialList.map(({ questions, title }) => ({
+          materialType: 'mcq_collection',
+          title,
+          mcqs: questions.map(({ question, choices }) => ({
+            question,
+            answerIndices: choices
+              .map(({ isCorrect }, index) => (isCorrect ? index : -1))
+              .filter((i) => i !== -1),
+            choices: choices.map(({ text }) => text),
+          })),
+        })),
+      });
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -107,7 +125,7 @@ const CreatePost = ({ navigation }) => {
             type: 'MCQ',
             title,
             amount: questions.length,
-            onPress: ()=> navigation.navigate(ScreenNames.ADD_MCQ, {index})
+            onPress: () => navigation.navigate(ScreenNames.ADD_MCQ, { index }),
           })
         )}
         errorMsg={formik.touched.materialList && formik.errors.materialList}

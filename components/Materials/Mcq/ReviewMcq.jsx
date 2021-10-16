@@ -14,6 +14,7 @@ import ReducerActions from 'globalstore/ReducerActions';
 import { useStore } from 'globalstore/GlobalStore';
 import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
 import ReviewMcqModal from './ReviewMcqModal';
+import ScreenNames from 'navigation/ScreenNames';
 
 const ReviewMcq = ({ navigation }) => {
   const { t } = useContext(LocalizationContext);
@@ -129,7 +130,7 @@ const ReviewMcq = ({ navigation }) => {
                   (ans.isSkipped && isSkipped)
               ),
             });
-            navigation.replace('solveMcq');
+            navigation.replace(ScreenNames.SOLVE_MCQ);
           }}
         />
       </Portal>

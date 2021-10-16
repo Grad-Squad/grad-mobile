@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { stylePropType, TextPropType } from 'proptypes';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { ActivityIndicator } from 'react-native-paper';
+import LoadingIndicator from 'common/LoadingIndicator';
 
 import { Colors, Constants } from 'styles';
 
@@ -25,7 +25,7 @@ const Button = ({
   >
     {loading && (
       <View style={styles.loadingIndicator}>
-        <ActivityIndicator color={Colors.accent} />
+        <LoadingIndicator />
       </View>
     )}
     {leftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}

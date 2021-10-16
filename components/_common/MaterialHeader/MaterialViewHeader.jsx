@@ -5,6 +5,7 @@ import { View, StyleSheet } from 'react-native';
 import EduText from 'common/EduText';
 import ContextMenu from 'common/ContextMenu';
 import { contextMenuItemsPropType } from 'proptypes';
+import { IconNames } from 'common/Icon/Icon';
 import MaterialHeader from './MaterialHeader';
 
 const MaterialViewHeader = ({
@@ -28,7 +29,7 @@ const MaterialViewHeader = ({
           setVisible={setContextMenuVisible}
           anchor={
             <PressableIcon
-              name="dots-vertical"
+              name={IconNames.dotsVertical}
               onPress={() => setContextMenuVisible(true)}
               size={28}
             />

@@ -3,6 +3,7 @@ import { View, Image, StyleSheet, StatusBar } from 'react-native';
 import { Icon } from 'common/Icon';
 import PropTypes from 'prop-types';
 
+import { IconNames } from 'common/Icon/Icon';
 import EduText from 'common/EduText';
 import ContentRegion from './ContentRegion';
 import { formatDate } from '../../utility';
@@ -22,7 +23,7 @@ function TitleRegion({
   return (
     <View style={styles.outerContainer}>
       <View style={styles.backIconContainer}>
-        <Icon name="arrow-left" size={40} color={Colors.black} />
+        <Icon name={IconNames.arrowLeft} size={40} color={Colors.black} />
       </View>
       <View style={{ marginLeft: imageWidth + 25, marginTop: 5 }}>
         <EduText style={{ fontSize: 18 }}>{title}</EduText>

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import EduText from 'common/EduText';
 import {Icon} from 'common/Icon';
+import { IconNames } from 'common/Icon/Icon';
 import { Colors } from '../../styles';
 
 import { HIT_SLOP_OBJECT } from '../../constants';
@@ -35,7 +36,7 @@ function AddCommentButton({ onPressHandler }) {
         onPress={onPressHandler}
         hitSlop={HIT_SLOP_OBJECT}
       >
-        <Icon name="plus" size={24} color={Colors.addCommentText} />
+        <Icon name={IconNames.plus} size={24} color={Colors.addCommentText} />
         <EduText style={{ color: Colors.addCommentText }}>Comment</EduText>
       </TouchableOpacity>
   );

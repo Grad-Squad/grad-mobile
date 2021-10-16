@@ -4,17 +4,18 @@ import { StyleSheet, View } from 'react-native';
 import { Icon } from 'common/Icon';
 import EduText from 'common/EduText';
 import { Colors, Constants, Styles } from 'styles';
+import { IconNames } from 'common/Icon/Icon';
 
 const Header = () => (
   <View style={styles.wrapper}>
     <View style={{ backgroundColor: 'pink', width: 40, height: '100%' }} />
 
     <View style={styles.search}>
-      <Icon name="search" size={20} />
+      <Icon name={IconNames.search} size={20} />
       <EduText style={styles.searchText}>search</EduText>
     </View>
 
-    <Icon name="bell-outline" size={28} />
+    <Icon name={IconNames.bell} size={28} />
   </View>
 );
 

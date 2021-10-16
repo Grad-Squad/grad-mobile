@@ -7,6 +7,7 @@ import {Icon} from 'common/Icon';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { formatNumber } from 'utility';
 import EduText from 'common/EduText';
+import { IconNames } from 'common/Icon/Icon';
 
 const styles = StyleSheet.create({
   CommentsContainer: {
@@ -32,7 +33,7 @@ function CommentButton({ count }) {
         hitSlop={HIT_SLOP_OBJECT}
       >
         <View>
-          <Icon name="comment-outline" size={24} />
+          <Icon name={IconNames.comment} size={24} />
         </View>
         <EduText>{formatNumber(count)}</EduText>
       </TouchableOpacity>

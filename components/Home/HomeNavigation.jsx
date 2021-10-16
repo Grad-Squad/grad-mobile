@@ -5,6 +5,7 @@ import { Colors, Constants } from 'styles';
 import { LocalizationContext } from 'localization';
 import EmptyComponent from 'common/EmptyComponent';
 import ScreenNames from 'navigation/ScreenNames';
+import { IconNames } from 'common/Icon/Icon';
 import Home from './Home';
 import Search from './Search';
 import Options from './Options';
@@ -32,7 +33,7 @@ const HomeNavigation = () => {
         component={Home}
         options={{
           tabBarLabel: t('NavBar/Home'),
-          tabBarIcon: ({ color }) => <Icon name="home-outline" color={color} />,
+          tabBarIcon: ({ color }) => <Icon name={IconNames.home} color={color} />,
         }}
       />
       <Tab.Screen
@@ -40,7 +41,7 @@ const HomeNavigation = () => {
         component={Search}
         options={{
           tabBarLabel: t('NavBar/Search'),
-          tabBarIcon: ({ color }) => <Icon name="search" color={color} />,
+          tabBarIcon: ({ color }) => <Icon name={IconNames.search} color={color} />,
         }}
       />
       <Tab.Screen
@@ -49,7 +50,7 @@ const HomeNavigation = () => {
         options={{
           tabBarLabel: t('NavBar/Create'),
           tabBarIcon: ({ color }) => (
-            <Icon name="add-circle-outline" color={color} />
+            <Icon name={IconNames.addCircle} color={color} />
           ),
         }}
         listeners={({ navigation }) => ({
@@ -64,7 +65,7 @@ const HomeNavigation = () => {
         component={Bookmarks}
         options={{
           tabBarLabel: t('NavBar/Bookmarks'),
-          tabBarIcon: ({ color }) => <Icon name="bookmark" color={color} />,
+          tabBarIcon: ({ color }) => <Icon name={IconNames.bookmark} color={color} />,
         }}
       />
       <Tab.Screen
@@ -72,7 +73,7 @@ const HomeNavigation = () => {
         component={Options}
         options={{
           tabBarLabel: t('NavBar/Options'),
-          tabBarIcon: ({ color }) => <Icon name="menu" color={color} />,
+          tabBarIcon: ({ color }) => <Icon name={IconNames.menu} color={color} />,
         }}
       />
     </Tab.Navigator>

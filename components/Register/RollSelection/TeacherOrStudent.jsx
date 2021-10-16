@@ -8,6 +8,7 @@ import EduText from 'common/EduText';
 import { Icon } from 'common/Icon';
 import { stylePropType } from 'proptypes';
 import { Colors, Constants } from 'styles';
+import { IconNames } from 'common/Icon/Icon';
 
 const TeacherOrStudent = ({ value, setValue, style }) => {
   const { t } = useContext(LocalizationContext);
@@ -31,8 +32,8 @@ const TeacherOrStudent = ({ value, setValue, style }) => {
               <Icon
                 name={
                   itemValue === value
-                    ? 'radio-button-checked'
-                    : 'radio-button-off'
+                    ? IconNames.radioButtonChecked
+                    : IconNames.radioButtonOff
                 }
                 size={25}
               />

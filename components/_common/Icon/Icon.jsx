@@ -10,6 +10,35 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { TextPropType } from 'proptypes';
 import SVGIcons from './SVGIcons';
 
+export const IconNames = Object.freeze({
+  question: 'question',
+  close: 'close',
+  home: 'home-outline',
+  radioButtonChecked: 'radio-button-checked',
+  radioButtonOff: 'radio-button-off',
+  bell: 'bell-outline',
+  search: 'search',
+  addCircle: 'add-circle-outline',
+  bookmark: 'bookmark',
+  menu: 'menu',
+  cards: 'cards-outline',
+  checklist: 'format-list-checkbox',
+  pdf: 'pdffile1',
+  image: 'image-outline',
+  video: 'ondemand-video',
+  dotsHorizontal: 'dots-horizontal',
+  dotsVertical: 'dots-vertical',
+  edit: 'edit-2',
+  checkbox: 'check-square',
+  square: 'square',
+  AddImage: 'AddImage',
+  delete: 'delete-outline',
+  send: 'send',
+  arrowLeft: 'arrow-left',
+  plus: 'plus',
+  comment: 'comment-outline',
+});
+
 const map = {
   question: AntDesign,
   close: Ionicons,
@@ -33,14 +62,14 @@ const map = {
   square: Feather,
   AddImage: SVGIcons,
   'delete-outline': MaterialIcons,
-  'send':MaterialIcons,
-  "arrow-left":MaterialCommunityIcons,
-  'plus':Feather,
-  'comment-outline':MaterialCommunityIcons,
+  send: MaterialIcons,
+  'arrow-left': MaterialCommunityIcons,
+  plus: Feather,
+  'comment-outline': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {
-  const IconLibrary = map[name] || map.question;
+  const IconLibrary = map[name] || map[IconNames.question];
   return <IconLibrary name={name} size={size} color={color} style={style} />;
 };
 

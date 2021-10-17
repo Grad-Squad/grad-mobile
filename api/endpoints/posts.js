@@ -38,7 +38,7 @@ export const useAPIFeed = () => {
       const { data } = await axios.get(endpoints.posts.posts, {
         params: {
           page: pageParam,
-          limit: 5,
+          limit: 7,
         },
       });
       return data;

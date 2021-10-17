@@ -6,7 +6,9 @@ import { Colors } from 'styles';
 const QueryRefreshControl = ({ refetch, isFetching, isLoading, ...props }) => {
   const [isRefetching, setIsRefetching] = useState(false);
   useEffect(() => {
-    setIsRefetching(isFetching && !isLoading);
+    if (isRefetching) {
+      setIsRefetching(isFetching && !isLoading);
+    }
   }, [isFetching, isLoading]);
   return (
     <RefreshControl

@@ -21,7 +21,6 @@ const Home = () => {
     fetchNextPage,
     remove,
   } = useAPIFeed();
-    console.log("TLC: ~ file: Home.jsx ~ line 24 ~ Home ~ isFetchingNextPage", isFetchingNextPage)
 
   const posts = useMemo(
     () => data?.pages.map((page) => page.data).flat(),
@@ -43,13 +42,14 @@ const Home = () => {
               rating={rating}
               createdAt={createdAt}
               id={id}
+              style={styles.post}
             />
           )}
           keyExtractor={(item) => item.id.toString()}
           refreshControl={
             <QueryRefreshControl
               refetch={() => {
-                remove();// temp
+                remove();
                 refetch({ refetchPage: (page, index) => index === 0 });
               }}
               isFetching={isFetching}
@@ -63,7 +63,7 @@ const Home = () => {
           }}
           ListFooterComponent={
             isFetchingNextPage ? (
-              <LoadingIndicator size="large" style={styles.footerLoading} /> //sometimes it doesn't show
+              <LoadingIndicator size="large" style={styles.footerLoading} />
             ) : (
               !hasNextPage && (
                 <EduText style={styles.nothingLeftToShow}>
@@ -87,6 +87,10 @@ export default Home;
 const styles = StyleSheet.create({
   feedList: {
     paddingVertical: 15,
+  },
+  post: {
+    width: '90%',
+    alignSelf: 'center',
   },
   footerLoading: {
     paddingVertical: 5,

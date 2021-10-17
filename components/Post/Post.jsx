@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import TitleRegion from './TitleRegion/TitleRegion';
 import FooterRegion from './FooterRegion';
+import { stylePropType } from 'proptypes';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,9 +16,9 @@ const styles = StyleSheet.create({
   },
 });
 
-function Post({ title, author, rating, createdAt, id }) {
+function Post({ title, author, rating, createdAt, id, style }) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <ThemeProvider>
         <TitleRegion
           title={title}
@@ -54,4 +55,8 @@ Post.propTypes = {
     name: PropTypes.string.isRequired,
     profilePicture: PropTypes.string.isRequired,
   }).isRequired,
+  style: stylePropType,
+};
+Post.defaultProps = {
+  style: {},
 };

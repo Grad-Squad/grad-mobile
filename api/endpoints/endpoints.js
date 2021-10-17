@@ -10,6 +10,7 @@ export default Object.freeze({
   posts: {
     create: 'posts/',
     post: 'posts/{0}',
+    posts: 'posts',
     comments: 'posts/{0}/comments',
   },
 });

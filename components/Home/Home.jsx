@@ -1,25 +1,36 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, Text } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
-import EduText from 'common/EduText';
-import { Button } from 'common/Input/Button';
+import { useAPIFeed } from 'api/endpoints/posts';
+import LoadingIndicator from 'common/LoadingIndicator';
+import Post from 'components/Post/Post';
 import Header from './Header';
-import { useAPIAddComment } from 'api/endpoints/posts';
 
 const Home = () => {
-  const mutation = useAPIAddComment();
+  const { data, isLoading } = useAPIFeed();
+
+  const posts = data?.pages[0].data;
+
   return (
     <Page>
       <Header />
-      <Button
-        text="click me"
-        onPress={() => {
-          mutation.mutate({ postId: 1, content: 'hi, ana comment' });
-        }}
-      />
-
-      <EduText style={{ fontSize: 100 }}>Home</EduText>
+      {isLoading && <LoadingIndicator size="large" fullScreen />}
+      {posts && (
+        <FlatList
+          style={{ paddingVertical: 15 }}
+          data={posts}
+          renderItem={({ item: { title, author, rating, createdAt, id } }) => (
+            <Post
+              title={title}
+              author={author}
+              rating={rating}
+              createdAt={createdAt}
+              id={id}
+            />
+          )}
+          keyExtractor={(item) => item.id.toString()}
+        />
+      )}
     </Page>
   );
 };

@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query';
+import { useInfiniteQuery, useMutation } from 'react-query';
 import { useAxios } from 'api/AxiosProvider';
 import { formatString } from 'utility';
 import endpoints from './endpoints';
@@ -28,4 +28,25 @@ export const useAPICreatePost = (mutationConfig) => {
 
     return data;
   }, mutationConfig);
+};
+
+export const useAPIFeed = () => {
+  const { axios } = useAxios();
+  return useInfiniteQuery(
+    'feed',
+    async ({ pageParam = 0 }) => {
+      const { data } = await axios(
+        endpoints.posts.posts,
+        {},
+        {
+          params: {
+            page: pageParam,
+            limit: 10,
+          },
+        }
+      );
+      return data;
+    },
+    { getNextPageParam: (lastPage) => lastPage.nextPage }
+  );
 };

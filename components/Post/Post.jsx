@@ -15,19 +15,14 @@ const styles = StyleSheet.create({
   },
 });
 
-// const DATE = new Date();
-
-function Post({ postData }) {
-  const { title, author, rating, priceInCents, createdAt, id } = postData;
-  const creationDate = new Date(createdAt);
-
+function Post({ title, author, rating, createdAt, id }) {
   return (
     <View style={styles.container}>
       <ThemeProvider>
         <TitleRegion
           title={title}
           profileName={author.name}
-          postDate={creationDate}
+          createdAt={createdAt}
         />
         <FooterRegion
           style={styles.container}
@@ -35,7 +30,7 @@ function Post({ postData }) {
             entityId: id,
             ...rating,
           }}
-          commentCount={priceInCents}
+          commentCount={666}
           isPost
         />
       </ThemeProvider>
@@ -43,25 +38,20 @@ function Post({ postData }) {
   );
 }
 
-export default Post;
+export default Post; // todo memo
 
 Post.propTypes = {
-  postData: PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  rating: PropTypes.exact({
     id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    priceInCents: PropTypes.number.isRequired,
-    subject: PropTypes.string.isRequired,
-    rating: PropTypes.exact({
-      id: PropTypes.number.isRequired,
-      upvotes: PropTypes.number.isRequired,
-      downvotes: PropTypes.number.isRequired,
-      currentUserStatus: PropTypes.string.isRequired,
-    }).isRequired,
-    createdAt: PropTypes.string.isRequired,
-    author: PropTypes.exact({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      profilePicture: PropTypes.string.isRequired,
-    }).isRequired,
+    upvotes: PropTypes.number.isRequired,
+    downvotes: PropTypes.number.isRequired,
+  }).isRequired,
+  author: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    profilePicture: PropTypes.string.isRequired,
   }).isRequired,
 };

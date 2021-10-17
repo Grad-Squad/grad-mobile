@@ -20,3 +20,7 @@ jobs:
             ${{ runner.os }}-node-
       - run: npm ci
       - run: npm run test:ci
+      - uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}

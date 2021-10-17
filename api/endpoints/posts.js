@@ -35,16 +35,12 @@ export const useAPIFeed = () => {
   return useInfiniteQuery(
     'feed',
     async ({ pageParam = 1 }) => {
-      const { data } = await axios(
-        endpoints.posts.posts,
-        {},
-        {
-          params: {
-            page: pageParam,
-            limit: 10,
-          },
-        }
-      );
+      const { data } = await axios.get(endpoints.posts.posts, {
+        params: {
+          page: pageParam,
+          limit: 5,
+        },
+      });
       return data;
     },
     { getNextPageParam: (lastPage) => lastPage.nextPage }

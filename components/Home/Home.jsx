@@ -1,12 +1,13 @@
 import React, { useContext, useMemo } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
-import { useAPIFeed } from 'api/endpoints/posts';
+import { apiFeedQueryKey, useAPIFeed } from 'api/endpoints/posts';
 import LoadingIndicator from 'common/LoadingIndicator';
 import Post from 'components/Post/Post';
 import QueryRefreshControl from 'common/QueryRefreshControl';
 import EduText from 'common/EduText';
 import { LocalizationContext } from 'localization';
+import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import Header from './Header';
 
 const Home = () => {
@@ -19,7 +20,6 @@ const Home = () => {
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
-    remove,
   } = useAPIFeed();
 
   const posts = useMemo(
@@ -49,8 +49,11 @@ const Home = () => {
           refreshControl={
             <QueryRefreshControl
               refetch={() => {
-                remove();
-                refetch({ refetchPage: (page, index) => index === 0 });
+                queryClient.setQueryData(apiFeedQueryKey, (oldData) => ({
+                  pageParams: [oldData.pageParams[0]],
+                  pages: [oldData.pages[0]],
+                }));
+                refetch();
               }}
               isFetching={isFetching}
               isLoading={isLoading}

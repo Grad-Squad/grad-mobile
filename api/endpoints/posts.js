@@ -30,10 +30,12 @@ export const useAPICreatePost = (mutationConfig) => {
   }, mutationConfig);
 };
 
+export const apiFeedQueryKey = 'feed';
+
 export const useAPIFeed = () => {
   const { axios } = useAxios();
   return useInfiniteQuery(
-    'feed',
+    apiFeedQueryKey,
     async ({ pageParam = 1 }) => {
       const { data } = await axios.get(endpoints.posts.posts, {
         params: {

@@ -34,7 +34,7 @@ export const useAPIFeed = () => {
   const { axios } = useAxios();
   return useInfiniteQuery(
     'feed',
-    async ({ pageParam = 0 }) => {
+    async ({ pageParam = 1 }) => {
       const { data } = await axios(
         endpoints.posts.posts,
         {},

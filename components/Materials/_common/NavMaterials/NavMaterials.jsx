@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors, Constants } from 'styles';
 import EduText from 'common/EduText';
 import GoToModal from './GoToModal';
+import { useContext } from 'react';
+import { LocalizationContext } from 'localization';
 
 const NavMaterials = ({
   onPressNext,
@@ -14,18 +16,27 @@ const NavMaterials = ({
   maxPages,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { isRTL } = useContext(LocalizationContext);
   const hasNextButton = !!onPressNext;
   const hasBackButton = !!onPressBack;
 
   const backButton = (
     <Pressable style={styles.arrowWrapper} onPress={onPressBack}>
-      <Icon name="keyboard-backspace" size={24} />
+      <Icon
+        style={isRTL && styles.rotate180}
+        name="keyboard-backspace"
+        size={24}
+      />
     </Pressable>
   );
 
   const nextButton = (
     <Pressable style={styles.arrowWrapper} onPress={onPressNext}>
-      <Icon style={styles.rotate180} name="keyboard-backspace" size={24} />
+      <Icon
+        style={!isRTL && styles.rotate180}
+        name="keyboard-backspace"
+        size={24}
+      />
     </Pressable>
   );
 

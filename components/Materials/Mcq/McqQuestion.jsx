@@ -103,7 +103,8 @@ const McqQuestion = ({
     <View style={{ flex: 1 }}>
       {title && (
         <EduText style={styles.title}>
-          Q{questionIndex + 1}: {title}
+          {t('Mcq/Q')}
+          {questionIndex + 1}: {title}
         </EduText>
       )}
       {isQuestionAnswered && (

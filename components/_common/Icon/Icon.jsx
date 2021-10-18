@@ -37,6 +37,8 @@ export const IconNames = Object.freeze({
   arrowLeft: 'arrow-left',
   plus: 'plus',
   comment: 'comment-outline',
+  share: 'sharealt',
+  report: 'flag',
 });
 
 const map = {
@@ -66,6 +68,8 @@ const map = {
   'arrow-left': MaterialCommunityIcons,
   plus: Feather,
   'comment-outline': MaterialCommunityIcons,
+  sharealt: AntDesign,
+  flag: AntDesign,
 };
 
 const Icon = ({ name, size, color, style }) => {

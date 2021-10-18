@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { navigationPropType } from 'proptypes';
 import { Colors, Styles, Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
@@ -14,7 +14,7 @@ import ScreenNames from 'navigation/ScreenNames';
 const CELL_COUNT = 6;
 
 const SixDigit = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [code, setCode] = useState('');
   const [error, setError] = useState(false);
 

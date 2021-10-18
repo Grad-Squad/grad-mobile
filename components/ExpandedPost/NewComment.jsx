@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import * as yup from 'yup';
 import {
   KeyboardAvoidingView,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { comment } from 'validation';
 import { TransparentTextInputFormik } from 'common/Input';
 import { PressableIcon } from 'common/Icon';
@@ -21,7 +21,7 @@ import { Colors } from '../../styles';
 const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0
 
 function NewComment({profileImageURI, onSubmitHandleFunction}) {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [isDisabeld, setDisabled] = useState(false)
 
   

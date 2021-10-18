@@ -2,13 +2,13 @@ import LoginBack from 'common/backgrounds/LoginBack';
 import { AddProfileImage, TextInputFormik } from 'common/Input';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import RegisterContext from './RegisterContext';
 
 const OptionalInfo = () => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const { formik } = useContext(RegisterContext);
 
   return (

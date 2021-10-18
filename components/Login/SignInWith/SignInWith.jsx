@@ -1,6 +1,6 @@
 import { WhiteButton } from 'common/Input/Button';
-import { LocalizationContext } from 'localization';
-import React, { useContext, useEffect } from 'react';
+import { useLocalization } from 'localization';
+import React, { useEffect } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Styles } from 'styles';
 import Facebook from './Facebook/Facebook';
@@ -10,7 +10,7 @@ import * as GoogleSignIn from 'expo-google-sign-in';
 import { useState } from 'react';
 
 const SignInWith = ({ disabled }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [user, setUser] = useState({});
 
   const signInWithGoogle = async () => {

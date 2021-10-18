@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
 import { useFormik } from 'formik';
@@ -17,7 +17,7 @@ import QuestionsList from './QuestionsList';
 const AddMCQ = ({ navigation, route }) => {
   const editIndex = route?.params?.index;
 
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [currentlyEditingQuestion, setCurrentlyEditingQuestion] =
     useState(undefined);
 

@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { Icon, MaterialTypeIconsMap } from 'common/Icon';
 import { Colors, Constants, Styles } from 'styles';
 import { navigationPropType } from 'proptypes';
@@ -36,7 +36,7 @@ const getItems = (t) => [
 ];
 
 const AddMaterialList = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   return (
     <View style={styles.wrapper}>
       {getItems(t).map(({ title, iconName, route }) => (

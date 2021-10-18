@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
@@ -8,7 +8,7 @@ import PieChart from 'react-native-pie-chart';
 import { navigationPropType, TextPropType } from 'proptypes';
 import { MainActionButton } from 'common/Input/Button';
 import { Portal } from 'react-native-paper';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import ReducerActions from 'globalStore/ReducerActions';
 import { useStore } from 'globalStore/GlobalStore';
@@ -17,7 +17,7 @@ import ReviewMcqModal from './ReviewMcqModal';
 import ScreenNames from 'navigation/ScreenNames';
 
 const ReviewMcq = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [state, dispatch] = useStore();
   const storedAnswers = state.material.mcqQuestions;

@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, StyleSheet, View } from 'react-native';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
@@ -24,7 +24,7 @@ const AddQuestion = ({
   questions,
   currentlyEditingQuestion,
 }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [image, setImage] = useState({});
   const currentQuestionFormik = useFormik({
     initialValues: {

@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import { Snackbar } from 'react-native-paper';
 import { Colors } from 'styles';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization/LocalizationProvider';
 import EduText from 'common/EduText';
 
 const ErrorSnackbar = ({ visible, setVisible, error }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   return (
     <Snackbar visible={visible} onDismiss={() => setVisible(false)}>
       <EduText style={styles.text}>

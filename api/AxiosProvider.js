@@ -12,7 +12,7 @@ import { API_URL } from '@env';
 
 import Axios from 'axios';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization/LocalizationProvider';
 import unauthorizedRedirectBlacklist from './unauthorizedRedirectBlacklist';
 import endpoints from './endpoints/endpoints';
 
@@ -24,7 +24,7 @@ const getItemFromStorage = async (itemName) =>
   (await AsyncStorage.getItem(itemName)) || '';
 
 const AxiosProvider = ({ children }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   const [accessToken, setAccessToken] = useState('');
   const [refreshToken, setRefreshToken] = useState('');

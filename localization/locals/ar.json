@@ -109,7 +109,12 @@
     "Skipped": "تم تخطيه",
     "Again?": "إعادة التمرين؟",
     "What should we include?": "ماذا تريد أن تراجع؟",
-    "Start": "ابدأ"
+    "Start": "ابدأ",
+    "footerText": {
+      "Wow! That’s perfect!": "رائع! هذا ممتاز!",
+      "Don’t stop now, Keep going until you do it perfectly!!": "لا تتوقف الآن ، استمر حتى تكملها بشكل مثالي !!",
+      "Take a deep breath and start again.": "خذ نفسًا عميقًا وابدأ من جديد."
+    }
   },
   "AddMaterial": {
     "Finish": "اتمام",

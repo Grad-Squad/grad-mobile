@@ -40,11 +40,13 @@ const ReviewMcq = ({ navigation }) => {
 
   let footerText = '';
   if (correctCount === storedAnswers.length) {
-    footerText = 'Wow! That’s perfect!';
+    footerText = t('McqReview/footerText/Wow! That’s perfect!');
   } else if (passedExercise) {
-    footerText = 'Don’t stop now, Keep going until you do it perfectly!!';
+    footerText = t(
+      'McqReview/footerText/Don’t stop now, Keep going until you do it perfectly!!'
+      );
   } else {
-    footerText = 'Take a deep breath and start again.';
+    footerText = t('McqReview/footerText/Take a deep breath and start again.');
   }
 
   return (

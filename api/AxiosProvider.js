@@ -14,7 +14,6 @@ import Axios from 'axios';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import { LocalizationContext } from 'localization';
 import unauthorizedRedirectBlacklist from './unauthorizedRedirectBlacklist';
-// eslint-disable-next-line import/no-cycle
 import endpoints from './endpoints/endpoints';
 
 const UNAUTHORIZED_STATUS_CODE = 401;

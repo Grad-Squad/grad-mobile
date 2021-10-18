@@ -22,16 +22,16 @@ const McqQuestion = ({
   isAlreadyAnswered,
   handleContinue,
 }) => {
-  const { title, options, answerIndices, imageURI } = question;
+  const { title, options, answerIndices, imageURI, chosenIndices } = question;
   const hasOneAnswer = answerIndices.length === 1;
   const [isQuestionAnswered, setIsQuestionAnswered] =
     useState(isAlreadyAnswered);
-  const [selectedIndices, setSelectedIndices] = useState([]);
+  const [selectedIndices, setSelectedIndices] = useState(chosenIndices);
   const { t } = useContext(LocalizationContext);
 
   useEffect(() => {
     setIsQuestionAnswered(isAlreadyAnswered);
-    setSelectedIndices([]);
+    setSelectedIndices(chosenIndices);
   }, [questionIndex]);
 
   const onOptionPressed = (index) => {
@@ -62,7 +62,7 @@ const McqQuestion = ({
     } else {
       answeredCorrectly = false;
     }
-    handleAnswer(answeredCorrectly, false);
+    handleAnswer(answeredCorrectly, sortedSelectedIndices);
   };
 
   const footer =

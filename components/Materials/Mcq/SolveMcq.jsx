@@ -18,6 +18,7 @@ const initialQuestionState = {
   isSkipped: false,
   isAnswerShown: false,
   isAlreadyAnswered: false,
+  chosenIndices: [],
 };
 
 const SolveMcq = ({ navigation, route }) => {
@@ -64,7 +65,7 @@ const SolveMcq = ({ navigation, route }) => {
     });
   };
 
-  const handleAnswer = (asnweredCorrectly) => {
+  const handleAnswer = (asnweredCorrectly, selectedIndices) => {
     setQuestions((prev) => {
       const newStoredAnswers = [...prev];
       newStoredAnswers[pageNum] = {
@@ -72,6 +73,7 @@ const SolveMcq = ({ navigation, route }) => {
         ...initialQuestionState,
         isCorrect: asnweredCorrectly,
         isAlreadyAnswered: true,
+        chosenIndices: selectedIndices,
       };
       return newStoredAnswers;
     });

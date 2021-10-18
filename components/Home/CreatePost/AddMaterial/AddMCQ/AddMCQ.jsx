@@ -9,8 +9,8 @@ import { TransparentTextInputFormik } from 'common/Input';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { navigationPropType, routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
-import ReducerActions from 'globalstore/ReducerActions';
-import { useStore } from 'globalstore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
+import { useStore } from 'globalStore/GlobalStore';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 

@@ -4,7 +4,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
-import GlobalStore from 'globalstore/GlobalStore';
+import GlobalStore from 'globalStore/GlobalStore';
 import { Colors } from 'styles';
 import AxiosProvider from 'api/AxiosProvider';
 import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';

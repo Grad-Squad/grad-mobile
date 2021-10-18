@@ -1,5 +1,5 @@
 import { useAxios } from 'api/AxiosProvider';
-import { Alert, Button } from 'react-native';
+import { Alert, Button, LogBox } from 'react-native';
 import React, { useContext, useEffect } from 'react';
 import { navigationPropType } from 'proptypes';
 import { LocalizationContext } from 'localization';
@@ -8,6 +8,8 @@ import Page from 'common/Page/Page';
 import { Constants } from 'styles';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import ScreenNames from 'navigation/ScreenNames';
+
+LogBox.ignoreLogs(['Setting a timer']);
 
 const Dev = ({ navigation }) => {
   const { t, setLanguage } = useContext(LocalizationContext);

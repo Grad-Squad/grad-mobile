@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
   },
 });
 
-function TitleRegion({ profileName, title, postDate }) {
+function TitleRegion({ profileName, title, createdAt }) {
+  const postDate = useMemo(() => new Date(createdAt), [createdAt]);
   return (
     <View style={styles.outerContainer}>
       <View>
@@ -106,10 +107,10 @@ function TitleRegion({ profileName, title, postDate }) {
   );
 }
 
-export default TitleRegion;
+export default React.memo(TitleRegion);
 
 TitleRegion.propTypes = {
   profileName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  postDate: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
 };

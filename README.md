@@ -4,6 +4,8 @@
   </a>
 </h1>
 
+![CI Github Action](https://github.com/Grad-Squad/grad-mobile/actions/workflows/integrate.yml/badge.svg)
+
 <p align="center">
   <strong>Learn once, write anywhere:</strong><br>
   Build mobile apps with React.

@@ -4,12 +4,16 @@ import { Pressable, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import LetterFromIndex from '../_common/LetterFromIndex';
+import { useContext } from 'react';
+import { LocalizationContext } from 'localization';
 
 const McqOption = ({ option, index, disabled, isAnswer, onPress, chosen }) => {
   const isChosen = disabled && chosen;
   const isAnswerAndDisabled = disabled && isAnswer;
   const isAnsweredWrong = isChosen && !isAnswer;
   const ignoredChoice = disabled && !isAnswer && !chosen;
+
+  const { isRTL } = useContext(LocalizationContext);
 
   const borderedTextStyles = [
     styles.text,
@@ -25,9 +29,11 @@ const McqOption = ({ option, index, disabled, isAnswer, onPress, chosen }) => {
       <EduText
         style={[
           ...borderedTextStyles,
-          styles.letter,
+          isRTL ? styles.letterRTL : styles.letter,
           isChosen && styles.chosenDone,
-          isAnswerAndDisabled && !chosen && styles.letterNotChosen,
+          isAnswerAndDisabled &&
+            !chosen &&
+            (isRTL ? styles.letterNotChosenRTL : styles.letterNotChosen),
         ]}
       >
         <LetterFromIndex index={index} />
@@ -37,8 +43,10 @@ const McqOption = ({ option, index, disabled, isAnswer, onPress, chosen }) => {
         text={option}
         style={[
           ...borderedTextStyles,
-          styles.answer,
-          isAnswerAndDisabled && !chosen && styles.answerNotChosen,
+          isRTL ? styles.answerRTL : styles.answer,
+          isAnswerAndDisabled &&
+            !chosen &&
+            (isRTL ? styles.answerNotChosenRTL : styles.answerNotChosen),
           isAnswerAndDisabled && chosen && styles.fillGood,
           isAnsweredWrong && styles.fillWrong,
           // isAnswerAndDisabled && !chosen && styles.test,
@@ -91,11 +99,22 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
     borderTopRightRadius: 0,
   },
+  letterRTL: {
+    borderLeftWidth: 0,
+    borderBottomLeftRadius: 0,
+    borderTopLeftRadius: 0,
+  },
   answer: {
     flex: 1,
     borderLeftWidth: 0,
     borderBottomLeftRadius: 0,
     borderTopLeftRadius: 0,
+  },
+  answerRTL: {
+    flex: 1,
+    borderRightWidth: 0,
+    borderBottomRightRadius: 0,
+    borderTopRightRadius: 0,
   },
   chosen: {
     borderColor: Colors.accent,
@@ -109,6 +128,12 @@ const styles = StyleSheet.create({
     marginLeft: -3.5,
     left: 3.5,
   },
+  letterNotChosenRTL: {
+    ...answerNotChosenStyle,
+    borderLeftWidth: 3,
+    marginRight: -3.5,
+    // right: 3.5,
+  },
   answerNotChosen: {
     ...answerNotChosenStyle,
     borderLeftWidth: 3,
@@ -116,6 +141,15 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 3,
     left: -3.5,
     marginRight: -3.5,
+    zIndex: -1,
+  },
+  answerNotChosenRTL: {
+    ...answerNotChosenStyle,
+    borderRightWidth: 3,
+    borderBottomRightRadius: 3,
+    borderTopRightRadius: 3,
+    // right: -3.5,
+    marginLeft: -3.5,
     zIndex: -1,
   },
   wrong: {

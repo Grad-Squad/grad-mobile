@@ -100,7 +100,8 @@
     "SubmitAnswer": "Submit Answer",
     "ShowAnswer": "Show Answer",
     "selectedAnswers": "Selected answer(s): ",
-    "correctAnswers": "The correct answer(s): "
+    "correctAnswers": "The correct answer(s): ",
+    "Q": "Q"
   },
   "McqReview": {
     "Correct": "Correct",

@@ -100,7 +100,8 @@
     "SubmitAnswer": "سلم الاجابة",
     "ShowAnswer": "اظهر الاجابة",
     "selectedAnswers": "الإجابات المحددة: ",
-    "correctAnswers": "الجواب الصحيح: "
+    "correctAnswers": "الجواب الصحيح: ",
+    "Q": "س "
   },
   "McqReview": {
     "Correct": "صحيح",

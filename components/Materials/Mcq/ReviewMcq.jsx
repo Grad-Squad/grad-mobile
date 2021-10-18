@@ -12,9 +12,9 @@ import { useLocalization } from 'localization';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import ReducerActions from 'globalStore/ReducerActions';
 import { useStore } from 'globalStore/GlobalStore';
+import ScreenNames from 'navigation/ScreenNames';
 import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
 import ReviewMcqModal from './ReviewMcqModal';
-import ScreenNames from 'navigation/ScreenNames';
 
 const ReviewMcq = ({ navigation }) => {
   const { t } = useLocalization();

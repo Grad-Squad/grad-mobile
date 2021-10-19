@@ -11,6 +11,7 @@ import { navigationPropType, routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import ReducerActions from 'globalStore/ReducerActions';
 import { useStore } from 'globalStore/GlobalStore';
+import { deepCopy } from 'utility';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 
@@ -28,9 +29,7 @@ const AddMCQ = ({ navigation, route }) => {
   const formik = useFormik({
     initialValues: {
       title: editMCQ?.title ?? '',
-      questions: editMCQ?.questions
-        ? JSON.parse(JSON.stringify(editMCQ?.questions))
-        : [], // Deep Clone
+      questions: editMCQ?.questions ? deepCopy(editMCQ?.questions) : [], // Deep Clone
     },
     onSubmit: (mcq) => {
       if (editIndex === undefined) {

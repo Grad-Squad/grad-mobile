@@ -22,16 +22,17 @@ const McqQuestion = ({
   isAlreadyAnswered,
   handleContinue,
 }) => {
-  const { title, options, answerIndices, imageURI } = question;
+  const { title, options, answerIndices, imageURI, chosenIndices } = question;
   const hasOneAnswer = answerIndices.length === 1;
   const [isQuestionAnswered, setIsQuestionAnswered] =
     useState(isAlreadyAnswered);
-  const [selectedIndices, setSelectedIndices] = useState([]);
+  const [selectedIndices, setSelectedIndices] = useState(chosenIndices);
   const { t } = useLocalization();
+
 
   useEffect(() => {
     setIsQuestionAnswered(isAlreadyAnswered);
-    setSelectedIndices([]);
+    setSelectedIndices(chosenIndices);
   }, [questionIndex]);
 
   const onOptionPressed = (index) => {
@@ -62,7 +63,7 @@ const McqQuestion = ({
     } else {
       answeredCorrectly = false;
     }
-    handleAnswer(answeredCorrectly, false);
+    handleAnswer(answeredCorrectly, sortedSelectedIndices);
   };
 
   const footer =
@@ -103,7 +104,8 @@ const McqQuestion = ({
     <View style={{ flex: 1 }}>
       {title && (
         <EduText style={styles.title}>
-          Q{questionIndex + 1}: {title}
+          {t('Mcq/Q')}
+          {questionIndex + 1}: {title}
         </EduText>
       )}
       {isQuestionAnswered && (

@@ -18,6 +18,7 @@ const initialQuestionState = {
   isSkipped: false,
   isAnswerShown: false,
   isAlreadyAnswered: false,
+  chosenIndices: [],
 };
 
 const SolveMcq = ({ navigation, route }) => {
@@ -37,8 +38,22 @@ const SolveMcq = ({ navigation, route }) => {
   const [hasFinished, setHasFinished] = useState(false);
 
   const decrementPage = () => setPageNum((prev) => Math.max(prev - 1, 0));
+  const setCurrentQuestionToSkipped = () => {
+    setQuestions((prev) => {
+      const newStoredAnswers = [...prev];
+      newStoredAnswers[pageNum] = {
+        ...newStoredAnswers[pageNum],
+        ...initialQuestionState,
+        isSkipped: true,
+      };
+      return newStoredAnswers;
+    });
+  };
   const incrementPage = () => {
-    // by default set skipped to true ?
+    const { isAlreadyAnswered, isAnswerShown } = questions[pageNum];
+    if (!(isAnswerShown || isAlreadyAnswered)) {
+      setCurrentQuestionToSkipped();
+    }
     setPageNum((prev) => Math.min(prev + 1, questions.length - 1));
     if (pageNum === questions.length - 1) {
       setHasFinished(true);
@@ -64,7 +79,7 @@ const SolveMcq = ({ navigation, route }) => {
     });
   };
 
-  const handleAnswer = (asnweredCorrectly) => {
+  const handleAnswer = (asnweredCorrectly, selectedIndices) => {
     setQuestions((prev) => {
       const newStoredAnswers = [...prev];
       newStoredAnswers[pageNum] = {
@@ -72,21 +87,14 @@ const SolveMcq = ({ navigation, route }) => {
         ...initialQuestionState,
         isCorrect: asnweredCorrectly,
         isAlreadyAnswered: true,
+        chosenIndices: selectedIndices,
       };
       return newStoredAnswers;
     });
   };
 
   const handleSkip = () => {
-    setQuestions((prev) => {
-      const newStoredAnswers = [...prev];
-      newStoredAnswers[pageNum] = {
-        ...newStoredAnswers[pageNum],
-        ...initialQuestionState,
-        isSkipped: true,
-      };
-      return newStoredAnswers;
-    });
+    setCurrentQuestionToSkipped();
     incrementPage();
   };
 

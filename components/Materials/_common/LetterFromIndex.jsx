@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import EduText from 'common/EduText';
 import { useLocalization } from 'localization';
@@ -10,7 +11,7 @@ const LetterFromIndex = ({ index, hasTrailingComma }) => {
 
   if (language.substr(0, 2) === 'ar') {
     return (
-      <EduText inheritColor>
+      <EduText inheritColor style={styles.container}>
         {`${ARABIC_LETTERS[index]} ${hasTrailingComma ? ', ' : ''}`}
       </EduText>
     );
@@ -23,6 +24,14 @@ const LetterFromIndex = ({ index, hasTrailingComma }) => {
     </EduText>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    fontSize: 12,
+    textAlignVertical: 'center',
+    fontFamily: 'KawkabMono_700Bold',
+  },
+});
 
 LetterFromIndex.propTypes = {
   index: PropTypes.number.isRequired,

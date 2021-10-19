@@ -13,6 +13,8 @@ const initFonts = () => {
     Roboto_400Regular,
 
     RobotoMono_300Light,
+
+    KawkabMono_700Bold: require('../../assets/fonts/KawkabMono-Bold.otf'),
   });
 
   return fontsLoaded;

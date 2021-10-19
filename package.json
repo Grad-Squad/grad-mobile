@@ -22,6 +22,9 @@
     ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
+    ],
+    "setupFiles": [
+      "./__test__/setup.js"
     ]
   },
   "dependencies": {

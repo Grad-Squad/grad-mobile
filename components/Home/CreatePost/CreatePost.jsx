@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
@@ -6,10 +6,10 @@ import { ComboBox, TransparentTextInputFormik } from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
-import { useStore } from 'globalstore/GlobalStore';
-import ReducerActions from 'globalstore/ReducerActions';
+import { useStore } from 'globalStore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
 import ScreenNames from 'navigation/ScreenNames';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
@@ -30,7 +30,7 @@ const dropdownInitialItems = [
 ];
 
 const CreatePost = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   const [state, dispatch] = useStore();
   const createPostMutation = useAPICreatePost();

@@ -110,7 +110,12 @@
     "Skipped": "Skipped",
     "Again?": "Go again ?",
     "What should we include?": "What should we include?",
-    "Start": "Start"
+    "Start": "Start",
+    "footerText": {
+      "Wow! That’s perfect!": "Wow! That’s perfect!",
+      "Don’t stop now, Keep going until you do it perfectly!!": "Don’t stop now, Keep going until you do it perfectly!!",
+      "Take a deep breath and start again.": "Take a deep breath and start again."
+    }
   },
   "AddMaterial": {
     "Finish": "Finish",

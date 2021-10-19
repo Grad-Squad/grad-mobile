@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Navigator from 'navigation/Navigator';
 import * as yup from 'yup';
 import { biography, roleRequired, roles } from 'validation';
 import { useFormik } from 'formik';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { useAPIUpdateProfile } from 'api/endpoints/auth';
 import { navigationPropType } from 'proptypes';
 import ScreenNames from 'navigation/ScreenNames';
@@ -28,7 +28,7 @@ const screens = [
 ];
 
 const RegisterNavigation = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   // const { headers } = useContext(AuthContext);
   const [profileId, setProfileId] = useState();
 

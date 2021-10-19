@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
@@ -8,16 +8,16 @@ import PieChart from 'react-native-pie-chart';
 import { navigationPropType, TextPropType } from 'proptypes';
 import { MainActionButton } from 'common/Input/Button';
 import { Portal } from 'react-native-paper';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
-import ReducerActions from 'globalstore/ReducerActions';
-import { useStore } from 'globalstore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
+import { useStore } from 'globalStore/GlobalStore';
+import ScreenNames from 'navigation/ScreenNames';
 import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
 import ReviewMcqModal from './ReviewMcqModal';
-import ScreenNames from 'navigation/ScreenNames';
 
 const ReviewMcq = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [state, dispatch] = useStore();
   const storedAnswers = state.material.mcqQuestions;
@@ -40,11 +40,13 @@ const ReviewMcq = ({ navigation }) => {
 
   let footerText = '';
   if (correctCount === storedAnswers.length) {
-    footerText = 'Wow! That’s perfect!';
+    footerText = t('McqReview/footerText/Wow! That’s perfect!');
   } else if (passedExercise) {
-    footerText = 'Don’t stop now, Keep going until you do it perfectly!!';
+    footerText = t(
+      'McqReview/footerText/Don’t stop now, Keep going until you do it perfectly!!'
+      );
   } else {
-    footerText = 'Take a deep breath and start again.';
+    footerText = t('McqReview/footerText/Take a deep breath and start again.');
   }
 
   return (

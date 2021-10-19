@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from 'i18n-js';
@@ -59,3 +59,5 @@ export const LocalizationProvider = ({ children }) => {
 LocalizationProvider.propTypes = {
   children: childrenPropType.isRequired,
 };
+
+export const useLocalization = () => useContext(LocalizationContext);

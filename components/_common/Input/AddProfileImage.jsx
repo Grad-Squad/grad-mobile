@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -6,14 +6,14 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { stylePropType } from 'proptypes';
 import TitleText from './TitleText';
 
 const IMAGE_SOURCE = require('../../../assets/images/input/AddProfilePictures.png');
 
 const AddProfileImage = ({ style, optional, onPress }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   return (
     <View style={[styles.wrapper, style]}>
       <TitleText

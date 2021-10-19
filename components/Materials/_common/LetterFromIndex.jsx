@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import EduText from 'common/EduText';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 
 const LETTER_A_CODE = 65;
 const ARABIC_LETTERS = 'أبجدهوزحطيكلمنسعفصقرشتثخذوضظغ';
 const LetterFromIndex = ({ index, hasTrailingComma }) => {
-  const { language } = useContext(LocalizationContext);
+  const { language } = useLocalization();
 
   if (language.substr(0, 2) === 'ar') {
     return (

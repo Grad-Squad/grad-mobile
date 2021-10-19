@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
@@ -9,7 +9,7 @@ import {
 } from 'common/Input/Button';
 import { Constants } from 'styles';
 import ResponsiveImage from 'common/ResponsiveImage';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import McqOption from './McqOption';
 import AnswerFeedbackText from './AnswerFeedbackText';
 
@@ -27,7 +27,8 @@ const McqQuestion = ({
   const [isQuestionAnswered, setIsQuestionAnswered] =
     useState(isAlreadyAnswered);
   const [selectedIndices, setSelectedIndices] = useState(chosenIndices);
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
+
 
   useEffect(() => {
     setIsQuestionAnswered(isAlreadyAnswered);

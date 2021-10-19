@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
 import { useFormik } from 'formik';
@@ -9,15 +9,16 @@ import { TransparentTextInputFormik } from 'common/Input';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { navigationPropType, routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
-import ReducerActions from 'globalstore/ReducerActions';
-import { useStore } from 'globalstore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
+import { useStore } from 'globalStore/GlobalStore';
+import { deepCopy } from 'utility';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 
 const AddMCQ = ({ navigation, route }) => {
   const editIndex = route?.params?.index;
 
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [currentlyEditingQuestion, setCurrentlyEditingQuestion] =
     useState(undefined);
 
@@ -28,9 +29,7 @@ const AddMCQ = ({ navigation, route }) => {
   const formik = useFormik({
     initialValues: {
       title: editMCQ?.title ?? '',
-      questions: editMCQ?.questions
-        ? JSON.parse(JSON.stringify(editMCQ?.questions))
-        : [], // Deep Clone
+      questions: editMCQ?.questions ? deepCopy(editMCQ?.questions) : [], // Deep Clone
     },
     onSubmit: (mcq) => {
       if (editIndex === undefined) {

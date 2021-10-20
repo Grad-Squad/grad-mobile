@@ -75,7 +75,7 @@ const CreatePost = ({ navigation }) => {
   });
 
   useEffect(() => {
-    if (state.createPost.materialList) {
+    if (state.createPost.materialList.length !== 0) {
       formik.setFieldValue('materialList', state.createPost.materialList);
     }
   }, [state.createPost.materialList]);

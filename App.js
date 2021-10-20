@@ -13,6 +13,12 @@ import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
 
+if (__DEV__) {
+  import('./ReactotronConfig').then(() => {
+    console.log('Reactotron Configured');
+  });
+}
+
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -23,7 +29,6 @@ const theme = {
     placeholder: Colors.offBlack,
   },
 };
-
 
 export default function App() {
   const ready = initStyles();
@@ -37,7 +42,7 @@ export default function App() {
       <PaperProvider theme={theme}>
         <ErrorSnackbarProvider>
           <AxiosProvider>
-            <ReactQueryClient >
+            <ReactQueryClient>
               <SafeAreaProvider>
                 <StatusBar />
                 <GlobalStore>

@@ -1,4 +1,4 @@
-import { formatNumber, formatString } from 'utility';
+import { deepCompare, formatNumber, formatString } from 'utility';
 
 describe('formatNumber', () => {
   describe('below 1k', () => {
@@ -48,7 +48,6 @@ describe('formatNumber', () => {
   });
 });
 
-
 describe('formatString', () => {
   it('should return the same string if there are no args', () => {
     expect(formatString('Test')).toBe('Test');
@@ -70,5 +69,41 @@ describe('formatString', () => {
   });
   it('should format string (1 arg, 2nd undefined)', () => {
     expect(formatString('Test {0} {1}', '5')).toBe('Test 5 undefined');
+  });
+});
+describe('deepCompare', () => {
+  describe('root: object', () => {
+    it('should return true when comparing empty objects', () => {
+      expect(deepCompare({}, {})).toBe(true);
+    });
+    it('should correctly compare objects with missing properties', () => {
+      expect(deepCompare({ 1: 1 }, {})).toBe(false);
+      expect(deepCompare({}, { 1: 1 })).toBe(false);
+    });
+    it('should correctly compare equal objects', () => {
+      expect(deepCompare({ 1: 1 }, { 1: 1 })).toBe(true);
+    });
+    it('should correctly compare deeply equal objects', () => {
+      expect(deepCompare({ 1: [1] }, { 1: [1] })).toBe(true);
+      expect(deepCompare({ 1: [1] }, { 1: [2] })).toBe(false);
+      expect(deepCompare({ 1: [2] }, { 1: [1] })).toBe(false);
+    });
+  });
+  describe('root: array', () => {
+    it('should return true when comparing empty arrays', () => {
+      expect(deepCompare([], [])).toBe(true);
+    });
+    it('should correctly compare arrays with missing values', () => {
+      expect(deepCompare([1], [])).toBe(false);
+      expect(deepCompare([], [1])).toBe(false);
+    });
+    it('should correctly compare equal arrays', () => {
+      expect(deepCompare([1], [1])).toBe(true);
+    });
+    it('should correctly compare deeply equal arrays', () => {
+      expect(deepCompare([{ 1: 1 }], [{ 1: 1 }])).toBe(true);
+      expect(deepCompare([{ 1: 1 }], [{ 1: 2 }])).toBe(false);
+      expect(deepCompare([{ 1: 2 }], [{ 1: 1 }])).toBe(false);
+    });
   });
 });

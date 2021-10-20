@@ -218,5 +218,13 @@
   },
   "FlatList": {
     "Nothing left to show": "Nothing left to show 😢"
+  },
+  "Alerts":{
+    "Lose Progress?": {
+      "title": "Discard Progress?",
+      "message": "You will lose your current progress. Are you sure you want to leave ?",
+      "confirm button": "leave",
+      "reject button": "stay"
+    }
   }
 }

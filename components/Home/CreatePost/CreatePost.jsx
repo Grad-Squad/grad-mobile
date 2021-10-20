@@ -11,9 +11,11 @@ import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { useStore } from 'globalStore/GlobalStore';
 import ReducerActions from 'globalStore/ReducerActions';
 import ScreenNames from 'navigation/ScreenNames';
+import { useAPICreatePost } from 'api/endpoints/posts';
+import useOnGoBack from 'navigation/useOnGoBack';
+import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
-import { useAPICreatePost } from 'api/endpoints/posts';
 
 const dropdownInitialItems = [
   { label: 'Apple', value: 'apple' },
@@ -79,6 +81,19 @@ const CreatePost = ({ navigation }) => {
       formik.setFieldValue('materialList', state.createPost.materialList);
     }
   }, [state.createPost.materialList]);
+
+  useOnGoBack(
+    (e) => {
+      if (!formik.dirty) { // todo sub screen edited ?
+        return;
+      }
+
+      e.preventDefault();
+
+      DiscardChangesAlert(t, () => navigation.dispatch(e.data.action));
+    },
+    [formik.dirty]
+  );
   return (
     <Page>
       <MaterialCreateHeader

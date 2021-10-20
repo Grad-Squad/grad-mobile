@@ -23,6 +23,7 @@ const AddQuestion = ({
   contentStyle,
   questions,
   currentlyEditingQuestion,
+  setDirty,
 }) => {
   const { t } = useLocalization();
   const [image, setImage] = useState({});
@@ -109,6 +110,10 @@ const AddQuestion = ({
       currentChoiceFormik.resetForm();
     }
   }, [currentlyEditingQuestion]);
+
+  useEffect(() => {
+    setDirty(currentQuestionFormik.dirty || currentChoiceFormik.dirty);
+  }, [currentQuestionFormik.dirty, currentChoiceFormik.dirty, setDirty]);
 
   const canAddChoices =
     currentQuestionFormik.values.choices.length < MaxNumberOfChoices;
@@ -226,6 +231,7 @@ AddQuestion.propTypes = {
   questions: PropTypes.arrayOf(mcqQuestionPropType).isRequired,
   contentStyle: stylePropType,
   currentlyEditingQuestion: mcqQuestionPropType,
+  setDirty: PropTypes.func.isRequired,
 };
 AddQuestion.defaultProps = {
   contentStyle: {},

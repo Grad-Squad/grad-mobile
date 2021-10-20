@@ -220,6 +220,12 @@
     "Nothing left to show": "Nothing left to show 😢"
   },
   "Alerts":{
+    "Discard?": {
+      "title": "Discard?",
+      "message": "You have unsaved changes. Are you sure to discard them and leave the screen?",
+      "confirm button": "Discard",
+      "reject button": "Don't leave"
+    },
     "Lose Progress?": {
       "title": "Discard Progress?",
       "message": "You will lose your current progress. Are you sure you want to leave ?",

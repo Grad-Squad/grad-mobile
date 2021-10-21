@@ -3,9 +3,12 @@ import { Image, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import { Colors } from 'styles';
 import { useLocalization } from 'localization';
+import { TransparentButton } from 'common/Input/Button';
+import { useNavigation } from '@react-navigation/core';
 
 const Wip = () => {
   const { t } = useLocalization();
+  const navigation = useNavigation();
   return (
     <View style={styles.background}>
       <Image
@@ -18,6 +21,12 @@ const Wip = () => {
           'WIP/We are currently working on this feature. It will be available as soon as possible.'
         )}
       </EduText>
+
+      <TransparentButton
+        text={t('WIP/Go back')}
+        onPress={() => navigation.goBack()}
+        style={styles.goBackButton}
+      />
     </View>
   );
 };
@@ -44,5 +53,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     width: 250,
+  },
+  goBackButton: {
+    position: 'absolute',
+    bottom: 10,
+    alignSelf: 'center',
   },
 });

@@ -240,7 +240,8 @@
     }
   },
   "WIP": {
-    "WIP": "أعمال جارية",
-    "We are currently working on this feature. It will be available as soon as possible.": "نحن نعمل حاليا على هذه الخاصية. سيكون متاحًا في أقرب وقت ممكن."
+    "WIP": "الأعمال جارية",
+    "We are currently working on this feature. It will be available as soon as possible.": "نحن نعمل حاليا على هذه الخاصية. سيكون متاحًا في أقرب وقت ممكن.",
+    "Go back": "عد"
   }
 }

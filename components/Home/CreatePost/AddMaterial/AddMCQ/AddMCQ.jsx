@@ -16,6 +16,7 @@ import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
+import DiscardQuestionAlert from './DiscardQuestionAlert';
 
 const AddMCQ = ({ navigation, route }) => {
   const editIndex = route?.params?.index;
@@ -34,16 +35,32 @@ const AddMCQ = ({ navigation, route }) => {
       title: editMCQ?.title ?? '',
       questions: editMCQ?.questions ? deepCopy(editMCQ?.questions) : [], // Deep Clone
     },
-    onSubmit: (mcq) => {
-      if (editIndex === undefined) {
-        dispatch({ type: ReducerActions.addMCQ, payload: mcq });
+    onSubmit: (mcq, formikBag) => {
+      const submitForm = () => {
+        if (editIndex === undefined) {
+          dispatch({ type: ReducerActions.addMCQ, payload: mcq });
+        } else {
+          dispatch({
+            type: ReducerActions.editMCQ,
+            payload: { index: editIndex, mcq },
+          });
+        }
+        navigation.goBack();
+      };
+
+      if (subFormikDirty) {
+        DiscardQuestionAlert(
+          t,
+          () => {
+            submitForm();
+          },
+          () => {
+            formikBag.setSubmitting(false);
+          }
+        );
       } else {
-        dispatch({
-          type: ReducerActions.editMCQ,
-          payload: { index: editIndex, mcq },
-        });
+        submitForm();
       }
-      navigation.goBack();
     },
     validationSchema: yup.object().shape({
       title: yup

@@ -1,7 +1,8 @@
-import BaseAlert from './BaseAlert';
+import BaseAlert from "common/alerts/BaseAlert";
+
 
 /**
- * Shows Lose Progress Alert.
+ * Shows Discard Question Alert.
  *
  * @param {Function} t i18n translate function.
  * @param {Function} [onConfirm=()=>{}] On user confirm callback.
@@ -9,9 +10,9 @@ import BaseAlert from './BaseAlert';
  *
  * @example
  * ```
- * LoseProgressAlert(t, () => console.log('CONFIRMED'))
+ * DiscardQuestionAlert(t, () => console.log('CONFIRMED'))
  * ```
  */
 export default (t, onConfirm, onReject) => {
-  BaseAlert(t, 'Lose Progress?', onConfirm, onReject);
+  BaseAlert(t, 'Discard Question?', onConfirm, onReject);
 };

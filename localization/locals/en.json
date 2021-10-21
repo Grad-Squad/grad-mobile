@@ -231,6 +231,12 @@
       "message": "You will lose your current progress. Are you sure you want to leave ?",
       "confirm button": "leave",
       "reject button": "stay"
+    },
+    "Discard Question?": {
+      "title": "Discard Question?",
+      "message": "You are currently writing a question. Are you sure you want to finish?",
+      "confirm button": "finish",
+      "reject button": "stay"
     }
   }
 }

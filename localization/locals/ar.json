@@ -231,6 +231,12 @@
       "message": "ستفقد تقدمك الحالي. هل انت متاكد انك تريد ان تغادر ؟",
       "confirm button": "غادر",
       "reject button": "البقاء"
+    },
+    "Discard Question?": {
+      "title": "تجاهل السؤال؟",
+      "message": "أنت تكتب سؤالا حاليا. هل أنت متأكد أنك تريد الانتهاء؟",
+      "confirm button": "اتمام",
+      "reject button": "البقاء"
     }
   }
 }

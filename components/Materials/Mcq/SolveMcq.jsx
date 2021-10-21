@@ -67,7 +67,7 @@ const SolveMcq = ({ navigation, route }) => {
   useEffect(() => {
     if (hasFinished) {
       dispatch({ type: ReducerActions.setMCQQuestions, payload: questions });
-      navigation.navigate(ScreenNames.REVIEW_MCQ);
+      navigation.replace(ScreenNames.REVIEW_MCQ);
     }
   }, [hasFinished]);
 

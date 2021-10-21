@@ -9,6 +9,9 @@ import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import { useStore } from 'globalStore/GlobalStore';
 import ReducerActions from 'globalStore/ReducerActions';
 import ScreenNames from 'navigation/ScreenNames';
+import useOnGoBack from 'navigation/useOnGoBack';
+import LoseProgressAlert from 'common/alerts/LoseProgressAlert';
+import { useLocalization } from 'localization';
 import NavMaterials from '../_common/NavMaterials';
 import McqQuestion from './McqQuestion';
 import QUESTIONS from './TEMP_DATA';
@@ -22,6 +25,7 @@ const initialQuestionState = {
 };
 
 const SolveMcq = ({ navigation, route }) => {
+  const { t } = useLocalization();
   const { materialID } = route.params || {};
 
   const [state, dispatch] = useStore();
@@ -36,6 +40,7 @@ const SolveMcq = ({ navigation, route }) => {
 
   const [pageNum, setPageNum] = useState(0);
   const [hasFinished, setHasFinished] = useState(false);
+  const [dirty, setDirty] = useState(false);
 
   const decrementPage = () => setPageNum((prev) => Math.max(prev - 1, 0));
   const setCurrentQuestionToSkipped = () => {
@@ -80,6 +85,7 @@ const SolveMcq = ({ navigation, route }) => {
   };
 
   const handleAnswer = (asnweredCorrectly, selectedIndices) => {
+    setDirty(true);
     setQuestions((prev) => {
       const newStoredAnswers = [...prev];
       newStoredAnswers[pageNum] = {
@@ -97,6 +103,18 @@ const SolveMcq = ({ navigation, route }) => {
     setCurrentQuestionToSkipped();
     incrementPage();
   };
+  useOnGoBack(
+    (e) => {
+      if (!dirty) {
+        return;
+      }
+
+      e.preventDefault();
+
+      LoseProgressAlert(t, () => navigation.dispatch(e.data.action));
+    },
+    [dirty]
+  );
 
   return (
     <Page>

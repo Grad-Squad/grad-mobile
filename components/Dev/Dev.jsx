@@ -51,6 +51,10 @@ const Dev = ({ navigation }) => {
         onPress={() => navigation.navigate(ScreenNames.HOME)}
       />
       <Button
+        title="Go to Create Post"
+        onPress={() => navigation.navigate(ScreenNames.CREATE_POST)}
+      />
+      <Button
         title="Go to Post"
         onPress={() => navigation.navigate(ScreenNames.POST, postData.id)}
       />

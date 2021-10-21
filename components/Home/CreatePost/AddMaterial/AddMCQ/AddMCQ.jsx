@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { useLocalization } from 'localization';
 import * as yup from 'yup';
@@ -11,7 +11,9 @@ import { navigationPropType, routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import ReducerActions from 'globalStore/ReducerActions';
 import { useStore } from 'globalStore/GlobalStore';
-import { deepCopy } from 'utility';
+import { deepCompare, deepCopy } from 'utility';
+import useOnGoBack from 'navigation/useOnGoBack';
+import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 
@@ -23,6 +25,7 @@ const AddMCQ = ({ navigation, route }) => {
     useState(undefined);
 
   const [state, dispatch] = useStore();
+  const [subFormikDirty, setSubFormikDirty] = useState(false);
 
   const editMCQ = state.createPost.materialList[editIndex];
 
@@ -64,6 +67,25 @@ const AddMCQ = ({ navigation, route }) => {
     formik.handleSubmit();
   };
 
+  useOnGoBack(
+    (e) => {
+      const questionsDirty = editMCQ
+        ? !deepCompare(editMCQ?.questions, formik.values.questions)
+        : formik.values.questions.length !== 0;
+      if (
+        !(formik.dirty || subFormikDirty || questionsDirty) ||
+        formik.isSubmitting
+      ) {
+        return;
+      }
+
+      e.preventDefault();
+
+      DiscardChangesAlert(t, () => navigation.dispatch(e.data.action));
+    },
+    [formik.dirty, subFormikDirty, formik.isSubmitting]
+  );
+
   return (
     <Page useSafeArea={false}>
       <MaterialCreateHeader
@@ -71,7 +93,6 @@ const AddMCQ = ({ navigation, route }) => {
         rightButtonText={t('AddMaterial/Finish')}
         onPress={attemptSubmit}
         onBackPress={() => {
-          Alert.alert('changes lost (if any)'); // ! WIP
           navigation.goBack();
         }}
       />
@@ -84,11 +105,12 @@ const AddMCQ = ({ navigation, route }) => {
         <AddQuestion
           addQuestion={(question) => {
             formik.values.questions.push(question);
-            return formik.setFieldValue('questions', formik.values.questions);
+            formik.setFieldValue('questions', formik.values.questions);
           }}
           questions={formik.values.questions}
           contentStyle={styles.content}
           currentlyEditingQuestion={currentlyEditingQuestion}
+          setDirty={setSubFormikDirty}
         />
         <QuestionsList
           questions={formik.values.questions}
@@ -97,7 +119,7 @@ const AddMCQ = ({ navigation, route }) => {
             setCurrentlyEditingQuestion(formik.values.questions[i]);
             deleteQuestion(i);
           }}
-          onDelete={deleteQuestion}
+          onDelete={deleteQuestion} // dirty ?
           error={formik.touched.questions && formik.errors.questions}
         />
       </ScrollView>

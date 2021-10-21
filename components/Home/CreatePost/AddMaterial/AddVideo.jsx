@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
-import EduText from 'common/EduText';
+import { StyleSheet } from 'react-native';
+import Wip from 'components/Wip/Wip';
 
-const AddVideo = () => (
-  <View>
-    <EduText>AddVideo</EduText>
-  </View>
-);
+const AddVideo = () =>  <Wip />;
 
 AddVideo.propTypes = {};
 AddVideo.defaultProps = {};

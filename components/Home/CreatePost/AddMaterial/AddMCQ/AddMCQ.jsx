@@ -72,8 +72,10 @@ const AddMCQ = ({ navigation, route }) => {
       const questionsDirty = editMCQ
         ? !deepCompare(editMCQ?.questions, formik.values.questions)
         : formik.values.questions.length !== 0;
-
-      if (!(formik.dirty || subFormikDirty || questionsDirty)) {
+      if (
+        !(formik.dirty || subFormikDirty || questionsDirty) ||
+        formik.isSubmitting
+      ) {
         return;
       }
 
@@ -81,7 +83,7 @@ const AddMCQ = ({ navigation, route }) => {
 
       DiscardChangesAlert(t, () => navigation.dispatch(e.data.action));
     },
-    [formik.dirty, subFormikDirty]
+    [formik.dirty, subFormikDirty, formik.isSubmitting]
   );
 
   return (

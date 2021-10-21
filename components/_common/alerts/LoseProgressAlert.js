@@ -9,7 +9,7 @@ import BaseAlert from './BaseAlert';
  *
  * @example
  * ```
- * DiscardChangesAlert(t, () => console.log('CONFIRMED'))
+ * LoseProgressAlert(t, () => console.log('CONFIRMED'))
  * ```
  */
 export default (t, onConfirm, onReject) => {

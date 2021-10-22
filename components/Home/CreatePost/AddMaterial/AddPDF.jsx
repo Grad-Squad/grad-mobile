@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
-import EduText from 'common/EduText';
+import { StyleSheet } from 'react-native';
+import Wip from 'components/Wip/Wip';
 
-const AddPDF = () => (
-  <View>
-    <EduText>AddPDF</EduText>
-  </View>
-);
+const AddPDF = () =>  <Wip />;
 
 AddPDF.propTypes = {};
 AddPDF.defaultProps = {};

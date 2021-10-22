@@ -238,5 +238,10 @@
       "confirm button": "finish",
       "reject button": "stay"
     }
+  },
+  "WIP": {
+    "WIP": "WIP",
+    "We are currently working on this feature. It will be available as soon as possible.": "We are currently working on this feature. It will be available as soon as possible.",
+    "Go back": "Go back"
   }
 }

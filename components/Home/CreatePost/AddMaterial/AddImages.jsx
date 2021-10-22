@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
-import EduText from 'common/EduText';
+import { StyleSheet } from 'react-native';
+import Wip from 'components/Wip/Wip';
 
-const AddImages = () => (
-  <View>
-    <EduText>AddImages</EduText>
-  </View>
-);
+const AddImages = () =>  <Wip />;
 
 AddImages.propTypes = {};
 AddImages.defaultProps = {};

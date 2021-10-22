@@ -1,5 +1,5 @@
 import { useAxios } from 'api/AxiosProvider';
-import { Alert, Button, LogBox } from 'react-native';
+import { Alert, Button, I18nManager, LogBox, View } from 'react-native';
 import React, { useEffect } from 'react';
 import { navigationPropType } from 'proptypes';
 import { useLocalization } from 'localization';
@@ -71,6 +71,8 @@ const Dev = ({ navigation }) => {
         title="Show Error"
         onPress={() => showErrorSnackbar('the potatoes nooo')}
       />
+      <EduText>{`RTL Check: (I18nManager.isRTL: ${I18nManager.isRTL})`}</EduText>
+      <View style={{width: 100, height: 100, backgroundColor: 'yellow'}}/>
     </Page>
   );
 };

@@ -3,6 +3,8 @@ import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n from 'i18n-js';
 import localStorageKeys from 'localStorageKeys';
+import { I18nManager } from 'react-native';
+import { reloadAsync } from 'expo-updates';
 
 import { childrenPropType } from '../proptypes';
 import ar from './locals/ar.json';
@@ -29,7 +31,15 @@ export const LocalizationProvider = ({ children }) => {
     i18n.locale = newLocale;
     setLocale(newLocale);
     AsyncStorage.setItem(localStorageKeys.appLocale, newLocale);
-    setIsRTL(isRTLLocale(newLocale));
+    const newIsRTL = isRTLLocale(newLocale);
+    if (isRTL !== newIsRTL) {
+      setIsRTL(newIsRTL);
+      I18nManager.forceRTL(newIsRTL);
+      I18nManager.allowRTL(newIsRTL);
+      if (I18nManager.isRTL !== newIsRTL) { // force doesn't update isRTL
+          reloadAsync();
+      }
+    }
   };
 
   useEffect(() => {

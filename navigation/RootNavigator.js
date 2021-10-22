@@ -14,6 +14,10 @@ import Login from 'components/Login/Login';
 import RegisterNavigation from 'components/Register/RegisterNavigation';
 import ForgotPasswordNavigator from 'components/ForgotPassword/ForgotPasswordNavigator';
 import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ/AddMCQ';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import localStorageKeys from 'localStorageKeys';
+import { Linking, Platform } from 'react-native';
+import LoadingIndicator from 'common/LoadingIndicator';
 import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 
@@ -76,9 +80,50 @@ const screens = [
   },
 ];
 
-const RootNavigator = () => (
-  <NavigationContainer>
-    <Navigator screens={screens} />
-  </NavigationContainer>
-);
+const RootNavigator = () => {
+  const [isReady, setIsReady] = React.useState(false);
+  const [initialState, setInitialState] = React.useState();
+
+  React.useEffect(() => {
+    const restoreState = async () => {
+      try {
+        const initialUrl = await Linking.getInitialURL();
+
+        if (Platform.OS !== 'web' && initialUrl == null) {
+          // Only restore state if there's no deep link and we're not on web
+          const savedStateString = await AsyncStorage.getItem(
+            localStorageKeys.nav_state
+          );
+          const state = savedStateString
+            ? JSON.parse(savedStateString)
+            : undefined;
+
+          if (state !== undefined) {
+            setInitialState(state);
+          }
+        }
+      } finally {
+        setIsReady(true);
+      }
+    };
+
+    if (!isReady) {
+      restoreState();
+    }
+  }, [isReady]);
+
+  if (!isReady) {
+    return <LoadingIndicator fullScreen />;
+  }
+  return (
+    <NavigationContainer
+      initialState={initialState}
+      onStateChange={(state) =>
+        AsyncStorage.setItem(localStorageKeys.nav_state, JSON.stringify(state))
+      }
+    >
+      <Navigator screens={screens} />
+    </NavigationContainer>
+  );
+};
 export default RootNavigator;

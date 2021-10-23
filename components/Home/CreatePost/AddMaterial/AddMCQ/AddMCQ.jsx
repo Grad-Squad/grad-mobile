@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
-import { Alert, ScrollView, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
 import { useFormik } from 'formik';
@@ -9,39 +9,58 @@ import { TransparentTextInputFormik } from 'common/Input';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { navigationPropType, routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
-import ReducerActions from 'globalstore/ReducerActions';
-import { useStore } from 'globalstore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
+import { useStore } from 'globalStore/GlobalStore';
+import { deepCompare, deepCopy } from 'utility';
+import useOnGoBack from 'navigation/useOnGoBack';
+import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
+import DiscardQuestionAlert from './DiscardQuestionAlert';
 
 const AddMCQ = ({ navigation, route }) => {
   const editIndex = route?.params?.index;
 
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [currentlyEditingQuestion, setCurrentlyEditingQuestion] =
     useState(undefined);
 
   const [state, dispatch] = useStore();
+  const [subFormikDirty, setSubFormikDirty] = useState(false);
 
   const editMCQ = state.createPost.materialList[editIndex];
 
   const formik = useFormik({
     initialValues: {
       title: editMCQ?.title ?? '',
-      questions: editMCQ?.questions
-        ? JSON.parse(JSON.stringify(editMCQ?.questions))
-        : [], // Deep Clone
+      questions: editMCQ?.questions ? deepCopy(editMCQ?.questions) : [], // Deep Clone
     },
-    onSubmit: (mcq) => {
-      if (editIndex === undefined) {
-        dispatch({ type: ReducerActions.addMCQ, payload: mcq });
+    onSubmit: (mcq, formikBag) => {
+      const submitForm = () => {
+        if (editIndex === undefined) {
+          dispatch({ type: ReducerActions.addMCQ, payload: mcq });
+        } else {
+          dispatch({
+            type: ReducerActions.editMCQ,
+            payload: { index: editIndex, mcq },
+          });
+        }
+        navigation.goBack();
+      };
+
+      if (subFormikDirty) {
+        DiscardQuestionAlert(
+          t,
+          () => {
+            submitForm();
+          },
+          () => {
+            formikBag.setSubmitting(false);
+          }
+        );
       } else {
-        dispatch({
-          type: ReducerActions.editMCQ,
-          payload: { index: editIndex, mcq },
-        });
+        submitForm();
       }
-      navigation.goBack();
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -65,6 +84,25 @@ const AddMCQ = ({ navigation, route }) => {
     formik.handleSubmit();
   };
 
+  useOnGoBack(
+    (e) => {
+      const questionsDirty = editMCQ
+        ? !deepCompare(editMCQ?.questions, formik.values.questions)
+        : formik.values.questions.length !== 0;
+      if (
+        !(formik.dirty || subFormikDirty || questionsDirty) ||
+        formik.isSubmitting
+      ) {
+        return;
+      }
+
+      e.preventDefault();
+
+      DiscardChangesAlert(t, () => navigation.dispatch(e.data.action));
+    },
+    [formik.dirty, subFormikDirty, formik.isSubmitting]
+  );
+
   return (
     <Page useSafeArea={false}>
       <MaterialCreateHeader
@@ -72,7 +110,6 @@ const AddMCQ = ({ navigation, route }) => {
         rightButtonText={t('AddMaterial/Finish')}
         onPress={attemptSubmit}
         onBackPress={() => {
-          Alert.alert('changes lost (if any)'); // ! WIP
           navigation.goBack();
         }}
       />
@@ -85,11 +122,12 @@ const AddMCQ = ({ navigation, route }) => {
         <AddQuestion
           addQuestion={(question) => {
             formik.values.questions.push(question);
-            return formik.setFieldValue('questions', formik.values.questions);
+            formik.setFieldValue('questions', formik.values.questions);
           }}
           questions={formik.values.questions}
           contentStyle={styles.content}
           currentlyEditingQuestion={currentlyEditingQuestion}
+          setDirty={setSubFormikDirty}
         />
         <QuestionsList
           questions={formik.values.questions}
@@ -98,7 +136,7 @@ const AddMCQ = ({ navigation, route }) => {
             setCurrentlyEditingQuestion(formik.values.questions[i]);
             deleteQuestion(i);
           }}
-          onDelete={deleteQuestion}
+          onDelete={deleteQuestion} // dirty ?
           error={formik.touched.questions && formik.errors.questions}
         />
       </ScrollView>

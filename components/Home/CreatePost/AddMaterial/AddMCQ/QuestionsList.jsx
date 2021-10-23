@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { mcqQuestionPropType, stylePropType } from 'proptypes';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { Colors } from 'styles';
 import SubmittedQuestion from './SubmittedQuestion';
 
@@ -15,7 +15,7 @@ const QuestionsList = ({
   error,
   onDelete,
 }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   return error ? (
     <>

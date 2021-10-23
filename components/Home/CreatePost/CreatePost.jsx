@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
@@ -6,14 +6,16 @@ import { ComboBox, TransparentTextInputFormik } from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
-import { useStore } from 'globalstore/GlobalStore';
-import ReducerActions from 'globalstore/ReducerActions';
+import { useStore } from 'globalStore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
 import ScreenNames from 'navigation/ScreenNames';
+import { useAPICreatePost } from 'api/endpoints/posts';
+import useOnGoBack from 'navigation/useOnGoBack';
+import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
-import { useAPICreatePost } from 'api/endpoints/posts';
 
 const dropdownInitialItems = [
   { label: 'Apple', value: 'apple' },
@@ -30,7 +32,7 @@ const dropdownInitialItems = [
 ];
 
 const CreatePost = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   const [state, dispatch] = useStore();
   const createPostMutation = useAPICreatePost();
@@ -75,10 +77,23 @@ const CreatePost = ({ navigation }) => {
   });
 
   useEffect(() => {
-    if (state.createPost.materialList) {
+    if (state.createPost.materialList.length !== 0) {
       formik.setFieldValue('materialList', state.createPost.materialList);
     }
   }, [state.createPost.materialList]);
+
+  useOnGoBack(
+    (e) => {
+      if (!formik.dirty) { // todo sub screen edited ?
+        return;
+      }
+
+      e.preventDefault();
+
+      DiscardChangesAlert(t, () => navigation.dispatch(e.data.action));
+    },
+    [formik.dirty]
+  );
   return (
     <Page>
       <MaterialCreateHeader

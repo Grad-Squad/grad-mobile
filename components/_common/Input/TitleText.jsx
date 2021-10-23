@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { Colors, Typography } from 'styles';
 import { stylePropType } from 'proptypes';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
 
 const TitleText = ({ title, subtitle, showSubtitle, error, style }) => {
-  const { isRTL } = useContext(LocalizationContext);
+  const { isRTL } = useLocalization();
   return (
     <View
       style={[

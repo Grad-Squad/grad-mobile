@@ -1,8 +1,8 @@
 import { useAxios } from 'api/AxiosProvider';
 import { Alert, Button, LogBox } from 'react-native';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { navigationPropType } from 'proptypes';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
 import { Constants } from 'styles';
@@ -12,7 +12,7 @@ import ScreenNames from 'navigation/ScreenNames';
 LogBox.ignoreLogs(['Setting a timer']);
 
 const Dev = ({ navigation }) => {
-  const { t, setLanguage } = useContext(LocalizationContext);
+  const { t, setLanguage } = useLocalization();
 
   //! temp: should be moved somewhere else where it will always get called
   const { setUnauthorizedRedirect } = useAxios();
@@ -49,6 +49,10 @@ const Dev = ({ navigation }) => {
       <Button
         title="Go to Home"
         onPress={() => navigation.navigate(ScreenNames.HOME)}
+      />
+      <Button
+        title="Go to Create Post"
+        onPress={() => navigation.navigate(ScreenNames.CREATE_POST)}
       />
       <Button
         title="Go to Post"

@@ -1,9 +1,9 @@
 import LoginBack from 'common/backgrounds/LoginBack';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { navigationPropType } from 'proptypes';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { Typography } from 'styles';
 import ScreenNames from 'navigation/ScreenNames';
@@ -11,7 +11,7 @@ import ScreenNames from 'navigation/ScreenNames';
 const IMAGE_SOURCE = require('../../assets/images/ForgotPasswordFailed.webp');
 
 const SixDigitFailed = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   return (
     <LoginBack>
       <EduText style={styles.header}>

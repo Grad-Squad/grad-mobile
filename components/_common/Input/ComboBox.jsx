@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Colors } from 'styles';
 import EduText from 'common/EduText';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 
 const ComboBox = ({
   placeholder,
@@ -17,7 +17,7 @@ const ComboBox = ({
   error,
   errorMsg,
 }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState(initialItems);

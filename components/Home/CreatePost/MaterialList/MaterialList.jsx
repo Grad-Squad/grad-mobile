@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Colors } from 'styles';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
 import { MaterialTypeIconsMap } from 'common/Icon';
 import MaterialItem from './MaterialItem';
@@ -12,7 +12,7 @@ const flatListRenderItem = ({ item: { title, amount, type, onPress } }) => (
 );
 
 const MaterialList = ({ materials, errorMsg }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   return (
     <View style={styles.materialsList}>
       <EduText style={styles.materialsText}>

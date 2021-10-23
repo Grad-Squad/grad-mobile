@@ -5,7 +5,7 @@ import { WhiteButton } from 'common/Input/Button';
 import { ApiConstants } from 'constants';
 import ScreenNames from 'navigation/ScreenNames';
 import { useFormik } from 'formik';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
 import { Alert, StyleSheet } from 'react-native';
@@ -14,7 +14,7 @@ import * as yup from 'yup';
 import RegisterContext from './RegisterContext';
 
 const RequiredInfo = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const { setProfileId } = useContext(RegisterContext);
   const registerMutation = useAPIRegister({
     onError: () => {},

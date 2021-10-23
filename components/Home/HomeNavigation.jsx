@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Icon } from 'common/Icon';
 import { Colors, Constants } from 'styles';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import EmptyComponent from 'common/EmptyComponent';
 import ScreenNames from 'navigation/ScreenNames';
 import { IconNames } from 'common/Icon/Icon';
@@ -14,7 +14,7 @@ import Bookmarks from './Bookmarks';
 const Tab = createMaterialBottomTabNavigator();
 
 const HomeNavigation = () => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   return (
     <Tab.Navigator
       initialRouteName="Home"

@@ -2,7 +2,7 @@ import LoginBack from 'common/backgrounds/LoginBack';
 import EduText from 'common/EduText';
 import { WhiteButton } from 'common/Input/Button';
 import ScreenNames from 'navigation/ScreenNames';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { navigationPropType } from 'proptypes';
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
@@ -11,7 +11,7 @@ import RegisterContext from '../RegisterContext';
 import TeacherOrStudent from './TeacherOrStudent';
 
 const RollSelection = ({ navigation }) => {
-  const { t, isRTL } = useContext(LocalizationContext);
+  const { t, isRTL } = useLocalization();
   const { formik } = useContext(RegisterContext);
 
   const onContinueClick = () => {

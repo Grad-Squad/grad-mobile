@@ -12,9 +12,8 @@ import { API_URL } from '@env';
 
 import Axios from 'axios';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization/LocalizationProvider';
 import unauthorizedRedirectBlacklist from './unauthorizedRedirectBlacklist';
-// eslint-disable-next-line import/no-cycle
 import endpoints from './endpoints/endpoints';
 
 const UNAUTHORIZED_STATUS_CODE = 401;
@@ -25,7 +24,7 @@ const getItemFromStorage = async (itemName) =>
   (await AsyncStorage.getItem(itemName)) || '';
 
 const AxiosProvider = ({ children }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   const [accessToken, setAccessToken] = useState('');
   const [refreshToken, setRefreshToken] = useState('');

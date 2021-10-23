@@ -110,7 +110,12 @@
     "Skipped": "Skipped",
     "Again?": "Go again ?",
     "What should we include?": "What should we include?",
-    "Start": "Start"
+    "Start": "Start",
+    "footerText": {
+      "Wow! That’s perfect!": "Wow! That’s perfect!",
+      "Don’t stop now, Keep going until you do it perfectly!!": "Don’t stop now, Keep going until you do it perfectly!!",
+      "Take a deep breath and start again.": "Take a deep breath and start again."
+    }
   },
   "AddMaterial": {
     "Finish": "Finish",
@@ -213,5 +218,25 @@
   },
   "FlatList": {
     "Nothing left to show": "Nothing left to show 😢"
+  },
+  "Alerts":{
+    "Discard?": {
+      "title": "Discard?",
+      "message": "You have unsaved changes. Are you sure to discard them and leave the screen?",
+      "confirm button": "Discard",
+      "reject button": "Don't leave"
+    },
+    "Lose Progress?": {
+      "title": "Discard Progress?",
+      "message": "You will lose your current progress. Are you sure you want to leave ?",
+      "confirm button": "leave",
+      "reject button": "stay"
+    },
+    "Discard Question?": {
+      "title": "Discard Question?",
+      "message": "You are currently writing a question. Are you sure you want to finish?",
+      "confirm button": "finish",
+      "reject button": "stay"
+    }
   }
 }

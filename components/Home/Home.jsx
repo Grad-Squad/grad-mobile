@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { FlatList, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { apiFeedQueryKey, useAPIFeed } from 'api/endpoints/posts';
@@ -6,12 +6,12 @@ import LoadingIndicator from 'common/LoadingIndicator';
 import Post from 'components/Post/Post';
 import QueryRefreshControl from 'common/QueryRefreshControl';
 import EduText from 'common/EduText';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import Header from './Header';
 
 const Home = () => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const {
     data,
     isLoading,

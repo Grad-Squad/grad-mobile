@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { roles } from 'validation';
 import { Pressable, View, StyleSheet } from 'react-native';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
@@ -11,7 +11,7 @@ import { Colors, Constants } from 'styles';
 import { IconNames } from 'common/Icon/Icon';
 
 const TeacherOrStudent = ({ value, setValue, style }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const items = [
     [roles.student, t('Register/Student'), t('Register/Student Emoji')],
     [roles.teacher, t('Register/Teacher'), t('Register/Teacher Emoji')],

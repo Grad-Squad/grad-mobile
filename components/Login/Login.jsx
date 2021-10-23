@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { emailRequired, requiredError } from 'validation';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { TransparentButton, WhiteButton } from 'common/Input/Button';
@@ -14,7 +14,7 @@ import ScreenNames from 'navigation/ScreenNames';
 import SignInWith from './SignInWith/SignInWith';
 
 const Login = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   const loginMutation = useAPILogin({
     onSuccess: () => {

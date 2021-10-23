@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
@@ -9,7 +9,7 @@ import { Colors, Constants } from 'styles';
 import PressableText from 'common/PressableText';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { requiredError } from 'validation';
 
 const GoToModal = ({
@@ -19,7 +19,7 @@ const GoToModal = ({
   currentIndex,
   maxIndex,
 }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   const formik = useFormik({
     initialValues: {

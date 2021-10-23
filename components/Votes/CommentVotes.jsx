@@ -29,21 +29,15 @@ function CommentVotes({ voteCount, commentId, id }) {
     setIsUpVoted(isPrevUpvoted);
     setIsDownVoted(isPrevDownvoted);
   };
-  const onSuccessCallback = () => {
-    console.log('🚀 ~ file: CommentVotes.jsx ~ line 49 ~ onSuccess ~ , Voted');
-  };
 
   const upvoteMutation = useAPIUpvoteComment({
     onError: onErrorCallback,
-    onSuccess: onSuccessCallback,
   });
   const downvoteMutation = useAPIDownvoteComment({
     onError: onErrorCallback,
-    onSuccess: onSuccessCallback,
   });
   const unvoteMutation = useAPIUnvoteComment({
     onError: onErrorCallback,
-    onSuccess: onSuccessCallback,
   });
 
   useEffect(() => {

@@ -62,6 +62,7 @@ const AxiosProvider = ({ children }) => {
   const { showErrorSnackbar } = useErrorSnackbar();
 
   const axios = useMemo(() => {
+    console.log(API_URL);
     const newAxios = Axios.create({
       baseURL: API_URL,
       headers: {
@@ -107,7 +108,7 @@ const AxiosProvider = ({ children }) => {
     );
 
     return newAxios;
-  }, [refreshToken]);
+  }, [refreshToken, API_URL]);
 
   const [axiosRequestInterceptor, setAxiosRequestInterceptor] =
     useState(undefined);

@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { Modal } from 'react-native-paper';
 import EduText from 'common/EduText';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { MainActionButton } from 'common/Input/Button';
 import { Colors, Constants } from 'styles';
 import Checkbox from 'common/Input/Checkbox';
@@ -18,7 +18,7 @@ const ReviewMcqModal = ({
   isShownAllowed,
   onFinish,
 }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [isCorrectChecked, setIsCorrectChecked] = useState(isCorrectAllowed);
   const [isWrongChecked, setIsWrongChecked] = useState(isWrongAllowed);
   const [isSkippedChecked, setIsSkippedChecked] = useState(isSkippedAllowed);

@@ -1,22 +1,25 @@
 import { useAxios } from 'api/AxiosProvider';
-import { Alert, Button } from 'react-native';
-import React, { useContext, useEffect } from 'react';
+import { Alert, Button, I18nManager, LogBox, View } from 'react-native';
+import React, { useEffect } from 'react';
 import { navigationPropType } from 'proptypes';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
 import { Constants } from 'styles';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
+import ScreenNames from 'navigation/ScreenNames';
+
+LogBox.ignoreLogs(['Setting a timer']);
 
 const Dev = ({ navigation }) => {
-  const { t, setLanguage } = useContext(LocalizationContext);
+  const { t, setLanguage } = useLocalization();
 
   //! temp: should be moved somewhere else where it will always get called
   const { setUnauthorizedRedirect } = useAxios();
 
   useEffect(() => {
     setUnauthorizedRedirect(() => () => {
-      navigation.navigate('login');
+      navigation.navigate(ScreenNames.LOGIN);
       Alert.alert('Sorry, You have to login again');
     });
   }, []);
@@ -41,13 +44,25 @@ const Dev = ({ navigation }) => {
       <EduText>{t('hello')}</EduText>
       <Button
         title="Go to Login"
-        onPress={() => navigation.navigate('login')}
+        onPress={() => navigation.navigate(ScreenNames.LOGIN)}
       />
-      <Button title="Go to Home" onPress={() => navigation.navigate('home')} />
-      <Button title="Go to Post" onPress={() => navigation.navigate('post',postData.id)} />
+      <Button
+        title="Go to Home"
+        onPress={() => navigation.navigate(ScreenNames.HOME)}
+      />
+      <Button
+        title="Go to Create Post"
+        onPress={() => navigation.navigate(ScreenNames.CREATE_POST)}
+      />
+      <Button
+        title="Go to Post"
+        onPress={() => navigation.navigate(ScreenNames.POST, postData.id)}
+      />
       <Button
         title="Go to mcq"
-        onPress={() => navigation.navigate('solveMcq', {materialID: "1"})}
+        onPress={() =>
+          navigation.navigate(ScreenNames.SOLVE_MCQ, { materialID: '1' })
+        }
       />
       <Button title="Arabic" onPress={() => setLanguage('ar')} />
       <Button title="English" onPress={() => setLanguage('en')} />
@@ -56,6 +71,8 @@ const Dev = ({ navigation }) => {
         title="Show Error"
         onPress={() => showErrorSnackbar('the potatoes nooo')}
       />
+      <EduText>{`RTL Check: (I18nManager.isRTL: ${I18nManager.isRTL})`}</EduText>
+      <View style={{width: 100, height: 100, backgroundColor: 'yellow'}}/>
     </Page>
   );
 };

@@ -2,16 +2,22 @@ import React from 'react';
 import AppLoading from 'expo-app-loading';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
-import GlobalStore from 'globalstore/GlobalStore';
+import GlobalStore from 'globalStore/GlobalStore';
 import { Colors } from 'styles';
 import AxiosProvider from 'api/AxiosProvider';
 import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';
+import ReactQueryClient from 'components/ReactQueryClient/ReactQueryClient';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
+
+if (__DEV__) {
+  import('./ReactotronConfig').then(() => {
+    console.log('Reactotron Configured');
+  });
+}
 
 const theme = {
   ...DefaultTheme,
@@ -24,8 +30,6 @@ const theme = {
   },
 };
 
-const queryClient = new QueryClient();
-
 export default function App() {
   const ready = initStyles();
 
@@ -35,20 +39,20 @@ export default function App() {
 
   return (
     <LocalizationProvider>
-      <ErrorSnackbarProvider>
-        <AxiosProvider>
-          <QueryClientProvider client={queryClient}>
-            <PaperProvider theme={theme}>
+      <PaperProvider theme={theme}>
+        <ErrorSnackbarProvider>
+          <AxiosProvider>
+            <ReactQueryClient>
               <SafeAreaProvider>
                 <StatusBar />
                 <GlobalStore>
                   <RootNavigator />
                 </GlobalStore>
               </SafeAreaProvider>
-            </PaperProvider>
-          </QueryClientProvider>
-        </AxiosProvider>
-      </ErrorSnackbarProvider>
+            </ReactQueryClient>
+          </AxiosProvider>
+        </ErrorSnackbarProvider>
+      </PaperProvider>
     </LocalizationProvider>
   );
 }

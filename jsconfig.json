@@ -5,7 +5,13 @@
         "baseUrl": ".",
         "paths": {
             "common/*": ["components/_common/*"],
-        }
+        },
+        "jsx": "react"
     },
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules"],
+    "typeAcquisition": {
+        "include": [
+            "jest"
+        ]
+    }
 }

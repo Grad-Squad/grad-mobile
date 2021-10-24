@@ -1,7 +1,9 @@
+import { IconNames } from "./Icon";
+
 export default {
-  Flashcards: 'cards-outline',
-  MCQ: 'format-list-checkbox',
-  PDF: 'pdffile1',
-  Images: 'image-outline',
-  Video: 'ondemand-video',
+  Flashcards: IconNames.cards,
+  MCQ: IconNames.checklist,
+  PDF: IconNames.pdf,
+  Images: IconNames.image,
+  Video: IconNames.video,
 };

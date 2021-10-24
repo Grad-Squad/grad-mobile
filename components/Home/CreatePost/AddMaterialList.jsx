@@ -1,41 +1,42 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { Icon, MaterialTypeIconsMap } from 'common/Icon';
 import { Colors, Constants, Styles } from 'styles';
 import { navigationPropType } from 'proptypes';
 import { TransparentButton } from 'common/Input/Button';
+import ScreenNames from 'navigation/ScreenNames';
 
 const getItems = (t) => [
   {
     iconName: MaterialTypeIconsMap.Flashcards,
     title: t('CreatePost/Add/Flashcards'),
-    route: 'addFlashcards',
+    route: ScreenNames.ADD_FLASHCARDS,
   },
   {
     iconName: MaterialTypeIconsMap.MCQ,
     title: t('CreatePost/Add/MCQ'),
-    route: 'addMCQ',
+    route: ScreenNames.ADD_MCQ,
   },
   {
     iconName: MaterialTypeIconsMap.PDF,
     title: t('CreatePost/Add/PDF'),
-    route: 'addPDF',
+    route: ScreenNames.ADD_PDF,
   },
   {
     iconName: MaterialTypeIconsMap.Images,
     title: t('CreatePost/Add/Images'),
-    route: 'addImages',
+    route: ScreenNames.ADD_IMAGES,
   },
   {
     iconName: MaterialTypeIconsMap.Video,
     title: t('CreatePost/Add/Video'),
-    route: 'addVideo',
+    route: ScreenNames.ADD_VIDEO,
   },
 ];
 
 const AddMaterialList = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   return (
     <View style={styles.wrapper}>
       {getItems(t).map(({ title, iconName, route }) => (
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
   },
   row: {
     ...Styles.bottomBorder,
-    paddingVertical: 6,
+    paddingVertical: 10,
     paddingHorizontal: 10,
 
     justifyContent: 'flex-start',

@@ -12,25 +12,49 @@ import { API_URL } from '@env';
 
 import Axios from 'axios';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization/LocalizationProvider';
 import unauthorizedRedirectBlacklist from './unauthorizedRedirectBlacklist';
+import endpoints from './endpoints/endpoints';
 
 const UNAUTHORIZED_STATUS_CODE = 401;
 
 const AxiosContext = createContext();
 
-const AxiosProvider = ({ children }) => {
-  const { t } = useContext(LocalizationContext);
+const getItemFromStorage = async (itemName) =>
+  (await AsyncStorage.getItem(itemName)) || '';
 
-  const [apiToken, setAPIToken] = useState('');
+const AxiosProvider = ({ children }) => {
+  const { t } = useLocalization();
+
+  const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
+
+  const setAccessTokenFromStorage = async () => {
+    const token = await getItemFromStorage(localStorageKeys.access_token);
+    setAccessToken(token);
+  };
+
+  const setRefreshTokenFromStorage = async () => {
+    const token = await getItemFromStorage(localStorageKeys.refresh_token);
+    setRefreshToken(token);
+  };
+
   useEffect(() => {
-    (async () => {
-      setAPIToken((await AsyncStorage.getItem(localStorageKeys.auth)) || '');
-    })();
+    setAccessTokenFromStorage();
   }, []);
-  const updateAPIToken = (newToken) => {
-    setAPIToken(newToken);
-    AsyncStorage.setItem(localStorageKeys.auth, newToken);
+
+  useEffect(() => {
+    setRefreshTokenFromStorage();
+  }, []);
+
+  const updateAccessToken = async (newToken) => {
+    await AsyncStorage.setItem(localStorageKeys.access_token, newToken);
+    setAccessToken(newToken);
+  };
+
+  const updateRefreshToken = async (newToken) => {
+    await AsyncStorage.setItem(localStorageKeys.refresh_token, newToken);
+    setRefreshToken(newToken);
   };
 
   const [unauthorizedRedirect, setUnauthorizedRedirect] = useState(undefined);
@@ -41,18 +65,14 @@ const AxiosProvider = ({ children }) => {
       baseURL: API_URL,
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
       },
       timeout: 10000,
     });
 
     newAxios.interceptors.response.use(
-      (response) => {
-        if (response.data?.data?.payload) {
-          updateAPIToken(response.data.data.payload.token);
-        }
-        return response;
-      },
-      (error) => {
+      async (response) => response,
+      async (error) => {
         const { response } = error;
         if (response) {
           if (
@@ -60,7 +80,23 @@ const AxiosProvider = ({ children }) => {
             unauthorizedRedirectBlacklist.indexOf(response.config.url) === -1 &&
             unauthorizedRedirect
           ) {
-            unauthorizedRedirect();
+            try {
+              const refreshData = await newAxios.post(endpoints.auth.refresh, {
+                refreshToken,
+              });
+              const newToken = refreshData?.data?.data?.payload?.token;
+              if (newToken) {
+                updateAccessToken(newToken);
+              } else {
+                // todo we should check for error x either redirect or snack
+                // currently backend returns 500 when refresh expires
+                showErrorSnackbar(
+                  t('Snackbar/Could not connect to the server')
+                );
+              }
+            } catch (err) {
+              unauthorizedRedirect();
+            }
           }
         } else if (error.request) {
           showErrorSnackbar(t('Snackbar/Could not connect to the server'));
@@ -70,7 +106,8 @@ const AxiosProvider = ({ children }) => {
     );
 
     return newAxios;
-  }, []);
+  }, [refreshToken]);
+
   const [axiosRequestInterceptor, setAxiosRequestInterceptor] =
     useState(undefined);
 
@@ -79,21 +116,22 @@ const AxiosProvider = ({ children }) => {
       axios.interceptors.request.eject(axiosRequestInterceptor);
     }
     const requestInterceptor = axios.interceptors.request.use((config) => {
-      if (apiToken) {
+      if (accessToken) {
         // eslint-disable-next-line no-param-reassign
-        config.headers.Authorization = `Bearer ${apiToken}`;
+        config.headers.Authorization = `Bearer ${accessToken}`;
       }
-
       return config;
     });
     setAxiosRequestInterceptor(requestInterceptor);
-  }, [apiToken]);
+  }, [accessToken]);
 
   return (
     <AxiosContext.Provider
       value={{
         axios,
         setUnauthorizedRedirect,
+        updateAccessToken,
+        updateRefreshToken,
       }}
     >
       {children}

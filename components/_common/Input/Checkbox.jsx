@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import { PressableIcon } from 'common/Icon';
 import { stylePropType } from 'proptypes';
+import { IconNames } from 'common/Icon/Icon';
 
 const Checkbox = ({ checked, setChecked, style, pressableProps }) => (
   <PressableIcon
     android_ripple={pressableAndroidRipple}
     onPress={() => setChecked(!checked)}
     style={style}
-    name={checked ? 'check-square' : 'square'}
+    name={checked ? IconNames.checkbox : IconNames.square}
     // eslint-disable-next-line react/jsx-props-no-spreading
     pressableProps={pressableProps}
   />

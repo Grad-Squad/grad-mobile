@@ -1,65 +1,57 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Navigator from 'navigation/Navigator';
 import * as yup from 'yup';
-import {
-  biography,
-  emailRequired,
-  nameRequired,
-  passwordRequired,
-  roleRequired,
-  roles,
-} from 'validation';
+import { biography, roleRequired, roles } from 'validation';
 import { useFormik } from 'formik';
-import { LocalizationContext } from 'localization';
-import { Alert } from 'react-native';
-// import { useMutation } from 'react-query';
-// import { updateAccount } from 'api/useAccount';
+import { useLocalization } from 'localization';
+import { useAPIUpdateProfile } from 'api/endpoints/auth';
+import { navigationPropType } from 'proptypes';
+import ScreenNames from 'navigation/ScreenNames';
 import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
 import RollSelection from './RollSelection/RollSelection';
 import RegisterContext from './RegisterContext';
-// import { AuthContext } from 'api/axiosInstance';
 
 const screens = [
   {
-    name: 'register/requiredInfo',
+    name: ScreenNames.Register.REQUIRED_INFO,
     component: RequiredInfo,
   },
   {
-    name: 'register/rollSelection',
+    name: ScreenNames.Register.ROLL_SELECTION,
     component: RollSelection,
   },
   {
-    name: 'register/optionalInfo',
+    name: ScreenNames.Register.OPTIONAL_INFO,
     component: OptionalInfo,
   },
 ];
 
-const RegisterNavigation = () => {
-  const { t } = useContext(LocalizationContext);
+const RegisterNavigation = ({ navigation }) => {
+  const { t } = useLocalization();
   // const { headers } = useContext(AuthContext);
   const [profileId, setProfileId] = useState();
 
-  // const addInfoMutation = useMutation(
-  //   (userInfo) => updateAccount(userInfo, profileId, headers),
-  //   {
-  //     onError: () => {},
-  //   }
-  // );
+  const updateProfileMutation = useAPIUpdateProfile({
+    onSuccess: () =>
+      navigation.reset({
+        index: 0,
+        routes: [{ name: ScreenNames.HOME }],
+      }),
+  });
 
   const formik = useFormik({
     initialValues: {
       role: roles.student,
       profileImage: '',
-      bio: '',
+      biography: '',
     },
-    onSubmit: (userInfo) => {
-      Alert.alert('tes');
-      // addInfoMutation.mutate(userInfo);
+    onSubmit: (profileInfo) => {
+      updateProfileMutation.mutate({ profileInfo, profileId });
     },
     validationSchema: yup.object().shape({
       role: roleRequired(t),
-      bio: biography(t),
+      biography: biography(t),
     }),
   });
   return (
@@ -68,6 +60,10 @@ const RegisterNavigation = () => {
       <Navigator screens={screens} />
     </RegisterContext.Provider>
   );
+};
+
+RegisterNavigation.propTypes = {
+  navigation: navigationPropType.isRequired,
 };
 
 export default RegisterNavigation;

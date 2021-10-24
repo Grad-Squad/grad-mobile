@@ -1,17 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { navigationPropType } from 'proptypes';
-import { LocalizationContext } from 'localization/LocalizationProvider';
 
 import { Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
+import ScreenNames from 'navigation/ScreenNames';
+import { useLocalization } from 'localization';
 
 const IMAGE_SOURCE = require('../../assets/images/ForgotPasswordDone.webp');
 
 const Done = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   return (
     <LoginBack>
@@ -23,7 +24,7 @@ const Done = ({ navigation }) => {
       </EduText>
       <WhiteButton
         text={t('Login/LOGIN')}
-        onPress={() => navigation.navigate('login')}
+        onPress={() => navigation.navigate(ScreenNames.LOGIN)}
       />
     </LoginBack>
   );

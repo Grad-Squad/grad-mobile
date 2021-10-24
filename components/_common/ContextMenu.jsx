@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { Menu, Divider } from 'react-native-paper';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization/LocalizationProvider';
 import { contextMenuItemsPropType } from 'proptypes';
 import { Icon } from './Icon';
 import EduText from './EduText';
 
 const ContextMenu = ({ visible, setVisible, anchor, items }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   return (
     <Menu visible={visible} onDismiss={() => setVisible(false)} anchor={anchor}>
       {items.map(({ titleKey, divider, key, onPress, iconName }) => {

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
@@ -9,7 +9,7 @@ import {
 } from 'common/Input/Button';
 import { Constants } from 'styles';
 import ResponsiveImage from 'common/ResponsiveImage';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import McqOption from './McqOption';
 import AnswerFeedbackText from './AnswerFeedbackText';
 
@@ -20,17 +20,19 @@ const McqQuestion = ({
   handleAnswer,
   handleAnswerShown,
   isAlreadyAnswered,
+  handleContinue,
 }) => {
-  const { title, options, answerIndices, imageURI } = question;
+  const { title, options, answerIndices, imageURI, chosenIndices } = question;
   const hasOneAnswer = answerIndices.length === 1;
   const [isQuestionAnswered, setIsQuestionAnswered] =
     useState(isAlreadyAnswered);
-  const [selectedIndices, setSelectedIndices] = useState([]);
-  const { t } = useContext(LocalizationContext);
+  const [selectedIndices, setSelectedIndices] = useState(chosenIndices);
+  const { t } = useLocalization();
+
 
   useEffect(() => {
     setIsQuestionAnswered(isAlreadyAnswered);
-    setSelectedIndices([]);
+    setSelectedIndices(chosenIndices);
   }, [questionIndex]);
 
   const onOptionPressed = (index) => {
@@ -48,29 +50,25 @@ const McqQuestion = ({
     }
   };
 
-  const onContinuePressed = () => {
-    if (selectedIndices.length === 0) {
-      handleAnswerShown();
-    } else {
-      let answeredCorrectly = true;
-      const sortedSelectedIndices = [...selectedIndices].sort();
-      const sortedCorrectIndices = [...answerIndices].sort();
-      if (sortedCorrectIndices.length === sortedSelectedIndices.length) {
-        for (let i = 0; i < sortedCorrectIndices.length; i += 1) {
-          if (sortedCorrectIndices[i] !== sortedSelectedIndices[i]) {
-            answeredCorrectly = false;
-          }
+  const onAnswerSubmitted = () => {
+    let answeredCorrectly = true;
+    const sortedSelectedIndices = [...selectedIndices].sort();
+    const sortedCorrectIndices = [...answerIndices].sort();
+    if (sortedCorrectIndices.length === sortedSelectedIndices.length) {
+      for (let i = 0; i < sortedCorrectIndices.length; i += 1) {
+        if (sortedCorrectIndices[i] !== sortedSelectedIndices[i]) {
+          answeredCorrectly = false;
         }
-      } else {
-        answeredCorrectly = false;
       }
-      handleAnswer(answeredCorrectly, false);
+    } else {
+      answeredCorrectly = false;
     }
+    handleAnswer(answeredCorrectly, sortedSelectedIndices);
   };
 
   const footer =
     isQuestionAnswered || isAlreadyAnswered ? (
-      <MainActionButton text={t('Mcq/Continue')} onPress={onContinuePressed} />
+      <MainActionButton text={t('Mcq/Continue')} onPress={handleContinue} />
     ) : (
       <View style={styles.row}>
         <TransparentButton
@@ -86,6 +84,7 @@ const McqQuestion = ({
             style={styles.take65Width}
             onPress={() => {
               setIsQuestionAnswered(true);
+              onAnswerSubmitted();
             }}
           />
         ) : (
@@ -94,6 +93,7 @@ const McqQuestion = ({
             style={styles.take65Width}
             onPress={() => {
               setIsQuestionAnswered(true);
+              handleAnswerShown();
             }}
           />
         )}
@@ -104,7 +104,8 @@ const McqQuestion = ({
     <View style={{ flex: 1 }}>
       {title && (
         <EduText style={styles.title}>
-          Q{questionIndex + 1}: {title}
+          {t('Mcq/Q')}
+          {questionIndex + 1}: {title}
         </EduText>
       )}
       {isQuestionAnswered && (
@@ -150,6 +151,7 @@ McqQuestion.propTypes = {
   handleSkip: PropTypes.func.isRequired,
   handleAnswer: PropTypes.func.isRequired,
   handleAnswerShown: PropTypes.func.isRequired,
+  handleContinue: PropTypes.func.isRequired,
   isAlreadyAnswered: PropTypes.bool,
 };
 McqQuestion.defaultProps = {

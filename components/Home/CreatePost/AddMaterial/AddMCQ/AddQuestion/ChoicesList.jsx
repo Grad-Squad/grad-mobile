@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { mcqChoicePropType } from 'proptypes';
 import EduText from 'common/EduText';
 import SubmittedChoice from './SubmittedChoice';
 
 const ChoicesList = ({ choices, setFormikChoiceField, onEditPress }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   return (
     choices.length !== 0 && (
       <>

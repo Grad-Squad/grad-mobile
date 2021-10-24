@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, StyleSheet, View } from 'react-native';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
@@ -23,8 +23,9 @@ const AddQuestion = ({
   contentStyle,
   questions,
   currentlyEditingQuestion,
+  setDirty,
 }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [image, setImage] = useState({});
   const currentQuestionFormik = useFormik({
     initialValues: {
@@ -79,7 +80,11 @@ const AddQuestion = ({
       currentChoice: yup
         .string()
         .trim()
-        .required(requiredError(t))
+        .test(
+          'required if no other choices exist',
+          requiredError(t),
+          (value) => value || currentQuestionFormik.values.choices.length > 0
+        )
         .test(
           'not already in choices',
           t('AddMaterial/MCQ/errors/(choice already exists)'),
@@ -105,6 +110,10 @@ const AddQuestion = ({
       currentChoiceFormik.resetForm();
     }
   }, [currentlyEditingQuestion]);
+
+  useEffect(() => {
+    setDirty(currentQuestionFormik.dirty || currentChoiceFormik.dirty);
+  }, [currentQuestionFormik.dirty, currentChoiceFormik.dirty, setDirty]);
 
   const canAddChoices =
     currentQuestionFormik.values.choices.length < MaxNumberOfChoices;
@@ -222,6 +231,7 @@ AddQuestion.propTypes = {
   questions: PropTypes.arrayOf(mcqQuestionPropType).isRequired,
   contentStyle: stylePropType,
   currentlyEditingQuestion: mcqQuestionPropType,
+  setDirty: PropTypes.func.isRequired,
 };
 AddQuestion.defaultProps = {
   contentStyle: {},

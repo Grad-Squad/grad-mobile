@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { emailRequired } from 'validation';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { TextInputFormik } from 'common/Input';
@@ -12,17 +12,18 @@ import { Typography } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 
 import EduText from 'common/EduText';
+import ScreenNames from 'navigation/ScreenNames';
 
 const EnterEmail = ({ navigation, route }) => {
-  const { t } = useContext(LocalizationContext);
-  const { existingEmail = '' } = route.params;
+  const { t } = useLocalization();
+  const { existingEmail = '' } = route?.params || {};
 
   const formik = useFormik({
     initialValues: {
       email: existingEmail,
     },
     onSubmit: ({ email }) => {
-      navigation.navigate('forgotPassword/checkEmail');
+      navigation.navigate(ScreenNames.ForgotPassword.CHECK_EMAIL);
     },
     validationSchema: yup.object().shape({
       email: emailRequired(t),

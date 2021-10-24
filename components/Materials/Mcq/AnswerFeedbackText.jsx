@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import EduText from 'components/_common/EduText';
 import { Colors, Constants } from 'styles';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import LetterFromIndex from '../_common/LetterFromIndex';
 
 const AnswerFeedbackText = ({ selectedIndices, answerIndices }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   return (
     <>

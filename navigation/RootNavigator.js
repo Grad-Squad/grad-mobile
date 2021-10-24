@@ -13,71 +13,117 @@ import AddVideo from 'components/Home/CreatePost/AddMaterial/AddVideo';
 import Login from 'components/Login/Login';
 import RegisterNavigation from 'components/Register/RegisterNavigation';
 import ForgotPasswordNavigator from 'components/ForgotPassword/ForgotPasswordNavigator';
-import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ/AddMCQ'
+import AddMCQ from 'components/Home/CreatePost/AddMaterial/AddMCQ/AddMCQ';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import localStorageKeys from 'localStorageKeys';
+import { Linking, Platform } from 'react-native';
+import LoadingIndicator from 'common/LoadingIndicator';
+import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 
 const screens = [
   {
-    name: 'dev',
+    name: ScreenNames.DEV,
     component: Dev,
   },
   {
-    name: 'home',
+    name: ScreenNames.HOME,
     component: HomeNavigation,
   },
   {
-    name: 'login',
+    name: ScreenNames.LOGIN,
     component: Login,
   },
   {
-    name: 'register',
+    name: ScreenNames.REGISTER,
     component: RegisterNavigation,
   },
   {
-    name: 'forgotPassword',
+    name: ScreenNames.FORGOT_PASSWORD,
     component: ForgotPasswordNavigator,
   },
   {
-    name: 'post',
+    name: ScreenNames.POST,
     component: ExpandedPost,
   },
   {
-    name: 'createPost',
+    name: ScreenNames.CREATE_POST,
     component: CreatePost,
   },
   {
-    name: 'solveMcq',
+    name: ScreenNames.SOLVE_MCQ,
     component: SolveMcq,
   },
   {
-    name: 'reviewMcq',
+    name: ScreenNames.REVIEW_MCQ,
     component: ReviewMcq,
   },
   {
-    name: 'addFlashcards',
+    name: ScreenNames.ADD_FLASHCARDS,
     component: AddFlashCards,
   },
   {
-    name: 'addMCQ',
+    name: ScreenNames.ADD_MCQ,
     component: AddMCQ,
   },
   {
-    name: 'addPDF',
+    name: ScreenNames.ADD_PDF,
     component: AddPDF,
   },
   {
-    name: 'addImages',
+    name: ScreenNames.ADD_IMAGES,
     component: AddImages,
   },
   {
-    name: 'addVideo',
+    name: ScreenNames.ADD_VIDEO,
     component: AddVideo,
   },
 ];
 
-const RootNavigator = () => (
-  <NavigationContainer>
-    <Navigator screens={screens} />
-  </NavigationContainer>
-);
+const RootNavigator = () => {
+  const [isReady, setIsReady] = React.useState(false);
+  const [initialState, setInitialState] = React.useState();
+
+  React.useEffect(() => {
+    const restoreState = async () => {
+      try {
+        const initialUrl = await Linking.getInitialURL();
+
+        if (Platform.OS !== 'web' && initialUrl == null) {
+          // Only restore state if there's no deep link and we're not on web
+          const savedStateString = await AsyncStorage.getItem(
+            localStorageKeys.nav_state
+          );
+          const state = savedStateString
+            ? JSON.parse(savedStateString)
+            : undefined;
+
+          if (state !== undefined) {
+            setInitialState(state);
+          }
+        }
+      } finally {
+        setIsReady(true);
+      }
+    };
+
+    if (!isReady) {
+      restoreState();
+    }
+  }, [isReady]);
+
+  if (!isReady) {
+    return <LoadingIndicator fullScreen size="large" />;
+  }
+  return (
+    <NavigationContainer
+      initialState={initialState}
+      onStateChange={(state) =>
+        AsyncStorage.setItem(localStorageKeys.nav_state, JSON.stringify(state))
+      }
+    >
+      <Navigator screens={screens} />
+    </NavigationContainer>
+  );
+};
 export default RootNavigator;

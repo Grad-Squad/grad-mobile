@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
@@ -6,9 +6,14 @@ import { ComboBox, TransparentTextInputFormik } from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
-import { useStore } from 'globalstore/GlobalStore';
+import { useStore } from 'globalStore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
+import ScreenNames from 'navigation/ScreenNames';
+import { useAPICreatePost } from 'api/endpoints/posts';
+import useOnGoBack from 'navigation/useOnGoBack';
+import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -27,9 +32,10 @@ const dropdownInitialItems = [
 ];
 
 const CreatePost = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
-  const [state] = useStore();
+  const [state, dispatch] = useStore();
+  const createPostMutation = useAPICreatePost();
 
   const formik = useFormik({
     initialValues: {
@@ -40,6 +46,22 @@ const CreatePost = ({ navigation }) => {
     },
     onSubmit: ({ title, subject, tags, materialList }) => {
       Alert.alert(`post: ${title}`);
+      createPostMutation.mutate({
+        title,
+        priceInCents: 0,
+        subject,
+        materials: materialList.map(({ questions, title }) => ({
+          materialType: 'mcq_collection',
+          title,
+          mcqs: questions.map(({ question, choices }) => ({
+            question,
+            answerIndices: choices
+              .map(({ isCorrect }, index) => (isCorrect ? index : -1))
+              .filter((i) => i !== -1),
+            choices: choices.map(({ text }) => text),
+          })),
+        })),
+      });
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -55,17 +77,33 @@ const CreatePost = ({ navigation }) => {
   });
 
   useEffect(() => {
-    if (state.createPost.materialList) {
+    if (state.createPost.materialList.length !== 0) {
       formik.setFieldValue('materialList', state.createPost.materialList);
     }
   }, [state.createPost.materialList]);
+
+  useOnGoBack(
+    (e) => {
+      if (!formik.dirty) { // todo sub screen edited ?
+        return;
+      }
+
+      e.preventDefault();
+
+      DiscardChangesAlert(t, () => navigation.dispatch(e.data.action));
+    },
+    [formik.dirty]
+  );
   return (
     <Page>
       <MaterialCreateHeader
         title={t('CreatePost/Create New Post')}
         rightButtonText={t('CreatePost/Post')}
         onPress={formik.handleSubmit}
-        onBackPress={() => navigation.goBack()}
+        onBackPress={() => {
+          dispatch({ type: ReducerActions.clearMaterialList });
+          navigation.goBack();
+        }}
       />
 
       <TransparentTextInputFormik
@@ -102,6 +140,7 @@ const CreatePost = ({ navigation }) => {
             type: 'MCQ',
             title,
             amount: questions.length,
+            onPress: () => navigation.navigate(ScreenNames.ADD_MCQ, { index }),
           })
         )}
         errorMsg={formik.touched.materialList && formik.errors.materialList}

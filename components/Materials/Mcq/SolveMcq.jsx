@@ -6,8 +6,12 @@ import { Alert, StyleSheet, View } from 'react-native';
 import { Constants, Colors } from 'styles';
 import { ProgressBar } from 'react-native-paper';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
-import { useStore } from 'globalstore/GlobalStore';
-import ReducerActions from 'globalstore/ReducerActions';
+import { useStore } from 'globalStore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
+import ScreenNames from 'navigation/ScreenNames';
+import useOnGoBack from 'navigation/useOnGoBack';
+import LoseProgressAlert from 'common/alerts/LoseProgressAlert';
+import { useLocalization } from 'localization';
 import NavMaterials from '../_common/NavMaterials';
 import McqQuestion from './McqQuestion';
 import QUESTIONS from './TEMP_DATA';
@@ -17,9 +21,11 @@ const initialQuestionState = {
   isSkipped: false,
   isAnswerShown: false,
   isAlreadyAnswered: false,
+  chosenIndices: [],
 };
 
 const SolveMcq = ({ navigation, route }) => {
+  const { t } = useLocalization();
   const { materialID } = route.params || {};
 
   const [state, dispatch] = useStore();
@@ -34,20 +40,34 @@ const SolveMcq = ({ navigation, route }) => {
 
   const [pageNum, setPageNum] = useState(0);
   const [hasFinished, setHasFinished] = useState(false);
+  const [dirty, setDirty] = useState(false);
 
   const decrementPage = () => setPageNum((prev) => Math.max(prev - 1, 0));
+  const setCurrentQuestionToSkipped = () => {
+    setQuestions((prev) => {
+      const newStoredAnswers = [...prev];
+      newStoredAnswers[pageNum] = {
+        ...newStoredAnswers[pageNum],
+        ...initialQuestionState,
+        isSkipped: true,
+      };
+      return newStoredAnswers;
+    });
+  };
   const incrementPage = () => {
-    // by default set skipped to true ?
+    const { isAlreadyAnswered, isAnswerShown } = questions[pageNum];
+    if (!(isAnswerShown || isAlreadyAnswered)) {
+      setCurrentQuestionToSkipped();
+    }
     setPageNum((prev) => Math.min(prev + 1, questions.length - 1));
     if (pageNum === questions.length - 1) {
       setHasFinished(true);
     }
   };
-
   useEffect(() => {
     if (hasFinished) {
       dispatch({ type: ReducerActions.setMCQQuestions, payload: questions });
-      navigation.navigate('reviewMcq');
+      navigation.replace(ScreenNames.REVIEW_MCQ);
     }
   }, [hasFinished]);
 
@@ -62,10 +82,10 @@ const SolveMcq = ({ navigation, route }) => {
       };
       return newStoredAnswers;
     });
-    incrementPage();
   };
 
-  const handleAnswer = (asnweredCorrectly) => {
+  const handleAnswer = (asnweredCorrectly, selectedIndices) => {
+    setDirty(true);
     setQuestions((prev) => {
       const newStoredAnswers = [...prev];
       newStoredAnswers[pageNum] = {
@@ -73,24 +93,28 @@ const SolveMcq = ({ navigation, route }) => {
         ...initialQuestionState,
         isCorrect: asnweredCorrectly,
         isAlreadyAnswered: true,
+        chosenIndices: selectedIndices,
       };
       return newStoredAnswers;
     });
-    incrementPage();
   };
 
   const handleSkip = () => {
-    setQuestions((prev) => {
-      const newStoredAnswers = [...prev];
-      newStoredAnswers[pageNum] = {
-        ...newStoredAnswers[pageNum],
-        ...initialQuestionState,
-        isSkipped: true,
-      };
-      return newStoredAnswers;
-    });
+    setCurrentQuestionToSkipped();
     incrementPage();
   };
+  useOnGoBack(
+    (e) => {
+      if (!dirty) {
+        return;
+      }
+
+      e.preventDefault();
+
+      LoseProgressAlert(t, () => navigation.dispatch(e.data.action));
+    },
+    [dirty]
+  );
 
   return (
     <Page>
@@ -107,7 +131,10 @@ const SolveMcq = ({ navigation, route }) => {
         ]}
       />
       <ProgressBar
-        progress={(pageNum + 1) / questions.length}
+        progress={
+          (pageNum + 1 * questions[pageNum].isAlreadyAnswered) /
+          questions.length
+        }
         color={Colors.accent}
       />
       <View style={styles.navMaterials}>
@@ -127,6 +154,7 @@ const SolveMcq = ({ navigation, route }) => {
         handleAnswerShown={handleAnswerShown}
         handleAnswer={handleAnswer}
         handleSkip={handleSkip}
+        handleContinue={incrementPage}
       />
     </Page>
   );

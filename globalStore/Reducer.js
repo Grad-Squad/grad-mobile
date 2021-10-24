@@ -18,6 +18,20 @@ const Reducer = (state, action) => {
           mcqQuestions: action.payload,
         },
       };
+    case ReducerActions.clearMaterialList:
+      return {
+        ...state,
+        createPost: {
+          ...state.createPost,
+          materialList: [],
+        },
+      };
+    case ReducerActions.editMCQ: {
+      const newState = { ...state }; // new object to trigger state update
+      newState.createPost.materialList[action.payload.index] =
+        action.payload.mcq;
+      return newState;
+    }
     default:
       return state;
   }

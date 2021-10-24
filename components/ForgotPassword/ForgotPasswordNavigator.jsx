@@ -6,30 +6,31 @@ import SixDigit from './SixDigit/SixDigit';
 import SixDigitFailed from './SixDigitFailed';
 import NewPassword from './NewPassword';
 import Done from './Done';
+import ScreenNames from 'navigation/ScreenNames';
 
 const screens = [
   {
-    name: 'forgotPassword/enterEmail',
+    name: ScreenNames.ForgotPassword.ENTER_EMAIL,
     component: EnterEmail,
   },
   {
-    name: 'forgotPassword/checkEmail',
+    name: ScreenNames.ForgotPassword.CHECK_EMAIL,
     component: CheckEmail,
   },
   {
-    name: 'forgotPassword/sixDigit',
+    name: ScreenNames.ForgotPassword.SIX_DIGIT,
     component: SixDigit,
   },
   {
-    name: 'forgotPassword/sixDigitFailed',
+    name: ScreenNames.ForgotPassword.SIX_DIGIT_FAILED,
     component: SixDigitFailed,
   },
   {
-    name: 'forgotPassword/newPassword',
+    name: ScreenNames.ForgotPassword.NEW_PASSWORD,
     component: NewPassword,
   },
   {
-    name: 'forgotPassword/done',
+    name: ScreenNames.ForgotPassword.DONE,
     component: Done,
   },
 ];

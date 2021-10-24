@@ -1,17 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 
-import { LocalizationContext } from 'localization/LocalizationProvider';
 import { navigationPropType } from 'proptypes';
 import { Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
+import ScreenNames from 'navigation/ScreenNames';
+import { useLocalization } from 'localization';
 
 const IMAGE_SOURCE = require('../../assets/images/CheckEmail.webp');
 
 const CheckEmail = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
 
   return (
     <LoginBack bodyStyle={styles.back}>
@@ -24,7 +25,9 @@ const CheckEmail = ({ navigation }) => {
       </EduText>
       <WhiteButton
         text={t('ForgotPassword/OK')}
-        onPress={() => navigation.navigate('forgotPassword/sixDigit')}
+        onPress={() =>
+          navigation.navigate(ScreenNames.ForgotPassword.SIX_DIGIT)
+        }
         style={styles.gap}
       />
     </LoginBack>

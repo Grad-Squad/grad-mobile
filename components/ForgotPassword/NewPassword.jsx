@@ -1,8 +1,8 @@
 import { useFormik } from 'formik';
-import React, { useContext, useState } from 'react';
+import React, {  useState } from 'react';
 import * as yup from 'yup';
 import { StyleSheet } from 'react-native';
-import { LocalizationContext } from 'localization';
+import { useLocalization } from 'localization';
 import { passwordRequired } from 'validation';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { TextInputFormik } from 'common/Input';
@@ -10,9 +10,10 @@ import { navigationPropType } from 'proptypes';
 import { Colors, Typography } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
+import ScreenNames from 'navigation/ScreenNames';
 
 const NewPassword = ({ navigation }) => {
-  const { t } = useContext(LocalizationContext);
+  const { t } = useLocalization();
   const [samePasswordError, setSamePasswordError] = useState(false);
 
   const formik = useFormik({
@@ -20,7 +21,7 @@ const NewPassword = ({ navigation }) => {
       password: '',
     },
     onSubmit: ({ password: newPassword }) => {
-      navigation.navigate('forgotPassword/done');
+      navigation.navigate(ScreenNames.ForgotPassword.DONE);
     },
     validationSchema: yup.object().shape({
       password: passwordRequired(t),

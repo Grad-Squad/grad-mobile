@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Alert, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { PressableIcon } from './Icon';
+import { IconNames } from './Icon/Icon';
 
 const ImageSelector = ({ setImage, ...props }) => {
   useEffect(() => {
@@ -37,7 +38,7 @@ const ImageSelector = ({ setImage, ...props }) => {
   };
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <PressableIcon onPress={pickImage} name="AddImage" size={30} {...props} />
+    <PressableIcon onPress={pickImage} name={IconNames.AddImage} size={30} {...props} />
   );
 };
 

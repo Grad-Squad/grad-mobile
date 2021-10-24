@@ -5,6 +5,7 @@ import { Icon, MaterialTypeIconsMap, PressableIcon } from 'common/Icon';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import ContextMenu from 'common/ContextMenu';
+import { IconNames } from 'common/Icon/Icon';
 
 const SubmittedQuestion = ({ question, numOfMCQ, onEdit, onDelete }) => {
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
@@ -13,13 +14,13 @@ const SubmittedQuestion = ({ question, numOfMCQ, onEdit, onDelete }) => {
     {
       titleKey: 'ContextMenu/Edit',
       onPress: onEdit,
-      iconName: 'edit-2',
+      iconName: IconNames.edit,
     },
     { divider: true, key: 'divider' },
     {
       titleKey: 'ContextMenu/Delete',
       onPress: onDelete,
-      iconName: 'delete-outline',
+      iconName: IconNames.delete,
     },
   ];
   return (
@@ -37,7 +38,7 @@ const SubmittedQuestion = ({ question, numOfMCQ, onEdit, onDelete }) => {
             anchor={
               <PressableIcon
                 onPress={() => setContextMenuVisible(true)}
-                name="dots-horizontal"
+                name={IconNames.dotsHorizontal}
               />
             }
             items={contextMenuItems}

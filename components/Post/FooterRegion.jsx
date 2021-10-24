@@ -50,7 +50,6 @@ FooterRegion.propTypes = {
     id: PropTypes.number.isRequired,
     upvotes: PropTypes.number.isRequired,
     downvotes: PropTypes.number.isRequired,
-    currentUserStatus: PropTypes.string.isRequired,
   }).isRequired,
   commentCount: PropTypes.number,
   isPost: PropTypes.bool,

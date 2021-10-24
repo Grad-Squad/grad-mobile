@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
-import { navigationPropType } from 'proptypes';
+import { navigationPropType, routeParamPropType } from 'proptypes';
 import { ComboBox, TransparentTextInputFormik } from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -11,9 +11,15 @@ import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { useStore } from 'globalStore/GlobalStore';
 import ReducerActions from 'globalStore/ReducerActions';
 import ScreenNames from 'navigation/ScreenNames';
-import { useAPICreatePost } from 'api/endpoints/posts';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
+import {
+  useAPICreatePost,
+  useAPIGetPostById,
+  useAPIUpdatePost,
+} from 'api/endpoints/posts';
+import PropTypes from 'prop-types';
+import LoadingIndicator from 'common/LoadingIndicator';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -29,13 +35,49 @@ const dropdownInitialItems = [
   { label: 'Banana15', value: 'banana16' },
   { label: 'Banana17', value: 'banana18' },
   { label: 'Banana19', value: 'banana20' },
+  { label: 'math d2', value: 'math d2' },
 ];
 
-const CreatePost = ({ navigation }) => {
+const CreatePost = ({ navigation, route }) => {
   const { t } = useLocalization();
 
   const [state, dispatch] = useStore();
+  const { postId = undefined } = route?.params || {};
+
+  const {
+    data: fetchedPostData,
+    isFetching: isFetchingPostForEdit,
+    refetch: refetchPost,
+  } = useAPIGetPostById(postId, {
+    onError: (error) => {
+      console.log(error);
+    },
+    onSuccess: (data) => {
+      // todo: tags
+      const { title, subject, materials } = data;
+      formik.setFieldValue('title', title);
+      formik.setFieldValue('subject', subject);
+
+      const mcqs = materials.map((collection) => ({
+        questions: collection.mcqs.map(
+          ({ question, choices, answerIndices }) => ({
+            choices: choices.map((choice, index) => ({
+              text: choice,
+              isCorrect: answerIndices.indexOf(index) !== -1,
+            })),
+            question,
+          })
+        ),
+        title: collection.title,
+      }));
+      dispatch({ type: ReducerActions.setMCQs, payload: mcqs });
+    },
+  });
+
   const createPostMutation = useAPICreatePost();
+  const updatePostMutation = useAPIUpdatePost(postId, {
+    onSubmit: () => refetchPost(),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -46,13 +88,32 @@ const CreatePost = ({ navigation }) => {
     },
     onSubmit: ({ title, subject, tags, materialList }) => {
       Alert.alert(`post: ${title}`);
+      const post = {
+        ...fetchedPostData,
+        priceInCents: 0,
+        subject,
+        materials: materialList.map(({ questions, title: materialTitle }) => ({
+          materialType: 'mcq',
+          title: materialTitle,
+          mcqs: questions.map(({ question, choices }) => ({
+            question,
+            answerIndices: choices
+              .map(({ isCorrect }, index) => (isCorrect ? index : -1))
+              .filter((i) => i !== -1),
+            choices: choices.map(({ text }) => text),
+          })),
+        })),
+      };
+      if (postId) {
+        updatePostMutation.mutate(post);
+      }
       createPostMutation.mutate({
         title,
         priceInCents: 0,
         subject,
-        materials: materialList.map(({ questions, title }) => ({
-          materialType: 'mcq_collection',
-          title,
+        materials: materialList.map(({ questions, title: materialTitle }) => ({
+          materialType: 'mcq',
+          title: materialTitle,
           mcqs: questions.map(({ question, choices }) => ({
             question,
             answerIndices: choices
@@ -80,24 +141,31 @@ const CreatePost = ({ navigation }) => {
     if (state.createPost.materialList.length !== 0) {
       formik.setFieldValue('materialList', state.createPost.materialList);
     }
-  }, [state.createPost.materialList]);
+  }, [state.createPost.materialList, formik]);
 
   useOnGoBack(
     (e) => {
-      if (!formik.dirty) { // todo sub screen edited ?
+      if (!formik.dirty) {
+        // todo sub screen edited ?
         return;
       }
 
       e.preventDefault();
 
-      DiscardChangesAlert(t, () => navigation.dispatch(e.data.action));
+      DiscardChangesAlert(t, () => {
+        navigation.dispatch(e.data.action);
+        dispatch({ type: ReducerActions.clearMaterialList });
+      });
     },
     [formik.dirty]
   );
+
   return (
     <Page>
       <MaterialCreateHeader
-        title={t('CreatePost/Create New Post')}
+        title={
+          postId ? t('CreatePost/Edit Post') : t('CreatePost/Create New Post')
+        }
         rightButtonText={t('CreatePost/Post')}
         onPress={formik.handleSubmit}
         onBackPress={() => {
@@ -145,13 +213,25 @@ const CreatePost = ({ navigation }) => {
         )}
         errorMsg={formik.touched.materialList && formik.errors.materialList}
       />
+      {postId && isFetchingPostForEdit && <LoadingIndicator size="large" />}
       <AddMaterialList navigation={navigation} />
     </Page>
   );
 };
 
-CreatePost.propTypes = { navigation: navigationPropType.isRequired };
-CreatePost.defaultProps = {};
+CreatePost.propTypes = {
+  navigation: navigationPropType.isRequired,
+  route: routeParamPropType(
+    PropTypes.shape({ postId: PropTypes.number.isRequired })
+  ),
+};
+CreatePost.defaultProps = {
+  route: {
+    params: {
+      postId: undefined,
+    },
+  },
+};
 
 export default CreatePost;
 

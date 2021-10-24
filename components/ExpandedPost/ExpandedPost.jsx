@@ -13,7 +13,8 @@ import NewComment from './NewComment';
 
 const statusBarPadding = StatusBar.currentHeight || 0;
 
-const postData = { // todo remove hardcoded data
+const postData = {
+  // todo remove hardcoded data
   id: 4,
   title: 'KMS',
   priceInCents: 10,
@@ -38,7 +39,7 @@ function ExpandedPost() {
   const [commentList, setCommentList] = useState([]);
 
   const { title, subject, author, rating, priceInCents, createdAt, id } =
-  postData;
+    postData;
 
   const getCommentsMutation = useAPIGetComments({
     onError: () => {
@@ -78,7 +79,13 @@ function ExpandedPost() {
           courseName={subject}
         />
         <View style={styles.footerContainer}>
-          <FooterRegion rating={rating} commentCount={priceInCents} isPost />
+          <FooterRegion
+            rating={rating}
+            commentCount={priceInCents}
+            isPost
+            onEdit={() => {}}
+            contentProfileId={-1}
+          />
         </View>
 
         <CommentList commentsData={commentsData}/>
@@ -89,7 +96,10 @@ function ExpandedPost() {
           contentContainerStyle={styles.modalWrapper}
           style={styles.modal}
         >
-          <NewComment profileImageURI={author.profilePicture} onSubmitHandleFunction={onSubmitHandle}/>
+          <NewComment
+            profileImageURI={author.profilePicture}
+            onSubmitHandleFunction={onSubmitHandle}
+          />
         </Modal>
       </Portal>
     </Page>
@@ -98,8 +108,7 @@ function ExpandedPost() {
 
 export default ExpandedPost;
 
-ExpandedPost.propTypes = {
-};
+ExpandedPost.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {

@@ -1,13 +1,12 @@
 import { WhiteButton } from 'common/Input/Button';
 import { useLocalization } from 'localization';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Styles } from 'styles';
-import Facebook from './Facebook/Facebook';
-import Google from './Google/Google';
 import * as FacebookSdk from 'expo-facebook';
 import * as GoogleSignIn from 'expo-google-sign-in';
-import { useState } from 'react';
+import Google from './Google/Google';
+import Facebook from './Facebook/Facebook';
 
 const SignInWith = ({ disabled }) => {
   const { t } = useLocalization();
@@ -40,13 +39,14 @@ const SignInWith = ({ disabled }) => {
   const loginWithFacebook = async () => {
     try {
       await FacebookSdk.initializeAsync({
-        appId: '129025926078511',
+        appId: '302939171663614',
       });
       const { type, token, expirationDate, permissions, declinedPermissions } =
         await FacebookSdk.logInWithReadPermissionsAsync({
           permissions: ['public_profile', 'email'],
           behavior: 'native',
         });
+      console.log('token');
       if (type === 'success') {
         console.log(token);
         // Get the user's name using Facebook's Graph API

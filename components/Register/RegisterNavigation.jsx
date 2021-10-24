@@ -7,6 +7,8 @@ import { useLocalization } from 'localization';
 import { useAPIUpdateProfile } from 'api/endpoints/auth';
 import { navigationPropType } from 'proptypes';
 import ScreenNames from 'navigation/ScreenNames';
+import { useStore } from 'globalStore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
 import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
 import RollSelection from './RollSelection/RollSelection';
@@ -31,13 +33,20 @@ const RegisterNavigation = ({ navigation }) => {
   const { t } = useLocalization();
   // const { headers } = useContext(AuthContext);
   const [profileId, setProfileId] = useState();
+  const [, dispatch] = useStore();
 
   const updateProfileMutation = useAPIUpdateProfile({
-    onSuccess: () =>
+    onSuccess: (data) => {
       navigation.reset({
         index: 0,
         routes: [{ name: ScreenNames.HOME }],
-      }),
+      });
+
+      dispatch({
+        type: ReducerActions.setProfileId,
+        payload: profileId || data.id,
+      });
+    },
   });
 
   const formik = useFormik({

@@ -26,7 +26,13 @@ const styles = StyleSheet.create({
   },
 });
 
-function FooterRegion({ rating, commentCount, isPost }) {
+function FooterRegion({
+  rating,
+  commentCount,
+  isPost,
+  onEdit,
+  contentProfileId,
+}) {
   const { upvotes = 0, downvotes = 0, entityId, id } = rating;
   const voteCount = upvotes - downvotes;
 
@@ -37,7 +43,7 @@ function FooterRegion({ rating, commentCount, isPost }) {
       <CommentVotes voteCount={voteCount} commentId={entityId} id={id}/>)}
       {isPost && <CommentButton count={commentCount} />}
       {isPost && <Bookmark />}
-      <Options />
+      <Options onEdit={onEdit} contentProfileId={contentProfileId} />
     </View>
   );
 }
@@ -50,9 +56,12 @@ FooterRegion.propTypes = {
     id: PropTypes.number.isRequired,
     upvotes: PropTypes.number.isRequired,
     downvotes: PropTypes.number.isRequired,
+    currentUserStatus: PropTypes.string.isRequired,
   }).isRequired,
   commentCount: PropTypes.number,
   isPost: PropTypes.bool,
+  onEdit: PropTypes.func.isRequired,
+  contentProfileId: PropTypes.number.isRequired,
 };
 
 FooterRegion.defaultProps = {

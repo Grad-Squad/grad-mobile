@@ -11,16 +11,24 @@ import { navigationPropType } from 'proptypes';
 import { Colors } from 'styles';
 import { useAPILogin } from 'api/endpoints/auth';
 import ScreenNames from 'navigation/ScreenNames';
+import { useStore } from 'globalStore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
 import SignInWith from './SignInWith/SignInWith';
 
 const Login = ({ navigation }) => {
   const { t } = useLocalization();
+  const [, dispatch] = useStore();
 
   const loginMutation = useAPILogin({
-    onSuccess: () => {
+    onSuccess: (data) => {
       navigation.reset({
         index: 0,
         routes: [{ name: ScreenNames.HOME }],
+      });
+
+      dispatch({
+        type: ReducerActions.setProfileId,
+        payload: data.user.profile.id,
       });
     },
   });

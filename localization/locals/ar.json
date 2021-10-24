@@ -76,6 +76,7 @@
   },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",
+    "Edit Post": "تعديل منشور",
     "Post": "نشر",
     "Title": "عنوان",
     "SubjectCourse": "مادة/دورة",

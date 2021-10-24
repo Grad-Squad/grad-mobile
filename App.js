@@ -39,20 +39,20 @@ export default function App() {
 
   return (
     <LocalizationProvider>
-      <PaperProvider theme={theme}>
-        <ErrorSnackbarProvider>
-          <AxiosProvider>
-            <ReactQueryClient>
-              <SafeAreaProvider>
-                <StatusBar />
-                <GlobalStore>
+      <GlobalStore>
+        <PaperProvider theme={theme}>
+          <ErrorSnackbarProvider>
+            <AxiosProvider>
+              <ReactQueryClient>
+                <SafeAreaProvider>
+                  <StatusBar />
                   <RootNavigator />
-                </GlobalStore>
-              </SafeAreaProvider>
-            </ReactQueryClient>
-          </AxiosProvider>
-        </ErrorSnackbarProvider>
-      </PaperProvider>
+                </SafeAreaProvider>
+              </ReactQueryClient>
+            </AxiosProvider>
+          </ErrorSnackbarProvider>
+        </PaperProvider>
+      </GlobalStore>
     </LocalizationProvider>
   );
 }

@@ -1,12 +1,12 @@
+import PropTypes from 'prop-types';
 import { WhiteButton } from 'common/Input/Button';
 import { useLocalization } from 'localization';
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Styles } from 'styles';
-import * as FacebookSdk from 'expo-facebook';
 import * as GoogleSignIn from 'expo-google-sign-in';
+import SignInWithFacebook from './Facebook/SignInWithFacebook';
 import Google from './Google/Google';
-import Facebook from './Facebook/Facebook';
 
 const SignInWith = ({ disabled }) => {
   const { t } = useLocalization();
@@ -36,35 +36,6 @@ const SignInWith = ({ disabled }) => {
     initAsync();
   }, []);
 
-  const loginWithFacebook = async () => {
-    try {
-      await FacebookSdk.initializeAsync({
-        appId: '302939171663614',
-      });
-      const { type, token, expirationDate, permissions, declinedPermissions } =
-        await FacebookSdk.logInWithReadPermissionsAsync({
-          permissions: ['public_profile', 'email'],
-          behavior: 'native',
-        });
-      console.log('token');
-      if (type === 'success') {
-        console.log(token);
-        // Get the user's name using Facebook's Graph API
-        const response = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}`
-        );
-        const parsed = await response.json();
-        Alert.alert('Logged in!', `Hi ${parsed.name}!`);
-        console.log(`Hi ${JSON.stringify(parsed)}!`);
-      } else {
-        console.log(type);
-        // type === 'cancel'
-      }
-    } catch (x) {
-      alert(`Facebook Login Error: ${x}`);
-    }
-  };
-
   return (
     <View style={[Styles.cardFooter, styles.background]}>
       <WhiteButton
@@ -75,13 +46,7 @@ const SignInWith = ({ disabled }) => {
         smallButton
         disabled={disabled}
       />
-      <WhiteButton
-        text={t('Login/Sign In With Facebook')}
-        onPress={loginWithFacebook}
-        leftIcon={<Facebook />}
-        smallButton
-        disabled={disabled}
-      />
+      <SignInWithFacebook disabled={disabled} />
     </View>
   );
 };
@@ -100,3 +65,8 @@ const styles = StyleSheet.create({
   },
   firstButtonGap: { marginBottom: 10 },
 });
+
+SignInWith.propTypes = {
+  disabled: PropTypes.bool.isRequired,
+};
+SignInWith.defaultProps = {};

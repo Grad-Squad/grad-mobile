@@ -3,8 +3,18 @@ import { useMutation } from 'react-query';
 import { formatString } from 'utility';
 import endpoints from './endpoints';
 
+const onSuccessUpdateTokens = (mutationConfig) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { updateAccessToken, updateRefreshToken } = useAxios();
+  return (data, variables, context) => {
+    mutationConfig.onSuccess?.(data, variables, context);
+    updateAccessToken(data?.payload?.token);
+    updateRefreshToken(data?.payload?.refresh_token);
+  };
+};
+
 export const useAPILogin = (mutationConfig) => {
-  const { axios, updateAccessToken, updateRefreshToken } = useAxios();
+  const { axios } = useAxios();
 
   return useMutation(
     async ({ email, password }) => {
@@ -18,13 +28,24 @@ export const useAPILogin = (mutationConfig) => {
       return data;
     },
     {
-      // ...mutationConfig,
-      onSuccess: (data, variables, context) => {
-        // todo el one line elli ta7t da sus
-        mutationConfig.onSuccess?.(data, variables, context);
-        updateAccessToken(data?.payload?.token);
-        updateRefreshToken(data?.payload?.refresh_token);
-      },
+      onSuccess: onSuccessUpdateTokens(mutationConfig),
+    }
+  );
+};
+
+export const useAPIfacebookLogin = (mutationConfig) => {
+  const { axios } = useAxios();
+
+  return useMutation(
+    async ({ accessToken }) => {
+      const {
+        data: { data },
+      } = await axios.get(`${endpoints.auth.facebookLogin}/${accessToken}`);
+
+      return data;
+    },
+    {
+      onSuccess: onSuccessUpdateTokens(mutationConfig),
     }
   );
 };

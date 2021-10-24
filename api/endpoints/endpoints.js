@@ -3,6 +3,7 @@ export default Object.freeze({
     login: '/auth/login',
     register: '/auth/register',
     refresh: '/auth/refresh',
+    facebookLogin: '/auth/facebook',
   },
   profile: {
     update: '/profiles/{0}',

@@ -19,4 +19,10 @@ export default Object.freeze({
   comments: {
     ratings: '/comments/{0}/ratings/{1}',
   },
+  s3: {
+    getOneUploadLink: '/s3/upload',
+    getManyUploadLinks: '/s3/upload?numberOfLinks={0}',
+    uploadFile: 'https://s3.eu-central-1.amazonaws.com/educate-awesome-test',
+    getFileUri: '/s3/get/{0}',
+  },
 });

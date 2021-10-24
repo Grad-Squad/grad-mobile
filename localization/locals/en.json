@@ -222,7 +222,7 @@
   "Alerts":{
     "Discard?": {
       "title": "Discard?",
-      "message": "You have unsaved changes. Are you sure to discard them and leave the screen?",
+      "message": "You have unsaved changes. Are you sure you to discard them and leave the screen?",
       "confirm button": "Discard",
       "reject button": "Don't leave"
     },

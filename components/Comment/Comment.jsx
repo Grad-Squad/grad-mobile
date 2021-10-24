@@ -50,6 +50,8 @@ function Comment({
             currentUserStatus: 'sad',
           }}
           style={styles.footer}
+          onEdit={() => {}}
+          contentProfileId={-1}
         />
       </View>
     </View>

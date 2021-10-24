@@ -1,11 +1,9 @@
-import React from 'react';
-import { useState } from 'react';
-import { useRef } from 'react';
-import { Button } from 'react-native';
-import { Alert } from 'react-native';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 import { Icon } from 'react-native-elements';
+import { useStore } from 'globalStore/GlobalStore';
 import { HIT_SLOP_OBJECT } from '../../../constants';
 import ContextMenu from '../../_common/ContextMenu';
 import { IconNames } from '../../_common/Icon/Icon';
@@ -20,23 +18,29 @@ const styles = StyleSheet.create({
   },
 });
 
-function Options() {
+function Options({ onEdit, contentProfileId }) {
   const anchorButton = useRef(null);
   const [visible, setVisible] = useState(false);
   const optionHandler = () => {
     setVisible((prev) => !prev);
   };
 
-  const items = [
+  const [store] = useStore();
+
+  const isAuthor = store.profileId === contentProfileId;
+  const authorItems = [
     {
       titleKey: 'ContextMenu/Edit',
-      onPress: () => Alert.alert('WIP'),
+      onPress: onEdit,
       iconName: IconNames.edit,
     },
     {
       divider: true,
       key: 'divider1',
     },
+  ];
+
+  const items = [
     {
       titleKey: 'ContextMenu/Share',
       onPress: () => Alert.alert('WIP'),
@@ -52,6 +56,9 @@ function Options() {
       iconName: IconNames.report,
     },
   ];
+  if (isAuthor) {
+    items.unshift(...authorItems);
+  }
 
   return (
     <View style={styles.OptionsContainer}>
@@ -69,9 +76,15 @@ function Options() {
           </TouchableOpacity>
         }
         items={items}
-      ></ContextMenu>
+      />
     </View>
   );
 }
+
+Options.propTypes = {
+  onEdit: PropTypes.func.isRequired,
+  contentProfileId: PropTypes.number.isRequired,
+};
+Options.defaultProps = {};
 
 export default Options;

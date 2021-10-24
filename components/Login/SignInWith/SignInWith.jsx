@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { WhiteButton } from 'common/Input/Button';
 import { useLocalization } from 'localization';
 import React, { useEffect, useState } from 'react';
@@ -100,3 +101,8 @@ const styles = StyleSheet.create({
   },
   firstButtonGap: { marginBottom: 10 },
 });
+
+SignInWith.propTypes = {
+  disabled: PropTypes.bool.isRequired,
+};
+SignInWith.defaultProps = {};

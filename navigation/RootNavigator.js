@@ -113,7 +113,7 @@ const RootNavigator = () => {
   }, [isReady]);
 
   if (!isReady) {
-    return <LoadingIndicator fullScreen />;
+    return <LoadingIndicator fullScreen size="large" />;
   }
   return (
     <NavigationContainer

@@ -4,18 +4,11 @@ import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Styles } from '../../styles';
-import Votes from '../Votes/Votes';
+import PostVotes from '../Votes/PostVotes';
+import CommentVotes from '../Votes/CommentVotes';
 import Options from './Options/Options';
 import CommentButton from '../Comment/CommentButton';
 import Bookmark from './Bookmark/Bookmark';
-import {
-  downvoteComment,
-  downvotePost,
-  unvoteComment,
-  unvotePost,
-  upvoteComment,
-  upvotePost,
-} from '../../api/ratings';
 
 const styles = StyleSheet.create({
   outerContainer: {
@@ -43,24 +36,11 @@ function FooterRegion({
   const { upvotes = 0, downvotes = 0, entityId, id } = rating;
   const voteCount = upvotes - downvotes;
 
-  let votingFunctions;
-  if (isPost) {
-    votingFunctions = {
-      upvoteFunction: () => upvotePost(entityId, id),
-      downvoteFunction: () => downvotePost(entityId, id),
-      unvoteFunction: () => unvotePost(entityId, id),
-    };
-  } else {
-    votingFunctions = {
-      upvoteFunction: () => upvoteComment(entityId, id),
-      downvoteFunction: () => downvoteComment(entityId, id),
-      unvoteFunction: () => unvoteComment(entityId, id),
-    };
-  }
-
   return (
     <View style={styles.outerContainer}>
-      <Votes voteCount={voteCount} votingFunctions={votingFunctions} />
+      {isPost ?
+      (<PostVotes voteCount={voteCount} postId={entityId} id={id} />):(
+      <CommentVotes voteCount={voteCount} commentId={entityId} id={id}/>)}
       {isPost && <CommentButton count={commentCount} />}
       {isPost && <Bookmark />}
       <Options onEdit={onEdit} contentProfileId={contentProfileId} />

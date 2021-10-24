@@ -223,7 +223,7 @@
   "Alerts":{
     "Discard?": {
       "title": "Discard?",
-      "message": "You have unsaved changes. Are you sure to discard them and leave the screen?",
+      "message": "You have unsaved changes. Are you sure you to discard them and leave the screen?",
       "confirm button": "Discard",
       "reject button": "Don't leave"
     },
@@ -239,5 +239,10 @@
       "confirm button": "finish",
       "reject button": "stay"
     }
+  },
+  "WIP": {
+    "WIP": "WIP",
+    "We are currently working on this feature. It will be available as soon as possible.": "We are currently working on this feature. It will be available as soon as possible.",
+    "Go back": "Go back"
   }
 }

@@ -60,7 +60,6 @@ const AxiosProvider = ({ children }) => {
   const [unauthorizedRedirect, setUnauthorizedRedirect] = useState(undefined);
 
   const { showErrorSnackbar } = useErrorSnackbar();
-
   const axios = useMemo(() => {
     console.log(API_URL);
     const newAxios = Axios.create({

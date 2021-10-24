@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, StatusBar, Alert } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
 import { Constants } from 'styles';
-import { useAPIAddComment } from 'api/endpoints/posts';
+import { useAPIAddComment, useAPIGetComments } from 'api/endpoints/posts';
 
 import Page from '../_common/Page/Page';
 import TitleRegion from './TitleRegion';
@@ -20,7 +20,7 @@ const postData = {
   priceInCents: 10,
   subject: 'advanced nothing',
   rating: {
-    id: 0,
+    id: 4,
     entityId: 0,
     upvotes: 100,
     downvotes: 50,
@@ -36,21 +36,32 @@ const postData = {
 
 function ExpandedPost() {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [commentList, setCommentList] = useState([]);
 
   const { title, subject, author, rating, priceInCents, createdAt, id } =
     postData;
 
-  const commentMutation = useAPIAddComment({
+  const getCommentsMutation = useAPIGetComments({
+    onError: () => {
+      Alert.alert('Cannot fetch comments')
+    },
+  })
+
+  useEffect(() => {
+    getCommentsMutation.mutate(id)
+  }, [])
+
+  const addCommentMutation = useAPIAddComment({
     onSuccess: () => {
-      Alert.alert('success'); // TODO show new comments list
+      Alert.alert('added new comment') // TODO show new comments list
     },
   });
 
-  const onSubmitHandle = (content) => {
-    commentMutation.mutate({ postID: postData.id, content });
-  };
-  if (commentMutation.error) {
-    // console.log("🚀 ~ file: ExpandedPost.jsx ~ line 53 ~ ExpandedPost ~ commentMutation.error.response", commentMutation.error.response)
+  const onSubmitHandle = (content) =>{
+    addCommentMutation.mutate({ postID:id,content });
+  }
+  if(addCommentMutation.error){
+    console.log("🚀 ~ file: ExpandedPost.jsx ~ line 53 ~ ExpandedPost ~ commentMutation.error.response", addCommentMutation.error.response) // TODO error message
   }
 
   return (
@@ -77,12 +88,8 @@ function ExpandedPost() {
           />
         </View>
 
-        <CommentList />
-        <AddCommentButton
-          postID={id}
-          onPressHandler={() => setIsModalVisible(true)}
-          disabled={commentMutation.isLoading}
-        />
+        <CommentList commentsData={commentsData}/>
+        <AddCommentButton postID={id} onPressHandler={() => setIsModalVisible(true)} disabled={addCommentMutation.isLoading} />
         <Modal
           visible={isModalVisible}
           onDismiss={() => setIsModalVisible(false)}

@@ -3,4 +3,5 @@ export default Object.freeze({
   access_token: 'access_token',
   refresh_token: 'refresh_token',
   profileId: 'profileId',
+  nav_state: "nav_state",
 });

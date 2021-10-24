@@ -76,6 +76,7 @@
   },
   "CreatePost": {
     "Create New Post": "Create New Post",
+    "Edit Post": "Edit Post",
     "Post": "Post",
     "Title": "Title",
     "SubjectCourse": "Subject/Course",

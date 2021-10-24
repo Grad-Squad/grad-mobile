@@ -13,14 +13,15 @@ import NewComment from './NewComment';
 
 const statusBarPadding = StatusBar.currentHeight || 0;
 
-const postData = { // todo remove hardcoded data
+const postData = {
+  // todo remove hardcoded data
   id: 4,
   title: 'KMS',
   priceInCents: 10,
   subject: 'advanced nothing',
   rating: {
     id: 0,
-    entityId:0,
+    entityId: 0,
     upvotes: 100,
     downvotes: 50,
     currentUserStatus: 'sad',
@@ -37,18 +38,18 @@ function ExpandedPost() {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const { title, subject, author, rating, priceInCents, createdAt, id } =
-  postData;
+    postData;
 
   const commentMutation = useAPIAddComment({
     onSuccess: () => {
-      Alert.alert('success') // TODO show new comments list
+      Alert.alert('success'); // TODO show new comments list
     },
   });
 
-  const onSubmitHandle = (content) =>{
-    commentMutation.mutate({ postID:postData.id,content });
-  }
-  if(commentMutation.error){
+  const onSubmitHandle = (content) => {
+    commentMutation.mutate({ postID: postData.id, content });
+  };
+  if (commentMutation.error) {
     // console.log("🚀 ~ file: ExpandedPost.jsx ~ line 53 ~ ExpandedPost ~ commentMutation.error.response", commentMutation.error.response)
   }
 
@@ -67,18 +68,31 @@ function ExpandedPost() {
           courseName={subject}
         />
         <View style={styles.footerContainer}>
-          <FooterRegion rating={rating} commentCount={priceInCents} isPost />
+          <FooterRegion
+            rating={rating}
+            commentCount={priceInCents}
+            isPost
+            onEdit={() => {}}
+            contentProfileId={-1}
+          />
         </View>
 
         <CommentList />
-        <AddCommentButton postID={id} onPressHandler={() => setIsModalVisible(true)} disabled={commentMutation.isLoading} />
+        <AddCommentButton
+          postID={id}
+          onPressHandler={() => setIsModalVisible(true)}
+          disabled={commentMutation.isLoading}
+        />
         <Modal
           visible={isModalVisible}
           onDismiss={() => setIsModalVisible(false)}
           contentContainerStyle={styles.modalWrapper}
           style={styles.modal}
         >
-          <NewComment profileImageURI={author.profilePicture} onSubmitHandleFunction={onSubmitHandle}/>
+          <NewComment
+            profileImageURI={author.profilePicture}
+            onSubmitHandleFunction={onSubmitHandle}
+          />
         </Modal>
       </Portal>
     </Page>
@@ -87,8 +101,7 @@ function ExpandedPost() {
 
 export default ExpandedPost;
 
-ExpandedPost.propTypes = {
-};
+ExpandedPost.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {

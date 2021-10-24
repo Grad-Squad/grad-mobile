@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { useMutation } from 'react-query';
 
 import PropTypes from 'prop-types';
 
@@ -8,23 +7,13 @@ import { Icon } from 'react-native-elements';
 import { UPVOTE_HIT_SLOP_OBJECT, DOWNVOTE_HIT_SLOP_OBJECT } from 'constants';
 import { formatNumber } from 'utility';
 import EduText from 'common/EduText';
+import {
+  useAPIDownvotePost,
+  useAPIUnvotePost,
+  useAPIUpvotePost,
+} from '../../api/endpoints/ratings';
 
-const styles = StyleSheet.create({
-  VotesContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    top: -2,
-  },
-  arrow: {
-    padding: 2,
-  },
-  button: {
-    flexDirection: 'row',
-  },
-});
-
-function Votes({ voteCount, votingFunctions }) {
-  // const { upvoteFunction, downvoteFunction, unvoteFunction } = votingFunctions; // todo use refactored api functions
+function PostVotes({ voteCount, postId, id }) {
   const [vote, setVote] = useState(voteCount);
   const [isUpVoted, setIsUpVoted] = useState(false);
   const [isDownVoted, setIsDownVoted] = useState(false);
@@ -41,36 +30,38 @@ function Votes({ voteCount, votingFunctions }) {
     setIsDownVoted(isPrevDownvoted);
   };
 
-  // const upvoteMutation = useMutation(upvoteFunction, {
-  //   onError: onErrorCallback,
-  // });
-  // const downvoteMutation = useMutation(downvoteFunction, {
-  //   onError: onErrorCallback,
-  // });
-  // const unvoteMutation = useMutation(unvoteFunction, {
-  //   onError: onErrorCallback,
-  // });
+  const upvoteMutation = useAPIUpvotePost({
+    onError: onErrorCallback,
+  });
+  const downvoteMutation = useAPIDownvotePost({
+    onError: onErrorCallback,
+  });
+  const unvoteMutation = useAPIUnvotePost({
+    onError: onErrorCallback,
+  });
 
   useEffect(() => {
     setVote(voteCount);
   }, [voteCount]);
 
-  // const passCurrentState = (offset) => ({
-  //   offset,
-  //   isPrevUpvoted: isUpVoted,
-  //   isPrevDownvoted: isDownVoted,
-  // });
+  const passCurrentState = (offset) => ({
+    postId,
+    ratingId: id,
+    offset,
+    isPrevUpvoted: isUpVoted,
+    isPrevDownvoted: isDownVoted,
+  });
   const upVoteHandler = () => {
     let offset = 0;
     if (isUpVoted) {
       offset = -1;
-      // unvoteMutation.mutate(passCurrentState(offset));
+      unvoteMutation.mutate(passCurrentState(offset));
     } else if (isDownVoted) {
       offset = 2;
-      // upvoteMutation.mutate(passCurrentState(offset));
+      upvoteMutation.mutate(passCurrentState(offset));
     } else {
       offset = 1;
-      // upvoteMutation.mutate(passCurrentState(offset));
+      upvoteMutation.mutate(passCurrentState(offset));
     }
     setVote((currentVote) => currentVote + offset);
     setIsUpVoted((currentState) => !currentState);
@@ -81,13 +72,13 @@ function Votes({ voteCount, votingFunctions }) {
     let offset = 0;
     if (isUpVoted) {
       offset = -2;
-      // downvoteMutation.mutate(passCurrentState(offset));
+      downvoteMutation.mutate(passCurrentState(offset));
     } else if (isDownVoted) {
       offset = 1;
-      // unvoteMutation.mutate(passCurrentState(offset));
+      unvoteMutation.mutate(passCurrentState(offset));
     } else {
       offset = -1;
-      // downvoteMutation.mutate(passCurrentState(offset));
+      downvoteMutation.mutate(passCurrentState(offset));
     }
     setVote((currentVote) => currentVote + offset);
     setIsDownVoted((currentState) => !currentState);
@@ -127,13 +118,24 @@ function Votes({ voteCount, votingFunctions }) {
   );
 }
 
-Votes.propTypes = {
+PostVotes.propTypes = {
   voteCount: PropTypes.number.isRequired,
-  votingFunctions: PropTypes.exact({
-    upvoteFunction: PropTypes.func.isRequired,
-    downvoteFunction: PropTypes.func.isRequired,
-    unvoteFunction: PropTypes.func.isRequired,
-  }).isRequired,
+  postId: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
-export default Votes;
+export default PostVotes;
+
+const styles = StyleSheet.create({
+  VotesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    top: -2,
+  },
+  arrow: {
+    padding: 2,
+  },
+  button: {
+    flexDirection: 'row',
+  },
+});

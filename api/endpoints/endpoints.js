@@ -8,9 +8,14 @@ export default Object.freeze({
     update: '/profiles/{0}',
   },
   posts: {
+    post: '/posts/{0}',
+    comments: '/posts/{0}/comments',
+    commentsPaginated: '/posts/{0}/comments?page={1}&limit={2}',
+    ratings: '/posts/{0}/ratings/{1}',
     create: 'posts/',
-    post: 'posts/{0}',
     posts: 'posts',
-    comments: 'posts/{0}/comments',
+  },
+  comments: {
+    ratings: '/comments/{0}/ratings/{1}',
   },
 });

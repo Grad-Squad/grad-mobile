@@ -4,9 +4,11 @@ import { View, StyleSheet } from 'react-native';
 
 import PropTypes from 'prop-types';
 
+import { stylePropType } from 'proptypes';
+import { useNavigation } from '@react-navigation/core';
+import ScreenNames from 'navigation/ScreenNames';
 import TitleRegion from './TitleRegion/TitleRegion';
 import FooterRegion from './FooterRegion';
-import { stylePropType } from 'proptypes';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,6 +19,13 @@ const styles = StyleSheet.create({
 });
 
 function Post({ title, author, rating, createdAt, id, style }) {
+  const navigation = useNavigation();
+  const onEdit = () => {
+    navigation.navigate(ScreenNames.CREATE_POST, {
+      edit: true,
+      postId: id,
+    });
+  };
   return (
     <View style={[styles.container, style]}>
       <ThemeProvider>
@@ -26,6 +35,7 @@ function Post({ title, author, rating, createdAt, id, style }) {
           createdAt={createdAt}
         />
         <FooterRegion
+          contentProfileId={author.id}
           style={styles.container}
           rating={{
             entityId: id,
@@ -33,6 +43,7 @@ function Post({ title, author, rating, createdAt, id, style }) {
           }}
           commentCount={666}
           isPost
+          onEdit={onEdit}
         />
       </ThemeProvider>
     </View>

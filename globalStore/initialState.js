@@ -5,4 +5,5 @@ export default {
   material: {
     mcqQuestions: [],
   },
+  profileId: null,
 };

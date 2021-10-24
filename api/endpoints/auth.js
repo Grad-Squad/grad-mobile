@@ -108,9 +108,7 @@ export const useAPIRegister = (mutationConfig) => {
 export const useAPIUpdateProfile = (mutationConfig) => {
   const { axios } = useAxios();
   return useMutation(async ({ profileInfo, profileId }) => {
-    const {
-      data: { data },
-    } = await axios.patch(
+    const { data } = await axios.patch(
       formatString(endpoints.profile.update, profileId),
       profileInfo
     );

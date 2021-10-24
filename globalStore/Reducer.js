@@ -13,6 +13,14 @@ const Reducer = (state, action) => {
         ...state,
         profileId: action.payload,
       };
+    case ReducerActions.setMCQs:
+      return {
+        ...state,
+        createPost: {
+          ...state.createPost,
+          materialList: [...action.payload],
+        },
+      };
     case ReducerActions.addMCQ:
       return {
         ...state,

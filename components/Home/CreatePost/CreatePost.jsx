@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
 import { ComboBox, TransparentTextInputFormik } from 'common/Input';
@@ -20,6 +20,8 @@ import {
 } from 'api/endpoints/posts';
 import PropTypes from 'prop-types';
 import LoadingIndicator from 'common/LoadingIndicator';
+import { useAPIUploadImage } from 'api/endpoints/s3';
+import { StackActions } from '@react-navigation/native';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -43,6 +45,9 @@ const CreatePost = ({ navigation, route }) => {
 
   const [state, dispatch] = useStore();
   const { postId = undefined } = route?.params || {};
+  const uploadImageMutation = useAPIUploadImage();
+  const [canUpload, setCanUpload] = useState(false);
+  const [imagesNumber, setImagesNumber] = useState(0);
 
   const {
     data: fetchedPostData,
@@ -80,6 +85,75 @@ const CreatePost = ({ navigation, route }) => {
     onSubmit: () => refetchPost(),
   });
 
+  useEffect(() => {
+    if (canUpload) {
+      setCanUpload(false);
+      if (state.imagesUploadQueue.length !== 0) {
+        uploadImageMutation.mutate(state.imagesUploadQueue[0], {
+          onError: () => {
+            // try again
+          },
+          onSuccess: () => {
+            setCanUpload(true);
+
+            console.log('uploaded', state.imagesUploadQueue.length);
+            dispatch({ type: ReducerActions.popImageFromUploadQueue });
+          },
+        });
+      } else {
+        // const { title, subject, tags, materialList } = formik.values;
+        const { title, subject, materialList } = formik.values;
+        const post = {
+          title,
+          priceInCents: 0,
+          subject,
+          materials: materialList.map(
+            ({ questions, title: materialTitle }) => ({
+              materialType: 'mcq',
+              title: materialTitle,
+              mcqs: questions.map(({ question, choices, questionUriKey }) => ({
+                question,
+                answerIndices: choices
+                  .map(({ isCorrect }, index) => (isCorrect ? index : -1))
+                  .filter((i) => i !== -1),
+                choices: choices.map(({ text }) => text),
+                questionUriKey,
+              })),
+            })
+          ),
+        };
+        if (postId) {
+          updatePostMutation.mutate(
+            {
+              ...fetchedPostData,
+              ...post,
+            },
+            {
+              onSuccess: () => {
+                navigation.dispatch(StackActions.pop());
+              },
+            }
+          );
+        } else {
+          createPostMutation.mutate(post, {
+            onSuccess: () => {
+              navigation.dispatch(StackActions.pop());
+            },
+          });
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    canUpload,
+    dispatch,
+    state.imagesUploadQueue,
+    uploadImageMutation,
+    createPostMutation,
+    updatePostMutation,
+    postId,
+  ]);
+
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -87,43 +161,9 @@ const CreatePost = ({ navigation, route }) => {
       tags: null,
       materialList: [],
     },
-    onSubmit: ({ title, subject, tags, materialList }) => {
-      Alert.alert(`post: ${title}`);
-      const post = {
-        ...fetchedPostData,
-        priceInCents: 0,
-        subject,
-        materials: materialList.map(({ questions, title: materialTitle }) => ({
-          materialType: 'mcq',
-          title: materialTitle,
-          mcqs: questions.map(({ question, choices }) => ({
-            question,
-            answerIndices: choices
-              .map(({ isCorrect }, index) => (isCorrect ? index : -1))
-              .filter((i) => i !== -1),
-            choices: choices.map(({ text }) => text),
-          })),
-        })),
-      };
-      if (postId) {
-        updatePostMutation.mutate(post);
-      }
-      createPostMutation.mutate({
-        title,
-        priceInCents: 0,
-        subject,
-        materials: materialList.map(({ questions, title: materialTitle }) => ({
-          materialType: 'mcq',
-          title: materialTitle,
-          mcqs: questions.map(({ question, choices }) => ({
-            question,
-            answerIndices: choices
-              .map(({ isCorrect }, index) => (isCorrect ? index : -1))
-              .filter((i) => i !== -1),
-            choices: choices.map(({ text }) => text),
-          })),
-        })),
-      });
+    onSubmit: () => {
+      setCanUpload(true);
+      setImagesNumber(state.imagesUploadQueue.length);
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -148,6 +188,7 @@ const CreatePost = ({ navigation, route }) => {
     (e) => {
       if (!formik.dirty) {
         // todo sub screen edited ?
+        dispatch({ type: ReducerActions.clearImageUploadQueue });
         return;
       }
 
@@ -156,6 +197,7 @@ const CreatePost = ({ navigation, route }) => {
       DiscardChangesAlert(t, () => {
         navigation.dispatch(e.data.action);
         dispatch({ type: ReducerActions.clearMaterialList });
+        dispatch({ type: ReducerActions.clearImageUploadQueue });
       });
     },
     [formik.dirty]

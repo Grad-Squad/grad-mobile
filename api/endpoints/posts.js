@@ -42,10 +42,10 @@ export const useAPIGetComments = (mutationConfig) => {
 export const useAPIGetCommentsPaginated = (mutationConfig) => {
   const { axios } = useAxios();
   return useMutation(async ({ postID, page = 1, limit = 5 }) => {
-    const {
-      data,
-    } = await axios(formatString(endpoints.posts.comments,postID,page,limit), {
-    });
+    const { data } = await axios(
+      formatString(endpoints.posts.comments, postID, page, limit),
+      {}
+    );
 
     return data;
   }, mutationConfig);

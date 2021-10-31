@@ -13,6 +13,9 @@ import EduText from 'common/EduText';
 import { Colors } from 'styles';
 import { mcqQuestionPropType, stylePropType } from 'proptypes';
 import ImageSelector from 'common/ImageSelector';
+import { useAPIgetOneS3UploadLinks } from 'api/endpoints/s3';
+import { useStore } from 'globalStore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
 import ChoicesList from './ChoicesList';
 
 const MaxNumberOfChoices = 26;
@@ -27,16 +30,45 @@ const AddQuestion = ({
 }) => {
   const { t } = useLocalization();
   const [image, setImage] = useState({});
+  const [, dispatch] = useStore();
+
+  const { data: uploadLinkData, isSuccess: gettingUploadLinkSucceeded } =
+    useAPIgetOneS3UploadLinks({
+      enabled: !!image?.uri,
+      onSuccess: (data) => {
+        currentQuestionFormik.setFieldValue(
+          'questionUriKey',
+          data[0]?.fields?.key
+        );
+      },
+    });
+
   const currentQuestionFormik = useFormik({
     initialValues: {
       question: '',
+      questionUriKey: '',
       choices: [],
     },
     onSubmit: (values) => {
       addQuestion(values);
       currentQuestionFormik.resetForm({
-        values: { question: '', choices: [] },
+        values: { question: '', choices: [], questionUriKey: '' },
       });
+      if (gettingUploadLinkSucceeded) {
+        const payload = {
+          payload: {
+            ...uploadLinkData[0].fields,
+            'content-type': 'image/jpeg',
+            file: {
+              uri: image.uri,
+              name: image.fileName,
+              type: 'image/jpeg',
+            },
+          },
+        };
+        dispatch({ type: ReducerActions.addImageToUploadQueue, payload });
+      }
+      setImage({});
       currentChoiceFormik.resetForm();
     },
     validationSchema: yup.object().shape({
@@ -109,7 +141,7 @@ const AddQuestion = ({
       );
       currentChoiceFormik.resetForm();
     }
-  }, [currentlyEditingQuestion]);
+  }, [currentlyEditingQuestion, currentChoiceFormik, currentQuestionFormik]);
 
   useEffect(() => {
     setDirty(currentQuestionFormik.dirty || currentChoiceFormik.dirty);

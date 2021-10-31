@@ -19,6 +19,7 @@ export const mcqChoicePropType = PropTypes.exact({
 export const mcqQuestionPropType = PropTypes.exact({
   question: PropTypes.string.isRequired,
   choices: PropTypes.arrayOf(mcqChoicePropType.isRequired).isRequired,
+  questionUriKey: PropTypes.string.isRequired,
 });
 export const contextMenuItemsPropType = PropTypes.arrayOf(
   PropTypes.oneOfType([

@@ -5,4 +5,7 @@ export default Object.freeze({
   clearMaterialList: 'clearMaterialList',
   editMCQ: 'editMCQ',
   setProfileId: 'setProfileId',
+  addImageToUploadQueue: 'addImageToUploadQueue',
+  popImageFromUploadQueue: 'popImageFromUploadQueue',
+  clearImageUploadQueue: 'clearImageUploadQueue',
 });

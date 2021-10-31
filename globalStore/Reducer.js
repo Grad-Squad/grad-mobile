@@ -7,6 +7,21 @@ const setProfileIdInStorage = async (profileId) =>
 
 const Reducer = (state, action) => {
   switch (action.type) {
+    case ReducerActions.clearImageUploadQueue:
+      return {
+        ...state,
+        imagesUploadQueue: [],
+      };
+    case ReducerActions.addImageToUploadQueue:
+      return {
+        ...state,
+        imagesUploadQueue: [...state.imagesUploadQueue, action.payload],
+      };
+    case ReducerActions.popImageFromUploadQueue:
+      return {
+        ...state,
+        imagesUploadQueue: state.imagesUploadQueue.slice(1),
+      };
     case ReducerActions.setProfileId:
       setProfileIdInStorage(action.payload.toString());
       return {

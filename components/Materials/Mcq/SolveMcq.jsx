@@ -119,7 +119,7 @@ const SolveMcq = ({ navigation, route }) => {
   return (
     <Page>
       <MaterialViewHeader
-        onBackPress={() => {}}
+        onBackPress={() => navigation.goBack()}
         author="Ramez"
         title="When the potato took over"
         contextMenuItems={[

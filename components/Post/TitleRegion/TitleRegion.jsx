@@ -3,7 +3,7 @@ import { View, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import EduText from 'common/EduText';
-import PostContentList from 'common/PostContentList';
+import PostContentList from 'common/Post/PostContentList';
 import { Colors } from 'styles';
 import { formatDate } from 'utility';
 import { materialsPropType } from 'proptypes';

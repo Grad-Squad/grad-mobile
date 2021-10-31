@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import { Icon, MaterialTypeIconsMap } from 'common/Icon';
 import { Colors } from 'styles';
-import EduText from './EduText';
+import EduText from 'common/EduText';
 
 function PostContentMaterial({
   materialType,

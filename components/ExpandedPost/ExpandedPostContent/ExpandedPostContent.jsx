@@ -6,7 +6,7 @@ import LoadingIndicator from 'common/LoadingIndicator';
 import { useAPIGetPostById } from 'api/endpoints/posts';
 import { useLocalization } from 'localization';
 import { Colors, Constants, Styles } from 'styles';
-import PostContentList from 'common/PostContentList';
+import PostContentList from 'common/Post/PostContentList';
 import { formatDate } from 'utility';
 import GoBackButton from 'common/GoBackButton';
 import { navigationPropType } from 'proptypes';

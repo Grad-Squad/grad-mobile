@@ -1,6 +1,7 @@
 import { useAxios } from 'api/AxiosProvider';
 import { useMutation, useQuery } from 'react-query';
 import { formatString } from 'utility';
+import * as normalAxios from 'axios';
 import endpoints from './endpoints';
 
 export const useAPIgetManyS3UploadLinks = (numberOfLinks, options) => {
@@ -47,17 +48,17 @@ const formatFormData = (payload) => {
 
   formData.append('content-type', payload['content-type']);
   formData.append('file', {
-    uri: payload.file,
-    name: payload.file,
-    type: 'image/jpg',
+    uri: payload.file.uri,
+    name: payload.file.fileName,
+    type: payload.file.type,
   });
+  return formData;
 };
 
-export const useAPIUploadImage = (mutationConfig) => {
-  const { axios } = useAxios();
-  return useMutation(async ({ payload }) => {
+export const useAPIUploadImage = (mutationConfig) =>
+  useMutation(async ({ payload }) => {
     const formData = formatFormData(payload);
-    const { data } = await axios.post(endpoints.s3.uploadFile, formData, {
+    const { data } = await normalAxios.post(endpoints.s3.uploadFile, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
@@ -65,7 +66,6 @@ export const useAPIUploadImage = (mutationConfig) => {
 
     return data;
   }, mutationConfig);
-};
 
 export const useAPIGetFileUri = (itemKey, options) => {
   const { axios } = useAxios();

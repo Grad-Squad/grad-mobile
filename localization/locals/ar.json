@@ -146,7 +146,9 @@
     "image name: ": "اسم الصورة: "
   },
   "Comment": {
-    "Add": "أضف تعليق..."
+    "Error: Couldn't Load Comments": "خطأ: تعذر تحميل التعليقات",
+    "Add": "أضف تعليق...",
+    "No Comments on this post. Be the first to add a comment!": "لا توجد تعليقات على هذا المنشور. كن أول من يضع تعليقا!"
   },
   "MaterialNav": {
     "Go to question": "انتقل إلى السؤال",
@@ -244,6 +246,12 @@
     "WIP": "الأعمال جارية",
     "We are currently working on this feature. It will be available as soon as possible.": "نحن نعمل حاليا على هذه الخاصية. سيكون متاحًا في أقرب وقت ممكن.",
     "Go back": "عد"
+  },
+  "ExpandedPost": {
+    "upvoted": "صوت مؤيِّد",
+    "Post": {
+      "Error: Couldn't get post": "تعذر الحصول على المنشور"
+    }
   },
   "Feed": {
     "Error:Couldn't load posts": "تعذر تحميل المنشورات"

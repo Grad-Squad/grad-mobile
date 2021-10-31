@@ -1,33 +1,27 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Alert, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import { Icon,MaterialTypeIconsMap } from 'common/Icon';
-import EduText from './EduText';
+import { Icon, MaterialTypeIconsMap } from 'common/Icon';
 import { Colors } from 'styles';
+import EduText from './EduText';
 
-function PostContentMaterial({materialType, materialContentName, materialCount}) {
-  
-  const materialTypeMap = {
-    "Flashcard":MaterialTypeIconsMap.Flashcards,
-    "MCQ":MaterialTypeIconsMap.MCQ,
-    "PDF":MaterialTypeIconsMap.PDF,
-    "Image":MaterialTypeIconsMap.Image,
-    "Video":MaterialTypeIconsMap.Video,
-  }
-
-  const materialClickHandler = () => {
-    Alert.alert(`Clicked on ${materialCount} ${materialType}(s)`)
-  };
-
+function PostContentMaterial({
+  materialType,
+  materialContentName,
+  materialCount,
+  notClickable,
+  onPress,
+}) {
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={materialClickHandler}
+      onPress={onPress}
+      disabled={notClickable}
     >
-      <EduText style={{flex:1, flexWrap:'wrap'}}>{materialContentName}</EduText>
-      <View style={{flexDirection:'row',alignItems:'center'}}>
-        <EduText >{materialCount}x </EduText>
-        <Icon name={materialTypeMap[materialType]} />
+      <EduText style={styles.textContent}>{materialContentName}</EduText>
+      <View style={styles.icon}>
+        <EduText>{materialCount}x </EduText>
+        <Icon name={MaterialTypeIconsMap[materialType]} />
       </View>
     </TouchableOpacity>
   );
@@ -36,20 +30,29 @@ function PostContentMaterial({materialType, materialContentName, materialCount})
 export default PostContentMaterial;
 
 const styles = StyleSheet.create({
-  container:{
-    width:'100%',
-    flexDirection:'row',
-    justifyContent:'space-between',
-    alignItems:'center',
-    paddingHorizontal:5,
-    paddingTop:3,
-    paddingBottom:3,
-    marginVertical:5,
-    backgroundColor:'rgba(0,0,0,0.02)',
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
 
-    borderWidth:1,
-    borderColor:Colors.black,
-    borderRadius:5,
+    paddingHorizontal: 7,
+    paddingVertical: 3,
+
+    marginVertical: 5,
+
+    backgroundColor: Colors.materialBackground,
+
+    borderWidth: 1,
+    borderColor: Colors.black,
+    borderRadius: 5,
+  },
+  icon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textContent: {
+    flex: 1,
+    flexWrap: 'wrap',
   },
 });
 
@@ -57,4 +60,6 @@ PostContentMaterial.propTypes = {
   materialContentName: PropTypes.string.isRequired,
   materialType: PropTypes.string.isRequired,
   materialCount: PropTypes.number.isRequired,
+  notClickable: PropTypes.bool.isRequired,
+  onPress: PropTypes.func.isRequired,
 };

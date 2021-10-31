@@ -1,21 +1,52 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useNavigation } from '@react-navigation/core';
+import { useStore } from 'globalStore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
+import ScreenNames from 'navigation/ScreenNames';
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
+import PropTypes from 'prop-types';
+import { materialsPropType } from 'proptypes';
 import PostContentMaterial from './PostContentMaterial';
 
-const data = [
-    {key:'0',materialContentName:"Unit 4: Lesson 1", materialType:'Flashcard',materialCount:40},
-    {key:'1',materialContentName:"Unit 4: Lesson 1 Ex", materialType:'MCQ',materialCount:15},
-    {key:'2',materialContentName:"Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis.", materialType:'PDF',materialCount:1},
-    {key:'3',materialContentName:"Unit 4: Lesson 2 Ex", materialType:'MCQ',materialCount:20},
-    {key:'4',materialContentName:"Explanation Video", materialType:'Video',materialCount:1},
-  ]
-
-function PostContentList() {
+function PostContentList({ notClickable, materials }) {
+  const navigation = useNavigation();
+  const [, dispatch] = useStore();
   return (
     <View style={styles.container}>
       <FlatList
-      data={data}
-      renderItem={({item}) => <PostContentMaterial materialType={item.materialType} materialContentName={item.materialContentName} materialCount={item.materialCount}/>}
+        data={materials}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <PostContentMaterial
+            // materialType={item.materialType}
+            materialType="MCQ"
+            materialContentName={item.title}
+            materialCount={item.mcqs.length}
+            notClickable={notClickable}
+            onPress={() => {
+              dispatch({
+                type: ReducerActions.setMCQQuestions,
+                payload: item.mcqs.map(
+                  ({
+                    id,
+                    question,
+                    questionUriKey,
+                    choices,
+                    answerIndices,
+                  }) => ({
+                    id,
+                    title: question,
+                    imageURI: questionUriKey,
+                    options: choices,
+                    answerIndices,
+                  })
+                ),
+              });
+              return navigation.navigate(ScreenNames.SOLVE_MCQ);
+            }}
+          />
+        )}
       />
     </View>
   );
@@ -24,8 +55,15 @@ function PostContentList() {
 export default PostContentList;
 
 const styles = StyleSheet.create({
-  container:{
-    width:"100%",
-    paddingVertical:5,
+  container: {
+    paddingVertical: 5,
   },
 });
+
+PostContentList.propTypes = {
+  notClickable: PropTypes.bool,
+  materials: materialsPropType.isRequired,
+};
+PostContentList.defaultProps = {
+  notClickable: false,
+};

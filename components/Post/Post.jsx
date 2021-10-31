@@ -1,10 +1,9 @@
 import React from 'react';
 import { ThemeProvider } from 'react-native-elements';
-import { View, StyleSheet } from 'react-native';
-
+import { StyleSheet, Pressable } from 'react-native';
 import PropTypes from 'prop-types';
-
-import { stylePropType } from 'proptypes';
+import { materialsPropType, ratingPropType, stylePropType } from 'proptypes';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
 import TitleRegion from './TitleRegion/TitleRegion';
@@ -12,13 +11,25 @@ import FooterRegion from './FooterRegion';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 15,
-    marginBottom: 5,
+    marginBottom: 30,
     width: '100%',
+  },
+  footerRegion: {
+    width: '90%',
+    alignSelf: 'center',
   },
 });
 
-function Post({ title, author, rating, createdAt, id, style }) {
+function Post({
+  title,
+  author,
+  rating,
+  createdAt,
+  id,
+  style,
+  commentCount,
+  materials,
+}) {
   const navigation = useNavigation();
   const onEdit = () => {
     navigation.navigate(ScreenNames.CREATE_POST, {
@@ -27,46 +38,46 @@ function Post({ title, author, rating, createdAt, id, style }) {
     });
   };
   return (
-    <View style={[styles.container, style]}>
+    <Pressable
+      style={[styles.container, style]}
+      onPress={() => navigation.navigate(ScreenNames.POST, { postID: id })}
+    >
       <ThemeProvider>
         <TitleRegion
           title={title}
           profileName={author.name}
           createdAt={createdAt}
+          materials={materials}
         />
         <FooterRegion
           contentProfileId={author.id}
-          style={styles.container}
-          rating={{
-            entityId: id,
-            ...rating,
-          }}
-          commentCount={666}
+          style={styles.footerRegion}
+          rating={rating}
+          postId={id}
+          commentCount={commentCount}
           isPost
           onEdit={onEdit}
         />
       </ThemeProvider>
-    </View>
+    </Pressable>
   );
 }
 
-export default Post; // todo memo
+export default React.memo(Post);
 
 Post.propTypes = {
   id: PropTypes.number.isRequired,
   createdAt: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  rating: PropTypes.exact({
-    id: PropTypes.number.isRequired,
-    upvotes: PropTypes.number.isRequired,
-    downvotes: PropTypes.number.isRequired,
-  }).isRequired,
+  rating: ratingPropType.isRequired,
   author: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     profilePicture: PropTypes.string.isRequired,
   }).isRequired,
   style: stylePropType,
+  commentCount: PropTypes.number.isRequired,
+  materials: materialsPropType.isRequired,
 };
 Post.defaultProps = {
   style: {},

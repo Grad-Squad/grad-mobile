@@ -3,9 +3,10 @@ import { View, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import EduText from 'common/EduText';
-import ContentRegion from './ContentRegion';
-import { formatDate } from '../../../utility';
-import { Colors } from '../../../styles';
+import PostContentList from 'common/PostContentList';
+import { Colors } from 'styles';
+import { formatDate } from 'utility';
+import { materialsPropType } from 'proptypes';
 
 const imageWidth = 70;
 const imageOffset = -25;
@@ -75,9 +76,14 @@ const styles = StyleSheet.create({
     // marginRight: 10,
     fontSize: 9,
   },
+  material: {
+    marginVertical: 5,
+    minHeight: 90,
+    width: '100%',
+  },
 });
 
-function TitleRegion({ profileName, title, createdAt }) {
+function TitleRegion({ profileName, title, createdAt, materials }) {
   const postDate = useMemo(() => new Date(createdAt), [createdAt]);
   return (
     <View style={styles.outerContainer}>
@@ -100,7 +106,9 @@ function TitleRegion({ profileName, title, createdAt }) {
         </View>
       </View>
       <View style={styles.contentContainer}>
-        <ContentRegion />
+        <View style={styles.material}>
+          <PostContentList materials={materials} notClickable />
+        </View>
       </View>
       <EduText style={styles.date}>{formatDate(postDate)}</EduText>
     </View>
@@ -113,4 +121,5 @@ TitleRegion.propTypes = {
   profileName: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
+  materials: materialsPropType.isRequired,
 };

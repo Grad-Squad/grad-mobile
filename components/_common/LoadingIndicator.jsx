@@ -5,10 +5,11 @@ import { Colors } from 'styles';
 import { StyleSheet } from 'react-native';
 import { stylePropType } from 'proptypes';
 
-const LoadingIndicator = ({ fullScreen, style, ...props }) => (
+const LoadingIndicator = ({ fullScreen, style, large, ...props }) => (
   <ActivityIndicator
     color={Colors.accent}
     style={[styles.fullScreen, style]}
+    size={large ? 'large' : 'small'}
     // eslint-disable-next-line react/jsx-props-no-spreading
     {...props}
   />
@@ -17,10 +18,12 @@ const LoadingIndicator = ({ fullScreen, style, ...props }) => (
 LoadingIndicator.propTypes = {
   fullScreen: PropTypes.bool,
   style: stylePropType,
+  large: PropTypes.bool,
 };
 LoadingIndicator.defaultProps = {
   fullScreen: false,
   style: {},
+  large: false,
 };
 
 export default React.memo(LoadingIndicator);

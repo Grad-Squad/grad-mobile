@@ -49,6 +49,7 @@ const CreatePost = ({ navigation, route }) => {
     isFetching: isFetchingPostForEdit,
     refetch: refetchPost,
   } = useAPIGetPostById(postId, {
+    enabled: !!postId,
     onError: (error) => {
       console.log(error);
     },
@@ -141,7 +142,7 @@ const CreatePost = ({ navigation, route }) => {
     if (state.createPost.materialList.length !== 0) {
       formik.setFieldValue('materialList', state.createPost.materialList);
     }
-  }, [state.createPost.materialList, formik]);
+  }, [state.createPost.materialList]);
 
   useOnGoBack(
     (e) => {

@@ -10,9 +10,8 @@ import { BOOKMARK_HIT_SLOP_OBJECT } from '../../../constants';
 const styles = StyleSheet.create({
   BookmarkContainer: {
     flexDirection: 'row',
-    //alignItems: 'center',
+    alignItems: 'center',
     maxWidth: 60,
-    paddingLeft: 10,
   },
   button: {
     flexDirection: 'row',

@@ -84,6 +84,7 @@
     "Materials:": "Materials:",
     "add a material using any of the buttons below": "add a material using any of the buttons below",
     "add at least one material": "add at least one material",
+    "Upload in progress": "Upload in progress",
     "Add": {
       "Flashcards": "Add Flashcards",
       "MCQ": "Add MCQ",
@@ -220,7 +221,7 @@
   "FlatList": {
     "Nothing left to show": "Nothing left to show 😢"
   },
-  "Alerts":{
+  "Alerts": {
     "Discard?": {
       "title": "Discard?",
       "message": "You have unsaved changes. Are you sure you to discard them and leave the screen?",

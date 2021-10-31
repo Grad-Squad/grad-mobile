@@ -21,6 +21,9 @@ import {
 import PropTypes from 'prop-types';
 import LoadingIndicator from 'common/LoadingIndicator';
 import { useAPIUploadImage } from 'api/endpoints/s3';
+import { Modal, Portal } from 'react-native-paper';
+import EduText from 'common/EduText';
+import { Colors, Constants } from 'styles';
 import { StackActions } from '@react-navigation/native';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
@@ -48,6 +51,7 @@ const CreatePost = ({ navigation, route }) => {
   const uploadImageMutation = useAPIUploadImage();
   const [canUpload, setCanUpload] = useState(false);
   const [imagesNumber, setImagesNumber] = useState(0);
+  const [isProgressModalVisible, setIsProgressModalVisible] = useState(false);
 
   const {
     data: fetchedPostData,
@@ -95,8 +99,6 @@ const CreatePost = ({ navigation, route }) => {
           },
           onSuccess: () => {
             setCanUpload(true);
-
-            console.log('uploaded', state.imagesUploadQueue.length);
             dispatch({ type: ReducerActions.popImageFromUploadQueue });
           },
         });
@@ -163,6 +165,7 @@ const CreatePost = ({ navigation, route }) => {
     },
     onSubmit: () => {
       setCanUpload(true);
+      setIsProgressModalVisible(true);
       setImagesNumber(state.imagesUploadQueue.length);
     },
     validationSchema: yup.object().shape({
@@ -203,8 +206,32 @@ const CreatePost = ({ navigation, route }) => {
     [formik.dirty]
   );
 
+  const isUploadingPost =
+    state.imagesUploadQueue.length !== 0 ||
+    createPostMutation.isLoading ||
+    uploadImageMutation.isLoading;
+
+  const imagesProgress = `${
+    imagesNumber - state.imagesUploadQueue.length
+  }/${imagesNumber}`;
+
   return (
     <Page>
+      <Portal>
+        <Modal
+          visible={isProgressModalVisible}
+          contentContainerStyle={styles.progressContainerStyle}
+          onDismiss={() => {
+            setIsProgressModalVisible(false);
+          }}
+        >
+          {isUploadingPost && <LoadingIndicator size="large" />}
+          <EduText style={styles.padAbove}>
+            {t('CreatePost/Upload in progress')}{' '}
+            {imagesNumber !== 0 && imagesProgress}
+          </EduText>
+        </Modal>
+      </Portal>
       <MaterialCreateHeader
         title={
           postId ? t('CreatePost/Edit Post') : t('CreatePost/Create New Post')
@@ -278,4 +305,15 @@ CreatePost.defaultProps = {
 
 export default CreatePost;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  progressContainerStyle: {
+    padding: Constants.commonMargin,
+    backgroundColor: Colors.background,
+    margin: Constants.commonMargin,
+    alignItems: 'center',
+    // height: '40%',
+  },
+  padAbove: {
+    paddingTop: Constants.commonMargin / 2,
+  },
+});

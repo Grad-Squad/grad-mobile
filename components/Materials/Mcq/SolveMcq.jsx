@@ -105,7 +105,7 @@ const SolveMcq = ({ navigation, route }) => {
   };
   useOnGoBack(
     (e) => {
-      if (!dirty) {
+      if (!dirty || hasFinished) {
         return;
       }
 
@@ -113,7 +113,7 @@ const SolveMcq = ({ navigation, route }) => {
 
       LoseProgressAlert(t, () => navigation.dispatch(e.data.action));
     },
-    [dirty]
+    [dirty, hasFinished]
   );
 
   return (

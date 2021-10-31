@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Bookmark({ saved }) {
+function Bookmark({ saved }) {
   const [isSaved, setIsSaved] = useState(saved);
   const savePostHandler = () => {
     if (!isSaved) {
@@ -54,6 +54,8 @@ export default function Bookmark({ saved }) {
     </View>
   );
 }
+
+export default React.memo(Bookmark);
 
 Bookmark.propTypes = {
   saved: PropTypes.bool,

@@ -12,6 +12,7 @@ import { getCommentsKey, useAPIAddComment } from 'api/endpoints/posts';
 import { Colors } from 'styles';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import { deepCopy } from 'utility';
 import NewComment from './NewComment';
 
 const styles = StyleSheet.create({
@@ -41,8 +42,9 @@ function AddComment({ postID }) {
   const addCommentMutation = useAPIAddComment({
     onSuccess: (data) => {
       queryClient.setQueryData([getCommentsKey, postID], (oldData) => {
-        oldData.pages[0].data.unshift(data);
-        return { ...oldData };
+        const copy = deepCopy(oldData);
+        copy.pages[0].data.unshift(data);
+        return copy;
       });
       setIsModalVisible(false);
     },

@@ -68,7 +68,7 @@ const ExpandedPostContent = ({ navigation, postId }) => {
           style={styles.footerContainer}
           rating={post.rating}
           postId={postId}
-          commentCount={0}
+          commentCount={post.commentCount}
           isPost
           onEdit={() => {}}
           contentProfileId={-1}

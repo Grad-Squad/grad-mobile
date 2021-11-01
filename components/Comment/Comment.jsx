@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
+import { AssetsConstants } from 'constants';
 import EduText from 'common/EduText';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
@@ -24,9 +25,13 @@ function Comment({
           <View style={styles.imageContainer}>
             <Image
               style={styles.profileImage}
-              source={{
-                uri: profileImageURI,
-              }}
+              source={
+                profileImageURI
+                  ? {
+                      uri: profileImageURI,
+                    }
+                  : AssetsConstants.images.defaultProfile
+              }
             />
           </View>
           <View style={styles.innerContainer}>
@@ -44,11 +49,11 @@ function Comment({
         <FooterRegion
           rating={{
             id: 0,
-            entityId: 0,
             upvotes: 0,
             downvotes: 0,
-            currentUserStatus: 'sad',
+            currentUserStatus: 'none',
           }}
+          postId={0}
           style={styles.footer}
           onEdit={() => {}}
           contentProfileId={-1}
@@ -69,8 +74,7 @@ Comment.propTypes = {
 };
 
 Comment.defaultProps = {
-  profileImageURI:
-    'https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg',
+  profileImageURI: undefined,
 };
 
 const styles = StyleSheet.create({
@@ -78,8 +82,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: imageWidth,
     height: imageWidth,
-    borderWidth: 0.1,
-    borderColor: 'black',
+    // borderWidth: 0.1,
+    // borderColor: 'black',
   },
   imageContainer: {
     position: 'absolute',
@@ -109,10 +113,12 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     paddingHorizontal: 15,
+    minHeight: 60,
   },
   text: {
     fontWeight: 'normal',
     fontSize: 15,
+    marginTop: 4,
   },
   profileName: {
     fontSize: 9,

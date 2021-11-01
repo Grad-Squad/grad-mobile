@@ -10,6 +10,7 @@ import {
 import { Constants } from 'styles';
 import ResponsiveImage from 'common/ResponsiveImage';
 import { useLocalization } from 'localization';
+import { mcqQuestionPropType } from 'proptypes';
 import McqOption from './McqOption';
 import AnswerFeedbackText from './AnswerFeedbackText';
 
@@ -140,13 +141,7 @@ const McqQuestion = ({
 };
 
 McqQuestion.propTypes = {
-  question: PropTypes.shape({
-    id: PropTypes.number,
-    options: PropTypes.arrayOf(PropTypes.string).isRequired,
-    answerIndices: PropTypes.arrayOf(PropTypes.number).isRequired,
-    title: PropTypes.string,
-    imageURI: PropTypes.string,
-  }).isRequired,
+  question: mcqQuestionPropType.isRequired,
   questionIndex: PropTypes.number.isRequired,
   handleSkip: PropTypes.func.isRequired,
   handleAnswer: PropTypes.func.isRequired,

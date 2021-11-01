@@ -3,7 +3,8 @@ import { View, StyleSheet } from 'react-native';
 
 import PropTypes from 'prop-types';
 
-import { Styles } from '../../styles';
+import { ratingPropType, stylePropType } from 'proptypes';
+import { Styles } from 'styles';
 import PostVotes from '../Votes/PostVotes';
 import CommentVotes from '../Votes/CommentVotes';
 import Options from './Options/Options';
@@ -18,29 +19,46 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: 50,
-    paddingTop: 10,
-    paddingHorizontal: 10,
-    borderRadius: 7,
-    top: -10,
+
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+
+    top: -2,
   },
 });
 
 function FooterRegion({
   rating,
+  postId,
   commentCount,
   isPost,
   onEdit,
   contentProfileId,
+  style,
 }) {
-  const { upvotes = 0, downvotes = 0, entityId, id } = rating;
+  const { upvotes = 0, downvotes = 0, id, currentUserStatus } = rating;
   const voteCount = upvotes - downvotes;
 
   return (
-    <View style={styles.outerContainer}>
-      {isPost ?
-      (<PostVotes voteCount={voteCount} postId={entityId} id={id} />):(
-      <CommentVotes voteCount={voteCount} commentId={entityId} id={id}/>)}
+    <View style={[styles.outerContainer, style]}>
+      {isPost ? (
+        <PostVotes
+          voteCount={voteCount}
+          postId={postId}
+          id={id}
+          currentUserStatus={currentUserStatus}
+        />
+      ) : (
+        <CommentVotes
+          voteCount={voteCount}
+          commentId={postId}
+          id={id}
+          currentUserStatus={currentUserStatus}
+        />
+      )}
       {isPost && <CommentButton count={commentCount} />}
       {isPost && <Bookmark />}
       <Options onEdit={onEdit} contentProfileId={contentProfileId} />
@@ -48,23 +66,20 @@ function FooterRegion({
   );
 }
 
-export default FooterRegion;
+export default React.memo(FooterRegion);
 
 FooterRegion.propTypes = {
-  rating: PropTypes.exact({
-    entityId: PropTypes.number.isRequired,
-    id: PropTypes.number.isRequired,
-    upvotes: PropTypes.number.isRequired,
-    downvotes: PropTypes.number.isRequired,
-    currentUserStatus: PropTypes.string.isRequired,
-  }).isRequired,
+  rating: ratingPropType.isRequired,
+  postId: PropTypes.number.isRequired,
   commentCount: PropTypes.number,
   isPost: PropTypes.bool,
   onEdit: PropTypes.func.isRequired,
   contentProfileId: PropTypes.number.isRequired,
+  style: stylePropType,
 };
 
 FooterRegion.defaultProps = {
   commentCount: 0,
   isPost: false,
+  style: {},
 };

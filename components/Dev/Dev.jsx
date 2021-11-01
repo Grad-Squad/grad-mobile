@@ -23,19 +23,6 @@ const Dev = ({ navigation }) => {
       Alert.alert('Sorry, You have to login again');
     });
   }, []);
-  const postData = {
-    id: 4,
-    title: 'KMS',
-    priceInCents: 10,
-    subject: 'advanced nothing',
-    rating: { id: 0, upvotes: 100, downvotes: 50, currentUserStatus: 'sad' },
-    createdAt: new Date(),
-    author: {
-      id: 0,
-      name: 'sad ek',
-      profilePicture: 'https://pbs.twimg.com/media/EVgKUNnWoAIX9MF.jpg',
-    },
-  };
 
   const { showErrorSnackbar } = useErrorSnackbar();
 
@@ -55,8 +42,8 @@ const Dev = ({ navigation }) => {
         onPress={() => navigation.navigate(ScreenNames.CREATE_POST)}
       />
       <Button
-        title="Go to Post"
-        onPress={() => navigation.navigate(ScreenNames.POST, postData.id)}
+        title="Go to Expanded Post"
+        onPress={() => navigation.navigate(ScreenNames.POST, { postID: 4 })}
       />
       <Button
         title="Go to mcq"
@@ -72,7 +59,7 @@ const Dev = ({ navigation }) => {
         onPress={() => showErrorSnackbar('the potatoes nooo')}
       />
       <EduText>{`RTL Check: (I18nManager.isRTL: ${I18nManager.isRTL})`}</EduText>
-      <View style={{width: 100, height: 100, backgroundColor: 'yellow'}}/>
+      <View style={{ width: 100, height: 100, backgroundColor: 'yellow' }} />
     </Page>
   );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import { mcqQuestionPropType, stylePropType } from 'proptypes';
+import { mcqQuestionAddPropType, stylePropType } from 'proptypes';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
 import { useLocalization } from 'localization';
@@ -52,7 +52,7 @@ const QuestionsList = ({
 };
 
 QuestionsList.propTypes = {
-  questions: PropTypes.arrayOf(mcqQuestionPropType).isRequired,
+  questions: PropTypes.arrayOf(mcqQuestionAddPropType).isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   contentStyle: stylePropType,

@@ -11,7 +11,7 @@ import { SecondaryActionButton, TransparentButton } from 'common/Input/Button';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
 import { Colors } from 'styles';
-import { mcqQuestionPropType, stylePropType } from 'proptypes';
+import { mcqQuestionAddPropType, stylePropType } from 'proptypes';
 import ImageSelector from 'common/ImageSelector';
 import ChoicesList from './ChoicesList';
 
@@ -228,9 +228,9 @@ const AddQuestion = ({
 
 AddQuestion.propTypes = {
   addQuestion: PropTypes.func.isRequired,
-  questions: PropTypes.arrayOf(mcqQuestionPropType).isRequired,
+  questions: PropTypes.arrayOf(mcqQuestionAddPropType).isRequired,
   contentStyle: stylePropType,
-  currentlyEditingQuestion: mcqQuestionPropType,
+  currentlyEditingQuestion: mcqQuestionAddPropType,
   setDirty: PropTypes.func.isRequired,
 };
 AddQuestion.defaultProps = {

@@ -1,9 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-
-import {Icon} from 'common/Icon';
+import { Icon } from 'common/Icon';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { formatNumber } from 'utility';
 import EduText from 'common/EduText';
@@ -13,10 +11,10 @@ const styles = StyleSheet.create({
   CommentsContainer: {
     flexDirection: 'row',
     maxWidth: 55,
-    left: -5,
+    alignItems: 'center',
   },
-  button: {
-    flexDirection: 'row',
+  text: {
+    marginLeft: 5,
   },
 });
 
@@ -26,18 +24,14 @@ function CommentButton({ count }) {
   };
 
   return (
-    <View style={styles.CommentsContainer}>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={onPress}
-        hitSlop={HIT_SLOP_OBJECT}
-      >
-        <View>
-          <Icon name={IconNames.comment} size={24} />
-        </View>
-        <EduText>{formatNumber(count)}</EduText>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      style={styles.CommentsContainer}
+      onPress={onPress}
+      hitSlop={HIT_SLOP_OBJECT}
+    >
+      <Icon name={IconNames.comment} size={24} />
+      <EduText style={styles.text}>{formatNumber(count)}</EduText>
+    </TouchableOpacity>
   );
 }
 
@@ -45,4 +39,4 @@ CommentButton.propTypes = {
   count: PropTypes.number.isRequired,
 };
 
-export default CommentButton;
+export default React.memo(CommentButton);

@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot when profilePicture=https://picsum.photos/200/300 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexBasis": "20%",
+      "marginRight": 5,
+      "marginTop": "auto",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "uri": "https://picsum.photos/200/300",
+      }
+    }
+    style={
+      Object {
+        "borderColor": "#000",
+        "borderRadius": 50,
+        "borderWidth": 0.1,
+        "height": 50,
+        "width": 50,
+      }
+    }
+  />
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Lato_400Regular",
+        },
+        Object {
+          "color": "#3C3C3C",
+        },
+        Object {
+          "fontSize": 10,
+          "marginTop": 5,
+          "textAlign": "center",
+        },
+      ]
+    }
+  >
+    name
+  </Text>
+</View>
+`;
+
+exports[`should match snapshot when profilePicture=undefined 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flexBasis": "20%",
+      "marginRight": 5,
+      "marginTop": "auto",
+    }
+  }
+>
+  <Image
+    source={1}
+    style={
+      Object {
+        "borderColor": "#000",
+        "borderRadius": 50,
+        "borderWidth": 0.1,
+        "height": 50,
+        "width": 50,
+      }
+    }
+  />
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Lato_400Regular",
+        },
+        Object {
+          "color": "#3C3C3C",
+        },
+        Object {
+          "fontSize": 10,
+          "marginTop": 5,
+          "textAlign": "center",
+        },
+      ]
+    }
+  >
+    name
+  </Text>
+</View>
+`;

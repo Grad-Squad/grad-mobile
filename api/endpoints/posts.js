@@ -3,15 +3,17 @@ import { useAxios } from 'api/AxiosProvider';
 import { formatString } from 'utility';
 import endpoints from './endpoints';
 
-// eslint-disable-next-line import/prefer-default-export
 export const useAPIAddComment = (mutationConfig) => {
   const { axios } = useAxios();
-  return useMutation(async ({ postId, content }) => {
-    const { data } = await axios.post({
-      comment: {
-        content,
-      },
-    });
+  return useMutation(async ({ postID, content }) => {
+    const { data } = await axios.post(
+      formatString(endpoints.posts.comments, postID),
+      {
+        comment: {
+          content,
+        },
+      }
+    );
 
     return data;
   }, mutationConfig);
@@ -28,25 +30,31 @@ export const useAPICreatePost = (mutationConfig) => {
   }, mutationConfig);
 };
 
-export const useAPIGetComments = (mutationConfig) => {
+export const getCommentsKey = 'comments';
+export const useAPIGetComments = (postID) => {
   const { axios } = useAxios();
-  return useMutation(async ({ postID }) => {
-    const {
-      data,
-    } = await axios(formatString(endpoints.posts.comments,postID), {
-    });
-
-    return data;
-  }, mutationConfig);
+  return useInfiniteQuery(
+    [getCommentsKey, postID],
+    async ({ pageParam = 1 }) => {
+      const { data } = await axios.get(formatString(endpoints.posts.comments, postID), {
+        params: {
+          page: pageParam,
+          limit: 7,
+        },
+      });
+      return data;
+    },
+    { getNextPageParam: (lastPage) => lastPage.nextPage }
+  );
 };
 
 export const useAPIGetCommentsPaginated = (mutationConfig) => {
   const { axios } = useAxios();
   return useMutation(async ({ postID, page = 1, limit = 5 }) => {
-    const {
-      data,
-    } = await axios(formatString(endpoints.posts.comments,postID,page,limit), {
-    });
+    const { data } = await axios(
+      formatString(endpoints.posts.comments, postID, page, limit),
+      {}
+    );
 
     return data;
   }, mutationConfig);

@@ -10,16 +10,15 @@ import { BOOKMARK_HIT_SLOP_OBJECT } from '../../../constants';
 const styles = StyleSheet.create({
   BookmarkContainer: {
     flexDirection: 'row',
-    //alignItems: 'center',
+    alignItems: 'center',
     maxWidth: 60,
-    paddingLeft: 10,
   },
   button: {
     flexDirection: 'row',
   },
 });
 
-export default function Bookmark({ saved }) {
+function Bookmark({ saved }) {
   const [isSaved, setIsSaved] = useState(saved);
   const savePostHandler = () => {
     if (!isSaved) {
@@ -54,6 +53,8 @@ export default function Bookmark({ saved }) {
     </View>
   );
 }
+
+export default React.memo(Bookmark);
 
 Bookmark.propTypes = {
   saved: PropTypes.bool,

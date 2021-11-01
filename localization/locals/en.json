@@ -146,7 +146,9 @@
     "image name: ": "image name: "
   },
   "Comment": {
-    "Add": "Add a comment..."
+    "Error: Couldn't Load Comments": "Error: Couldn't Load Comments",
+    "Add": "Add a comment...",
+    "No Comments on this post. Be the first to add a comment!": "No Comments on this post. Be the first to add a comment!"
   },
   "MaterialNav": {
     "Go to question": "Go to question",
@@ -220,7 +222,7 @@
   "FlatList": {
     "Nothing left to show": "Nothing left to show 😢"
   },
-  "Alerts":{
+  "Alerts": {
     "Discard?": {
       "title": "Discard?",
       "message": "You have unsaved changes. Are you sure you to discard them and leave the screen?",
@@ -244,5 +246,14 @@
     "WIP": "WIP",
     "We are currently working on this feature. It will be available as soon as possible.": "We are currently working on this feature. It will be available as soon as possible.",
     "Go back": "Go back"
+  },
+  "ExpandedPost": {
+    "upvoted": "upvoted",
+    "Post": {
+      "Error: Couldn't get post": "Couldn't get post"
+    }
+  },
+  "Feed": {
+    "Error:Couldn't load posts": "Couldn't load posts"
   }
 }

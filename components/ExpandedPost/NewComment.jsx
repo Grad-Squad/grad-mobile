@@ -7,7 +7,6 @@ import {
   Image,
   View,
   Platform,
-  Alert,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
@@ -18,54 +17,68 @@ import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import { Colors } from '../../styles';
 
-const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0
+const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0;
 
-function NewComment({profileImageURI, onSubmitHandleFunction}) {
+function NewComment({ profileImageURI, onSubmitHandleFunction }) {
   const { t } = useLocalization();
-  const [isDisabeld, setDisabled] = useState(false)
+  const [isDisabeld, setDisabled] = useState(false);
 
-  
   const formik = useFormik({
     initialValues: {
       commentText: '',
     },
     onSubmit: ({ commentText }) => {
-      onSubmitHandleFunction(commentText)
+      onSubmitHandleFunction(commentText);
     },
     validationSchema: yup.object().shape({
       commentText: comment(t),
     }),
   });
 
-  const onPressHandler = () =>{
+  const onPressHandler = () => {
     setDisabled(true);
-  }
+  };
 
   return (
     <View>
-      <KeyboardAvoidingView behavior="padding" style={styles.container}  keyboardVerticalOffset={keyboardVerticalOffset}>
-        <View style={{flexDirection:'row',alignItems:'center'}}>
-        <TouchableOpacity>
-          <Image
-            style={styles.profileImage}
-            source={{
-              uri: profileImageURI,
-            }}
-          />
-        </TouchableOpacity>
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={styles.container}
+        keyboardVerticalOffset={keyboardVerticalOffset}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <TouchableOpacity>
+            <Image
+              style={styles.profileImage}
+              source={{
+                uri: profileImageURI,
+              }}
+            />
+          </TouchableOpacity>
 
           <TransparentTextInputFormik
             formik={formik}
             formikKey="commentText"
-            TextInputProps={{placeholder:t('Comment/Add'), autoFocus:true, multiline:true}}
+            TextInputProps={{
+              placeholder: t('Comment/Add'),
+              autoFocus: true,
+              multiline: true,
+            }}
             hideTitle
             style={{
-              flex:1,}}
+              flex: 1,
+            }}
           />
 
-        <PressableIcon pressableProps={{disabled:isDisabeld,onClick:onPressHandler}} name={IconNames.send} size={30} color={Colors.black} onPress={formik.handleSubmit}/>
+          <PressableIcon
+            pressableProps={{ disabled: isDisabeld, onClick: onPressHandler }}
+            name={IconNames.send}
+            size={30}
+            color={Colors.black}
+            onPress={formik.handleSubmit}
+          />
         </View>
-        <View style={{width:'100%',height:5}}/>
+        <View style={{ width: '100%', height: 5 }} />
       </KeyboardAvoidingView>
     </View>
   );
@@ -75,7 +88,11 @@ export default NewComment;
 
 NewComment.propTypes = {
   onSubmitHandleFunction: PropTypes.func.isRequired,
-  profileImageURI: PropTypes.string.isRequired,
+  profileImageURI: PropTypes.string,
+};
+NewComment.defaultProps = {
+  profileImageURI:
+    'https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg',
 };
 
 const styles = StyleSheet.create({
@@ -83,14 +100,14 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: Colors.background,
     paddingHorizontal: 10,
-    paddingVertical:10,
-    paddingTop:5,
-    alignItems:'center',
+    paddingVertical: 10,
+    paddingTop: 5,
+    alignItems: 'center',
   },
   profileImage: {
     borderRadius: 50,
     width: 30,
-    height:30,
+    height: 30,
     borderWidth: 0.1,
     borderColor: 'black',
   },

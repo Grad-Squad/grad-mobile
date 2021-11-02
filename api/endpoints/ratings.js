@@ -41,7 +41,6 @@ export const useAPIUnvotePost = (mutationConfig) =>{
 
 export const useAPIUpvoteComment = (mutationConfig) =>{
   const { axios } = useAxios();
-  console.log("🚀 ~ file: ratings.js ~ line 44 ~ useAPIUpvoteComment ~ axios", axios)
   return useMutation( async ({commentId, ratingId}) => {
     const {
       data,
@@ -54,7 +53,6 @@ export const useAPIUpvoteComment = (mutationConfig) =>{
 
 export const useAPIDownvoteComment = (mutationConfig) =>{
   const { axios } = useAxios();
-  console.log("🚀 ~ file: ratings.js ~ line 57 ~ useAPIDownvoteComment ~ axios", axios)
   return useMutation( async ({commentId, ratingId}) => {
     const {
       data,
@@ -67,7 +65,6 @@ export const useAPIDownvoteComment = (mutationConfig) =>{
 
 export const useAPIUnvoteComment = (mutationConfig) =>{
   const { axios } = useAxios();
-  console.log("🚀 ~ file: ratings.js ~ line 70 ~ useAPIUnvoteComment ~ axios", axios)
   return useMutation( async ({commentId, ratingId}) => {
     const {
       data,

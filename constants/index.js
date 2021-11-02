@@ -21,3 +21,5 @@ export const BOOKMARK_HIT_SLOP_OBJECT = {
 };
 
 export { default as ApiConstants } from './api';
+export { default as AssetsConstants } from './assets';
+export { default as CurrentUserStatus } from './currentUserStatus';

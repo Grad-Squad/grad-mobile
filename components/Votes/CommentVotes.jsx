@@ -4,19 +4,28 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Icon } from 'react-native-elements';
-import { UPVOTE_HIT_SLOP_OBJECT, DOWNVOTE_HIT_SLOP_OBJECT } from 'constants';
+import {
+  UPVOTE_HIT_SLOP_OBJECT,
+  DOWNVOTE_HIT_SLOP_OBJECT,
+  CurrentUserStatus,
+} from 'constants';
 import { formatNumber } from 'utility';
 import EduText from 'common/EduText';
+import { currentUserStatusPropType } from 'proptypes';
 import {
   useAPIDownvoteComment,
   useAPIUnvoteComment,
   useAPIUpvoteComment,
 } from '../../api/endpoints/ratings';
 
-function CommentVotes({ voteCount, commentId, id }) {
+function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
   const [vote, setVote] = useState(voteCount);
-  const [isUpVoted, setIsUpVoted] = useState(false);
-  const [isDownVoted, setIsDownVoted] = useState(false);
+  const [isUpVoted, setIsUpVoted] = useState(
+    currentUserStatus === CurrentUserStatus.upvoted
+  );
+  const [isDownVoted, setIsDownVoted] = useState(
+    currentUserStatus === CurrentUserStatus.downVoted
+  );
 
   const onErrorCallback = (
     error,
@@ -122,6 +131,7 @@ CommentVotes.propTypes = {
   voteCount: PropTypes.number.isRequired,
   commentId: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
+  currentUserStatus: currentUserStatusPropType.isRequired,
 };
 
 export default CommentVotes;

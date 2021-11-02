@@ -141,7 +141,8 @@ const AddQuestion = ({
       );
       currentChoiceFormik.resetForm();
     }
-  }, [currentlyEditingQuestion, currentChoiceFormik, currentQuestionFormik]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentlyEditingQuestion]);
 
   useEffect(() => {
     setDirty(currentQuestionFormik.dirty || currentChoiceFormik.dirty);

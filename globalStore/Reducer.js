@@ -7,6 +7,33 @@ const setProfileIdInStorage = async (profileId) =>
 
 const Reducer = (state, action) => {
   switch (action.type) {
+    case ReducerActions.alterImageInUploadQueue: {
+      const newQueue = state.imagesUploadQueue.map((payload) =>
+        payload?.payload?.key === action.payload?.key
+          ? {
+              payload: {
+                ...payload.payload,
+                file: {
+                  uri: action.payload?.image.uri,
+                  name: action.payload?.image.fileName,
+                  type: 'image/jpeg',
+                },
+              },
+            }
+          : payload
+      );
+      return {
+        ...state,
+        imagesUploadQueue: newQueue,
+      };
+    }
+    case ReducerActions.removeImageFromUploadQueue:
+      return {
+        ...state,
+        imagesUploadQueue: state.imagesUploadQueue.filter(
+          (payload) => payload?.payload?.key !== action.payload
+        ),
+      };
     case ReducerActions.clearImageUploadQueue:
       return {
         ...state,

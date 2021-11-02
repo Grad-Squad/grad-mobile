@@ -8,4 +8,6 @@ export default Object.freeze({
   addImageToUploadQueue: 'addImageToUploadQueue',
   popImageFromUploadQueue: 'popImageFromUploadQueue',
   clearImageUploadQueue: 'clearImageUploadQueue',
+  removeImageFromUploadQueue: 'removeImageFromUploadQueue',
+  alterImageInUploadQueue: 'alterImageInUploadQueue',
 });

@@ -24,6 +24,7 @@ import { useAPIUploadImage } from 'api/endpoints/s3';
 import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
+import { TransparentButton } from 'common/Input/Button';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -94,7 +95,7 @@ const CreatePost = ({ navigation, route }) => {
       if (state.imagesUploadQueue.length !== 0) {
         uploadImageMutation.mutate(state.imagesUploadQueue[0], {
           onError: () => {
-            // try again
+            // todo try again
           },
           onSuccess: () => {
             setCanUpload(true);
@@ -129,7 +130,7 @@ const CreatePost = ({ navigation, route }) => {
             ...post,
           });
         } else {
-          createPostMutation.mutate(post);
+          createPostMutation.mutate(post, { onError: () => {} });
         }
       }
     }
@@ -146,9 +147,16 @@ const CreatePost = ({ navigation, route }) => {
 
   useEffect(() => {
     if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
+      dispatch({ type: ReducerActions.clearMaterialList });
+      dispatch({ type: ReducerActions.clearImageUploadQueue });
       navigation.goBack();
     }
-  }, [navigation, updatePostMutation.isSuccess, createPostMutation.isSuccess]);
+  }, [
+    navigation,
+    updatePostMutation.isSuccess,
+    createPostMutation.isSuccess,
+    dispatch,
+  ]);
 
   const formik = useFormik({
     initialValues: {
@@ -189,6 +197,7 @@ const CreatePost = ({ navigation, route }) => {
         createPostMutation.isSuccess
       ) {
         // todo sub screen edited ?
+        dispatch({ type: ReducerActions.clearMaterialList });
         dispatch({ type: ReducerActions.clearImageUploadQueue });
         return;
       }
@@ -204,8 +213,10 @@ const CreatePost = ({ navigation, route }) => {
     [formik.dirty, updatePostMutation.isSuccess, createPostMutation.isSuccess]
   );
 
+  const isUploadingImages = state.imagesUploadQueue.length !== 0;
+
   const isUploadingPost =
-    state.imagesUploadQueue.length !== 0 ||
+    isUploadingImages ||
     createPostMutation.isLoading ||
     uploadImageMutation.isLoading;
 
@@ -217,17 +228,21 @@ const CreatePost = ({ navigation, route }) => {
     <Page>
       <Portal>
         <Modal
+          dismissable={false}
           visible={isProgressModalVisible}
           contentContainerStyle={styles.progressContainerStyle}
-          onDismiss={() => {
-            setIsProgressModalVisible(false);
-          }}
         >
           {isUploadingPost && <LoadingIndicator size="large" />}
           <EduText style={styles.padAbove}>
             {t('CreatePost/Upload in progress')}{' '}
             {imagesNumber !== 0 && imagesProgress}
           </EduText>
+          {!isUploadingPost && (
+            <TransparentButton
+              text="Try again"
+              onPress={() => setCanUpload(true)}
+            />
+          )}
         </Modal>
       </Portal>
       <MaterialCreateHeader

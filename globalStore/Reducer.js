@@ -27,6 +27,14 @@ const Reducer = (state, action) => {
         imagesUploadQueue: newQueue,
       };
     }
+    case ReducerActions.removeLastXFromUploadQueue:
+      return {
+        ...state,
+        imagesUploadQueue: state.imagesUploadQueue.slice(
+          0,
+          state.imagesUploadQueue.length - action.payload
+        ),
+      };
     case ReducerActions.removeImageFromUploadQueue:
       return {
         ...state,

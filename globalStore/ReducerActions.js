@@ -10,4 +10,5 @@ export default Object.freeze({
   clearImageUploadQueue: 'clearImageUploadQueue',
   removeImageFromUploadQueue: 'removeImageFromUploadQueue',
   alterImageInUploadQueue: 'alterImageInUploadQueue',
+  removeLastXFromUploadQueue: 'removeLastXFromUploadQueue',
 });

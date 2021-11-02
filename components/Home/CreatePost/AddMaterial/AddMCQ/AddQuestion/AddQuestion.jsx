@@ -28,6 +28,7 @@ const AddQuestion = ({
   contentStyle,
   questions,
   currentlyEditingQuestion,
+  incrementNumAddedImages,
   setDirty,
 }) => {
   const { t } = useLocalization();
@@ -65,6 +66,7 @@ const AddQuestion = ({
         },
       },
     };
+    incrementNumAddedImages();
     dispatch({ type: ReducerActions.addImageToUploadQueue, payload });
   };
 
@@ -339,6 +341,7 @@ AddQuestion.propTypes = {
   contentStyle: stylePropType,
   currentlyEditingQuestion: mcqQuestionPropType,
   setDirty: PropTypes.func.isRequired,
+  incrementNumAddedImages: PropTypes.func.isRequired,
 };
 AddQuestion.defaultProps = {
   contentStyle: {},

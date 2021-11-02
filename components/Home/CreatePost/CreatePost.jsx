@@ -24,7 +24,6 @@ import { useAPIUploadImage } from 'api/endpoints/s3';
 import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
-import { StackActions } from '@react-navigation/native';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -125,23 +124,12 @@ const CreatePost = ({ navigation, route }) => {
           ),
         };
         if (postId) {
-          updatePostMutation.mutate(
-            {
-              ...fetchedPostData,
-              ...post,
-            },
-            {
-              onSuccess: () => {
-                navigation.dispatch(StackActions.pop());
-              },
-            }
-          );
-        } else {
-          createPostMutation.mutate(post, {
-            onSuccess: () => {
-              navigation.dispatch(StackActions.pop());
-            },
+          updatePostMutation.mutate({
+            ...fetchedPostData,
+            ...post,
           });
+        } else {
+          createPostMutation.mutate(post);
         }
       }
     }
@@ -155,6 +143,12 @@ const CreatePost = ({ navigation, route }) => {
     updatePostMutation,
     postId,
   ]);
+
+  useEffect(() => {
+    if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
+      navigation.goBack();
+    }
+  }, [navigation, updatePostMutation.isSuccess, createPostMutation.isSuccess]);
 
   const formik = useFormik({
     initialValues: {
@@ -189,7 +183,11 @@ const CreatePost = ({ navigation, route }) => {
 
   useOnGoBack(
     (e) => {
-      if (!formik.dirty) {
+      if (
+        !formik.dirty ||
+        updatePostMutation.isSuccess ||
+        createPostMutation.isSuccess
+      ) {
         // todo sub screen edited ?
         dispatch({ type: ReducerActions.clearImageUploadQueue });
         return;
@@ -203,7 +201,7 @@ const CreatePost = ({ navigation, route }) => {
         dispatch({ type: ReducerActions.clearImageUploadQueue });
       });
     },
-    [formik.dirty]
+    [formik.dirty, updatePostMutation.isSuccess, createPostMutation.isSuccess]
   );
 
   const isUploadingPost =

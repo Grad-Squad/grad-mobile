@@ -27,6 +27,7 @@ const AddMCQ = ({ navigation, route }) => {
 
   const [state, dispatch] = useStore();
   const [subFormikDirty, setSubFormikDirty] = useState(false);
+  const [numAddedImages, setNumAddedImages] = useState(0);
 
   const editMCQ = state.createPost.materialList[editIndex];
 
@@ -98,7 +99,13 @@ const AddMCQ = ({ navigation, route }) => {
 
       e.preventDefault();
 
-      DiscardChangesAlert(t, () => navigation.dispatch(e.data.action));
+      DiscardChangesAlert(t, () => {
+        navigation.dispatch(e.data.action);
+        dispatch({
+          type: ReducerActions.removeLastXFromUploadQueue,
+          payload: numAddedImages,
+        });
+      });
     },
     [formik.dirty, subFormikDirty, formik.isSubmitting]
   );
@@ -128,6 +135,7 @@ const AddMCQ = ({ navigation, route }) => {
           contentStyle={styles.content}
           currentlyEditingQuestion={currentlyEditingQuestion}
           setDirty={setSubFormikDirty}
+          incrementNumAddedImages={() => setNumAddedImages((prev) => prev + 1)}
         />
         <QuestionsList
           questions={formik.values.questions}

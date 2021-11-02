@@ -84,6 +84,7 @@
     "Materials:": "Materials:",
     "add a material using any of the buttons below": "add a material using any of the buttons below",
     "add at least one material": "add at least one material",
+    "Upload in progress": "Upload in progress",
     "Add": {
       "Flashcards": "Add Flashcards",
       "MCQ": "Add MCQ",
@@ -225,9 +226,15 @@
   "Alerts": {
     "Discard?": {
       "title": "Discard?",
-      "message": "You have unsaved changes. Are you sure you to discard them and leave the screen?",
+      "message": "You have unsaved changes. Are you sure you want to discard them and leave the screen?",
       "confirm button": "Discard",
       "reject button": "Don't leave"
+    },
+    "Discard Image?": {
+      "title": "Discard?",
+      "message": "Could not save the image. Are you sure you want to discard it and add the question without it?",
+      "confirm button": "Discard",
+      "reject button": "Try Again"
     },
     "Lose Progress?": {
       "title": "Discard Progress?",

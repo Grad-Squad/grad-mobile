@@ -20,6 +20,7 @@ export const mcqChoicePropType = PropTypes.exact({
 export const mcqQuestionAddPropType = PropTypes.exact({
   question: PropTypes.string.isRequired,
   choices: PropTypes.arrayOf(mcqChoicePropType.isRequired).isRequired,
+  questionUriKey: PropTypes.string.isRequired,
 });
 export const mcqQuestionPropType = PropTypes.shape({
   id: PropTypes.number,

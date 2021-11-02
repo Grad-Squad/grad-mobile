@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
 import { ComboBox, TransparentTextInputFormik } from 'common/Input';
@@ -20,6 +20,11 @@ import {
 } from 'api/endpoints/posts';
 import PropTypes from 'prop-types';
 import LoadingIndicator from 'common/LoadingIndicator';
+import { useAPIUploadImage } from 'api/endpoints/s3';
+import { Modal, Portal } from 'react-native-paper';
+import EduText from 'common/EduText';
+import { Colors, Constants } from 'styles';
+import { TransparentButton } from 'common/Input/Button';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -43,12 +48,17 @@ const CreatePost = ({ navigation, route }) => {
 
   const [state, dispatch] = useStore();
   const { postId = undefined } = route?.params || {};
+  const uploadImageMutation = useAPIUploadImage();
+  const [canUpload, setCanUpload] = useState(false);
+  const [imagesNumber, setImagesNumber] = useState(0);
+  const [isProgressModalVisible, setIsProgressModalVisible] = useState(false);
 
   const {
     data: fetchedPostData,
     isFetching: isFetchingPostForEdit,
     refetch: refetchPost,
   } = useAPIGetPostById(postId, {
+    enabled: !!postId,
     onError: (error) => {
       console.log(error);
     },
@@ -79,6 +89,75 @@ const CreatePost = ({ navigation, route }) => {
     onSubmit: () => refetchPost(),
   });
 
+  useEffect(() => {
+    if (canUpload) {
+      setCanUpload(false);
+      if (state.imagesUploadQueue.length !== 0) {
+        uploadImageMutation.mutate(state.imagesUploadQueue[0], {
+          onError: () => {
+            // todo try again
+          },
+          onSuccess: () => {
+            setCanUpload(true);
+            dispatch({ type: ReducerActions.popImageFromUploadQueue });
+          },
+        });
+      } else {
+        // const { title, subject, tags, materialList } = formik.values;
+        const { title, subject, materialList } = formik.values;
+        const post = {
+          title,
+          priceInCents: 0,
+          subject,
+          materials: materialList.map(
+            ({ questions, title: materialTitle }) => ({
+              materialType: 'mcq',
+              title: materialTitle,
+              mcqs: questions.map(({ question, choices, questionUriKey }) => ({
+                question,
+                answerIndices: choices
+                  .map(({ isCorrect }, index) => (isCorrect ? index : -1))
+                  .filter((i) => i !== -1),
+                choices: choices.map(({ text }) => text),
+                questionUriKey,
+              })),
+            })
+          ),
+        };
+        if (postId) {
+          updatePostMutation.mutate({
+            ...fetchedPostData,
+            ...post,
+          });
+        } else {
+          createPostMutation.mutate(post, { onError: () => {} });
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    canUpload,
+    dispatch,
+    state.imagesUploadQueue,
+    uploadImageMutation,
+    createPostMutation,
+    updatePostMutation,
+    postId,
+  ]);
+
+  useEffect(() => {
+    if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
+      dispatch({ type: ReducerActions.clearMaterialList });
+      dispatch({ type: ReducerActions.clearImageUploadQueue });
+      navigation.goBack();
+    }
+  }, [
+    navigation,
+    updatePostMutation.isSuccess,
+    createPostMutation.isSuccess,
+    dispatch,
+  ]);
+
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -86,43 +165,10 @@ const CreatePost = ({ navigation, route }) => {
       tags: null,
       materialList: [],
     },
-    onSubmit: ({ title, subject, tags, materialList }) => {
-      Alert.alert(`post: ${title}`);
-      const post = {
-        ...fetchedPostData,
-        priceInCents: 0,
-        subject,
-        materials: materialList.map(({ questions, title: materialTitle }) => ({
-          materialType: 'mcq',
-          title: materialTitle,
-          mcqs: questions.map(({ question, choices }) => ({
-            question,
-            answerIndices: choices
-              .map(({ isCorrect }, index) => (isCorrect ? index : -1))
-              .filter((i) => i !== -1),
-            choices: choices.map(({ text }) => text),
-          })),
-        })),
-      };
-      if (postId) {
-        updatePostMutation.mutate(post);
-      }
-      createPostMutation.mutate({
-        title,
-        priceInCents: 0,
-        subject,
-        materials: materialList.map(({ questions, title: materialTitle }) => ({
-          materialType: 'mcq',
-          title: materialTitle,
-          mcqs: questions.map(({ question, choices }) => ({
-            question,
-            answerIndices: choices
-              .map(({ isCorrect }, index) => (isCorrect ? index : -1))
-              .filter((i) => i !== -1),
-            choices: choices.map(({ text }) => text),
-          })),
-        })),
-      });
+    onSubmit: () => {
+      setCanUpload(true);
+      setIsProgressModalVisible(true);
+      setImagesNumber(state.imagesUploadQueue.length);
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -141,12 +187,18 @@ const CreatePost = ({ navigation, route }) => {
     if (state.createPost.materialList.length !== 0) {
       formik.setFieldValue('materialList', state.createPost.materialList);
     }
-  }, [state.createPost.materialList, formik]);
+  }, [state.createPost.materialList]);
 
   useOnGoBack(
     (e) => {
-      if (!formik.dirty) {
+      if (
+        !formik.dirty ||
+        updatePostMutation.isSuccess ||
+        createPostMutation.isSuccess
+      ) {
         // todo sub screen edited ?
+        dispatch({ type: ReducerActions.clearMaterialList });
+        dispatch({ type: ReducerActions.clearImageUploadQueue });
         return;
       }
 
@@ -155,13 +207,44 @@ const CreatePost = ({ navigation, route }) => {
       DiscardChangesAlert(t, () => {
         navigation.dispatch(e.data.action);
         dispatch({ type: ReducerActions.clearMaterialList });
+        dispatch({ type: ReducerActions.clearImageUploadQueue });
       });
     },
-    [formik.dirty]
+    [formik.dirty, updatePostMutation.isSuccess, createPostMutation.isSuccess]
   );
+
+  const isUploadingImages = state.imagesUploadQueue.length !== 0;
+
+  const isUploadingPost =
+    isUploadingImages ||
+    createPostMutation.isLoading ||
+    uploadImageMutation.isLoading;
+
+  const imagesProgress = `${
+    imagesNumber - state.imagesUploadQueue.length
+  }/${imagesNumber}`;
 
   return (
     <Page>
+      <Portal>
+        <Modal
+          dismissable={false}
+          visible={isProgressModalVisible}
+          contentContainerStyle={styles.progressContainerStyle}
+        >
+          {isUploadingPost && <LoadingIndicator size="large" />}
+          <EduText style={styles.padAbove}>
+            {t('CreatePost/Upload in progress')}{' '}
+            {imagesNumber !== 0 && imagesProgress}
+          </EduText>
+          {!isUploadingPost && (
+            <TransparentButton
+              text="Try again"
+              onPress={() => setCanUpload(true)}
+            />
+          )}
+        </Modal>
+      </Portal>
       <MaterialCreateHeader
         title={
           postId ? t('CreatePost/Edit Post') : t('CreatePost/Create New Post')
@@ -235,4 +318,15 @@ CreatePost.defaultProps = {
 
 export default CreatePost;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  progressContainerStyle: {
+    padding: Constants.commonMargin,
+    backgroundColor: Colors.background,
+    margin: Constants.commonMargin,
+    alignItems: 'center',
+    // height: '40%',
+  },
+  padAbove: {
+    paddingTop: Constants.commonMargin / 2,
+  },
+});

@@ -8,7 +8,7 @@ import { stylePropType } from 'proptypes';
 const LoadingIndicator = ({ fullScreen, style, large, ...props }) => (
   <ActivityIndicator
     color={Colors.accent}
-    style={[styles.fullScreen, style]}
+    style={[fullScreen && styles.fullScreen, style]}
     size={large ? 'large' : 'small'}
     // eslint-disable-next-line react/jsx-props-no-spreading
     {...props}

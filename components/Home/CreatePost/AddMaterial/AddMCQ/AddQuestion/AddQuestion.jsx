@@ -16,6 +16,8 @@ import ImageSelector from 'common/ImageSelector';
 import { useAPIgetOneS3UploadLinks } from 'api/endpoints/s3';
 import { useStore } from 'globalStore/GlobalStore';
 import ReducerActions from 'globalStore/ReducerActions';
+import BaseAlert from 'common/alerts/BaseAlert';
+import { deepCompare } from 'utility';
 import ChoicesList from './ChoicesList';
 
 const MaxNumberOfChoices = 26;
@@ -30,18 +32,41 @@ const AddQuestion = ({
 }) => {
   const { t } = useLocalization();
   const [image, setImage] = useState({});
-  const [, dispatch] = useStore();
+  const [prevImage, setPrevImage] = useState({});
+  const [state, dispatch] = useStore();
 
-  const { data: uploadLinkData, isSuccess: gettingUploadLinkSucceeded } =
-    useAPIgetOneS3UploadLinks({
-      enabled: !!image?.uri,
-      onSuccess: (data) => {
+  const isS3LinkEnabled = !!image?.uri;
+  const {
+    data: uploadLinkData,
+    isSuccess: gettingUploadLinkSucceeded,
+    refetch: refetchUploadLink,
+  } = useAPIgetOneS3UploadLinks({
+    enabled: isS3LinkEnabled,
+    onSuccess: (data) => {
+      if (!currentlyEditingQuestion) {
         currentQuestionFormik.setFieldValue(
           'questionUriKey',
           data[0]?.fields?.key
         );
+      }
+    },
+    onError: () => {},
+  });
+
+  const addImageToUploadQueue = () => {
+    const payload = {
+      payload: {
+        ...uploadLinkData[0].fields,
+        'content-type': 'image/jpeg',
+        file: {
+          uri: image.uri,
+          name: image.fileName,
+          type: 'image/jpeg',
+        },
       },
-    });
+    };
+    dispatch({ type: ReducerActions.addImageToUploadQueue, payload });
+  };
 
   const currentQuestionFormik = useFormik({
     initialValues: {
@@ -54,21 +79,31 @@ const AddQuestion = ({
       currentQuestionFormik.resetForm({
         values: { question: '', choices: [], questionUriKey: '' },
       });
-      if (gettingUploadLinkSucceeded) {
-        const payload = {
-          payload: {
-            ...uploadLinkData[0].fields,
-            'content-type': 'image/jpeg',
-            file: {
-              uri: image.uri,
-              name: image.fileName,
-              type: 'image/jpeg',
-            },
-          },
-        };
-        dispatch({ type: ReducerActions.addImageToUploadQueue, payload });
+
+      if (currentlyEditingQuestion) {
+        const noPreviousImage = !prevImage?.uri;
+        const imageChanged = () => !deepCompare(image, prevImage);
+
+        if (noPreviousImage) {
+          addImageToUploadQueue();
+        } else if (!isS3LinkEnabled) {
+          // todo: handle image removal
+          dispatch({
+            type: ReducerActions.removeImageFromUploadQueue,
+            payload: currentQuestionFormik.questionUriKey,
+          });
+        } else if (imageChanged()) {
+          dispatch({
+            type: ReducerActions.alterImageInUploadQueue,
+            payload: { image, key: currentlyEditingQuestion.questionUriKey },
+            ds: 9,
+          });
+        }
+      } else if (gettingUploadLinkSucceeded && isS3LinkEnabled) {
+        addImageToUploadQueue();
       }
       setImage({});
+      setPrevImage({});
       currentChoiceFormik.resetForm();
     },
     validationSchema: yup.object().shape({
@@ -139,6 +174,30 @@ const AddQuestion = ({
         'choices',
         currentlyEditingQuestion.choices
       );
+
+      if (currentlyEditingQuestion?.questionUriKey) {
+        currentQuestionFormik.setFieldValue(
+          'questionUriKey',
+          currentlyEditingQuestion.questionUriKey
+        );
+        const [
+          {
+            payload: { file },
+          },
+        ] = state.imagesUploadQueue.filter(
+          (payload) =>
+            payload?.payload?.key === currentlyEditingQuestion.questionUriKey
+        );
+        setImage({
+          fileName: file?.name,
+          uri: file?.uri,
+        });
+        setPrevImage({
+          fileName: file?.name,
+          uri: file?.uri,
+        });
+      }
+
       currentChoiceFormik.resetForm();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -250,7 +309,22 @@ const AddQuestion = ({
         />
         <SecondaryActionButton
           text={t('AddMaterial/Add Question')}
-          onPress={currentQuestionFormik.handleSubmit}
+          onPress={() => {
+            if (!isS3LinkEnabled || gettingUploadLinkSucceeded) {
+              currentQuestionFormik.handleSubmit();
+            } else {
+              BaseAlert(
+                t,
+                'Discard Image?',
+                () => {
+                  currentQuestionFormik.handleSubmit();
+                },
+                () => {
+                  refetchUploadLink();
+                }
+              );
+            }
+          }}
           style={[styles.addQuestion, !canAddQuestions && styles.disabled]}
           disabled={!canAddQuestions}
         />

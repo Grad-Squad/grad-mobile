@@ -216,9 +216,10 @@ const CreatePost = ({ navigation, route }) => {
   const isUploadingImages = state.imagesUploadQueue.length !== 0;
 
   const isUploadingPost =
-    isUploadingImages ||
-    createPostMutation.isLoading ||
-    uploadImageMutation.isLoading;
+    (isUploadingImages ||
+      createPostMutation.isLoading ||
+      uploadImageMutation.isLoading) &&
+    !uploadImageMutation.isError;
 
   const imagesProgress = `${
     imagesNumber - state.imagesUploadQueue.length
@@ -241,6 +242,12 @@ const CreatePost = ({ navigation, route }) => {
             <TransparentButton
               text="Try again"
               onPress={() => setCanUpload(true)}
+            />
+          )}
+          {!isUploadingPost && (
+            <TransparentButton
+              text="Cancel"
+              onPress={() => setIsProgressModalVisible(false)}
             />
           )}
         </Modal>

@@ -2,7 +2,7 @@
   "expo": {
     "name": "educate-mobile",
     "slug": "educate-mobile",
-    "version": "1.0.1",
+    "version": "2021.11.0",
     "facebookScheme": "fb302939171663614",
     "facebookAppId": "302939171663614",
     "facebookDisplayName": "Educate",
@@ -27,7 +27,7 @@
     },
     "android": {
       "package": "com.squidsoft.educate",
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

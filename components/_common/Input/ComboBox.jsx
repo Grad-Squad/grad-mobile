@@ -16,6 +16,7 @@ const ComboBox = ({
   max,
   error,
   errorMsg,
+  schema,
 }) => {
   const { t } = useLocalization();
 
@@ -24,6 +25,7 @@ const ComboBox = ({
 
   return (
     <DropDownPicker
+      schema= {schema}
       open={open}
       value={value}
       items={items}
@@ -64,7 +66,7 @@ ComboBox.propTypes = {
   initialItems: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
     })
   ).isRequired,
   multiple: PropTypes.bool,

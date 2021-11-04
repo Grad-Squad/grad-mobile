@@ -6,6 +6,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Feather from 'react-native-vector-icons/Feather';
+import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { TextPropType } from 'proptypes';
 import SVGIcons from './SVGIcons';
@@ -30,6 +31,8 @@ export const IconNames = Object.freeze({
   dotsVertical: 'dots-vertical',
   edit: 'edit-2',
   checkbox: 'check-square',
+  dropdown: 'check-circle',
+  dropdownClosed: 'chevron-down',
   square: 'square',
   AddImage: 'AddImage',
   delete: 'delete-outline',
@@ -39,6 +42,7 @@ export const IconNames = Object.freeze({
   comment: 'comment-outline',
   share: 'sharealt',
   report: 'flag',
+  tagDot: 'dot-single',
 });
 
 const map = {
@@ -59,8 +63,10 @@ const map = {
   'ondemand-video': MaterialIcons,
   'dots-horizontal': MaterialCommunityIcons,
   'dots-vertical': MaterialCommunityIcons,
+  'chevron-down': MaterialCommunityIcons,
   'edit-2': Feather,
   'check-square': Feather,
+  'check-circle': Feather,
   square: Feather,
   AddImage: SVGIcons,
   'delete-outline': MaterialIcons,
@@ -70,6 +76,7 @@ const map = {
   'comment-outline': MaterialCommunityIcons,
   sharealt: AntDesign,
   flag: AntDesign,
+  "dot-single": Entypo,
 };
 
 const Icon = ({ name, size, color, style }) => {

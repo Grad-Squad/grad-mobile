@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
-import { ComboBox, TransparentTextInputFormik } from 'common/Input';
+import { ComboBox, TransparentTextInputFormik, DropdownList } from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { requiredError } from 'validation';
@@ -24,18 +24,18 @@ import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
 const dropdownInitialItems = [
-  { label: 'Apple', value: 'apple' },
-  { label: 'Banana1', value: 'banana2' },
-  { label: 'Banana3', value: 'banana4' },
-  { label: 'Banana5', value: 'banana6' },
-  { label: 'Banana7', value: 'banana8' },
-  { label: 'Banana9', value: 'banana10' },
-  { label: 'Banana11', value: 'banana12' },
-  { label: 'Banana13', value: 'banana14' },
-  { label: 'Banana15', value: 'banana16' },
-  { label: 'Banana17', value: 'banana18' },
-  { label: 'Banana19', value: 'banana20' },
-  { label: 'math d2', value: 'math d2' },
+  { label: 'Apple', id: 'apple' },
+  { label: 'Banana1', id: 'banana1' },
+  { label: 'Banana3', id: 'banana3' },
+  { label: 'Banana5', id: 'banana5' },
+  { label: 'Banana7', id: 'banana7' },
+  { label: 'Banana9', id: 'banana9' },
+  { label: 'Banana11', id: 'banana11' },
+  { label: 'Banana13', id: 'banana13' },
+  { label: 'Banana15', id: 'banana15' },
+  { label: 'Banana17', id: 'banana17' },
+  { label: 'Banana19', id: 'banana19' },
+  { label: 'math d2', id: 'math d2' },
 ];
 
 const CreatePost = ({ navigation, route }) => {
@@ -180,6 +180,9 @@ const CreatePost = ({ navigation, route }) => {
         formikKey="title"
       />
       <ComboBox
+        schema={{
+          value:'id'
+        }}
         placeholder={t('CreatePost/SubjectCourse')}
         value={formik.values.subject}
         setValueCallback={(callback) =>
@@ -189,16 +192,19 @@ const CreatePost = ({ navigation, route }) => {
         error={formik.errors.subject && formik.touched.subject}
         errorMsg={formik.errors.subject}
       />
-      <ComboBox
+      <DropdownList
         placeholder={t('CreatePost/Tags')}
         multiple
         min={0}
         max={5}
         value={formik.values.tags}
-        setValueCallback={(callback) =>
-          formik.setFieldValue('tags', callback(formik.values.tags))
-        }
-        initialItems={dropdownInitialItems}
+        setValueFunction={(newValues) => {
+          formik.setFieldValue('tags', newValues)
+        }}
+        // setValueCallback={(callback) =>
+        //   formik.setFieldValue('tags', callback(formik.values.tags))
+        // }
+        items={dropdownInitialItems}
       />
 
       <MaterialList

@@ -6,3 +6,4 @@ export {
 export { default as TextInputGroup } from './TextInputGroup';
 export { default as AddProfileImage } from './AddProfileImage';
 export { default as ComboBox } from './ComboBox';
+export { default as DropdownList } from './DropdownList';

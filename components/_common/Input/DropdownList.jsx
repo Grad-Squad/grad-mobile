@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, FlatList, Pressable, Text, StyleSheet, Modal } from 'react-native';
+import { View, FlatList, Pressable, StyleSheet, Modal } from 'react-native';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import PropTypes from 'prop-types';
 import { stylePropType } from 'proptypes';
@@ -7,6 +7,7 @@ import { Icon, PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import { Colors } from 'styles';
 import TagLabel from 'common/TagLabel';
+import EduText from 'common/EduText';
 import TransparentTextInput from './TransparentTextInput';
 
 const DropdownList = ({
@@ -20,9 +21,7 @@ const DropdownList = ({
   max,
 }) => {
   const [open, setOpen] = useState(false);
-  const [choices, setChoices] = useState([]);
-
-  // const listRef = useRef(null);
+  const [choices, setChoices] = useState([value]);
 
   const onPresshandler = (key) => {
 
@@ -55,7 +54,7 @@ const DropdownList = ({
       onPress={() => onPresshandler(item.id)}
       android_ripple={pressableAndroidRipple}
     >
-      <Text>{item.label}</Text>
+      <EduText>{item.label}</EduText>
       {choices.includes(item.id) &&
       <Icon name={IconNames.dropdown} size={20}/>
       }
@@ -82,7 +81,7 @@ const DropdownList = ({
         )}
       )}</View>
       :
-      <Text>{choices.length === 1?items[0].label:placeholder}</Text>}
+      <EduText>{choices.length === 1?items[0].label:placeholder}</EduText>}
       <Icon name={IconNames.dropdownClosed}/>
       </Pressable>
       <Modal
@@ -120,7 +119,6 @@ DropdownList.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   setValueFunction: PropTypes.func.isRequired,
   style: stylePropType,
-  // eslint-disable-next-line react/forbid-prop-types
   multiple: PropTypes.bool,
   min: PropTypes.number,
   max: PropTypes.number,

@@ -7,7 +7,7 @@ import { IconNames } from 'common/Icon/Icon';
 
 const TagLabel = ({ labelText, labelColor, textColor }) => (
   <View style={[styles.wrapper, {backgroundColor: labelColor}]}>
-    <Icon name={IconNames.tagDot} size={15} color={Colors.background}/>
+    <Icon name={IconNames.tagDot} size={20} color={Colors.background}/>
     <Text style={[styles.text, {color: textColor}]}>{labelText}</Text>
   </View>
 );
@@ -29,12 +29,12 @@ const styles = StyleSheet.create({
     wrapper:{
         flexDirection:'row',
         borderRadius:10,
-        justifyContent: 'center',
-        alignContent:'center',
+        justifyContent: 'flex-start',
+        alignItems:'center',
         marginVertical:2,
-        paddingHorizontal:5,
+        paddingRight:10,
     },
     text:{
-        fontSize:10,
+        fontSize:15,
     },
 });

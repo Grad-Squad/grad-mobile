@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, Pressable, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, FlatList, Pressable, Text, StyleSheet, Modal } from 'react-native';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import PropTypes from 'prop-types';
 import { stylePropType } from 'proptypes';
-import { Icon } from 'common/Icon';
+import { Icon, PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import { Colors } from 'styles';
 import TagLabel from 'common/TagLabel';
+import TransparentTextInput from './TransparentTextInput';
 
 const DropdownList = ({
   placeholder,
@@ -25,23 +26,34 @@ const DropdownList = ({
 
   const onPresshandler = (key) => {
 
-    if(choices.includes(key)){              // item pressed already exists -> remove that item
-        const correct = [...choices]
-        correct.splice(correct.indexOf(key), 1);
-        setChoices(correct)
-    }else if(multiple){                     // item pressed does not exist -> add item if multiple
-        if (choices.length < max)
-            setChoices([...choices, key])
-    }else{                                  // item pressed does not exist -> switch to item if single
-        setChoices([key])
+    let currentChoices
+
+    // item pressed already exists -> remove that item
+    if(choices.includes(key)){
+      const correct = [...choices]
+      correct.splice(correct.indexOf(key), 1);
+      currentChoices = correct
+
+    // item pressed does not exist -> add item if multiple
+    }else if(multiple){
+      if (choices.length < max)
+        currentChoices = [...choices, key]
+      else
+        return
+
+    // item pressed does not exist -> switch to item if single
+    }else{
+      currentChoices = [key]
     }
+    setChoices(currentChoices)
+    setValueFunction(currentChoices)
   };
 
   const renderItem = ({ item }) => (
     <Pressable
-        style={styles.listItem}
-        onPress={() => onPresshandler(item.id)}
-        android_ripple={pressableAndroidRipple}
+      style={styles.listItem}
+      onPress={() => onPresshandler(item.id)}
+      android_ripple={pressableAndroidRipple}
     >
       <Text>{item.label}</Text>
       {choices.includes(item.id) &&
@@ -50,42 +62,37 @@ const DropdownList = ({
     </Pressable>
   );
 
-  const renderTag = ({ item }) => (
-    <View style={styles.tags}>
-        <TagLabel
-            labelText={item}
-        />
-    </View>
-  );
-
-  useEffect(() => {
-    setValueFunction(choices)
-  }, [choices])
-
   return (
     <View style={[style, styles.container]}>
-        <Pressable
-            onPress={() => setOpen(!open)}
-            style={styles.Button}
-            android_ripple={pressableAndroidRipple}
-        >
-            <View style={{flexWrap:'wrap'}}>
-                {choices.length > 0 ?
-                <FlatList
-                horizontal
-                data={choices}
-                renderItem={renderTag}
-                keyExtractor={(item) => item}
-                style={{width:"100%",zIndex:10}}
-                contentContainerStyle={{alignItems:'center'}}
-                />
-                :
-                <Text style={styles.ButtonText}>{placeholder}</Text>}
-            </View>
-            <Icon style={styles.ButtonIcon} name={IconNames.dropdownClosed} />
-        </Pressable>
-      <>
-      {open && (
+      <Pressable
+        onPress={() => setOpen(!open)}
+        style={styles.Button}
+        android_ripple={pressableAndroidRipple}
+      >
+      {choices.length > 0 ?
+      <View style={[styles.tags, open ? styles.tagOpened : styles.tagOpened]}>{
+        choices.map((id) =>
+          <View style ={{paddingHorizontal: 2}}key={id}>
+            <TagLabel
+              labelText={id}
+            />
+          </View>
+      )}</View>
+      :
+      <Text>{placeholder}</Text>}
+      <Icon name={IconNames.dropdownClosed}/>
+      </Pressable>
+      <Modal
+      animationType="slide"
+      visible={open}
+      onRequestClose= {() => {
+        setOpen(!open)
+      }}>
+        <View style={styles.listWrapper}>
+          <View style={styles.searchbar}>
+            <PressableIcon name={IconNames.close} size={35} onPress={()=> setOpen(!open)}/>
+            <TransparentTextInput text="WIP SEARCHBAR" setText={()=>{}} style={{width:'87%'}}/>
+          </View>
           <FlatList
             style={styles.list}
             contentContainerStyle={styles.listBackground}
@@ -93,8 +100,8 @@ const DropdownList = ({
             renderItem={renderItem}
             keyExtractor={(item) => item.id} // or whatever unique value that exists
           />
-      )}
-      </>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -133,15 +140,21 @@ const styles = StyleSheet.create({
         borderBottomWidth:1,
     },
     list: {
-        // position: 'absolute',
         width: '100%',
-        maxHeight:'50%',
-        overflow:'scroll',
+        maxHeight:'100%',
         backgroundColor: Colors.background,
-        borderColor: Colors.offBlack,
-        borderWidth: 1,
-        borderRadius: 0.1,
-        zIndex:10,
+        zIndex:1,
+        alignSelf:'center',
+    },
+    searchbar:{
+      flexDirection:'row',
+      alignItems:'center',
+      justifyContent:'space-between',
+      paddingHorizontal:10,
+      paddingVertical:5,
+    },
+    listWrapper:{
+      flex:1,
     },
     listItem: {
         flexDirection: 'row',
@@ -149,7 +162,7 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         paddingVertical: 8,
         paddingHorizontal: 10,
-        zIndex:10,
+        zIndex:1,
         width:'100%',
     },
     Button: {
@@ -160,7 +173,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
     },
     tags: {
-        paddingHorizontal: 0.6,
+        paddingHorizontal: 1,
+        flexDirection:'row',
+        width: '90%',
     },
+    tagOpened:{
+      flexWrap:'wrap',
+      overflow:'visible'
+    },
+    tagClosed:{
+      flexWrap:'nowrap',
+      overflow:'hidden'
+    }
 
 });

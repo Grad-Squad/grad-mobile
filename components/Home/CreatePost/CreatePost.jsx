@@ -179,18 +179,15 @@ const CreatePost = ({ navigation, route }) => {
         formik={formik}
         formikKey="title"
       />
-      <ComboBox
-        schema={{
-          value:'id'
-        }}
+      <DropdownList
         placeholder={t('CreatePost/SubjectCourse')}
         value={formik.values.subject}
-        setValueCallback={(callback) =>
-          formik.handleChange('subject')(callback(formik.values.subject))
+        setValueFunction={(newValue) =>
+          formik.setFieldValue('subject', newValue)
         }
-        initialItems={dropdownInitialItems}
-        error={formik.errors.subject && formik.touched.subject}
-        errorMsg={formik.errors.subject}
+        items={dropdownInitialItems}
+        // error={formik.errors.subject && formik.touched.subject}
+        // errorMsg={formik.errors.subject}
       />
       <DropdownList
         placeholder={t('CreatePost/Tags')}
@@ -201,9 +198,6 @@ const CreatePost = ({ navigation, route }) => {
         setValueFunction={(newValues) => {
           formik.setFieldValue('tags', newValues)
         }}
-        // setValueCallback={(callback) =>
-        //   formik.setFieldValue('tags', callback(formik.values.tags))
-        // }
         items={dropdownInitialItems}
       />
 

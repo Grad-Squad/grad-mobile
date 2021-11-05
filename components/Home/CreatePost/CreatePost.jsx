@@ -25,17 +25,17 @@ import MaterialList from './MaterialList';
 
 const dropdownInitialItems = [
   { label: 'Apple', id: 'apple' },
-  { label: 'Banana1', id: 'banana1' },
-  { label: 'Banana3', id: 'banana3' },
-  { label: 'Banana5', id: 'banana5' },
-  { label: 'Banana7', id: 'banana7' },
-  { label: 'Banana9', id: 'banana9' },
-  { label: 'Banana11', id: 'banana11' },
-  { label: 'Banana13', id: 'banana13' },
-  { label: 'Banana15', id: 'banana15' },
-  { label: 'Banana17', id: 'banana17' },
-  { label: 'Banana19', id: 'banana19' },
-  { label: 'math d2', id: 'math d2' },
+  { label: 'Banana0', id: 'banana1' },
+  { label: 'Banana2', id: 'banana3' },
+  { label: 'Banana4', id: 'banana5' },
+  { label: 'Banana6', id: 'banana7' },
+  { label: 'Banana8', id: 'banana9' },
+  { label: 'Banana10', id: 'banana11' },
+  { label: 'Banana12', id: 'banana13' },
+  { label: 'Banana14', id: 'banana15' },
+  { label: 'Banana16', id: 'banana17' },
+  { label: 'Banana18', id: 'banana19' },
+  { label: 'math d1', id: 'math d2' },
 ];
 
 const CreatePost = ({ navigation, route }) => {

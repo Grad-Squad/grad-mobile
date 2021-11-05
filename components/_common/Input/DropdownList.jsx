@@ -69,17 +69,20 @@ const DropdownList = ({
         style={styles.Button}
         android_ripple={pressableAndroidRipple}
       >
-      {choices.length > 0 ?
+      {choices.length > 0 && multiple?
       <View style={[styles.tags, open ? styles.tagOpened : styles.tagOpened]}>{
-        choices.map((id) =>
-          <View style ={{paddingHorizontal: 2}}key={id}>
+        items.map((item) =>{
+          if(choices.includes(item.id))
+          return (
+          <View style ={{paddingHorizontal: 2}}key={item.id}>
             <TagLabel
-              labelText={id}
+              labelText={item.label}
             />
           </View>
+        )}
       )}</View>
       :
-      <Text>{placeholder}</Text>}
+      <Text>{choices.length === 1?items[0].label:placeholder}</Text>}
       <Icon name={IconNames.dropdownClosed}/>
       </Pressable>
       <Modal

@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#FBFBFB",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <Image
+    source={1}
+    style={Object {}}
+  />
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Lato_400Regular",
+        },
+        Object {
+          "color": "#3C3C3C",
+        },
+        Object {
+          "fontFamily": "Lato_700Bold",
+          "fontSize": 72,
+          "marginBottom": 6,
+          "marginTop": 35,
+        },
+      ]
+    }
+  >
+    WIP
+  </Text>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Lato_400Regular",
+        },
+        Object {
+          "color": "#3C3C3C",
+        },
+        Object {
+          "fontSize": 18,
+          "width": 250,
+        },
+      ]
+    }
+  >
+    We are currently working on this feature. It will be available as soon as possible.
+  </Text>
+  <View
+    accessible={true}
+    focusable={true}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderRadius": 9,
+          "flexDirection": "row",
+          "justifyContent": "center",
+          "paddingHorizontal": 8,
+          "paddingVertical": 7,
+        },
+        Array [
+          Object {},
+          Object {
+            "alignSelf": "center",
+            "bottom": 10,
+            "position": "absolute",
+          },
+        ],
+      ]
+    }
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "#3C3C3C",
+            "fontFamily": "Lato_400Regular",
+            "fontSize": 22,
+          },
+          Array [
+            Object {
+              "color": "#0A7DA4",
+            },
+            Object {},
+          ],
+        ]
+      }
+    >
+      Go back
+    </Text>
+  </View>
+</View>
+`;

@@ -6,21 +6,19 @@ import Page from 'common/Page/Page';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import { TransparentTextInputFormik } from 'common/Input';
-import EduText from 'common/EduText';
 import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
-import { Styles } from 'styles';
-import Separator from 'common/Separator';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { requiredError } from 'validation';
+import { materialTitle, requiredError } from 'validation';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
+import AddDocument from './AddDocument';
+import PreviewDocument from './PreviewDocument';
 
 const AddPDF = () => {
   const { t } = useLocalization();
   const navigation = useNavigation();
-
 
   const formik = useFormik({
     initialValues: {
@@ -31,14 +29,7 @@ const AddPDF = () => {
       navigation.goBack();
     },
     validationSchema: yup.object().shape({
-      pdfTitle: yup
-        .string()
-        .required(requiredError(t))
-        .max(
-          100, // repeated
-          t('TextInput/max char error', { max: 100 })
-        )
-        .trim(),
+      pdfTitle: materialTitle(t),
       fileName: yup.string().required(requiredError(t)),
     }),
   });
@@ -88,45 +79,21 @@ const AddPDF = () => {
         )}
       </View>
       {formik.values.fileName ? (
-        <>
-          <View style={styles.fileNameRow}>
-            <EduText style={styles.pdfFileName}>
-              {`${t('AddMaterial/PDF/PDF file name:')} ${
-                formik.values.fileName
-              }`}
-            </EduText>
-            <PressableIcon
-              name={IconNames.delete}
-              onPress={() => formik.setFieldValue('fileName', '')}
-            />
-          </View>
-          <Separator style={styles.previewSeparator} />
-          <EduText style={styles.preview}>{t('AddMaterial/Preview')}</EduText>
-          <View
-            // todo temp pdf viewer
-            style={{
-              backgroundColor: 'pink',
-              width: '100%',
-              flex: 1,
-              alignSelf: 'center',
-            }}
-          />
-        </>
+        <PreviewDocument
+          fileName={formik.values.fileName}
+          onRemoveFile={() => formik.setFieldValue('fileName', '')}
+        />
       ) : (
-        <View style={styles.addDocumentIcon}>
-          <PressableIcon
-            name={IconNames.addDocument}
-            size={90}
-            onPress={() => {
-              const newFileName = 'Some File.pdf';
-              // todo file picker, filter by pdf
-              if (!formik.values.pdfTitle) {
-                formik.setFieldValue('pdfTitle', newFileName.split('.pdf')[0]);
-              }
-              formik.setFieldValue('fileName', newFileName);
-            }}
-          />
-        </View>
+        <AddDocument
+          onAddPress={() => {
+            const newFileName = 'Some File.pdf';
+            // todo file picker, filter by pdf
+            if (!formik.values.pdfTitle) {
+              formik.setFieldValue('pdfTitle', newFileName.split('.pdf')[0]);
+            }
+            formik.setFieldValue('fileName', newFileName);
+          }}
+        />
       )}
     </Page>
   );
@@ -138,11 +105,6 @@ AddPDF.defaultProps = {};
 export default AddPDF;
 
 const styles = StyleSheet.create({
-  addDocumentIcon: {
-    flex: 1,
-    justifyContent: 'center',
-    alignSelf: 'center',
-  },
   pdfNameRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -152,25 +114,5 @@ const styles = StyleSheet.create({
   },
   clearPdfName: {
     marginHorizontal: 7,
-  },
-  fileNameRow: {
-    flexDirection: 'row',
-    marginTop: 5,
-    alignItems: 'center',
-  },
-  pdfFileName: {
-    ...Styles.underLinedFileName,
-
-    marginLeft: 10,
-    marginRight: 4,
-  },
-  previewSeparator: {
-    marginTop: 20,
-  },
-  preview: {
-    fontSize: 41,
-    textAlign: 'center',
-
-    marginBottom: 15,
   },
 });

@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { useLocalization } from 'localization';
 import * as yup from 'yup';
-import { requiredError } from 'validation';
+import { materialTitle } from 'validation';
 import { useFormik } from 'formik';
 import { TransparentTextInputFormik } from 'common/Input';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
@@ -64,11 +64,7 @@ const AddMCQ = ({ navigation, route }) => {
       }
     },
     validationSchema: yup.object().shape({
-      title: yup
-        .string()
-        .trim()
-        .max(100, t('TextInput/max char error'))
-        .required(requiredError(t)),
+      title: materialTitle(t),
       questions: yup
         .array()
         .min(1, t('AddMaterial/MCQ/errors/add at least one question')),

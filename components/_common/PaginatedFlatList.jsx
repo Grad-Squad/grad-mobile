@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   },
   noItems: {
     textAlign: 'center',
-    flex: 1,
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
 });

@@ -4,7 +4,7 @@ import { Alert, StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { requiredError } from 'validation';
+import { maxCharError, requiredError } from 'validation';
 import { TextInputFormik } from 'common/Input';
 import PressableText from 'common/PressableText';
 import { SecondaryActionButton, TransparentButton } from 'common/Input/Button';
@@ -162,7 +162,7 @@ const AddQuestion = ({
               (item) => item.text === value
             ) === -1
         )
-        .max(400, t('TextInput/max char error', { max: 400 })),
+        .max(400, maxCharError(t, 400)),
     }),
   });
 

@@ -5,7 +5,7 @@ import { navigationPropType, routeParamPropType } from 'proptypes';
 import { ComboBox, TransparentTextInputFormik } from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { requiredError } from 'validation';
+import { maxCharError, requiredError } from 'validation';
 import { useLocalization } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { useStore } from 'globalStore/GlobalStore';
@@ -174,7 +174,7 @@ const CreatePost = ({ navigation, route }) => {
       title: yup
         .string()
         .trim()
-        .max(100, t('TextInput/max char error'))
+        .max(100, maxCharError(t, 100))
         .required(requiredError(t)),
       subject: yup.string().nullable().required(requiredError(t)),
       materialList: yup

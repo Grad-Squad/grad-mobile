@@ -39,7 +39,7 @@ const PaginatedFlatList = ({
     return <EduText style={styles.error}>{t(errorLocalizationKey)}</EduText>;
   }
   if (isLoading) {
-    return <LoadingIndicator large />;
+    return <LoadingIndicator large fullScreen />;
   }
   if (!flatListItems.length) {
     return (

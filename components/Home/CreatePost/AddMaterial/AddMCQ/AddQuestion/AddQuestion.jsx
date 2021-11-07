@@ -10,7 +10,7 @@ import PressableText from 'common/PressableText';
 import { SecondaryActionButton, TransparentButton } from 'common/Input/Button';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
-import { Colors } from 'styles';
+import { Colors, Styles } from 'styles';
 import { mcqQuestionAddPropType, stylePropType } from 'proptypes';
 import ImageSelector from 'common/ImageSelector';
 import { useAPIgetOneS3UploadLinks } from 'api/endpoints/s3';
@@ -356,8 +356,7 @@ const styles = StyleSheet.create({
   },
   textInputRightComponent: { flexBasis: '18%', alignItems: 'center' },
   uploadedFileName: {
-    borderBottomColor: Colors.accent,
-    borderBottomWidth: 1,
+    ...Styles.underLinedFileName,
 
     marginTop: 4,
 

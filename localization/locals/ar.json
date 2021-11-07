@@ -121,6 +121,7 @@
   },
   "AddMaterial": {
     "Finish": "اتمام",
+    "Preview": "استعراض",
     "MCQ": {
       "Create MCQ": "إنشاء سؤال اختر",
       "Exercise Title": "عنوان التمرين",
@@ -136,6 +137,11 @@
         "(maximum number of choices reached)": "(تم الوصول إلى الحد الأقصى لعدد الاختيارات)",
         "add at least one question": "أضف سؤالاً واحداً على الأقل"
       }
+    },
+    "PDF": {
+      "Add PDF": "أضف ملف PDF",
+      "PDF Title": "عنوان PDF",
+      "PDF file name:": "اسم ملف PDF:"
     },
     "Add": "أضف",
     "Add Question": "أضف السؤال",

@@ -13,6 +13,7 @@ import { useFormik } from 'formik';
 import { materialTitle, requiredError } from 'validation';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
+import * as DocumentPicker from 'expo-document-picker';
 import AddDocument from './AddDocument';
 import PreviewDocument from './PreviewDocument';
 
@@ -24,6 +25,7 @@ const AddPDF = () => {
     initialValues: {
       pdfTitle: '',
       fileName: '',
+      fileUri: '',
     },
     onSubmit: (pdf) => {
       navigation.goBack();
@@ -81,17 +83,29 @@ const AddPDF = () => {
       {formik.values.fileName ? (
         <PreviewDocument
           fileName={formik.values.fileName}
-          onRemoveFile={() => formik.setFieldValue('fileName', '')}
+          onRemoveFile={() => {
+            formik.setFieldValue('fileName', '');
+            formik.setFieldValue('fileUri', '');
+          }}
         />
       ) : (
         <AddDocument
-          onAddPress={() => {
-            const newFileName = 'Some File.pdf';
-            // todo file picker, filter by pdf
-            if (!formik.values.pdfTitle) {
-              formik.setFieldValue('pdfTitle', newFileName.split('.pdf')[0]);
+          onAddPress={async () => {
+            const {
+              name: fileName,
+              type,
+              uri,
+            } = await DocumentPicker.getDocumentAsync({
+              copyToCacheDirectory: false,
+              type: 'application/pdf',
+            });
+            if (type !== 'canceled') {
+              if (!formik.values.pdfTitle) {
+                formik.setFieldValue('pdfTitle', fileName.split('.pdf')[0]);
+              }
+              formik.setFieldValue('fileName', fileName);
+              formik.setFieldValue('fileUri', uri);
             }
-            formik.setFieldValue('fileName', newFileName);
           }}
         />
       )}

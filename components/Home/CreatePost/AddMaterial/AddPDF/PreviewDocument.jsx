@@ -7,7 +7,7 @@ import { IconNames } from 'common/Icon/Icon';
 import { useLocalization } from 'localization';
 import { Styles } from 'styles';
 import Separator from 'common/Separator';
-import PdfReader from 'rn-pdf-reader-js';
+import PdfViewer from './PdfViewer';
 
 const PreviewDocument = ({ fileName, uri, onRemoveFile }) => {
   const { t } = useLocalization();
@@ -21,15 +21,7 @@ const PreviewDocument = ({ fileName, uri, onRemoveFile }) => {
       </View>
       <Separator style={styles.previewSeparator} />
       <EduText style={styles.preview}>{t('AddMaterial/Preview')}</EduText>
-      <View
-        // todo temp pdf viewer
-        style={{
-          backgroundColor: 'pink',
-          width: '100%',
-          flex: 1,
-          alignSelf: 'center',
-        }}
-      />
+      <PdfViewer uri={uri} />
     </>
   );
 };

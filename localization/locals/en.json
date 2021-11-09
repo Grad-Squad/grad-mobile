@@ -141,7 +141,8 @@
     "PDF": {
       "Add PDF": "Add PDF",
       "PDF Title": "PDF Title",
-      "PDF file name:": "PDF file name:"
+      "PDF file name:": "PDF file name:",
+      "Please add a file": "Please add a file"
     },
     "Add": "Add",
     "Add Question": "Add Question",

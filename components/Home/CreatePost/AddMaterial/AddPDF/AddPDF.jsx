@@ -10,7 +10,7 @@ import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
-import { materialTitle, requiredError } from 'validation';
+import { materialTitle } from 'validation';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import * as DocumentPicker from 'expo-document-picker';
@@ -32,7 +32,7 @@ const AddPDF = () => {
     },
     validationSchema: yup.object().shape({
       pdfTitle: materialTitle(t),
-      fileName: yup.string().required(requiredError(t)),
+      fileName: yup.string().required(t('AddMaterial/PDF/Please add a file')),
     }),
   });
   const attemptSubmit = () => {
@@ -108,6 +108,7 @@ const AddPDF = () => {
               formik.setFieldValue('fileUri', uri);
             }
           }}
+          error={formik.touched.fileName && formik.errors.fileName}
         />
       )}
     </Page>

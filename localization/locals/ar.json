@@ -141,7 +141,8 @@
     "PDF": {
       "Add PDF": "أضف ملف PDF",
       "PDF Title": "عنوان PDF",
-      "PDF file name:": "اسم ملف PDF:"
+      "PDF file name:": "اسم ملف PDF:",
+      "Please add a file": "الرجاء إضافة ملف"
     },
     "Add": "أضف",
     "Add Question": "أضف السؤال",

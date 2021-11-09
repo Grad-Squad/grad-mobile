@@ -10,7 +10,7 @@ import PressableText from 'common/PressableText';
 import { SecondaryActionButton, TransparentButton } from 'common/Input/Button';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
-import { Colors, Styles } from 'styles';
+import { Styles } from 'styles';
 import { mcqQuestionAddPropType, stylePropType } from 'proptypes';
 import ImageSelector from 'common/ImageSelector';
 import { useAPIgetOneS3UploadLinks } from 'api/endpoints/s3';
@@ -283,7 +283,7 @@ const AddQuestion = ({
       <View style={contentStyle}>
         {currentQuestionFormik.touched.choices &&
           currentQuestionFormik.errors.choices && (
-            <EduText style={styles.choicesError}>
+            <EduText style={Styles.errorText}>
               {currentQuestionFormik.errors.choices}
             </EduText>
           )}
@@ -365,9 +365,6 @@ const styles = StyleSheet.create({
   addQuestion: {
     width: 180,
     alignSelf: 'flex-end',
-  },
-  choicesError: {
-    color: Colors.error,
   },
   disabled: { opacity: 0.8 },
 });

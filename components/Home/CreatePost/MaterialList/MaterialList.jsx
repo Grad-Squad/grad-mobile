@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { Colors } from 'styles';
+import { Colors, Styles } from 'styles';
 import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
 import { MaterialTypeIconsMap } from 'common/Icon';
 import MaterialItem from './MaterialItem';
 
 const flatListRenderItem = ({ item: { title, amount, type, onPress } }) => (
-  <MaterialItem title={title} amount={amount} type={type} onPress={onPress}/>
+  <MaterialItem title={title} amount={amount} type={type} onPress={onPress} />
 );
 
 const MaterialList = ({ materials, errorMsg }) => {
@@ -29,10 +29,7 @@ const MaterialList = ({ materials, errorMsg }) => {
         </>
       ) : (
         <EduText
-          style={[
-            styles.addMaterialUsing,
-            errorMsg && styles.addMaterialUsingError,
-          ]}
+          style={[styles.addMaterialUsing, errorMsg && Styles.errorText]}
         >
           {errorMsg ||
             t('CreatePost/add a material using any of the buttons below')}
@@ -81,8 +78,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
 
     marginLeft: 15,
-  },
-  addMaterialUsingError: {
-    color: Colors.error,
   },
 });

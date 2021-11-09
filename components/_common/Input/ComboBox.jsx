@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Colors } from 'styles';
+import { Colors, Styles } from 'styles';
 import EduText from 'common/EduText';
 import { useLocalization } from 'localization';
 
@@ -37,7 +37,7 @@ const ComboBox = ({
       showBadgeDot={false}
       style={[styles.picker, error && styles.pickerError]}
       placeholder={
-        <EduText style={error && styles.textStyleError}>
+        <EduText style={error && Styles.errorText}>
           {placeholder} {error && errorMsg}
         </EduText>
       }
@@ -88,9 +88,6 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 16,
     marginLeft: 3,
-  },
-  textStyleError: {
-    color: Colors.error,
   },
   picker: {
     borderTopWidth: 0,

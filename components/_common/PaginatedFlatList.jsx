@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FlatList, StyleSheet } from 'react-native';
 import { useLocalization } from 'localization';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
-import { Colors } from 'styles';
+import { Styles } from 'styles';
 import { stringOrNumberPropType, stylePropType } from 'proptypes';
 import LoadingIndicator from './LoadingIndicator';
 import QueryRefreshControl from './QueryRefreshControl';
@@ -113,7 +113,7 @@ export default PaginatedFlatList;
 
 const styles = StyleSheet.create({
   error: {
-    color: Colors.error,
+    ...Styles.errorText,
     textAlign: 'center',
     flex: 1,
   },

@@ -83,6 +83,7 @@ const AddPDF = () => {
       {formik.values.fileName ? (
         <PreviewDocument
           fileName={formik.values.fileName}
+          uri={formik.values.fileUri}
           onRemoveFile={() => {
             formik.setFieldValue('fileName', '');
             formik.setFieldValue('fileUri', '');

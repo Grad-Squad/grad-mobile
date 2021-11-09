@@ -7,8 +7,9 @@ import { IconNames } from 'common/Icon/Icon';
 import { useLocalization } from 'localization';
 import { Styles } from 'styles';
 import Separator from 'common/Separator';
+import PdfReader from 'rn-pdf-reader-js';
 
-const PreviewDocument = ({ fileName, onRemoveFile }) => {
+const PreviewDocument = ({ fileName, uri, onRemoveFile }) => {
   const { t } = useLocalization();
   return (
     <>
@@ -35,6 +36,7 @@ const PreviewDocument = ({ fileName, onRemoveFile }) => {
 
 PreviewDocument.propTypes = {
   fileName: PropTypes.string.isRequired,
+  uri: PropTypes.string.isRequired,
   onRemoveFile: PropTypes.func.isRequired,
 };
 PreviewDocument.defaultProps = {};

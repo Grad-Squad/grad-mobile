@@ -25,6 +25,7 @@ import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import { TransparentButton } from 'common/Input/Button';
+import { MaterialTypes } from 'constants';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -295,7 +296,7 @@ const CreatePost = ({ navigation, route }) => {
         materials={formik.values.materialList.map(
           ({ questions, title }, index) => ({
             id: `${index}`, // ! index as key
-            type: 'MCQ',
+            type: MaterialTypes.MCQ,
             title,
             amount: questions.length,
             onPress: () => navigation.navigate(ScreenNames.ADD_MCQ, { index }),

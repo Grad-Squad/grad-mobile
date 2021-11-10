@@ -1,9 +1,10 @@
+import { MaterialTypes } from 'constants';
 import { IconNames } from './Icon';
 
 export default Object.freeze({
-  Flashcards: IconNames.cards,
-  MCQ: IconNames.checklist,
-  PDF: IconNames.pdf,
-  Images: IconNames.image,
-  Video: IconNames.video,
+  [MaterialTypes.Flashcards]: IconNames.cards,
+  [MaterialTypes.MCQ]: IconNames.checklist,
+  [MaterialTypes.PDF]: IconNames.pdf,
+  [MaterialTypes.Images]: IconNames.image,
+  [MaterialTypes.Video]: IconNames.video,
 });

@@ -6,6 +6,7 @@ import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import ContextMenu from 'common/ContextMenu';
 import { IconNames } from 'common/Icon/Icon';
+import materialTypes from 'constants/materialTypes';
 
 const SubmittedQuestion = ({ question, numOfMCQ, onEdit, onDelete }) => {
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
@@ -29,7 +30,7 @@ const SubmittedQuestion = ({ question, numOfMCQ, onEdit, onDelete }) => {
       <View>
         <View style={styles.numOfMCQ}>
           <EduText style={styles.numOfMCQTextGap}>{numOfMCQ}</EduText>
-          <Icon name={MaterialTypeIconsMap.MCQ} />
+          <Icon name={MaterialTypeIconsMap[materialTypes.MCQ]} />
         </View>
         <View style={{ alignItems: 'flex-end' }}>
           <ContextMenu

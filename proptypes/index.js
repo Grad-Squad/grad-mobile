@@ -82,6 +82,17 @@ export const stringOrNumberPropType = PropTypes.oneOfType([
   PropTypes.number.isRequired,
 ]);
 
+export const flashcardPropType = PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  frontImage: PropTypes.string.isRequired,
+  frontText: PropTypes.string.isRequired,
+  backText: PropTypes.string.isRequired,
+  backImage: PropTypes.string.isRequired,
+
+  front: PropTypes.string.isRequired,
+  back: PropTypes.string.isRequired,
+});
+
 export const materialPropType = PropTypes.exact({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
@@ -96,13 +107,7 @@ export const materialPropType = PropTypes.exact({
       choicesUrisKeys: PropTypes.arrayOf(PropTypes.string.isRequired),
     }).isRequired
   ).isRequired,
-  flashcards: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.number.isRequired,
-      front: PropTypes.string.isRequired,
-      back: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+  flashcards: PropTypes.arrayOf(flashcardPropType.isRequired).isRequired,
   uris: PropTypes.arrayOf(
     PropTypes.exact({
       id: PropTypes.number.isRequired,

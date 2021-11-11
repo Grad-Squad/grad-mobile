@@ -41,7 +41,7 @@ const NavMaterials = ({
   );
 
   return (
-    <>
+    <View style={styles.wrapper}>
       <View style={styles.container}>
         {hasBackButton && backButton}
         <Pressable
@@ -66,7 +66,7 @@ const NavMaterials = ({
         currentIndex={currentPageIndex}
         maxIndex={maxPages}
       />
-    </>
+    </View>
   );
 };
 
@@ -113,5 +113,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     marginHorizontal: Dimensions.get('window').width * 0.01,
+  },
+
+  wrapper: {
+    paddingHorizontal: Constants.commonMargin,
+    paddingVertical: Constants.commonMargin / 2,
+    alignSelf: 'flex-end',
   },
 });

@@ -137,15 +137,13 @@ const SolveMcq = ({ navigation, route }) => {
         }
         color={Colors.accent}
       />
-      <View style={styles.navMaterials}>
-        <NavMaterials
-          onPressNext={incrementPage}
-          onPressBack={decrementPage}
-          onPressPageNum={(num) => setPageNum(num)}
-          currentPageIndex={pageNum}
-          maxPages={questions.length}
-        />
-      </View>
+      <NavMaterials
+        onPressNext={incrementPage}
+        onPressBack={decrementPage}
+        onPressPageNum={(num) => setPageNum(num)}
+        currentPageIndex={pageNum}
+        maxPages={questions.length}
+      />
       <McqQuestion
         question={questions[pageNum]}
         questionIndex={pageNum}

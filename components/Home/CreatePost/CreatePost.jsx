@@ -79,7 +79,7 @@ const CreatePost = ({ navigation, route }) => {
         ),
         title: collection.title,
       }));
-      dispatch({ type: ReducerActions.setMCQs, payload: mcqs });
+      dispatch({ type: ReducerActions.setCreateMaterialItem, payload: mcqs });
     },
   });
 

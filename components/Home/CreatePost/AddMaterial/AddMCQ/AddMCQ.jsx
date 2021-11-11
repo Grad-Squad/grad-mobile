@@ -14,6 +14,7 @@ import { useStore } from 'globalStore/GlobalStore';
 import { deepCompare, deepCopy } from 'utility';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
+import { MaterialTypes } from 'constants';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 import DiscardQuestionAlert from './DiscardQuestionAlert';
@@ -39,11 +40,17 @@ const AddMCQ = ({ navigation, route }) => {
     onSubmit: (mcq, formikBag) => {
       const submitForm = () => {
         if (editIndex === undefined) {
-          dispatch({ type: ReducerActions.addMCQ, payload: mcq });
+          dispatch({
+            type: ReducerActions.addCreateMaterialItem,
+            payload: { ...mcq, type: MaterialTypes.MCQ },
+          });
         } else {
           dispatch({
-            type: ReducerActions.editMCQ,
-            payload: { index: editIndex, mcq },
+            type: ReducerActions.replaceCreateMaterialItem,
+            payload: {
+              index: editIndex,
+              material: { ...mcq, type: MaterialTypes.MCQ },
+            },
           });
         }
         navigation.goBack();

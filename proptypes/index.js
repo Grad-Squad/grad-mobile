@@ -89,8 +89,8 @@ export const flashcardPropType = PropTypes.exact({
   backText: PropTypes.string.isRequired,
   backImage: PropTypes.string.isRequired,
 
-  front: PropTypes.string.isRequired,
-  back: PropTypes.string.isRequired,
+  // front: PropTypes.string.isRequired,
+  // back: PropTypes.string.isRequired,
 });
 
 export const materialPropType = PropTypes.exact({

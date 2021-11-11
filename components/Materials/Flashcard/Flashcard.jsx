@@ -7,7 +7,16 @@ import FlashcardFace from './FlashcardFace';
 
 const Flashcard = ({ flashcard, onGood, onBad, isFlipped, onFlip }) => {
   const { frontImage, frontText, backImage, backText } = flashcard;
-  return <View></View>;
+  return (
+    <Pressable style={styles.pressableWrapper} onPress={onFlip}>
+      <SlidableHOC canSlide={isFlipped} onBad={onBad} onGood={onGood}>
+        <FlashcardFace
+          text={isFlipped ? backText : frontText}
+          imageURI={isFlipped ? backImage : frontImage}
+        />
+      </SlidableHOC>
+    </Pressable>
+  );
 };
 
 Flashcard.propTypes = {

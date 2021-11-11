@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import localStorageKeys from 'localStorageKeys';
 import { Linking, Platform } from 'react-native';
 import LoadingIndicator from 'common/LoadingIndicator';
+import SolveFlashcard from 'components/Materials/Flashcard/SolveFlashcard';
 import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 
@@ -53,6 +54,10 @@ const screens = [
   {
     name: ScreenNames.SOLVE_MCQ,
     component: SolveMcq,
+  },
+  {
+    name: ScreenNames.SOLVE_FLASHCARD,
+    component: SolveFlashcard,
   },
   {
     name: ScreenNames.REVIEW_MCQ,

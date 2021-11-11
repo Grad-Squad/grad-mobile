@@ -8,6 +8,7 @@ export default {
   CREATE_POST: 'CREATE_POST',
   SOLVE_MCQ: 'SOLVE_MCQ',
   REVIEW_MCQ: 'REVIEW_MCQ',
+  SOLVE_FLASHCARD: 'SOLVE_FLASHCARD',
   ADD_FLASHCARDS: 'ADD_FLASHCARDS',
   ADD_MCQ: 'ADD_MCQ',
   ADD_PDF: 'ADD_PDF',
@@ -29,4 +30,3 @@ export default {
     DONE: 'forgotPassword/done',
   },
 };
-

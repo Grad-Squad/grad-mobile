@@ -51,6 +51,12 @@ const Dev = ({ navigation }) => {
           navigation.navigate(ScreenNames.SOLVE_MCQ, { materialID: '1' })
         }
       />
+      <Button
+        title="Go to flashcard"
+        onPress={() =>
+          navigation.navigate(ScreenNames.SOLVE_FLASHCARD, { materialID: '1' })
+        }
+      />
       <Button title="Arabic" onPress={() => setLanguage('ar')} />
       <Button title="English" onPress={() => setLanguage('en')} />
       <EduText>{t('hello')}</EduText>

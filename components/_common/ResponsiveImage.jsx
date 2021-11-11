@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, Dimensions, Image, ViewPropTypes } from 'react-native';
 
-const ResponsiveImage = ({ imageURI, style }) => {
+const ResponsiveImage = ({
+  imageURI,
+  style,
+  maxWidthRatio,
+  maxHeightRatio,
+}) => {
   const [height, setHeight] = useState(1);
   const [width, setWidth] = useState(1);
   return (
@@ -13,7 +18,12 @@ const ResponsiveImage = ({ imageURI, style }) => {
       }}
       style={[
         styles.image,
-        { height: height / (width / (Dimensions.get('window').width * 0.9)) },
+        {
+          height: Math.min(
+            height / (width / (Dimensions.get('window').width * maxWidthRatio)),
+            Dimensions.get('window').height * maxHeightRatio
+          ),
+        },
         { ...style },
       ]}
       resizeMode="contain"
@@ -27,10 +37,14 @@ const ResponsiveImage = ({ imageURI, style }) => {
 ResponsiveImage.propTypes = {
   imageURI: PropTypes.string.isRequired,
   style: ViewPropTypes.style,
+  maxWidthRatio: PropTypes.number,
+  maxHeightRatio: PropTypes.number,
 };
 
 ResponsiveImage.defaultProps = {
   style: {},
+  maxWidthRatio: 0.9,
+  maxHeightRatio: 1,
 };
 
 export default ResponsiveImage;

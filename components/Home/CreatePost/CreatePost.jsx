@@ -10,7 +10,6 @@ import { useLocalization } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { useStore } from 'globalStore/GlobalStore';
 import ReducerActions from 'globalStore/ReducerActions';
-import ScreenNames from 'navigation/ScreenNames';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import {
@@ -25,7 +24,6 @@ import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import { TransparentButton } from 'common/Input/Button';
-import { MaterialTypes } from 'constants';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -293,15 +291,7 @@ const CreatePost = ({ navigation, route }) => {
       />
 
       <MaterialList
-        materials={formik.values.materialList.map(
-          ({ questions, title }, index) => ({
-            id: `${index}`, // ! index as key
-            type: MaterialTypes.MCQ,
-            title,
-            amount: questions.length,
-            onPress: () => navigation.navigate(ScreenNames.ADD_MCQ, { index }),
-          })
-        )}
+        materials={formik.values.materialList}
         errorMsg={formik.touched.materialList && formik.errors.materialList}
       />
       {postId && isFetchingPostForEdit && <LoadingIndicator size="large" />}

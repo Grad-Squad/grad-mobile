@@ -11,23 +11,48 @@ import { IconNames } from 'common/Icon/Icon';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { materialTitle } from 'validation';
+import { useStore } from 'globalStore/GlobalStore';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import * as DocumentPicker from 'expo-document-picker';
+import ReducerActions from 'globalStore/ReducerActions';
+import { MaterialTypes } from 'constants';
+import { routeParamPropType } from 'proptypes';
+import PropTypes from 'prop-types';
 import AddDocument from './AddDocument';
 import PreviewDocument from './PreviewDocument';
 
-const AddPDF = () => {
+const AddPDF = ({ route }) => {
+  const editIndex = route?.params?.index;
+
   const { t } = useLocalization();
   const navigation = useNavigation();
 
+  const [state, dispatch] = useStore();
+
+  const editPdf = state.createPost.materialList[editIndex];
+
   const formik = useFormik({
     initialValues: {
-      pdfTitle: '',
-      fileName: '',
-      fileUri: '',
+      pdfTitle: editPdf?.pdfTitle ?? '',
+      fileName: editPdf?.fileName ?? '',
+      fileUri: editPdf?.fileUri ?? '',
     },
     onSubmit: (pdf) => {
+      if (editIndex === undefined) {
+        dispatch({
+          type: ReducerActions.addCreateMaterialItem,
+          payload: { ...pdf, type: MaterialTypes.PDF },
+        });
+      } else {
+        dispatch({
+          type: ReducerActions.replaceCreateMaterialItem,
+          payload: {
+            index: editIndex,
+            material: { ...pdf, type: MaterialTypes.PDF },
+          },
+        });
+      }
       navigation.goBack();
     },
     validationSchema: yup.object().shape({
@@ -115,8 +140,14 @@ const AddPDF = () => {
   );
 };
 
-AddPDF.propTypes = {};
-AddPDF.defaultProps = {};
+AddPDF.propTypes = {
+  route: routeParamPropType(
+    PropTypes.shape({ index: PropTypes.number.isRequired })
+  ),
+};
+AddPDF.defaultProps = {
+  route: undefined,
+};
 
 export default AddPDF;
 

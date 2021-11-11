@@ -1,5 +1,7 @@
 export default Object.freeze({
   addMCQ: 'addMCQ',
+  addCreateMaterialItem: "addCreateMaterialItem",
+  replaceCreateMaterialItem: "replaceCreateMaterialItem",
   setMCQs: 'setMCQs',
   setMCQQuestions: 'setMCQQuestions',
   clearMaterialList: 'clearMaterialList',

@@ -101,6 +101,21 @@ const Reducer = (state, action) => {
         action.payload.mcq;
       return newState;
     }
+    case ReducerActions.addCreateMaterialItem: {
+      const newState = { ...state };
+      newState.createPost.materialList = [
+        action.payload,
+        ...newState.createPost.materialList,
+      ]; // new array to trigger state change
+      return newState;
+    }
+    case ReducerActions.replaceCreateMaterialItem: {
+      const newState = { ...state };
+      newState.createPost.materialList[action.payload.index] =
+        action.payload.material;
+      newState.createPost.materialList = [...newState.createPost.materialList]; // new array to trigger state change
+      return newState;
+    }
     default:
       return state;
   }

@@ -57,7 +57,7 @@ const AddPDF = ({ route }) => {
     },
     validationSchema: yup.object().shape({
       pdfTitle: materialTitle(t),
-      fileName: yup.string().required(t('AddMaterial/PDF/Please add a file')),
+      fileName: yup.string().required(t('AddMaterial/Please add a file')),
     }),
   });
   const attemptSubmit = () => {

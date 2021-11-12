@@ -122,6 +122,7 @@
   "AddMaterial": {
     "Finish": "اتمام",
     "Preview": "استعراض",
+    "Please add a file": "الرجاء إضافة ملف",
     "MCQ": {
       "Create MCQ": "إنشاء سؤال اختر",
       "Exercise Title": "عنوان التمرين",
@@ -141,8 +142,7 @@
     "PDF": {
       "Add PDF": "أضف ملف PDF",
       "PDF Title": "عنوان PDF",
-      "PDF file name:": "اسم ملف PDF:",
-      "Please add a file": "الرجاء إضافة ملف"
+      "PDF file name:": "اسم ملف PDF:"
     },
     "Add": "أضف",
     "Add Question": "أضف السؤال",

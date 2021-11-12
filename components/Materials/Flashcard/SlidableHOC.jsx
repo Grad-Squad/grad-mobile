@@ -12,9 +12,13 @@ import { Colors } from 'styles';
 
 const SlidableHOC = ({ canSlide, onBad, onGood, children, onFlip }) => {
   const [translate, setTranslate] = useState(0);
+  const [panStartTime, setPanStartTime] = useState(0);
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
+    onPanResponderStart: () => {
+      setPanStartTime(new Date());
+    },
     onPanResponderMove: (_, { dx, dy }) => {
       if (Math.abs(dx) > Math.abs(dy)) {
         setTranslate(translate + dx);
@@ -29,7 +33,7 @@ const SlidableHOC = ({ canSlide, onBad, onGood, children, onFlip }) => {
         -1 * translate > Dimensions.get('window').width * 0.3
       ) {
         onBad();
-      } else if (Math.abs(translate) < 0.1) {
+      } else if (Math.abs(translate) === 0 || new Date() - panStartTime < 100) {
         onFlip();
       }
     },

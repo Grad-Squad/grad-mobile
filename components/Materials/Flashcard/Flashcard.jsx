@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { flashcardPropType } from 'proptypes';
 import SlidableHOC from './SlidableHOC';
 import FlashcardFace from './FlashcardFace';
@@ -28,8 +28,5 @@ Flashcard.defaultProps = {};
 
 export default Flashcard;
 
-const styles = StyleSheet.create({
-  pressableWrapper: {
-    flex: 1,
-  },
-});
+// eslint-disable-next-line no-unused-vars
+const styles = StyleSheet.create({});

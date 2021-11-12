@@ -7,6 +7,7 @@ import { ProgressBar } from 'react-native-paper';
 import { Colors } from 'styles';
 import NavMaterials from '../_common/NavMaterials';
 import Flashcard from './Flashcard';
+import FlashcardFooter from './FlashcardFooter';
 
 const SolveFlashcard = ({ navigation }) => {
   const x = 0;
@@ -39,6 +40,11 @@ const SolveFlashcard = ({ navigation }) => {
           frontImage: 'http://placekitten.com/100/300',
           backImage: 'http://placekitten.com/100/301',
         }}
+        onFlip={() => setIsFlipped((prev) => !prev)}
+      />
+      <FlashcardFooter
+        onGood={() => {}}
+        onBad={() => {}}
         onFlip={() => setIsFlipped((prev) => !prev)}
       />
     </Page>

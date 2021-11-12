@@ -43,6 +43,8 @@ export const IconNames = Object.freeze({
   share: 'sharealt',
   report: 'flag',
   tagDot: 'dot-single',
+  keyboardArrowLeft: 'keyboard-arrow-left',
+  keyboardArrowRight: 'keyboard-arrow-right',
 });
 
 const map = {
@@ -76,7 +78,9 @@ const map = {
   'comment-outline': MaterialCommunityIcons,
   sharealt: AntDesign,
   flag: AntDesign,
-  "dot-single": Entypo,
+  'dot-single': Entypo,
+  'keyboard-arrow-left': MaterialIcons,
+  'keyboard-arrow-right': MaterialIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

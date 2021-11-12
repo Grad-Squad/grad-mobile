@@ -8,14 +8,12 @@ import FlashcardFace from './FlashcardFace';
 const Flashcard = ({ flashcard, onGood, onBad, isFlipped, onFlip }) => {
   const { frontImage, frontText, backImage, backText } = flashcard;
   return (
-    <Pressable style={styles.pressableWrapper} onPress={onFlip}>
-      <SlidableHOC canSlide={isFlipped} onBad={onBad} onGood={onGood}>
-        <FlashcardFace
-          text={isFlipped ? backText : frontText}
-          imageURI={isFlipped ? backImage : frontImage}
-        />
-      </SlidableHOC>
-    </Pressable>
+    <SlidableHOC canSlide onBad={onBad} onGood={onGood} onFlip={onFlip}>
+      <FlashcardFace
+        text={isFlipped ? backText : frontText}
+        imageURI={isFlipped ? backImage : frontImage}
+      />
+    </SlidableHOC>
   );
 };
 

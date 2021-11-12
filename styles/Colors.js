@@ -17,6 +17,7 @@ const Colors = {
   lighterForeground: '#F5F5F5',
   dgrey: '#dddddd',
   cgrey: '#cccccc',
+  materialGoodTransparent: '#1C9B2190',
   materialGood: '#1C9B21',
   materialWrong: '#D73B3B',
   materialSkipped: '#D97213',

@@ -2,7 +2,7 @@ import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { Colors } from 'styles';
 import NavMaterials from '../_common/NavMaterials';
@@ -10,7 +10,6 @@ import Flashcard from './Flashcard';
 import FlashcardFooter from './FlashcardFooter';
 
 const SolveFlashcard = ({ navigation }) => {
-  const x = 0;
   const [isFlipped, setIsFlipped] = useState(false);
   return (
     <Page>
@@ -58,4 +57,5 @@ SolveFlashcard.defaultProps = {};
 
 export default SolveFlashcard;
 
+// eslint-disable-next-line no-unused-vars
 const styles = StyleSheet.create({});

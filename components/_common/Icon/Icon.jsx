@@ -48,6 +48,7 @@ export const IconNames = Object.freeze({
   addDocument: 'text-box-plus-outline',
   keyboardArrowLeft: 'keyboard-arrow-left',
   keyboardArrowRight: 'keyboard-arrow-right',
+  addVideo: 'file-video-outline',
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames))
@@ -88,6 +89,7 @@ const map = {
   'dot-single': Entypo,
   'keyboard-arrow-left': MaterialIcons,
   'keyboard-arrow-right': MaterialIcons,
+  'file-video-outline': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

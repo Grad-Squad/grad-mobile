@@ -20,19 +20,30 @@ const MaterialList = ({ materials, errorMsg }) => {
   const formattedMaterials = useMemo(
     () =>
       materials.map((material, index) => {
+        const baseObject = {
+          id: index.toString(), // ! index as id
+          type: MaterialTypes.type,
+          amount: 1,
+        };
         if (material.type === MaterialTypes.PDF) {
           return {
-            id: index.toString(), // ! index as id
-            type: material.type,
+            ...baseObject,
             title: material.pdfTitle,
-            // amount: material.questions.length,
-            amount: 6666,
             onPress: () => navigation.navigate(ScreenNames.ADD_PDF, { index }),
           };
         }
+        if (material.type === MaterialTypes.Video) {
+          return {
+            ...baseObject,
+            title: material.videoTitle,
+            onPress: () =>
+              navigation.navigate(ScreenNames.ADD_VIDEO, { index }),
+          };
+        }
+
+        // else MCQ
         return {
-          id: index.toString(), // ! index as id
-          type: MaterialTypes.MCQ,
+          ...baseObject,
           title: material.title,
           amount: material.questions.length,
           onPress: () => navigation.navigate(ScreenNames.ADD_MCQ, { index }),

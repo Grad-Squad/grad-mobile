@@ -144,6 +144,11 @@
       "PDF Title": "عنوان PDF",
       "PDF file name:": "اسم ملف PDF:"
     },
+    "Video": {
+      "Add Video": "أضف فيديو",
+      "Video Title": "عنوان مقطع الفيديو",
+      "Video file name:": "اسم ملف الفيديو:"
+    },
     "Add": "أضف",
     "Add Question": "أضف السؤال",
     "Questions": {

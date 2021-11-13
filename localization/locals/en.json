@@ -144,6 +144,11 @@
       "PDF Title": "PDF Title",
       "PDF file name:": "PDF file name:"
     },
+    "Video": {
+      "Add Video": "Add Video",
+      "Video Title": "Video Title",
+      "Video file name:": "Video file name:"
+    },
     "Add": "Add",
     "Add Question": "Add Question",
     "Questions": {

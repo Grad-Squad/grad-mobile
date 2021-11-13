@@ -12,8 +12,7 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { materialTitle } from 'validation';
 import { useStore } from 'globalStore/GlobalStore';
-import useOnGoBack from 'navigation/useOnGoBack';
-import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
+import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import * as DocumentPicker from 'expo-document-picker';
 import ReducerActions from 'globalStore/ReducerActions';
 import { MaterialTypes } from 'constants';
@@ -65,20 +64,10 @@ const AddPDF = ({ route }) => {
     formik.handleSubmit();
   };
 
-  useOnGoBack(
-    (e) => {
-      if (!formik.dirty || formik.isSubmitting) {
-        return;
-      }
-
-      e.preventDefault();
-
-      DiscardChangesAlert(t, () => {
-        navigation.dispatch(e.data.action);
-      });
-    },
-    [formik.dirty, formik.isSubmitting]
-  );
+  useOnGoBackDiscardWarning(!formik.dirty || formik.isSubmitting, [
+    formik.dirty,
+    formik.isSubmitting,
+  ]);
   return (
     <Page>
       <MaterialCreateHeader

@@ -12,8 +12,7 @@ import PropTypes from 'prop-types';
 import ReducerActions from 'globalStore/ReducerActions';
 import { useStore } from 'globalStore/GlobalStore';
 import { deepCompare, deepCopy } from 'utility';
-import useOnGoBack from 'navigation/useOnGoBack';
-import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
+import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import { MaterialTypes } from 'constants';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
@@ -88,26 +87,20 @@ const AddMCQ = ({ navigation, route }) => {
     formik.handleSubmit();
   };
 
-  useOnGoBack(
-    (e) => {
+  useOnGoBackDiscardWarning(
+    () => {
       const questionsDirty = editMCQ
         ? !deepCompare(editMCQ?.questions, formik.values.questions)
         : formik.values.questions.length !== 0;
-      if (
+      return (
         !(formik.dirty || subFormikDirty || questionsDirty) ||
         formik.isSubmitting
-      ) {
-        return;
-      }
-
-      e.preventDefault();
-
-      DiscardChangesAlert(t, () => {
-        navigation.dispatch(e.data.action);
-        dispatch({
-          type: ReducerActions.removeLastXFromUploadQueue,
-          payload: numAddedImages,
-        });
+      );
+    },
+    () => {
+      dispatch({
+        type: ReducerActions.removeLastXFromUploadQueue,
+        payload: numAddedImages,
       });
     },
     [formik.dirty, subFormikDirty, formik.isSubmitting]

@@ -50,6 +50,8 @@ export const IconNames = Object.freeze({
   keyboardArrowRight: 'keyboard-arrow-right',
 });
 
+export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames))
+
 const map = {
   question: AntDesign,
   close: Ionicons,

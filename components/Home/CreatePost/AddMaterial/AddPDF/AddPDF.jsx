@@ -19,7 +19,7 @@ import ReducerActions from 'globalStore/ReducerActions';
 import { MaterialTypes } from 'constants';
 import { routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
-import AddDocument from './AddDocument';
+import AddDocument from '../AddDocument';
 import PreviewDocument from './PreviewDocument';
 
 const AddPDF = ({ route }) => {
@@ -134,6 +134,7 @@ const AddPDF = ({ route }) => {
             }
           }}
           error={formik.touched.fileName && formik.errors.fileName}
+          iconName={IconNames.addDocument}
         />
       )}
     </Page>

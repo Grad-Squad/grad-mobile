@@ -63,20 +63,12 @@ const Reducer = (state, action) => {
         ...state,
         profileId: action.payload,
       };
-    case ReducerActions.setMCQs:
+    case ReducerActions.setCreateMaterialItem:
       return {
         ...state,
         createPost: {
           ...state.createPost,
           materialList: [...action.payload],
-        },
-      };
-    case ReducerActions.addMCQ:
-      return {
-        ...state,
-        createPost: {
-          ...state.createPost,
-          materialList: [action.payload, ...state.createPost.materialList],
         },
       };
     case ReducerActions.setMCQQuestions:
@@ -95,10 +87,19 @@ const Reducer = (state, action) => {
           materialList: [],
         },
       };
-    case ReducerActions.editMCQ: {
-      const newState = { ...state }; // new object to trigger state update
+    case ReducerActions.addCreateMaterialItem: {
+      const newState = { ...state };
+      newState.createPost.materialList = [
+        action.payload,
+        ...newState.createPost.materialList,
+      ]; // new array to trigger state change
+      return newState;
+    }
+    case ReducerActions.replaceCreateMaterialItem: {
+      const newState = { ...state };
       newState.createPost.materialList[action.payload.index] =
-        action.payload.mcq;
+        action.payload.material;
+      newState.createPost.materialList = [...newState.createPost.materialList]; // new array to trigger state change
       return newState;
     }
     default:

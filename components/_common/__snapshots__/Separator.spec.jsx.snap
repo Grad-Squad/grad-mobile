@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#dddddd",
+        "height": 1.2,
+        "marginVertical": 10,
+        "width": "100%",
+      },
+      Object {},
+    ]
+  }
+/>
+`;
+
+exports[`should match snapshot with style prop 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#dddddd",
+        "height": 1.2,
+        "marginVertical": 10,
+        "width": "100%",
+      },
+      Object {
+        "backgroundColor": "pink",
+      },
+    ]
+  }
+/>
+`;

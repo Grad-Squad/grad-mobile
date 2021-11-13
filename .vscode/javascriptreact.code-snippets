@@ -1,0 +1,9 @@
+{
+    "useLocalization": {
+        "prefix": "useLocalization",
+        "body": [
+            "const { t } = useLocalization();"
+        ],
+        "description": "gets the t function from useLocalization (doesn't import it)"
+    }
+}

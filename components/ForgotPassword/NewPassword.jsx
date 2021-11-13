@@ -7,7 +7,7 @@ import { passwordRequired } from 'validation';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { TextInputFormik } from 'common/Input';
 import { navigationPropType } from 'proptypes';
-import { Colors, Typography } from 'styles';
+import { Styles, Typography } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
 import ScreenNames from 'navigation/ScreenNames';
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   newPasswordCannot: {
     ...Typography.forgotPassword.subtitle,
-    color: Colors.error,
+    ...Styles.errorText,
 
     marginBottom: 18,
   },

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FlatList, StyleSheet } from 'react-native';
 import { useLocalization } from 'localization';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
-import { Colors } from 'styles';
+import { Styles } from 'styles';
 import { stringOrNumberPropType, stylePropType } from 'proptypes';
 import LoadingIndicator from './LoadingIndicator';
 import QueryRefreshControl from './QueryRefreshControl';
@@ -39,7 +39,7 @@ const PaginatedFlatList = ({
     return <EduText style={styles.error}>{t(errorLocalizationKey)}</EduText>;
   }
   if (isLoading) {
-    return <LoadingIndicator large />;
+    return <LoadingIndicator large fullScreen />;
   }
   if (!flatListItems.length) {
     return (
@@ -113,7 +113,7 @@ export default PaginatedFlatList;
 
 const styles = StyleSheet.create({
   error: {
-    color: Colors.error,
+    ...Styles.errorText,
     textAlign: 'center',
     flex: 1,
   },
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   },
   noItems: {
     textAlign: 'center',
-    flex: 1,
+    marginTop: 'auto',
+    marginBottom: 'auto',
   },
 });

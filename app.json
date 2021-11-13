@@ -23,7 +23,8 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.squidsoft.educate",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.0",
+      "usesIcloudStorage": true
     },
     "android": {
       "package": "com.squidsoft.educate",

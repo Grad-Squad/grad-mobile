@@ -2,11 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { Colors } from 'styles';
+import { stylePropType } from 'proptypes';
 
-const Separator = () => <View style={styles.separator} />;
+const Separator = ({ style }) => <View style={[styles.separator, style]} />;
 
-Separator.propTypes = {};
-Separator.defaultProps = {};
+Separator.propTypes = {
+  style: stylePropType,
+};
+Separator.defaultProps = { style: {} };
 
 export default React.memo(Separator);
 

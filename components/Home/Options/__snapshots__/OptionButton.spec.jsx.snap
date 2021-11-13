@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "marginVertical": 5,
+      "paddingHorizontal": 10,
+      "paddingVertical": 5,
+    }
+  }
+>
+  <Text />
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Lato_400Regular",
+        },
+        Object {
+          "color": "#3C3C3C",
+        },
+        Object {
+          "fontSize": 25,
+          "marginLeft": 5,
+        },
+      ]
+    }
+  >
+    label
+  </Text>
+</View>
+`;
+
+exports[`should match snapshot with custom iconName 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "flexDirection": "row",
+      "marginVertical": 5,
+      "paddingHorizontal": 10,
+      "paddingVertical": 5,
+    }
+  }
+>
+  <Text />
+  <Text
+    style={
+      Array [
+        Object {
+          "fontFamily": "Lato_400Regular",
+        },
+        Object {
+          "color": "#3C3C3C",
+        },
+        Object {
+          "fontSize": 25,
+          "marginLeft": 5,
+        },
+      ]
+    }
+  >
+    label
+  </Text>
+</View>
+`;

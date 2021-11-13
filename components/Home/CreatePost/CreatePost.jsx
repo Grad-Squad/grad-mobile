@@ -5,12 +5,11 @@ import { navigationPropType, routeParamPropType } from 'proptypes';
 import { ComboBox, TransparentTextInputFormik, DropdownList } from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { requiredError } from 'validation';
+import { maxCharError, requiredError } from 'validation';
 import { useLocalization } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { useStore } from 'globalStore/GlobalStore';
 import ReducerActions from 'globalStore/ReducerActions';
-import ScreenNames from 'navigation/ScreenNames';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import {
@@ -80,7 +79,7 @@ const CreatePost = ({ navigation, route }) => {
         ),
         title: collection.title,
       }));
-      dispatch({ type: ReducerActions.setMCQs, payload: mcqs });
+      dispatch({ type: ReducerActions.setCreateMaterialItem, payload: mcqs });
     },
   });
 
@@ -174,7 +173,7 @@ const CreatePost = ({ navigation, route }) => {
       title: yup
         .string()
         .trim()
-        .max(100, t('TextInput/max char error'))
+        .max(100, maxCharError(t, 100))
         .required(requiredError(t)),
       subject: yup.string().nullable().required(requiredError(t)),
       materialList: yup
@@ -292,15 +291,7 @@ const CreatePost = ({ navigation, route }) => {
       />
 
       <MaterialList
-        materials={formik.values.materialList.map(
-          ({ questions, title }, index) => ({
-            id: `${index}`, // ! index as key
-            type: 'MCQ',
-            title,
-            amount: questions.length,
-            onPress: () => navigation.navigate(ScreenNames.ADD_MCQ, { index }),
-          })
-        )}
+        materials={formik.values.materialList}
         errorMsg={formik.touched.materialList && formik.errors.materialList}
       />
       {postId && isFetchingPostForEdit && <LoadingIndicator size="large" />}

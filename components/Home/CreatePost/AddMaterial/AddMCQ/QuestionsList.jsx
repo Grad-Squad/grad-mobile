@@ -5,7 +5,7 @@ import { mcqQuestionAddPropType, stylePropType } from 'proptypes';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
 import { useLocalization } from 'localization';
-import { Colors } from 'styles';
+import { Styles } from 'styles';
 import SubmittedQuestion from './SubmittedQuestion';
 
 const QuestionsList = ({
@@ -21,7 +21,7 @@ const QuestionsList = ({
     <>
       <Separator />
       <View style={contentStyle}>
-        <EduText style={styles.error}>{error}</EduText>
+        <EduText style={Styles.errorText}>{error}</EduText>
       </View>
     </>
   ) : (
@@ -70,7 +70,4 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   questionsList: { marginBottom: 20 },
-  error: {
-    color: Colors.error,
-  },
 });

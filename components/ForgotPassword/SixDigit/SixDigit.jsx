@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text } from 'react-native';
+import { Alert, StyleSheet } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
 
 import { useLocalization } from 'localization';
@@ -7,9 +7,9 @@ import { navigationPropType } from 'proptypes';
 import { Colors, Styles, Typography } from 'styles';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { TransparentButton, WhiteButton } from 'common/Input/Button';
-import CodeTextInput from './CodeTextInput';
 import EduText from 'common/EduText';
 import ScreenNames from 'navigation/ScreenNames';
+import CodeTextInput from './CodeTextInput';
 
 const CELL_COUNT = 6;
 
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   wrongCode: {
     ...Typography.forgotPassword.subtitle,
-    color: Colors.error,
+    ...Styles.errorText,
   },
   CodeTextInput: {
     marginTop: 30,

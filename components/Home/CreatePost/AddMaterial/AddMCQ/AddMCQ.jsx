@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { useLocalization } from 'localization';
 import * as yup from 'yup';
-import { requiredError } from 'validation';
+import { materialTitle } from 'validation';
 import { useFormik } from 'formik';
 import { TransparentTextInputFormik } from 'common/Input';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
@@ -14,6 +14,7 @@ import { useStore } from 'globalStore/GlobalStore';
 import { deepCompare, deepCopy } from 'utility';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
+import { MaterialTypes } from 'constants';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 import DiscardQuestionAlert from './DiscardQuestionAlert';
@@ -39,11 +40,17 @@ const AddMCQ = ({ navigation, route }) => {
     onSubmit: (mcq, formikBag) => {
       const submitForm = () => {
         if (editIndex === undefined) {
-          dispatch({ type: ReducerActions.addMCQ, payload: mcq });
+          dispatch({
+            type: ReducerActions.addCreateMaterialItem,
+            payload: { ...mcq, type: MaterialTypes.MCQ },
+          });
         } else {
           dispatch({
-            type: ReducerActions.editMCQ,
-            payload: { index: editIndex, mcq },
+            type: ReducerActions.replaceCreateMaterialItem,
+            payload: {
+              index: editIndex,
+              material: { ...mcq, type: MaterialTypes.MCQ },
+            },
           });
         }
         navigation.goBack();
@@ -64,11 +71,7 @@ const AddMCQ = ({ navigation, route }) => {
       }
     },
     validationSchema: yup.object().shape({
-      title: yup
-        .string()
-        .trim()
-        .max(100, t('TextInput/max char error'))
-        .required(requiredError(t)),
+      title: materialTitle(t),
       questions: yup
         .array()
         .min(1, t('AddMaterial/MCQ/errors/add at least one question')),

@@ -5,7 +5,7 @@ import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
 import { TransparentTextInputFormik } from 'common/Input';
 import { TransparentButton } from 'common/Input/Button';
-import { Colors, Constants } from 'styles';
+import { Colors, Constants, Styles } from 'styles';
 import PressableText from 'common/PressableText';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -75,7 +75,7 @@ const GoToModal = ({
             )}
             style={styles.numberGrid}
           />
-          <EduText style={styles.errorText}>
+          <EduText style={Styles.errorText}>
             {(formik.touched.newIndex && formik.errors.newIndex) || ''}
           </EduText>
           <View style={styles.container}>
@@ -151,8 +151,5 @@ const styles = StyleSheet.create({
   },
   newIndexTextInput: {
     flex: 1,
-  },
-  errorText: {
-    color: Colors.error,
   },
 });

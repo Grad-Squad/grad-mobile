@@ -45,6 +45,13 @@ const Styles = StyleSheet.create({
     borderBottomColor: Colors.separator,
     borderBottomWidth: 2.25,
   },
+  underLinedFileName: {
+    borderBottomColor: Colors.accent,
+    borderBottomWidth: 1,
+  },
+  errorText: {
+    color: Colors.error,
+  },
 });
 
 export default Styles;

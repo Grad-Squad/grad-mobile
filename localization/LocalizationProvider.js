@@ -35,6 +35,9 @@ export const LocalizationProvider = ({ children }) => {
 
   const setLanguage = useCallback(
     (newLocale) => {
+      if (locale === newLocale) {
+        return;
+      }
       i18n.locale = newLocale;
       setLocale(newLocale);
       AsyncStorage.setItem(localStorageKeys.appLocale, newLocale);

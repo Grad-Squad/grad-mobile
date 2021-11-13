@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
-import { Colors, Typography } from 'styles';
+import { Colors, Styles, Typography } from 'styles';
 import { stylePropType } from 'proptypes';
 import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
@@ -17,11 +17,11 @@ const TitleText = ({ title, subtitle, showSubtitle, error, style }) => {
         style,
       ]}
     >
-      <EduText style={[Typography.userInput.title, error && styles.errorText]}>
+      <EduText style={[Typography.userInput.title, error && Styles.errorText]}>
         {title}
       </EduText>
       {showSubtitle && (
-        <EduText style={[styles.subtitle, error && styles.errorText]}>
+        <EduText style={[styles.subtitle, error && Styles.errorText]}>
           {subtitle}
         </EduText>
       )}
@@ -64,8 +64,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.offBlack,
     marginLeft: 2,
-  },
-  errorText: {
-    color: Colors.error,
   },
 });

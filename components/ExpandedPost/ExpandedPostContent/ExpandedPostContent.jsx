@@ -88,7 +88,7 @@ export default ExpandedPostContent;
 
 const styles = StyleSheet.create({
   couldNotGetPostError: {
-    color: Colors.error,
+    ...Styles.errorText,
     textAlign: 'center',
     fontSize: 30,
     marginTop: 'auto',

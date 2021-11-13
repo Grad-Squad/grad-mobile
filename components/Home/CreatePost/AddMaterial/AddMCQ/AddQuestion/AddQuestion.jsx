@@ -4,13 +4,13 @@ import { Alert, StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { requiredError } from 'validation';
+import { maxCharError, requiredError } from 'validation';
 import { TextInputFormik } from 'common/Input';
 import PressableText from 'common/PressableText';
 import { SecondaryActionButton, TransparentButton } from 'common/Input/Button';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
-import { Colors } from 'styles';
+import { Styles } from 'styles';
 import { mcqQuestionAddPropType, stylePropType } from 'proptypes';
 import ImageSelector from 'common/ImageSelector';
 import { useAPIgetOneS3UploadLinks } from 'api/endpoints/s3';
@@ -162,7 +162,7 @@ const AddQuestion = ({
               (item) => item.text === value
             ) === -1
         )
-        .max(400, t('TextInput/max char error', { max: 400 })),
+        .max(400, maxCharError(t, 400)),
     }),
   });
 
@@ -283,7 +283,7 @@ const AddQuestion = ({
       <View style={contentStyle}>
         {currentQuestionFormik.touched.choices &&
           currentQuestionFormik.errors.choices && (
-            <EduText style={styles.choicesError}>
+            <EduText style={Styles.errorText}>
               {currentQuestionFormik.errors.choices}
             </EduText>
           )}
@@ -356,8 +356,7 @@ const styles = StyleSheet.create({
   },
   textInputRightComponent: { flexBasis: '18%', alignItems: 'center' },
   uploadedFileName: {
-    borderBottomColor: Colors.accent,
-    borderBottomWidth: 1,
+    ...Styles.underLinedFileName,
 
     marginTop: 4,
 
@@ -366,9 +365,6 @@ const styles = StyleSheet.create({
   addQuestion: {
     width: 180,
     alignSelf: 'flex-end',
-  },
-  choicesError: {
-    color: Colors.error,
   },
   disabled: { opacity: 0.8 },
 });

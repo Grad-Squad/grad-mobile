@@ -121,6 +121,8 @@
   },
   "AddMaterial": {
     "Finish": "Finish",
+    "Preview": "Preview",
+    "Please add a file": "Please add a file",
     "MCQ": {
       "Create MCQ": "Create MCQ",
       "Exercise Title": "Exercise Title",
@@ -136,6 +138,11 @@
         "(maximum number of choices reached)": "(maximum number of choices reached)",
         "add at least one question": "add at least one question"
       }
+    },
+    "PDF": {
+      "Add PDF": "Add PDF",
+      "PDF Title": "PDF Title",
+      "PDF file name:": "PDF file name:"
     },
     "Add": "Add",
     "Add Question": "Add Question",

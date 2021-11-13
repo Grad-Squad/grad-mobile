@@ -7,6 +7,7 @@ import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import PropTypes from 'prop-types';
 import { materialsPropType } from 'proptypes';
+import { MaterialTypes } from 'constants';
 import PostContentMaterial from './PostContentMaterial';
 
 function PostContentList({ notClickable, materials }) {
@@ -20,7 +21,7 @@ function PostContentList({ notClickable, materials }) {
         renderItem={({ item }) => (
           <PostContentMaterial
             // materialType={item.materialType}
-            materialType="MCQ"
+            materialType={MaterialTypes.MCQ}
             materialContentName={item.title}
             materialCount={item.mcqs.length}
             notClickable={notClickable}

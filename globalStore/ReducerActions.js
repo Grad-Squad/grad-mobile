@@ -1,9 +1,9 @@
 export default Object.freeze({
-  addMCQ: 'addMCQ',
-  setMCQs: 'setMCQs',
+  addCreateMaterialItem: 'addCreateMaterialItem',
+  replaceCreateMaterialItem: 'replaceCreateMaterialItem',
+  setCreateMaterialItem: 'setCreateMaterialItem',
   setMCQQuestions: 'setMCQQuestions',
   clearMaterialList: 'clearMaterialList',
-  editMCQ: 'editMCQ',
   setProfileId: 'setProfileId',
   addImageToUploadQueue: 'addImageToUploadQueue',
   popImageFromUploadQueue: 'popImageFromUploadQueue',

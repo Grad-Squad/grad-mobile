@@ -6,30 +6,31 @@ import { Colors, Constants, Styles } from 'styles';
 import { navigationPropType } from 'proptypes';
 import { TransparentButton } from 'common/Input/Button';
 import ScreenNames from 'navigation/ScreenNames';
+import { MaterialTypes } from 'constants';
 
 const getItems = (t) => [
   {
-    iconName: MaterialTypeIconsMap.Flashcards,
+    iconName: MaterialTypeIconsMap[MaterialTypes.Flashcards],
     title: t('CreatePost/Add/Flashcards'),
     route: ScreenNames.ADD_FLASHCARDS,
   },
   {
-    iconName: MaterialTypeIconsMap.MCQ,
+    iconName: MaterialTypeIconsMap[MaterialTypes.MCQ],
     title: t('CreatePost/Add/MCQ'),
     route: ScreenNames.ADD_MCQ,
   },
   {
-    iconName: MaterialTypeIconsMap.PDF,
+    iconName: MaterialTypeIconsMap[MaterialTypes.PDF],
     title: t('CreatePost/Add/PDF'),
     route: ScreenNames.ADD_PDF,
   },
   {
-    iconName: MaterialTypeIconsMap.Images,
+    iconName: MaterialTypeIconsMap[MaterialTypes.Images],
     title: t('CreatePost/Add/Images'),
     route: ScreenNames.ADD_IMAGES,
   },
   {
-    iconName: MaterialTypeIconsMap.Video,
+    iconName: MaterialTypeIconsMap[MaterialTypes.Video],
     title: t('CreatePost/Add/Video'),
     route: ScreenNames.ADD_VIDEO,
   },

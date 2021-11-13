@@ -41,8 +41,11 @@ export const IconNames = Object.freeze({
   plus: 'plus',
   comment: 'comment-outline',
   share: 'sharealt',
+  settings: 'settings-outline',
+  logout: 'logout',
   report: 'flag',
   tagDot: 'dot-single',
+  addDocument: 'text-box-plus-outline',
 });
 
 const map = {
@@ -75,8 +78,11 @@ const map = {
   plus: Feather,
   'comment-outline': MaterialCommunityIcons,
   sharealt: AntDesign,
+  'settings-outline': Ionicons,
+  'logout': MaterialCommunityIcons,
   flag: AntDesign,
   "dot-single": Entypo,
+  'text-box-plus-outline': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

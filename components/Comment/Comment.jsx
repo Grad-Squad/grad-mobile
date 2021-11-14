@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { AssetsConstants } from 'constants';
+import { AssetsConstants, HIT_SLOP_OBJECT } from 'constants';
 import EduText from 'common/EduText';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNames from 'navigation/ScreenNames';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
@@ -17,27 +19,43 @@ function Comment({
   commentDate,
   voteCount,
   profileImageURI,
+  profileId,
 }) {
+  const navigation = useNavigation();
+
+  const navigateToProfile = () =>
+    navigation.navigate(ScreenNames.PROFILE, { profileId });
+
   return (
     <View style={{ width: '100%', minWidth: '100%' }}>
       <View style={styles.outerContainer}>
         <View>
           <View style={styles.imageContainer}>
-            <Image
-              style={styles.profileImage}
-              source={
-                profileImageURI
-                  ? {
-                      uri: profileImageURI,
-                    }
-                  : AssetsConstants.images.defaultProfile
-              }
-            />
+            <TouchableOpacity
+              onPress={navigateToProfile}
+              hitSlop={HIT_SLOP_OBJECT}
+            >
+              <Image
+                style={styles.profileImage}
+                source={
+                  profileImageURI
+                    ? {
+                        uri: profileImageURI,
+                      }
+                    : AssetsConstants.images.defaultProfile
+                }
+              />
+            </TouchableOpacity>
           </View>
           <View style={styles.innerContainer}>
-            <View style={styles.profileInfoContainer}>
-              <EduText style={styles.profileName}>{profileName}</EduText>
-            </View>
+            <TouchableOpacity
+              onPress={navigateToProfile}
+              hitSlop={{ top: 5, bottom: 5 }}
+            >
+              <View style={styles.profileInfoContainer}>
+                <EduText style={styles.profileName}>{profileName}</EduText>
+              </View>
+            </TouchableOpacity>
             <View style={styles.postTitle}>
               <EduText style={styles.text}>{text}</EduText>
             </View>
@@ -71,6 +89,7 @@ Comment.propTypes = {
   commentDate: PropTypes.string.isRequired,
   voteCount: PropTypes.number.isRequired,
   profileImageURI: PropTypes.string,
+  profileId: PropTypes.number.isRequired,
 };
 
 Comment.defaultProps = {

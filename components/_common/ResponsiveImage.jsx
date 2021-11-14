@@ -30,20 +30,19 @@ const ResponsiveImage = ({
   return (
     <View>
       <Pressable
+        disabled={!canMaximize}
         onPress={() => {
-          if (canMaximize) {
-            setIsMaximized(true);
-            const { width: maxWidth, height: maxHeight } =
-              Dimensions.get('window');
+          setIsMaximized(true);
+          const { width: maxWidth, height: maxHeight } =
+            Dimensions.get('window');
 
-            const heightIfMaxWidth = (maxWidth * height) / width;
-            if (width > height || heightIfMaxWidth <= maxHeight) {
-              setNewWidth(maxWidth);
-              setNewHeight(heightIfMaxWidth);
-            } else {
-              setNewHeight(maxHeight);
-              setNewWidth((width * maxHeight) / height);
-            }
+          const heightIfMaxWidth = (maxWidth * height) / width;
+          if (width > height || heightIfMaxWidth <= maxHeight) {
+            setNewWidth(maxWidth);
+            setNewHeight(heightIfMaxWidth);
+          } else {
+            setNewHeight(maxHeight);
+            setNewWidth((width * maxHeight) / height);
           }
         }}
       >
@@ -55,6 +54,7 @@ const ResponsiveImage = ({
           style={[
             styles.image,
             {
+              width: Dimensions.get('window').width * maxWidthRatio,
               height: Math.min(
                 height /
                   (width / (Dimensions.get('window').width * maxWidthRatio)),
@@ -71,9 +71,7 @@ const ResponsiveImage = ({
       </Pressable>
       <Portal>
         <Modal
-          contentContainerStyle={{
-            flex: 1,
-          }}
+          contentContainerStyle={styles.modalContainer}
           onDismiss={() => setIsMaximized(false)}
           visible={isMaximized}
         >
@@ -113,7 +111,6 @@ export default ResponsiveImage;
 
 const styles = StyleSheet.create({
   image: {
-    width: Dimensions.get('window').width * 0.9,
     resizeMode: 'contain',
     marginBottom: Dimensions.get('window').height * 0.02,
   },
@@ -127,5 +124,8 @@ const styles = StyleSheet.create({
     zIndex: 20,
     top: 0,
     left: 0,
+  },
+  modalContainer: {
+    flex: 1,
   },
 });

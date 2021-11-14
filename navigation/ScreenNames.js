@@ -16,6 +16,8 @@ export default {
   ADD_IMAGES: 'ADD_IMAGES',
   ADD_VIDEO: 'ADD_VIDEO',
 
+  PROFILE: 'PROFILE',
+
   Register: {
     REQUIRED_INFO: 'register/requiredInfo',
     ROLL_SELECTION: 'register/rollSelection',

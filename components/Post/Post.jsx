@@ -46,6 +46,7 @@ function Post({
         <TitleRegion
           title={title}
           profileName={author.name}
+          profileId={author.id}
           createdAt={createdAt}
           materials={materials}
         />

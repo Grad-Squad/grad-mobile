@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 import EduText from 'common/EduText';
@@ -7,6 +7,9 @@ import PostContentList from 'common/Post/PostContentList';
 import { Colors } from 'styles';
 import { formatDate } from 'utility';
 import { materialsPropType } from 'proptypes';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNames from 'navigation/ScreenNames';
+import { BASIC_5V_HIT_SLOP_OBJECT } from 'constants';
 
 const imageWidth = 70;
 const imageOffset = -25;
@@ -83,23 +86,33 @@ const styles = StyleSheet.create({
   },
 });
 
-function TitleRegion({ profileName, title, createdAt, materials }) {
+function TitleRegion({ profileName, title, createdAt, materials, profileId }) {
   const postDate = useMemo(() => new Date(createdAt), [createdAt]);
+  const navigation = useNavigation();
+  const navigateToProfile = () =>
+    navigation.navigate(ScreenNames.PROFILE, { profileId });
   return (
     <View style={styles.outerContainer}>
       <View>
         <View style={styles.imageContainer}>
-          <Image
-            style={styles.profileImage}
-            source={{
-              uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
-            }}
-          />
+          <TouchableOpacity onPress={navigateToProfile}>
+            <Image
+              style={styles.profileImage}
+              source={{
+                uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
+              }}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.innerContainer}>
-          <View style={styles.profileInfoContainer}>
-            <EduText style={styles.profileName}>{profileName}</EduText>
-          </View>
+          <TouchableOpacity
+            onPress={navigateToProfile}
+            hitSlop={BASIC_5V_HIT_SLOP_OBJECT}
+          >
+            <View style={styles.profileInfoContainer}>
+              <EduText style={styles.profileName}>{profileName}</EduText>
+            </View>
+          </TouchableOpacity>
           <View style={styles.postTitle}>
             <EduText style={styles.titleText}>{title}</EduText>
           </View>
@@ -122,4 +135,5 @@ TitleRegion.propTypes = {
   title: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   materials: materialsPropType.isRequired,
+  profileId: PropTypes.number.isRequired,
 };

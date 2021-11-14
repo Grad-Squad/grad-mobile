@@ -10,17 +10,7 @@ import {
   View,
 } from 'react-native';
 import { Modal, Portal } from 'react-native-paper';
-import { Colors } from 'styles';
-import Animated, {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
-import {
-  PinchGestureHandler,
-  PanGestureHandler,
-} from 'react-native-gesture-handler';
+import ImageViewer from 'react-native-image-zoom-viewer';
 
 const ResponsiveImage = ({
   imageURI,
@@ -29,109 +19,13 @@ const ResponsiveImage = ({
   maxHeightRatio,
   canMaximize,
 }) => {
-  const imagePinch = React.createRef();
-  const imagePan = React.createRef();
-
   const [height, setHeight] = useState(1);
   const [width, setWidth] = useState(1);
 
   const [newHeight, setNewHeight] = useState(0);
   const [newWidth, setNewWidth] = useState(0);
+
   const [isMaximized, setIsMaximized] = useState(false);
-
-  const scale = useSharedValue(1);
-  const focalX = useSharedValue(0);
-  const focalY = useSharedValue(0);
-
-  const translateX = useSharedValue(0);
-  console.log(
-    '🚀 ~ file: ResponsiveImage.jsx ~ line 48 ~ translateX',
-    translateX.value
-  );
-  const translateY = useSharedValue(0);
-  const prevTranslateX = useSharedValue(0);
-  const prevTranslateY = useSharedValue(0);
-
-  const prevScale = useSharedValue(1);
-  const prevFocalX = useSharedValue(0);
-  const prevFocalY = useSharedValue(0);
-
-  const pinchHandler = useAnimatedGestureHandler({
-    onActive: (event) => {
-      // scale.value = event.scale;
-      // focalX.value = event.focalX;
-      // focalY.value = event.focalY;
-      scale.value = event.scale * prevScale.value;
-      focalX.value = event.focalX;
-      focalY.value = event.focalY;
-    },
-    onEnd: () => {
-      prevFocalX.value = focalX.value;
-      prevFocalY.value = focalY.value;
-      prevScale.value = scale.value;
-      if (scale.value < 1) {
-        scale.value = withTiming(1);
-        prevScale.value = withTiming(1);
-        translateX.value = withTiming(0);
-        translateY.value = withTiming(0);
-      }
-    },
-  });
-
-  const panHandler = useAnimatedGestureHandler({
-    onActive: (event) => {
-      if (scale.value > 1) {
-        console.log(
-          '🚀 ~ file: ResponsiveImage.jsx ~ line 86 ~ (prevTranslateX.value + event.translationX) / scale.value',
-          (prevTranslateX.value + event.translationX) / scale.value
-        );
-        if (
-          Math.abs((prevTranslateX.value + event.translationX) / scale.value) <
-          0.2 * newWidth
-        ) {
-          translateX.value = prevTranslateX.value + event.translationX;
-        }
-        if (
-          Math.abs((prevTranslateY.value + event.translationY) / scale.value) <
-          0.2 * newHeight
-        ) {
-          translateY.value = prevTranslateY.value + event.translationY;
-        }
-        console.log(
-          '🚀 ~ file: ResponsiveImage.jsx ~ line 48 ~ translateX',
-          translateX.value
-        );
-      }
-    },
-    onEnd: () => {
-      prevTranslateX.value = translateX.value;
-      prevTranslateY.value = translateY.value;
-    },
-  });
-
-  const pinchStyle = useAnimatedStyle(() => ({
-    transform: [
-      // { translateX: focalX.value },
-      // { translateY: focalY.value },
-      // { translateX: -newWidth / 2 },
-      // { translateY: -newHeight / 2 },
-
-      { translateX: translateX.value },
-      { translateY: translateY.value },
-      { scale: scale.value },
-
-      // { translateX: -focalX.value },
-      // { translateY: -focalY.value },
-      // { translateX: newWidth / 2 },
-      // { translateY: newHeight / 2 },
-
-      // { translateY: prevTranslateY.value + translateY.value },
-    ],
-  }));
-
-  const focalPointStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: focalX.value }, { translateY: focalY.value }],
-  }));
 
   return (
     <View>
@@ -183,64 +77,17 @@ const ResponsiveImage = ({
           onDismiss={() => setIsMaximized(false)}
           visible={isMaximized}
         >
-          <PinchGestureHandler
-            ref={imagePinch}
-            simultaneousHandlers={imagePan}
-            onGestureEvent={pinchHandler}
-            style={{
-              backgroundColor: Colors.black,
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Animated.View
-              style={{
-                backgroundColor: Colors.black,
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <PanGestureHandler
-                ref={imagePan}
-                simultaneousHandlers={imagePinch}
-                onGestureEvent={panHandler}
-                style={{
-                  backgroundColor: Colors.black,
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Animated.View
-                  style={{
-                    backgroundColor: Colors.black,
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Animated.View style={[styles.focalPoint, focalPointStyle]} />
-                  <Animated.Image
-                    style={[
-                      styles.image,
-                      {
-                        height: newHeight,
-                        width: newWidth,
-                      },
-                      pinchStyle,
-                      { ...style },
-                    ]}
-                    resizeMode="contain"
-                    source={{
-                      uri: imageURI,
-                    }}
-                  />
-                </Animated.View>
-              </PanGestureHandler>
-            </Animated.View>
-          </PinchGestureHandler>
+          <ImageViewer
+            enableSwipeDown
+            onSwipeDown={() => setIsMaximized(false)}
+            imageUrls={[
+              {
+                url: imageURI,
+                width: newWidth,
+                height: newHeight,
+              },
+            ]}
+          />
         </Modal>
       </Portal>
     </View>

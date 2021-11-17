@@ -5,6 +5,7 @@ import { navigationPropType, routeParamPropType } from 'proptypes';
 import EduText from 'common/EduText';
 import PropTypes from 'prop-types';
 import ProfileHeader from './ProfileHeader';
+import ProfileTabNav from './ProfileTabNav';
 
 const Profile = ({ navigation, route }) => {
   const { profileId } = route.params;
@@ -27,16 +28,7 @@ const Profile = ({ navigation, route }) => {
   return (
     <Page>
       <ProfileHeader navigation={navigation} profile={profile} />
-      <EduText>{profileId}</EduText>
-      <EduText>{profileId}</EduText>
-      <EduText>{profileId}</EduText>
-      <EduText>{profileId}</EduText>
-      <EduText>{profileId}</EduText>
-      <EduText>{profileId}</EduText>
-      <EduText>{profileId}</EduText>
-      <EduText>{profileId}</EduText>
-      <EduText>{profileId}</EduText>
-      <EduText>{profileId}</EduText>
+      <ProfileTabNav />
     </Page>
   );
 };

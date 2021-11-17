@@ -8,6 +8,7 @@ import { MainActionButton, SecondaryActionButton } from 'common/Input/Button';
 import { Constants, Fonts } from 'styles';
 import { useLocalization } from 'localization';
 import { Icon } from 'common/Icon';
+import { IconNames } from 'common/Icon/Icon';
 
 const NumBox = ({ title, number }) => (
   <View style={styles.numBox}>
@@ -68,7 +69,7 @@ const ProfileHeader = ({ navigation, profile }) => {
           </EduText>
           <View style={[styles.row, styles.followBtnContainer]}>
             {followButton}
-            <Icon name="dots-vertical" />
+            <Icon name={IconNames.dotsVertical} />
           </View>
         </View>
         <View style={styles.rightHeader}>

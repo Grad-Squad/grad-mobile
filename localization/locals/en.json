@@ -272,6 +272,10 @@
   },
   "Profile": {
     "Follow": "Follow",
-    "Unfollow": "Unfollow"
+    "Unfollow": "Unfollow",
+    "Tabs": {
+      "Posts": "Posts",
+      "Bookmarks": "Bookmarks"
+    }
   }
 }

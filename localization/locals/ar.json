@@ -269,5 +269,9 @@
   },
   "Feed": {
     "Error:Couldn't load posts": "تعذر تحميل المنشورات"
+  },
+  "Profile": {
+    "Follow": "متابعة",
+    "Unfollow": "إلغاء المتابعة"
   }
 }

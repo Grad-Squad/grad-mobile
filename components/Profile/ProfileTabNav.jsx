@@ -4,7 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Colors } from 'styles';
 import { useLocalization } from 'localization';
 import ProfilePosts from './ProfilePosts';
-import Bookmarks from './Bookmarks';
+import Bookmarks from './Bookmarks/Bookmarks';
 
 const Tab = createMaterialTopTabNavigator();
 const ProfileTabNav = () => {

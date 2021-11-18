@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Animated, FlatList, StyleSheet } from 'react-native';
+import { Animated, StyleSheet } from 'react-native';
 import { useLocalization } from 'localization';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { Styles } from 'styles';

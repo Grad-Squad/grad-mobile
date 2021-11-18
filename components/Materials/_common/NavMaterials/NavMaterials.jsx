@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Pressable, StyleSheet, View, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors, Constants } from 'styles';
 import EduText from 'common/EduText';
-import GoToModal from './GoToModal';
-import { useContext } from 'react';
 import { LocalizationContext } from 'localization';
+import GoToModal from './GoToModal';
 
 const NavMaterials = ({
   onPressNext,

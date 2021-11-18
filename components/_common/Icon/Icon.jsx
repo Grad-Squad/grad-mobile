@@ -49,6 +49,7 @@ export const IconNames = Object.freeze({
   addDocument: 'text-box-plus-outline',
   keyboardArrowLeft: 'keyboard-arrow-left',
   keyboardArrowRight: 'keyboard-arrow-right',
+  Folder: 'folder-outline',
 });
 
 const map = {
@@ -88,6 +89,7 @@ const map = {
   'dot-single': Entypo,
   'keyboard-arrow-left': MaterialIcons,
   'keyboard-arrow-right': MaterialIcons,
+  'folder-outline': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

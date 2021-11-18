@@ -90,7 +90,7 @@ const ProfileHeader = ({ navigation, profile }) => {
         //   height: translateY,
         // },
         {
-          backgroundColor: 'red',
+          backgroundColor: '#ff000050',
           transform: [
             { translateY },
             { scale: scaleYNumber.current },

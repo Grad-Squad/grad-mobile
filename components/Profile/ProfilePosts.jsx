@@ -1,14 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import React, { useContext } from 'react';
+import { Animated } from 'react-native';
+import PostsContainer from 'components/Post/PostsContainer';
+import { apiFeedQueryKey, useAPIFeed } from 'api/endpoints/posts';
+import ProfileContext from './ProfileContext';
 
 const ProfilePosts = () => {
-  return <View></View>;
+  const { offset } = useContext(ProfileContext);
+
+  return (
+    <PostsContainer
+      reactQueryKey={apiFeedQueryKey}
+      paginatedReactQuery={useAPIFeed}
+      onScroll={Animated.event(
+        [{ nativeEvent: { contentOffset: { y: offset } } }],
+        { useNativeDriver: true }
+      )}
+    />
+  );
 };
 
 ProfilePosts.propTypes = {};
 ProfilePosts.defaultProps = {};
 
 export default ProfilePosts;
-
-const styles = StyleSheet.create({});

@@ -11,8 +11,10 @@ const ProfileTabNav = () => {
   const { t } = useLocalization();
   return (
     <Tab.Navigator
+      style={{ flex: 1 }}
+      sceneContainerStyle={{ flex: 1 }}
       screenOptions={{
-        tabBarStyle: styles.background,
+        tabBarStyle: { ...styles.background },
       }}
     >
       <Tab.Screen name={t('Profile/Tabs/Posts')} component={ProfilePosts} />

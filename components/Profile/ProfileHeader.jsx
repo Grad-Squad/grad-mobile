@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Dimensions, Image, StyleSheet, View } from 'react-native';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Dimensions, Image, StyleSheet, View, Animated } from 'react-native';
 import { navigationPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import GoBackButton from 'common/GoBackButton';
@@ -9,6 +9,7 @@ import { Constants, Fonts } from 'styles';
 import { useLocalization } from 'localization';
 import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
+import ProfileContext from './ProfileContext';
 
 const NumBox = ({ title, number }) => (
   <View style={styles.numBox}>
@@ -22,9 +23,48 @@ NumBox.propTypes = {
   number: PropTypes.number.isRequired,
 };
 
+// const HEIGHT = Dimensions.get('window').height * 0.4;
 const ProfileHeader = ({ navigation, profile }) => {
   const { t } = useLocalization();
   const [isFollowed, setIsFollowed] = useState(profile.isFollowed);
+  const { offset } = useContext(ProfileContext);
+  // const [height, setHeight] = useState(0);
+  const [height, setHeight] = useState(0);
+
+  // const headerHeight = offset.interpolate({
+  //   inputRange: [0, height + insets.top],
+  //   outputRange: [height + insets.top, insets.top + 44],
+  //   extrapolate: 'clamp',
+  // });
+
+  let rightHeader = (
+    <View style={styles.rightHeader}>
+      <Image
+        style={styles.profileImage}
+        source={{
+          uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
+        }}
+      />
+      <NumBox title="Followers" number={123} />
+      <NumBox title="Posts" number={1123} />
+    </View>
+  );
+
+  const scrollYClamped = Animated.diffClamp(offset, 0, height);
+  const translateY = scrollYClamped.interpolate({
+    inputRange: [0, height],
+    outputRange: [0, -(height / 2)],
+  });
+
+  const scaleY = scrollYClamped.interpolate({
+    inputRange: [0, height],
+    outputRange: [0, 1],
+  });
+  const scaleYNumber = useRef(1);
+  scaleY.addListener(({ value }) => {
+    scaleYNumber.current = value;
+  });
+
   const followButton = isFollowed ? (
     <SecondaryActionButton
       onPress={() => setIsFollowed(false)}
@@ -39,7 +79,27 @@ const ProfileHeader = ({ navigation, profile }) => {
     />
   );
   return (
-    <View>
+    <Animated.View
+      onLayout={(event) => {
+        if (height === 0) {
+          setHeight(event.nativeEvent.layout.height);
+        }
+      }}
+      style={[
+        // height && {
+        //   height: translateY,
+        // },
+        {
+          backgroundColor: 'red',
+          transform: [
+            { translateY },
+            { scale: scaleYNumber.current },
+            { scaleY: scaleYNumber.current },
+            { scaleY: scaleYNumber.current },
+          ],
+        },
+      ]}
+    >
       <GoBackButton
         onPress={() => {
           navigation.goBack();
@@ -72,18 +132,10 @@ const ProfileHeader = ({ navigation, profile }) => {
             <Icon name={IconNames.dotsVertical} />
           </View>
         </View>
-        <View style={styles.rightHeader}>
-          <Image
-            style={styles.profileImage}
-            source={{
-              uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
-            }}
-          />
-          <NumBox title="Followers" number={123} />
-          <NumBox title="Posts" number={1123} />
-        </View>
+
+        {rightHeader}
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

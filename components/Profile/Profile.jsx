@@ -1,14 +1,16 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { useRef } from 'react';
+import { Animated, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
-import EduText from 'common/EduText';
 import PropTypes from 'prop-types';
 import ProfileHeader from './ProfileHeader';
 import ProfileTabNav from './ProfileTabNav';
+import ProfileContext from './ProfileContext';
 
 const Profile = ({ navigation, route }) => {
   const { profileId } = route.params;
+  const offset = useRef(new Animated.Value(0)).current;
+
   const profile = {
     id: 2,
     createdAt: '2021-09-26T17:49:56.650Z',
@@ -27,8 +29,14 @@ const Profile = ({ navigation, route }) => {
 
   return (
     <Page>
-      <ProfileHeader navigation={navigation} profile={profile} />
-      <ProfileTabNav />
+      <ProfileContext.Provider
+        value={{
+          offset,
+        }}
+      >
+        <ProfileHeader navigation={navigation} profile={profile} />
+        <ProfileTabNav />
+      </ProfileContext.Provider>
     </Page>
   );
 };

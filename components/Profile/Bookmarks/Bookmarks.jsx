@@ -1,7 +1,6 @@
 import React, { useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Pressable, SectionList, StyleSheet, View } from 'react-native';
-import Post from 'components/Post/Post';
 import EduText from 'common/EduText';
 import { Constants } from 'styles';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
@@ -10,6 +9,7 @@ import { IconNames } from 'common/Icon/Icon';
 import Folder from './Folder';
 import ProfileContext from '../ProfileContext';
 import TEMP_DATA from './TEMP_DATA';
+import PostWrapper from './PostWrapper';
 
 const createDirectory = (parent, directory = {}) => {
   const folders = parent?.folders;
@@ -46,21 +46,6 @@ const Bookmarks = () => {
     />
   );
 
-  const postWrapper = ({
-    item: { title, author, rating, createdAt, id, commentCount, materials },
-  }) => (
-    <Post
-      title={title}
-      author={author}
-      rating={rating}
-      createdAt={createdAt}
-      id={id}
-      style={styles.post}
-      commentCount={commentCount}
-      materials={materials}
-    />
-  );
-
   const sections = [
     {
       id: 'folders',
@@ -73,7 +58,7 @@ const Bookmarks = () => {
       id: 'posts',
       title: 'Posts',
       data: currentFolder.posts,
-      renderItem: postWrapper,
+      renderItem: PostWrapper,
     },
   ];
 
@@ -130,10 +115,6 @@ const styles = StyleSheet.create({
   header: {
     marginTop: Constants.commonMargin,
     marginLeft: Constants.commonMargin,
-  },
-  post: {
-    width: '90%',
-    alignSelf: 'center',
   },
   postsHeader: {
     marginBottom: Constants.commonMargin * 1.5,

@@ -115,16 +115,6 @@ const styles = StyleSheet.create({
     marginBottom: Dimensions.get('window').height * 0.02,
   },
 
-  focalPoint: {
-    ...StyleSheet.absoluteFillObject,
-    width: 20,
-    height: 20,
-    backgroundColor: 'blue',
-    borderRadius: 10,
-    zIndex: 20,
-    top: 0,
-    left: 0,
-  },
   modalContainer: {
     flex: 1,
   },

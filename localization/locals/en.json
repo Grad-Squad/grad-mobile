@@ -276,6 +276,11 @@
     "Tabs": {
       "Posts": "Posts",
       "Bookmarks": "Bookmarks"
-    }
+    },
+    "Header": {
+      "Posts": "Posts",
+      "Followers": "Followers"
+    },
+    "Followers": "Followers"
   }
 }

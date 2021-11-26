@@ -276,6 +276,11 @@
     "Tabs": {
       "Posts": "المنشورات",
       "Bookmarks": "السجل"
-    }
+    },
+    "Header": {
+      "Posts": "منشور",
+      "Followers": "متابع"
+    },
+    "Followers": "المتابعين"
   }
 }

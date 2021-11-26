@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Dimensions, Image, StyleSheet, View, Animated } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  StyleSheet,
+  View,
+  Animated,
+  Pressable,
+} from 'react-native';
 import { navigationPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import GoBackButton from 'common/GoBackButton';
@@ -9,18 +16,32 @@ import { Constants, Fonts } from 'styles';
 import { useLocalization } from 'localization';
 import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
+import ScreenNames from 'navigation/ScreenNames';
+import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import ProfileContext from './ProfileContext';
 
-const NumBox = ({ title, number }) => (
+const NumBox = ({ title, number, onPress }) => (
   <View style={styles.numBox}>
-    <EduText style={styles.numBoxTitle}>{title}</EduText>
-    <EduText style={styles.numBoxNumber}>{number}</EduText>
+    <Pressable
+      style={styles.numBoxCenter}
+      disabled={!onPress}
+      onPress={onPress || (() => {})}
+      android_ripple={pressableAndroidRipple}
+    >
+      <EduText style={styles.numBoxTitle}>{title}</EduText>
+      <EduText style={styles.numBoxNumber}>{number}</EduText>
+    </Pressable>
   </View>
 );
 
 NumBox.propTypes = {
   title: PropTypes.string.isRequired,
   number: PropTypes.number.isRequired,
+  onPress: PropTypes.func,
+};
+
+NumBox.defaultProps = {
+  onPress: undefined,
 };
 
 // const HEIGHT = Dimensions.get('window').height * 0.4;
@@ -37,7 +58,7 @@ const ProfileHeader = ({ navigation, profile }) => {
   //   extrapolate: 'clamp',
   // });
 
-  let rightHeader = (
+  const rightHeader = (
     <View style={styles.rightHeader}>
       <Image
         style={styles.profileImage}
@@ -45,8 +66,16 @@ const ProfileHeader = ({ navigation, profile }) => {
           uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
         }}
       />
-      <NumBox title="Followers" number={123} />
-      <NumBox title="Posts" number={1123} />
+      <NumBox
+        title={t('Profile/Header/Followers')}
+        number={123}
+        onPress={() =>
+          navigation.navigate(ScreenNames.FOLLOWERS, {
+            profileId: profile.id,
+          })
+        }
+      />
+      <NumBox title={t('Profile/Header/Posts')} number={1123} />
     </View>
   );
 
@@ -181,6 +210,8 @@ const styles = StyleSheet.create({
   },
   numBox: {
     marginTop: Constants.commonMargin,
+  },
+  numBoxCenter: {
     alignItems: 'center',
   },
   numBoxTitle: {

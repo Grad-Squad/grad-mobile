@@ -1,6 +1,7 @@
 import Post from 'components/Post/Post';
 import { postPropType } from 'proptypes';
 import React from 'react';
+import { StyleSheet } from 'react-native';
 
 const PostWrapper = ({
   item: { title, author, rating, createdAt, id, commentCount, materials },

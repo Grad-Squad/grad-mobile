@@ -2,7 +2,7 @@ import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
 import React, { useState } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { Colors } from 'styles';
 import NavMaterials from '../_common/NavMaterials';
@@ -11,23 +11,34 @@ import FlashcardFooter from './FlashcardFooter';
 
 const SolveFlashcard = ({ navigation }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [footerHeight, setFooterHeight] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(0);
   // todo usecallback for onGood, onBad
   return (
     <Page>
-      <MaterialViewHeader
-        onBackPress={() => navigation.goBack()}
-        author="Ramez"
-        title="When the potato took over"
-        contextMenuItems={[
-          {
-            titleKey: 'ContextMenu/Save',
-            onPress: () => Alert.alert('WIP'),
-            iconName: 'bookmark',
-          },
-        ]}
-      />
-      <ProgressBar progress={0.2} color={Colors.accent} />
-      <NavMaterials onPressNext={() => {}} currentPageIndex={0} maxPages={2} />
+      <View
+        onLayout={(event) => setHeaderHeight(event.nativeEvent.layout.height)}
+      >
+        <MaterialViewHeader
+          onBackPress={() => navigation.goBack()}
+          author="Ramez"
+          title="When the potato took over"
+          contextMenuItems={[
+            {
+              titleKey: 'ContextMenu/Save',
+              onPress: () => Alert.alert('WIP'),
+              iconName: 'bookmark',
+            },
+          ]}
+        />
+        <ProgressBar progress={0.2} color={Colors.accent} />
+        <NavMaterials
+          onPressNext={() => {}}
+          currentPageIndex={0}
+          maxPages={2}
+        />
+      </View>
+
       <Flashcard
         isFlipped={isFlipped}
         onGood={() => {}}
@@ -41,12 +52,18 @@ const SolveFlashcard = ({ navigation }) => {
           backImage: 'http://placekitten.com/100/301',
         }}
         onFlip={() => setIsFlipped((prev) => !prev)}
+        unavailableHeight={headerHeight + footerHeight}
       />
-      <FlashcardFooter
-        onGood={() => {}}
-        onBad={() => {}}
-        onFlip={() => setIsFlipped((prev) => !prev)}
-      />
+
+      <View
+        onLayout={(event) => setFooterHeight(event.nativeEvent.layout.height)}
+      >
+        <FlashcardFooter
+          onGood={() => {}}
+          onBad={() => {}}
+          onFlip={() => setIsFlipped((prev) => !prev)}
+        />
+      </View>
     </Page>
   );
 };

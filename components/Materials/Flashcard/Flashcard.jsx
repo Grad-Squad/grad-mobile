@@ -5,11 +5,19 @@ import { flashcardPropType } from 'proptypes';
 import SlidableHOC from './SlidableHOC';
 import FlashcardFace from './FlashcardFace';
 
-const Flashcard = ({ flashcard, onGood, onBad, isFlipped, onFlip }) => {
+const Flashcard = ({
+  flashcard,
+  onGood,
+  onBad,
+  isFlipped,
+  onFlip,
+  unavailableHeight,
+}) => {
   const { frontImage, frontText, backImage, backText } = flashcard;
   return (
     <SlidableHOC canSlide onBad={onBad} onGood={onGood} onFlip={onFlip}>
       <FlashcardFace
+        outerUnavailableHeight={unavailableHeight}
         text={isFlipped ? backText : frontText}
         imageURI={isFlipped ? backImage : frontImage}
       />
@@ -23,6 +31,7 @@ Flashcard.propTypes = {
   onBad: PropTypes.func.isRequired,
   onFlip: PropTypes.func.isRequired,
   isFlipped: PropTypes.bool.isRequired,
+  unavailableHeight: PropTypes.number.isRequired,
 };
 Flashcard.defaultProps = {};
 

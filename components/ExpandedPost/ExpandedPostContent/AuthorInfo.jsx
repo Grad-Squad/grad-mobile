@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import EduText from 'common/EduText';
 import { Colors } from 'styles';
 import { AssetsConstants } from 'constants';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import ScreenNames from 'navigation/ScreenNames';
 import { useNavigation } from '@react-navigation/native';
 

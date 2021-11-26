@@ -29,13 +29,13 @@ const AddVideo = ({ route }) => {
 
   const [state, dispatch] = useStore();
 
-  const editPdf = state.createPost.materialList[editIndex];
+  const editVideo = state.createPost.materialList[editIndex];
 
   const formik = useFormik({
     initialValues: {
-      videoTitle: editPdf?.videoTitle ?? '',
-      fileName: editPdf?.fileName ?? '',
-      fileUri: editPdf?.fileUri ?? '',
+      videoTitle: editVideo?.videoTitle ?? '',
+      fileName: editVideo?.fileName ?? '',
+      fileUri: editVideo?.fileUri ?? '',
     },
     onSubmit: (video) => {
       if (editIndex === undefined) {

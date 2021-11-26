@@ -5,17 +5,19 @@ import { navigationPropType, routeParamPropType } from 'proptypes';
 import GoBackButton from 'common/GoBackButton';
 import Page from 'common/Page/Page';
 import PaginatedFlatList from 'common/PaginatedFlatList';
-import { useAPIGetComments } from 'api/endpoints/posts';
-import FollowerCard from './FollowerCard';
 import { Constants } from 'styles';
 import EduText from 'common/EduText';
 import { useLocalization } from 'localization';
+import {
+  getFollowersKey,
+  useAPIGetProfileFollowers,
+} from 'api/endpoints/profile';
+import FollowerCard from './FollowerCard';
 
 const Followers = ({ navigation, route }) => {
   const { profileId } = route.params;
   const { t } = useLocalization();
   // todo axios get profile stuff
-  console.log(profileId);
   return (
     <Page>
       <GoBackButton
@@ -26,72 +28,25 @@ const Followers = ({ navigation, route }) => {
       <View style={styles.title}>
         <EduText style={styles.titleText}>{t('Profile/Followers')}</EduText>
       </View>
-      <FollowerCard
-        profile={{
-          id: 6,
-          createdAt: '2021-09-26T17:49:56.650Z',
-          updatedAt: '2021-11-14T14:50:32.584Z',
-          name: 'Sameh Initial',
-          role: 'student',
-          profilePicture:
-            'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
-          isFollowed: Math.random() > 0.5,
-        }}
-        onFollow={() => {}}
-        onUnFollow={() => {}}
-        navigation={navigation}
-      />
 
-      <FollowerCard
-        profile={{
-          id: 4,
-          createdAt: '2021-09-26T17:49:56.650Z',
-          updatedAt: '2021-11-14T14:50:32.584Z',
-          name: 'Sameh Initial',
-          role: 'student',
-          profilePicture:
-            'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
-          isFollowed: Math.random() > 0.5,
-        }}
-        onFollow={() => {}}
-        onUnFollow={() => {}}
-        navigation={navigation}
-      />
-
-      <FollowerCard
-        profile={{
-          id: 5,
-          createdAt: '2021-09-26T17:49:56.650Z',
-          updatedAt: '2021-11-14T14:50:32.584Z',
-          name: 'Sameh Initial',
-          role: 'student',
-          profilePicture:
-            'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
-          isFollowed: Math.random() > 0.5,
-        }}
-        onFollow={() => {}}
-        onUnFollow={() => {}}
-        navigation={navigation}
-      />
-
-      {/* <PaginatedFlatList
+      <PaginatedFlatList
         contentContainerStyle={styles.container}
-        paginatedReactQuery={useAPIGetComments}
+        paginatedReactQuery={useAPIGetProfileFollowers}
         paginatedReactQueryParams={[profileId]}
-        reactQueryKey={[getCommentsKey, postID]}
-        renderItem={({ item: { content, createdAt, author, rating } }) => (
-          <Comment
-            profileName={author.name}
-            text={content}
-            commentDate={createdAt}
-            voteCount={rating.upvotes - rating.downvotes}
-            profileId={author.id}
+        reactQueryKey={[getFollowersKey, profileId]}
+        renderItem={({ item }) => (
+          <FollowerCard
+            profile={item}
+            onFollow={() => {}}
+            onUnFollow={() => {}}
+            navigation={navigation}
           />
         )}
+        ItemSeparatorComponent={() => <View style={styles.cardsSeparator} />}
         errorLocalizationKey="Comment/Error: Couldn't Load Comments"
         noItemsLocalizationKey="Comment/No Comments on this post. Be the first to add a comment!"
         hideNothingLeftToShow
-      /> */}
+      />
     </Page>
   );
 };
@@ -116,5 +71,8 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 24,
+  },
+  cardsSeparator: {
+    margin: Constants.commonMargin / 4,
   },
 });

@@ -97,13 +97,13 @@ const AddMCQ = ({ navigation, route }) => {
         formik.isSubmitting
       );
     },
+    [formik.dirty, subFormikDirty, formik.isSubmitting],
     () => {
       dispatch({
         type: ReducerActions.removeLastXFromUploadQueue,
         payload: numAddedImages,
       });
-    },
-    [formik.dirty, subFormikDirty, formik.isSubmitting]
+    }
   );
 
   return (

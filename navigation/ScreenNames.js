@@ -17,6 +17,7 @@ export default {
   ADD_VIDEO: 'ADD_VIDEO',
 
   PROFILE: 'PROFILE',
+  FOLLOWERS: 'FOLLOWERS',
 
   Register: {
     REQUIRED_INFO: 'register/requiredInfo',

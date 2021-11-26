@@ -36,5 +36,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.offBlack,
     borderRadius: Constants.borderRadius,
   },
-  text: {},
+  text: {
+    marginLeft: 5,
+  },
 });

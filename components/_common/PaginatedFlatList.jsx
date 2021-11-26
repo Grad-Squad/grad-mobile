@@ -19,6 +19,8 @@ const PaginatedFlatList = ({
   contentContainerStyle,
   hideNothingLeftToShow,
   onScroll,
+  initialNumToRender,
+  ...props
 }) => {
   const { t } = useLocalization();
   const {
@@ -54,7 +56,7 @@ const PaginatedFlatList = ({
         data={flatListItems}
         onScroll={onScroll}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
         refreshControl={
           !onScroll && (
             <QueryRefreshControl
@@ -86,7 +88,9 @@ const PaginatedFlatList = ({
             )
           )
         }
-        initialNumToRender={5}
+        initialNumToRender={initialNumToRender}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...props}
       />
     )
   );
@@ -105,6 +109,7 @@ PaginatedFlatList.propTypes = {
   contentContainerStyle: stylePropType,
   hideNothingLeftToShow: PropTypes.bool,
   onScroll: PropTypes.shape({}),
+  initialNumToRender: PropTypes.number,
 };
 PaginatedFlatList.defaultProps = {
   paginatedReactQueryParams: [],
@@ -113,6 +118,8 @@ PaginatedFlatList.defaultProps = {
   hideNothingLeftToShow: false,
   noItemsLocalizationKey: '',
   onScroll: undefined,
+
+  initialNumToRender: 5,
 };
 
 export default PaginatedFlatList;

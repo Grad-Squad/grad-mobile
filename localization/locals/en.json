@@ -269,5 +269,18 @@
   },
   "Feed": {
     "Error:Couldn't load posts": "Couldn't load posts"
+  },
+  "Profile": {
+    "Follow": "Follow",
+    "Unfollow": "Unfollow",
+    "Tabs": {
+      "Posts": "Posts",
+      "Bookmarks": "Bookmarks"
+    },
+    "Header": {
+      "Posts": "Posts",
+      "Followers": "Followers"
+    },
+    "Followers": "Followers"
   }
 }

@@ -9,7 +9,7 @@ const plugins = [
     },
   ],
   ['module:react-native-dotenv'],
-  ['react-native-reanimated/plugin'],
+  // ['react-native-reanimated/plugin'],
 ];
 
 module.exports = function (api) {

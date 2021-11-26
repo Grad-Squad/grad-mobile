@@ -38,6 +38,7 @@ export const IconNames = Object.freeze({
   delete: 'delete-outline',
   send: 'send',
   arrowLeft: 'arrow-left',
+  arrowRight: 'arrow-right',
   plus: 'plus',
   comment: 'comment-outline',
   share: 'sharealt',
@@ -48,6 +49,7 @@ export const IconNames = Object.freeze({
   addDocument: 'text-box-plus-outline',
   keyboardArrowLeft: 'keyboard-arrow-left',
   keyboardArrowRight: 'keyboard-arrow-right',
+  Folder: 'folder-outline',
 });
 
 const map = {
@@ -77,15 +79,17 @@ const map = {
   'delete-outline': MaterialIcons,
   send: MaterialIcons,
   'arrow-left': MaterialCommunityIcons,
+  'arrow-right': MaterialCommunityIcons,
   plus: Feather,
   'comment-outline': MaterialCommunityIcons,
   sharealt: AntDesign,
   'settings-outline': Ionicons,
-  'logout': MaterialCommunityIcons,
+  logout: MaterialCommunityIcons,
   flag: AntDesign,
   'dot-single': Entypo,
   'keyboard-arrow-left': MaterialIcons,
   'keyboard-arrow-right': MaterialIcons,
+  'folder-outline': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

@@ -1,29 +1,43 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import EduText from 'common/EduText';
 import { Colors } from 'styles';
 import { AssetsConstants } from 'constants';
+import ScreenNames from 'navigation/ScreenNames';
+import { useNavigation } from '@react-navigation/native';
 
-const AuthorInfo = ({ profilePicture, name }) => (
-  <View style={styles.profileInfoContainer}>
-    <Image
-      style={styles.profileImage}
-      source={
-        profilePicture
-          ? {
-              uri: profilePicture,
-            }
-          : AssetsConstants.images.defaultProfile
-      }
-    />
-    <EduText style={styles.authorName}>{name}</EduText>
-  </View>
-);
+const AuthorInfo = ({ profilePicture, name, profileId }) => {
+  const navigation = useNavigation();
+  return (
+    <View style={styles.profileInfoContainer}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(ScreenNames.PROFILE, { profileId })}
+      >
+        <Image
+          style={styles.profileImage}
+          source={
+            profilePicture
+              ? {
+                  uri: profilePicture,
+                }
+              : AssetsConstants.images.defaultProfile
+          }
+        />
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(ScreenNames.PROFILE, { profileId })}
+      >
+        <EduText style={styles.authorName}>{name}</EduText>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 AuthorInfo.propTypes = {
   profilePicture: PropTypes.string,
   name: PropTypes.string.isRequired,
+  profileId: PropTypes.number.isRequired,
 };
 AuthorInfo.defaultProps = { profilePicture: undefined };
 

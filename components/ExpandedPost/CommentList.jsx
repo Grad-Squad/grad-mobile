@@ -17,6 +17,7 @@ const CommentList = ({ postID }) => (
         text={content}
         commentDate={createdAt}
         voteCount={rating.upvotes - rating.downvotes}
+        profileId={author.id}
       />
     )}
     errorLocalizationKey="Comment/Error: Couldn't Load Comments"

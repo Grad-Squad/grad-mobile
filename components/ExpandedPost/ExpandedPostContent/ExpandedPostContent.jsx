@@ -42,12 +42,11 @@ const ExpandedPostContent = ({ navigation, postId }) => {
               <AuthorInfo
                 profilePicture={post.author.profilePicture}
                 name={post.author.name}
+                profileId={post.author.id}
               />
               <View style={styles.contentContainer}>
                 <EduText style={styles.postTitle}>{post.title}</EduText>
-                <PostContentList
-                  materials={post.materials}
-                />
+                <PostContentList materials={post.materials} />
               </View>
             </View>
 

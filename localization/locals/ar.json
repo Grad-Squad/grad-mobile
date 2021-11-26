@@ -269,5 +269,18 @@
   },
   "Feed": {
     "Error:Couldn't load posts": "تعذر تحميل المنشورات"
+  },
+  "Profile": {
+    "Follow": "متابعة",
+    "Unfollow": "إلغاء المتابعة",
+    "Tabs": {
+      "Posts": "المنشورات",
+      "Bookmarks": "السجل"
+    },
+    "Header": {
+      "Posts": "منشور",
+      "Followers": "متابع"
+    },
+    "Followers": "المتابعين"
   }
 }

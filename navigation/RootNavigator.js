@@ -22,6 +22,8 @@ import SolveFlashcard from 'components/Materials/Flashcard/SolveFlashcard';
 import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 import ViewImages from 'components/Materials/ViewImages';
+import Profile from 'components/Profile/Profile';
+import Followers from 'components/Profile/Followers';
 
 const screens = [
   {
@@ -87,6 +89,14 @@ const screens = [
   {
     name: ScreenNames.VIEW_IMAGES,
     component: ViewImages,
+  },
+  {
+    name: ScreenNames.PROFILE,
+    component: Profile,
+  },
+  {
+    name: ScreenNames.FOLLOWERS,
+    component: Followers,
   },
 ];
 

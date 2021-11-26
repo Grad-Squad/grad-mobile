@@ -6,7 +6,7 @@ it.each(['https://picsum.photos/200/300', undefined])(
   'should match snapshot when profilePicture=%s',
   (profilePicture) => {
     const authorInfo = render(
-      <AuthorInfo profilePicture={profilePicture} name="name" />
+      <AuthorInfo profilePicture={profilePicture} name="name" profileId={1} />
     );
     expect(authorInfo.toJSON()).toMatchSnapshot();
   }

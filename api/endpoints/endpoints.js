@@ -7,6 +7,7 @@ export default Object.freeze({
   },
   profile: {
     update: '/profiles/{0}',
+    followers: '/profiles/{0}/followers',
   },
   posts: {
     post: '/posts/{0}',

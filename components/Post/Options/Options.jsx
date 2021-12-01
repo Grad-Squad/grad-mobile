@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function Options({ onEdit, contentProfileId }) {
+function Options({ onEdit, onDelete, contentProfileId }) {
   const anchorButton = useRef(null);
   const [visible, setVisible] = useState(false);
   const optionHandler = () => {
@@ -33,6 +33,11 @@ function Options({ onEdit, contentProfileId }) {
       titleKey: 'ContextMenu/Edit',
       onPress: onEdit,
       iconName: IconNames.edit,
+    },
+    {
+      titleKey: 'ContextMenu/Delete',
+      onPress: onDelete,
+      iconName: IconNames.delete,
     },
     {
       divider: true,
@@ -83,6 +88,7 @@ function Options({ onEdit, contentProfileId }) {
 
 Options.propTypes = {
   onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   contentProfileId: PropTypes.number.isRequired,
 };
 Options.defaultProps = {};

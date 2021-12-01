@@ -11,13 +11,17 @@ const CommentList = ({ postID }) => (
     paginatedReactQuery={useAPIGetComments}
     paginatedReactQueryParams={[postID]}
     reactQueryKey={[getCommentsKey, postID]}
-    renderItem={({ item: { content, createdAt, author, rating } }) => (
+    renderItem={({
+      item: { content, createdAt, author, rating, postId, id },
+    }) => (
       <Comment
         profileName={author.name}
         text={content}
         commentDate={createdAt}
         voteCount={rating.upvotes - rating.downvotes}
         profileId={author.id}
+        commentId={id}
+        postId={postId}
       />
     )}
     errorLocalizationKey="Comment/Error: Couldn't Load Comments"

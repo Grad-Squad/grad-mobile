@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import LoadingIndicator from 'common/LoadingIndicator';
 import { useAPIGetPostById } from 'api/endpoints/posts';
@@ -70,6 +70,7 @@ const ExpandedPostContent = ({ navigation, postId }) => {
           commentCount={post.commentCount}
           isPost
           onEdit={() => {}}
+          onDelete={() => Alert.alert('Delete WIP')}
           contentProfileId={-1}
         />
       )}

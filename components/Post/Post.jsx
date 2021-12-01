@@ -1,6 +1,6 @@
 import React from 'react';
 import { ThemeProvider } from 'react-native-elements';
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, Pressable, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import { materialsPropType, ratingPropType, stylePropType } from 'proptypes';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -58,6 +58,7 @@ function Post({
           commentCount={commentCount}
           isPost
           onEdit={onEdit}
+          onDelete={() => Alert.alert('Delete WIP')}
         />
       </ThemeProvider>
     </Pressable>

@@ -71,7 +71,8 @@ function AddComment({ postID }) {
       >
         <NewComment
           // profileImageURI={author.profilePicture}
-          onSubmitHandleFunction={onSubmitHandle}
+          onSubmit={onSubmitHandle}
+          isLoading={addCommentMutation.isLoading}
         />
       </Modal>
     </>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import Page from 'common/Page/Page';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { useLocalization } from 'localization';
@@ -27,6 +27,7 @@ import DraggableFlatList, {
   useOnCellActiveAnimation,
 } from 'react-native-draggable-flatlist';
 import Animated from 'react-native-reanimated';
+import ResponsiveImage from 'common/ResponsiveImage';
 
 const renderItem = ({ item, drag }) => {
   const { isActive } = useOnCellActiveAnimation();
@@ -39,23 +40,16 @@ const renderItem = ({ item, drag }) => {
             activeOpacity={1}
             style={[
               {
-                opacity: isActive ? 0.8 : 1,
                 elevation: isActive ? 30 : 0,
               },
             ]}
             onLongPress={drag}
           >
             <Animated.View>
-              <Image
-                source={{
-                  uri: item.uri,
-                }}
-                style={
-                  {
-                    width: item.width,
-                    height: item.height,
-                  }
-                }
+              <ResponsiveImage
+                imageURI={item.uri}
+                maxWidthRatio={1}
+                canMaximize={false}
               />
             </Animated.View>
           </TouchableOpacity>
@@ -170,6 +164,7 @@ const AddImages = ({ route }) => {
         keyExtractor={(item) => item.uri}
         renderItem={renderItem}
         renderPlaceholder={() => <View style={{ flex: 1 }} />}
+        style={{height: '85%'}}
       />
     </Page>
   );

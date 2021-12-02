@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
-import { ComboBox, TransparentTextInputFormik, DropdownList } from 'common/Input';
+import {
+  ComboBox,
+  TransparentTextInputFormik,
+  DropdownList,
+} from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { maxCharError, requiredError } from 'validation';
@@ -24,6 +28,11 @@ import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import { TransparentButton } from 'common/Input/Button';
+import {
+  clearMaterialList,
+  setCreateMaterialItem,
+} from 'globalStore/createPostSlice';
+import { useSelector, useDispatch } from 'react-redux';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -45,7 +54,9 @@ const dropdownInitialItems = [
 const CreatePost = ({ navigation, route }) => {
   const { t } = useLocalization();
 
-  const [state, dispatch] = useStore();
+  const [oldState, oldDispatch] = useStore();
+  const dispatch = useDispatch();
+  const materialList = useSelector((state) => state.createPost.materialList);
   const { postId = undefined } = route?.params || {};
   const uploadImageMutation = useAPIUploadImage();
   const [canUpload, setCanUpload] = useState(false);
@@ -79,7 +90,7 @@ const CreatePost = ({ navigation, route }) => {
         ),
         title: collection.title,
       }));
-      dispatch({ type: ReducerActions.setCreateMaterialItem, payload: mcqs });
+      dispatch(setCreateMaterialItem(mcqs));
     },
   });
 
@@ -91,24 +102,24 @@ const CreatePost = ({ navigation, route }) => {
   useEffect(() => {
     if (canUpload) {
       setCanUpload(false);
-      if (state.imagesUploadQueue.length !== 0) {
-        uploadImageMutation.mutate(state.imagesUploadQueue[0], {
+      if (oldState.imagesUploadQueue.length !== 0) {
+        uploadImageMutation.mutate(oldState.imagesUploadQueue[0], {
           onError: () => {
             // todo try again
           },
           onSuccess: () => {
             setCanUpload(true);
-            dispatch({ type: ReducerActions.popImageFromUploadQueue });
+            oldDispatch({ type: ReducerActions.popImageFromUploadQueue });
           },
         });
       } else {
         // const { title, subject, tags, materialList } = formik.values;
-        const { title, subject, materialList } = formik.values;
+        const { title, subject } = formik.values;
         const post = {
           title,
           priceInCents: 0,
           subject,
-          materials: materialList.map(
+          materials: formik.values.materialList.map(
             ({ questions, title: materialTitle }) => ({
               materialType: 'mcq',
               title: materialTitle,
@@ -136,8 +147,8 @@ const CreatePost = ({ navigation, route }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     canUpload,
-    dispatch,
-    state.imagesUploadQueue,
+    oldDispatch,
+    oldState.imagesUploadQueue,
     uploadImageMutation,
     createPostMutation,
     updatePostMutation,
@@ -146,8 +157,8 @@ const CreatePost = ({ navigation, route }) => {
 
   useEffect(() => {
     if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
-      dispatch({ type: ReducerActions.clearMaterialList });
-      dispatch({ type: ReducerActions.clearImageUploadQueue });
+      dispatch(clearMaterialList());
+      oldDispatch({ type: ReducerActions.clearImageUploadQueue });
       navigation.goBack();
     }
   }, [
@@ -155,6 +166,7 @@ const CreatePost = ({ navigation, route }) => {
     updatePostMutation.isSuccess,
     createPostMutation.isSuccess,
     dispatch,
+    oldDispatch,
   ]);
 
   const formik = useFormik({
@@ -167,7 +179,7 @@ const CreatePost = ({ navigation, route }) => {
     onSubmit: () => {
       setCanUpload(true);
       setIsProgressModalVisible(true);
-      setImagesNumber(state.imagesUploadQueue.length);
+      setImagesNumber(oldState.imagesUploadQueue.length);
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -183,10 +195,10 @@ const CreatePost = ({ navigation, route }) => {
   });
 
   useEffect(() => {
-    if (state.createPost.materialList.length !== 0) {
-      formik.setFieldValue('materialList', state.createPost.materialList);
+    if (materialList.length !== 0) {
+      formik.setFieldValue('materialList', materialList);
     }
-  }, [state.createPost.materialList]);
+  }, [materialList]);
 
   useOnGoBack(
     (e) => {
@@ -196,8 +208,8 @@ const CreatePost = ({ navigation, route }) => {
         createPostMutation.isSuccess
       ) {
         // todo sub screen edited ?
-        dispatch({ type: ReducerActions.clearMaterialList });
-        dispatch({ type: ReducerActions.clearImageUploadQueue });
+        dispatch(clearMaterialList());
+        oldDispatch({ type: ReducerActions.clearImageUploadQueue });
         return;
       }
 
@@ -205,14 +217,14 @@ const CreatePost = ({ navigation, route }) => {
 
       DiscardChangesAlert(t, () => {
         navigation.dispatch(e.data.action);
-        dispatch({ type: ReducerActions.clearMaterialList });
-        dispatch({ type: ReducerActions.clearImageUploadQueue });
+        dispatch(clearMaterialList());
+        oldDispatch({ type: ReducerActions.clearImageUploadQueue });
       });
     },
     [formik.dirty, updatePostMutation.isSuccess, createPostMutation.isSuccess]
   );
 
-  const isUploadingImages = state.imagesUploadQueue.length !== 0;
+  const isUploadingImages = oldState.imagesUploadQueue.length !== 0;
 
   const isUploadingPost =
     (isUploadingImages ||
@@ -221,7 +233,7 @@ const CreatePost = ({ navigation, route }) => {
     !uploadImageMutation.isError;
 
   const imagesProgress = `${
-    imagesNumber - state.imagesUploadQueue.length
+    imagesNumber - oldState.imagesUploadQueue.length
   }/${imagesNumber}`;
 
   return (
@@ -258,7 +270,7 @@ const CreatePost = ({ navigation, route }) => {
         rightButtonText={t('CreatePost/Post')}
         onPress={formik.handleSubmit}
         onBackPress={() => {
-          dispatch({ type: ReducerActions.clearMaterialList });
+          dispatch(clearMaterialList());
           navigation.goBack();
         }}
       />
@@ -285,7 +297,7 @@ const CreatePost = ({ navigation, route }) => {
         max={5}
         value={formik.values.tags}
         setValueFunction={(newValues) => {
-          formik.setFieldValue('tags', newValues)
+          formik.setFieldValue('tags', newValues);
         }}
         items={dropdownInitialItems}
       />

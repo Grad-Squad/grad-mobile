@@ -39,6 +39,7 @@
     "@react-navigation/material-top-tabs": "^6.0.6",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
+    "@reduxjs/toolkit": "^1.6.2",
     "axios": "^0.21.1",
     "expo": "^42.0.5",
     "expo-app-loading": "^1.2.1",
@@ -77,6 +78,7 @@
     "react-native-web": "^0.17.5",
     "react-native-webview": "11.6.2",
     "react-query": "^3.34.0",
+    "react-redux": "^7.2.6",
     "rn-pdf-reader-js": "^4.1.1",
     "yup": "^0.32.11"
   },

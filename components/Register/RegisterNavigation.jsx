@@ -7,8 +7,7 @@ import { useLocalization } from 'localization';
 import { useAPIUpdateProfile } from 'api/endpoints/auth';
 import { navigationPropType } from 'proptypes';
 import ScreenNames from 'navigation/ScreenNames';
-import { useStore } from 'globalStore/GlobalStore';
-import ReducerActions from 'globalStore/ReducerActions';
+import { useDispatch } from 'react-redux';
 import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
 import RollSelection from './RollSelection/RollSelection';
@@ -33,7 +32,7 @@ const RegisterNavigation = ({ navigation }) => {
   const { t } = useLocalization();
   // const { headers } = useContext(AuthContext);
   const [profileId, setProfileId] = useState();
-  const [, dispatch] = useStore();
+  const dispatch = useDispatch();
 
   const updateProfileMutation = useAPIUpdateProfile({
     onSuccess: (data) => {
@@ -42,10 +41,7 @@ const RegisterNavigation = ({ navigation }) => {
         routes: [{ name: ScreenNames.HOME }],
       });
 
-      dispatch({
-        type: ReducerActions.setProfileId,
-        payload: profileId || data.id,
-      });
+      dispatch(setProfileId(profileId || data.id));
     },
   });
 

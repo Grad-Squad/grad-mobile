@@ -11,13 +11,13 @@ import { navigationPropType } from 'proptypes';
 import { Colors } from 'styles';
 import { useAPILogin } from 'api/endpoints/auth';
 import ScreenNames from 'navigation/ScreenNames';
-import { useStore } from 'globalStore/GlobalStore';
-import ReducerActions from 'globalStore/ReducerActions';
+import { useDispatch } from 'react-redux';
+import { setProfileId } from 'globalStore/profileSlice';
 import SignInWith from './SignInWith/SignInWith';
 
 const Login = ({ navigation }) => {
   const { t } = useLocalization();
-  const [, dispatch] = useStore();
+  const dispatch = useDispatch();
 
   const loginMutation = useAPILogin({
     onSuccess: (data) => {
@@ -26,10 +26,7 @@ const Login = ({ navigation }) => {
         routes: [{ name: ScreenNames.HOME }],
       });
 
-      dispatch({
-        type: ReducerActions.setProfileId,
-        payload: data.user.profile.id,
-      });
+      dispatch(setProfileId(data.user.profile.id));
     },
   });
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 import { Icon } from 'react-native-elements';
-import { useStore } from 'globalStore/GlobalStore';
+import { useSelector } from 'react-redux';
 import { HIT_SLOP_OBJECT } from '../../../constants';
 import ContextMenu from '../../_common/ContextMenu';
 import { IconNames } from '../../_common/Icon/Icon';
@@ -25,9 +25,9 @@ function Options({ onEdit, onDelete, contentProfileId }) {
     setVisible((prev) => !prev);
   };
 
-  const [store] = useStore();
+  const profileId = useSelector((state) => state.profile.profileId);
 
-  const isAuthor = store.profileId === contentProfileId;
+  const isAuthor = profileId === contentProfileId;
   const authorItems = [
     {
       titleKey: 'ContextMenu/Edit',

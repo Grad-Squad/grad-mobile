@@ -5,21 +5,29 @@ import { useAPIGetComments, getCommentsKey } from 'api/endpoints/posts';
 import PaginatedFlatList from 'common/PaginatedFlatList';
 import Comment from '../Comment/Comment';
 
-const CommentList = ({ postID }) => (
+const CommentList = ({ postID, setCommentToEdit }) => (
   <PaginatedFlatList
     contentContainerStyle={styles.container}
     paginatedReactQuery={useAPIGetComments}
     paginatedReactQueryParams={[postID]}
     reactQueryKey={[getCommentsKey, postID]}
-    renderItem={({ item: { content, createdAt, author, rating } }) => (
-      <Comment
-        profileName={author.name}
-        text={content}
-        commentDate={createdAt}
-        voteCount={rating.upvotes - rating.downvotes}
-        profileId={author.id}
-      />
-    )}
+    renderItem={({ item }) => {
+      const { content, createdAt, author, rating, postId, id } = item;
+      return (
+        <Comment
+          profileName={author.name}
+          text={content}
+          commentDate={createdAt}
+          voteCount={rating.upvotes - rating.downvotes}
+          profileId={author.id}
+          commentId={id}
+          postId={postId}
+          onEdit={() => {
+            setCommentToEdit(item);
+          }}
+        />
+      );
+    }}
     errorLocalizationKey="Comment/Error: Couldn't Load Comments"
     noItemsLocalizationKey="Comment/No Comments on this post. Be the first to add a comment!"
     hideNothingLeftToShow
@@ -30,6 +38,7 @@ export default CommentList;
 
 CommentList.propTypes = {
   postID: PropTypes.number.isRequired,
+  setCommentToEdit: PropTypes.func.isRequired,
 };
 
 CommentList.defaultProps = {};

@@ -36,6 +36,7 @@ function FooterRegion({
   commentCount,
   isPost,
   onEdit,
+  onDelete,
   contentProfileId,
   style,
 }) {
@@ -61,7 +62,7 @@ function FooterRegion({
       )}
       {isPost && <CommentButton count={commentCount} />}
       {isPost && <Bookmark />}
-      <Options onEdit={onEdit} contentProfileId={contentProfileId} />
+      <Options onEdit={onEdit} onDelete={onDelete} contentProfileId={contentProfileId} />
     </View>
   );
 }
@@ -74,6 +75,7 @@ FooterRegion.propTypes = {
   commentCount: PropTypes.number,
   isPost: PropTypes.bool,
   onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   contentProfileId: PropTypes.number.isRequired,
   style: stylePropType,
 };

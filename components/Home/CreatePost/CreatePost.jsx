@@ -272,7 +272,7 @@ const CreatePost = ({ navigation, route }) => {
         placeholder={t('CreatePost/SubjectCourse')}
         value={formik.values.subject}
         setValueFunction={(newValue) =>
-          formik.setFieldValue('subject', newValue)
+          formik.setFieldValue('subject', newValue[0])
         }
         items={dropdownInitialItems}
         // error={formik.errors.subject && formik.touched.subject}

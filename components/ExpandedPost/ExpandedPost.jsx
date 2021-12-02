@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { navigationPropType, routeParamPropType } from 'proptypes';
@@ -9,11 +9,12 @@ import ExpandedPostContent from './ExpandedPostContent/ExpandedPostContent';
 
 function ExpandedPost({ navigation, route }) {
   const postID = route?.params.postID;
+  const [commentToEdit, setCommentToEdit] = useState(undefined)
   return (
     <Page>
       <ExpandedPostContent navigation={navigation} postId={postID} />
-      <CommentList postID={postID} />
-      <AddComment postID={postID} />
+      <CommentList postID={postID} setCommentToEdit={setCommentToEdit}/>
+      <AddComment postID={postID} commentToEdit={commentToEdit}/>
     </Page>
   );
 }

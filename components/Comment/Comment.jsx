@@ -6,6 +6,11 @@ import { AssetsConstants, HIT_SLOP_OBJECT } from 'constants';
 import EduText from 'common/EduText';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
+import { useAPIDeleteComment } from 'api/endpoints/comments';
+import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import { getCommentsKey } from 'api/endpoints/posts';
+import FillLoadingIndicator from 'common/FillLoadingIndicator';
+import { deleteItemInPages } from 'api/util';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
@@ -20,15 +25,27 @@ function Comment({
   voteCount,
   profileImageURI,
   profileId,
+  commentId,
+  postId,
+  onEdit
 }) {
   const navigation = useNavigation();
 
   const navigateToProfile = () =>
     navigation.navigate(ScreenNames.PROFILE, { profileId });
 
+  const deleteMutation = useAPIDeleteComment({
+    onSuccess: () => {
+      queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
+        deleteItemInPages(oldData, commentId)
+      );
+    },
+  });
+
   return (
     <View style={{ width: '100%', minWidth: '100%' }}>
       <View style={styles.outerContainer}>
+        {deleteMutation.isLoading && <FillLoadingIndicator />}
         <View>
           <View style={styles.imageContainer}>
             <TouchableOpacity
@@ -73,8 +90,11 @@ function Comment({
           }}
           postId={0}
           style={styles.footer}
-          onEdit={() => {}}
-          contentProfileId={-1}
+          onEdit={onEdit}
+          onDelete={() => {
+            deleteMutation.mutate({ postId, commentId });
+          }}
+          contentProfileId={profileId}
         />
       </View>
     </View>
@@ -90,6 +110,9 @@ Comment.propTypes = {
   voteCount: PropTypes.number.isRequired,
   profileImageURI: PropTypes.string,
   profileId: PropTypes.number.isRequired,
+  commentId: PropTypes.number.isRequired,
+  postId: PropTypes.number.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {

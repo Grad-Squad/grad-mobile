@@ -2,18 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
-import {
-  ComboBox,
-  TransparentTextInputFormik,
-  DropdownList,
-} from 'common/Input';
+import { TransparentTextInputFormik, DropdownList } from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { maxCharError, requiredError } from 'validation';
 import { useLocalization } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
-import { useStore } from 'globalStore/GlobalStore';
-import ReducerActions from 'globalStore/ReducerActions';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import {
@@ -33,6 +27,10 @@ import {
   setCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import {
+  clearImageUploadQueue,
+  popImageFromUploadQueue,
+} from 'globalStore/imageUploadSlice';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -54,8 +52,11 @@ const dropdownInitialItems = [
 const CreatePost = ({ navigation, route }) => {
   const { t } = useLocalization();
 
-  const [oldState, oldDispatch] = useStore();
   const dispatch = useDispatch();
+  const imagesUploadQueue = useSelector(
+    (state) => state.imageUpload.imagesUploadQueue
+  );
+
   const materialList = useSelector((state) => state.createPost.materialList);
   const { postId = undefined } = route?.params || {};
   const uploadImageMutation = useAPIUploadImage();
@@ -102,14 +103,14 @@ const CreatePost = ({ navigation, route }) => {
   useEffect(() => {
     if (canUpload) {
       setCanUpload(false);
-      if (oldState.imagesUploadQueue.length !== 0) {
-        uploadImageMutation.mutate(oldState.imagesUploadQueue[0], {
+      if (imagesUploadQueue.length !== 0) {
+        uploadImageMutation.mutate(imagesUploadQueue[0], {
           onError: () => {
             // todo try again
           },
           onSuccess: () => {
             setCanUpload(true);
-            oldDispatch({ type: ReducerActions.popImageFromUploadQueue });
+            dispatch(popImageFromUploadQueue());
           },
         });
       } else {
@@ -147,8 +148,7 @@ const CreatePost = ({ navigation, route }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     canUpload,
-    oldDispatch,
-    oldState.imagesUploadQueue,
+    imagesUploadQueue,
     uploadImageMutation,
     createPostMutation,
     updatePostMutation,
@@ -158,7 +158,7 @@ const CreatePost = ({ navigation, route }) => {
   useEffect(() => {
     if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
       dispatch(clearMaterialList());
-      oldDispatch({ type: ReducerActions.clearImageUploadQueue });
+      dispatch(clearImageUploadQueue());
       navigation.goBack();
     }
   }, [
@@ -166,7 +166,6 @@ const CreatePost = ({ navigation, route }) => {
     updatePostMutation.isSuccess,
     createPostMutation.isSuccess,
     dispatch,
-    oldDispatch,
   ]);
 
   const formik = useFormik({
@@ -179,7 +178,7 @@ const CreatePost = ({ navigation, route }) => {
     onSubmit: () => {
       setCanUpload(true);
       setIsProgressModalVisible(true);
-      setImagesNumber(oldState.imagesUploadQueue.length);
+      setImagesNumber(imagesUploadQueue.length);
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -209,7 +208,7 @@ const CreatePost = ({ navigation, route }) => {
       ) {
         // todo sub screen edited ?
         dispatch(clearMaterialList());
-        oldDispatch({ type: ReducerActions.clearImageUploadQueue });
+        dispatch(clearImageUploadQueue());
         return;
       }
 
@@ -218,13 +217,13 @@ const CreatePost = ({ navigation, route }) => {
       DiscardChangesAlert(t, () => {
         navigation.dispatch(e.data.action);
         dispatch(clearMaterialList());
-        oldDispatch({ type: ReducerActions.clearImageUploadQueue });
+        dispatch(clearImageUploadQueue());
       });
     },
     [formik.dirty, updatePostMutation.isSuccess, createPostMutation.isSuccess]
   );
 
-  const isUploadingImages = oldState.imagesUploadQueue.length !== 0;
+  const isUploadingImages = imagesUploadQueue.length !== 0;
 
   const isUploadingPost =
     (isUploadingImages ||
@@ -233,7 +232,7 @@ const CreatePost = ({ navigation, route }) => {
     !uploadImageMutation.isError;
 
   const imagesProgress = `${
-    imagesNumber - oldState.imagesUploadQueue.length
+    imagesNumber - imagesUploadQueue.length
   }/${imagesNumber}`;
 
   return (

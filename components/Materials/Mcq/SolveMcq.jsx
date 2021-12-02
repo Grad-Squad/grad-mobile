@@ -2,11 +2,10 @@ import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
-import { Constants, Colors } from 'styles';
+import { Alert } from 'react-native';
+import { Colors } from 'styles';
 import { ProgressBar } from 'react-native-paper';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
-import { useStore } from 'globalStore/GlobalStore';
 import ScreenNames from 'navigation/ScreenNames';
 import useOnGoBack from 'navigation/useOnGoBack';
 import LoseProgressAlert from 'common/alerts/LoseProgressAlert';
@@ -171,11 +170,3 @@ SolveMcq.propTypes = {
 SolveMcq.defaultProps = {};
 
 export default SolveMcq;
-
-const styles = StyleSheet.create({
-  navMaterials: {
-    paddingHorizontal: Constants.commonMargin,
-    paddingVertical: Constants.commonMargin / 2,
-    alignSelf: 'flex-end',
-  },
-});

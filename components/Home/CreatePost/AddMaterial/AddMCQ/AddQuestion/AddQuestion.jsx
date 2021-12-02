@@ -14,10 +14,14 @@ import { Styles } from 'styles';
 import { mcqQuestionAddPropType, stylePropType } from 'proptypes';
 import ImageSelector from 'common/ImageSelector';
 import { useAPIgetOneS3UploadLinks } from 'api/endpoints/s3';
-import { useStore } from 'globalStore/GlobalStore';
-import ReducerActions from 'globalStore/ReducerActions';
 import BaseAlert from 'common/alerts/BaseAlert';
 import { deepCompare } from 'utility';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  alterImageInUploadQueue,
+  removeImageFromUploadQueue,
+  addImageToUploadQueue as addImageToUploadQueueInRedux,
+} from 'globalStore/imageUploadSlice';
 import ChoicesList from './ChoicesList';
 
 const MaxNumberOfChoices = 26;
@@ -34,8 +38,10 @@ const AddQuestion = ({
   const { t } = useLocalization();
   const [image, setImage] = useState({});
   const [prevImage, setPrevImage] = useState({});
-  const [state, dispatch] = useStore();
-
+  const dispatch = useDispatch();
+  const imagesUploadQueue = useSelector(
+    (state) => state.imageUpload.imagesUploadQueue
+  );
   const isS3LinkEnabled = !!image?.uri;
   const {
     data: uploadLinkData,
@@ -67,7 +73,7 @@ const AddQuestion = ({
       },
     };
     incrementNumAddedImages();
-    dispatch({ type: ReducerActions.addImageToUploadQueue, payload });
+    dispatch(addImageToUploadQueueInRedux(payload));
   };
 
   const currentQuestionFormik = useFormik({
@@ -90,16 +96,16 @@ const AddQuestion = ({
           addImageToUploadQueue();
         } else if (!isS3LinkEnabled) {
           // todo: handle image removal
-          dispatch({
-            type: ReducerActions.removeImageFromUploadQueue,
-            payload: currentQuestionFormik.questionUriKey,
-          });
+          dispatch(
+            removeImageFromUploadQueue(currentQuestionFormik.questionUriKey)
+          );
         } else if (imageChanged()) {
-          dispatch({
-            type: ReducerActions.alterImageInUploadQueue,
-            payload: { image, key: currentlyEditingQuestion.questionUriKey },
-            ds: 9,
-          });
+          dispatch(
+            alterImageInUploadQueue({
+              image,
+              key: currentlyEditingQuestion.questionUriKey,
+            })
+          );
         }
       } else if (gettingUploadLinkSucceeded && isS3LinkEnabled) {
         addImageToUploadQueue();
@@ -186,7 +192,7 @@ const AddQuestion = ({
           {
             payload: { file },
           },
-        ] = state.imagesUploadQueue.filter(
+        ] = imagesUploadQueue.filter(
           (payload) =>
             payload?.payload?.key === currentlyEditingQuestion.questionUriKey
         );

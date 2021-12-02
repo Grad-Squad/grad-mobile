@@ -6,6 +6,7 @@ import { Colors, Constants } from 'styles';
 import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import { useLocalization } from 'localization';
+import pressableAndroidRipple from 'common/pressableAndroidRipple';
 
 const FlashcardFooter = ({ onGood, onBad, onFlip }) => {
   const { isRTL, t } = useLocalization();
@@ -17,7 +18,11 @@ const FlashcardFooter = ({ onGood, onBad, onFlip }) => {
         </EduText>
       </Pressable>
       <View style={styles.buttonsWrapper}>
-        <Pressable onPress={onGood} style={[styles.button, styles.easyButton]}>
+        <Pressable
+          onPress={onGood}
+          style={[styles.button, styles.easyButton]}
+          android_ripple={pressableAndroidRipple}
+        >
           <Icon
             name={
               isRTL ? IconNames.keyboardArrowRight : IconNames.keyboardArrowLeft
@@ -32,7 +37,11 @@ const FlashcardFooter = ({ onGood, onBad, onFlip }) => {
             </EduText>
           </View>
         </Pressable>
-        <Pressable onPress={onBad} style={[styles.button, styles.hardButton]}>
+        <Pressable
+          onPress={onBad}
+          style={[styles.button, styles.hardButton]}
+          android_ripple={pressableAndroidRipple}
+        >
           <View style={styles.hardTextWrapper}>
             <EduText style={styles.bigText}>{t('Flashcards/Easy')}</EduText>
             <EduText style={styles.smallText}>

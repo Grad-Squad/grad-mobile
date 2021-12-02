@@ -1,7 +1,7 @@
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
 import { Colors } from 'styles';
@@ -9,11 +9,58 @@ import NavMaterials from '../_common/NavMaterials';
 import Flashcard from './Flashcard';
 import FlashcardFooter from './FlashcardFooter';
 
+const flashcards = [];
+for (let i = 0; i < 5; i += 1) {
+  flashcards.push({
+    id: 7,
+    frontText: 'Sad',
+    backText:
+      'Wants: \nThe form human needs take as they are shaped by culture and individual personality. \nShaped by society and marketing programs \n\n(racist example: American burger, Chinese rice)',
+    frontImage: `http://placekitten.com/100/${300 + 40 * i}`,
+    backImage: `http://placekitten.com/100/${302 + 40 * i}`,
+  });
+}
+
 const SolveFlashcard = ({ navigation }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [footerHeight, setFooterHeight] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(0);
-  // todo usecallback for onGood, onBad
+  const [flashcardStates, setFlashcardStates] = useState(() =>
+    Array.from(Array(flashcards.length)).map(() => ({
+      isEasy: false,
+      solved: false,
+      isHard: false,
+    }))
+  );
+  const [cardIndex, setCardIndex] = useState(0);
+
+  const onNext = useCallback(
+    () => setCardIndex((prev) => Math.min(prev + 1, flashcards.length - 1)),
+    [setCardIndex]
+  );
+
+  const onGood = useCallback(() => {
+    const flashStates = [...flashcardStates];
+    flashStates[cardIndex] = {
+      ...flashStates[cardIndex],
+      solved: true,
+      isEasy: true,
+      isHard: false,
+    };
+    onNext();
+  }, [cardIndex, flashcardStates, onNext]);
+
+  const onBad = useCallback(() => {
+    const flashStates = [...flashcardStates];
+    flashStates[cardIndex] = {
+      ...flashStates[cardIndex],
+      solved: true,
+      isEasy: false,
+      isHard: true,
+    };
+    onNext();
+  }, [cardIndex, flashcardStates, onNext]);
+
   return (
     <Page>
       <View
@@ -31,26 +78,22 @@ const SolveFlashcard = ({ navigation }) => {
             },
           ]}
         />
-        <ProgressBar progress={0.2} color={Colors.accent} />
+        <ProgressBar
+          color={Colors.accent}
+          progress={cardIndex / flashcards.length}
+        />
         <NavMaterials
-          onPressNext={() => {}}
-          currentPageIndex={0}
-          maxPages={2}
+          onPressNext={onNext}
+          currentPageIndex={cardIndex}
+          maxPages={flashcards.length}
         />
       </View>
 
       <Flashcard
         isFlipped={isFlipped}
-        onGood={() => {}}
-        onBad={() => {}}
-        flashcard={{
-          id: 7,
-          frontText: 'Sad',
-          backText:
-            'Wants: \nThe form human needs take as they are shaped by culture and individual personality. \nShaped by society and marketing programs \n\n(racist example: American burger, Chinese rice)',
-          frontImage: 'http://placekitten.com/100/300',
-          backImage: 'http://placekitten.com/100/301',
-        }}
+        onGood={onGood}
+        onBad={onBad}
+        flashcard={flashcards[cardIndex]}
         onFlip={() => setIsFlipped((prev) => !prev)}
         unavailableHeight={headerHeight + footerHeight}
       />
@@ -59,8 +102,8 @@ const SolveFlashcard = ({ navigation }) => {
         onLayout={(event) => setFooterHeight(event.nativeEvent.layout.height)}
       >
         <FlashcardFooter
-          onGood={() => {}}
-          onBad={() => {}}
+          onGood={onGood}
+          onBad={onBad}
           onFlip={() => setIsFlipped((prev) => !prev)}
         />
       </View>

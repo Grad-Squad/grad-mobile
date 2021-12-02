@@ -9,10 +9,13 @@ import {
 } from 'react-native';
 import { childrenPropType } from 'proptypes';
 import { Colors } from 'styles';
+import { useLocalization } from 'localization/LocalizationProvider';
 
 const SlidableHOC = ({ canSlide, onBad, onGood, children, onFlip }) => {
   const [translate, setTranslate] = useState(0);
   const [panStartTime, setPanStartTime] = useState(0);
+  const { isRTL } = useLocalization();
+  const reverseIfRtl = isRTL ? -1 : 1;
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -59,13 +62,13 @@ const SlidableHOC = ({ canSlide, onBad, onGood, children, onFlip }) => {
         {children}
       </View>
 
-      {canSlide && translate < 0 && (
+      {canSlide && translate * reverseIfRtl < 0 && (
         <View
           style={[styles.overlayLeft, { opacity: AbsTranslationRatio * 0.7 }]}
         />
       )}
 
-      {canSlide && translate > 0 && (
+      {canSlide && translate * reverseIfRtl > 0 && (
         <View style={[styles.overlayRight, { opacity: AbsTranslationRatio }]} />
       )}
     </Animated.View>

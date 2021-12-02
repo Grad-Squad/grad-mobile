@@ -10,14 +10,24 @@ import Flashcard from './Flashcard';
 import FlashcardFooter from './FlashcardFooter';
 
 const flashcards = [];
-for (let i = 0; i < 5; i += 1) {
+for (let i = 0; i < 25; i += 1) {
   flashcards.push({
     id: 7,
     frontText: 'Sad',
     backText:
       'Wants: \nThe form human needs take as they are shaped by culture and individual personality. \nShaped by society and marketing programs \n\n(racist example: American burger, Chinese rice)',
-    frontImage: `http://placekitten.com/100/${300 + 40 * i}`,
-    backImage: `http://placekitten.com/100/${302 + 40 * i}`,
+    frontImage: {
+      id: 27,
+      key: '9c52f878-8675-4b7d-8fd2-95e5b2260fd0',
+      uri: `http://placekitten.com/${200 + 30 * i}/${300 + 42 * i}`,
+      type: 'image',
+    },
+    backImage: {
+      id: 28,
+      key: 'ded7c3ad-ce5d-46dd-83b6-5d885263c6ef',
+      uri: `http://placekitten.com/${100 + 51 * i}/${302 + 38 * i}`,
+      type: 'image',
+    },
   });
 }
 
@@ -39,6 +49,11 @@ const SolveFlashcard = ({ navigation }) => {
     setIsFlipped(false);
   }, [setCardIndex]);
 
+  const onGoToCard = (num) => {
+    setCardIndex(num);
+    setIsFlipped(false);
+  };
+
   const onPrev = useCallback(() => {
     setCardIndex((prev) => Math.max(prev - 1, 0));
     setIsFlipped(false);
@@ -52,6 +67,7 @@ const SolveFlashcard = ({ navigation }) => {
       isEasy: true,
       isHard: false,
     };
+    setFlashcardStates(flashStates);
     onNext();
   }, [cardIndex, flashcardStates, onNext]);
 
@@ -63,6 +79,7 @@ const SolveFlashcard = ({ navigation }) => {
       isEasy: false,
       isHard: true,
     };
+    setFlashcardStates(flashStates);
     onNext();
   }, [cardIndex, flashcardStates, onNext]);
 
@@ -90,6 +107,7 @@ const SolveFlashcard = ({ navigation }) => {
         <NavMaterials
           onPressNext={onNext}
           onPressBack={onPrev}
+          onPressPageNum={onGoToCard}
           currentPageIndex={cardIndex}
           maxPages={flashcards.length}
         />

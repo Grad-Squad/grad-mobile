@@ -19,7 +19,7 @@ const Flashcard = ({
       <FlashcardFace
         outerUnavailableHeight={unavailableHeight}
         text={isFlipped ? backText : frontText}
-        imageURI={isFlipped ? backImage : frontImage}
+        imageURI={isFlipped ? backImage?.uri : frontImage?.uri}
       />
     </SlidableHOC>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function AddComment({ postID }) {
+function AddComment({ postID, commentToEdit }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const addCommentMutation = useAPIAddComment({
     onSuccess: (data) => {
@@ -53,6 +53,12 @@ function AddComment({ postID }) {
   const onSubmitHandle = (content) => {
     addCommentMutation.mutate({ postID, content });
   };
+
+  useEffect(() => {
+    if(commentToEdit){
+      setIsModalVisible(true)
+    }
+  }, [commentToEdit])
   return (
     <>
       <TouchableOpacity
@@ -71,6 +77,7 @@ function AddComment({ postID }) {
       >
         <NewComment
           // profileImageURI={author.profilePicture}
+          initialText={commentToEdit?.content}
           onSubmit={onSubmitHandle}
           isLoading={addCommentMutation.isLoading}
         />
@@ -83,4 +90,10 @@ export default AddComment;
 
 AddComment.propTypes = {
   postID: PropTypes.number.isRequired,
+  commentToEdit: PropTypes.shape({
+    content: PropTypes.string.isRequired,
+  }),
 };
+AddComment.defaultProps = {
+  commentToEdit: undefined
+}

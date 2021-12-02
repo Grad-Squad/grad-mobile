@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { AssetsConstants, HIT_SLOP_OBJECT } from 'constants';
@@ -27,6 +27,7 @@ function Comment({
   profileId,
   commentId,
   postId,
+  onEdit
 }) {
   const navigation = useNavigation();
 
@@ -89,9 +90,7 @@ function Comment({
           }}
           postId={0}
           style={styles.footer}
-          onEdit={() => {
-            Alert.alert('Edit WIP');
-          }}
+          onEdit={onEdit}
           onDelete={() => {
             deleteMutation.mutate({ postId, commentId });
           }}
@@ -113,6 +112,7 @@ Comment.propTypes = {
   profileId: PropTypes.number.isRequired,
   commentId: PropTypes.number.isRequired,
   postId: PropTypes.number.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {

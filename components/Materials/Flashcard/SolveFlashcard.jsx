@@ -34,10 +34,15 @@ const SolveFlashcard = ({ navigation }) => {
   );
   const [cardIndex, setCardIndex] = useState(0);
 
-  const onNext = useCallback(
-    () => setCardIndex((prev) => Math.min(prev + 1, flashcards.length - 1)),
-    [setCardIndex]
-  );
+  const onNext = useCallback(() => {
+    setCardIndex((prev) => Math.min(prev + 1, flashcards.length - 1));
+    setIsFlipped(false);
+  }, [setCardIndex]);
+
+  const onPrev = useCallback(() => {
+    setCardIndex((prev) => Math.max(prev - 1, 0));
+    setIsFlipped(false);
+  }, [setCardIndex]);
 
   const onGood = useCallback(() => {
     const flashStates = [...flashcardStates];
@@ -84,6 +89,7 @@ const SolveFlashcard = ({ navigation }) => {
         />
         <NavMaterials
           onPressNext={onNext}
+          onPressBack={onPrev}
           currentPageIndex={cardIndex}
           maxPages={flashcards.length}
         />

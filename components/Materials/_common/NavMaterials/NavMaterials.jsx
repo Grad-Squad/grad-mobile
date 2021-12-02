@@ -51,7 +51,7 @@ const NavMaterials = ({
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        {hasBackButton && backButton}
+        {hasBackButton && currentPageIndex !== 0 && backButton}
         <Pressable
           onPress={() => setIsModalVisible(true)}
           style={[

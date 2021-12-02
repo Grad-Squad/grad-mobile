@@ -13,6 +13,8 @@ import { Colors } from 'styles';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { deepCopy } from 'utility';
+import { useAPIEditComment } from 'api/endpoints/comments';
+import { replaceItemInPages } from 'api/util';
 import NewComment from './NewComment';
 
 const styles = StyleSheet.create({
@@ -49,16 +51,32 @@ function AddComment({ postID, commentToEdit }) {
       setIsModalVisible(false);
     },
   });
+  const editCommentMutation = useAPIEditComment({
+    onSuccess: (data) => {
+      queryClient.setQueryData([getCommentsKey, postID], (oldData) =>
+        replaceItemInPages(oldData, data.id, data)
+      );
+      setIsModalVisible(false);
+    },
+  });
 
   const onSubmitHandle = (content) => {
-    addCommentMutation.mutate({ postID, content });
+    if (commentToEdit) {
+      editCommentMutation.mutate({
+        postID,
+        commentId: commentToEdit.id,
+        content,
+      });
+    } else {
+      addCommentMutation.mutate({ postID, content });
+    }
   };
 
   useEffect(() => {
-    if(commentToEdit){
-      setIsModalVisible(true)
+    if (commentToEdit) {
+      setIsModalVisible(true);
     }
-  }, [commentToEdit])
+  }, [commentToEdit]);
   return (
     <>
       <TouchableOpacity
@@ -92,8 +110,9 @@ AddComment.propTypes = {
   postID: PropTypes.number.isRequired,
   commentToEdit: PropTypes.shape({
     content: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   }),
 };
 AddComment.defaultProps = {
-  commentToEdit: undefined
-}
+  commentToEdit: undefined,
+};

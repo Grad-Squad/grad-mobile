@@ -1,9 +1,16 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { AssetsConstants } from 'constants';
+import { AssetsConstants, HIT_SLOP_OBJECT } from 'constants';
 import EduText from 'common/EduText';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNames from 'navigation/ScreenNames';
+import { useAPIDeleteComment } from 'api/endpoints/comments';
+import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import { getCommentsKey } from 'api/endpoints/posts';
+import FillLoadingIndicator from 'common/FillLoadingIndicator';
+import { deleteItemInPages } from 'api/util';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
@@ -17,27 +24,55 @@ function Comment({
   commentDate,
   voteCount,
   profileImageURI,
+  profileId,
+  commentId,
+  postId,
+  onEdit
 }) {
+  const navigation = useNavigation();
+
+  const navigateToProfile = () =>
+    navigation.navigate(ScreenNames.PROFILE, { profileId });
+
+  const deleteMutation = useAPIDeleteComment({
+    onSuccess: () => {
+      queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
+        deleteItemInPages(oldData, commentId)
+      );
+    },
+  });
+
   return (
     <View style={{ width: '100%', minWidth: '100%' }}>
       <View style={styles.outerContainer}>
+        {deleteMutation.isLoading && <FillLoadingIndicator />}
         <View>
           <View style={styles.imageContainer}>
-            <Image
-              style={styles.profileImage}
-              source={
-                profileImageURI
-                  ? {
-                      uri: profileImageURI,
-                    }
-                  : AssetsConstants.images.defaultProfile
-              }
-            />
+            <TouchableOpacity
+              onPress={navigateToProfile}
+              hitSlop={HIT_SLOP_OBJECT}
+            >
+              <Image
+                style={styles.profileImage}
+                source={
+                  profileImageURI
+                    ? {
+                        uri: profileImageURI,
+                      }
+                    : AssetsConstants.images.defaultProfile
+                }
+              />
+            </TouchableOpacity>
           </View>
           <View style={styles.innerContainer}>
-            <View style={styles.profileInfoContainer}>
-              <EduText style={styles.profileName}>{profileName}</EduText>
-            </View>
+            <TouchableOpacity
+              onPress={navigateToProfile}
+              hitSlop={{ top: 5, bottom: 5 }}
+            >
+              <View style={styles.profileInfoContainer}>
+                <EduText style={styles.profileName}>{profileName}</EduText>
+              </View>
+            </TouchableOpacity>
             <View style={styles.postTitle}>
               <EduText style={styles.text}>{text}</EduText>
             </View>
@@ -55,8 +90,11 @@ function Comment({
           }}
           postId={0}
           style={styles.footer}
-          onEdit={() => {}}
-          contentProfileId={-1}
+          onEdit={onEdit}
+          onDelete={() => {
+            deleteMutation.mutate({ postId, commentId });
+          }}
+          contentProfileId={profileId}
         />
       </View>
     </View>
@@ -71,6 +109,10 @@ Comment.propTypes = {
   commentDate: PropTypes.string.isRequired,
   voteCount: PropTypes.number.isRequired,
   profileImageURI: PropTypes.string,
+  profileId: PropTypes.number.isRequired,
+  commentId: PropTypes.number.isRequired,
+  postId: PropTypes.number.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {

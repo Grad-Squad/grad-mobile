@@ -116,3 +116,17 @@ export const materialPropType = PropTypes.exact({
   ).isRequired,
 });
 export const materialsPropType = PropTypes.arrayOf(materialPropType);
+
+export const postPropType = PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  rating: ratingPropType.isRequired,
+  author: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    profilePicture: PropTypes.string.isRequired,
+  }).isRequired,
+  commentCount: PropTypes.number.isRequired,
+  materials: materialsPropType.isRequired,
+});

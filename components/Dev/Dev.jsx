@@ -57,6 +57,10 @@ const Dev = ({ navigation }) => {
           navigation.navigate(ScreenNames.SOLVE_FLASHCARD, { materialID: '1' })
         }
       />
+      <Button
+        title="Go to images"
+        onPress={() => navigation.navigate(ScreenNames.VIEW_IMAGES)}
+      />
       <Button title="Arabic" onPress={() => setLanguage('ar')} />
       <Button title="English" onPress={() => setLanguage('en')} />
       <EduText>{t('hello')}</EduText>

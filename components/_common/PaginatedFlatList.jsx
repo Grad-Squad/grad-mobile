@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, StyleSheet } from 'react-native';
+import { Animated, StyleSheet } from 'react-native';
 import { useLocalization } from 'localization';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { Styles } from 'styles';
@@ -18,6 +18,9 @@ const PaginatedFlatList = ({
   noItemsLocalizationKey,
   contentContainerStyle,
   hideNothingLeftToShow,
+  onScroll,
+  initialNumToRender,
+  ...props
 }) => {
   const { t } = useLocalization();
   const {
@@ -48,23 +51,26 @@ const PaginatedFlatList = ({
   }
   return (
     data && (
-      <FlatList
+      <Animated.FlatList
         contentContainerStyle={contentContainerStyle}
         data={flatListItems}
+        onScroll={onScroll}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         refreshControl={
-          <QueryRefreshControl
-            refetch={() => {
-              queryClient.setQueryData(reactQueryKey, (oldData) => ({
-                pageParams: [oldData.pageParams[0]],
-                pages: [oldData.pages[0]],
-              }));
-              refetch();
-            }}
-            isFetching={isFetching}
-            isLoading={isLoading}
-          />
+          !onScroll && (
+            <QueryRefreshControl
+              refetch={() => {
+                queryClient.setQueryData(reactQueryKey, (oldData) => ({
+                  pageParams: [oldData.pageParams[0]],
+                  pages: [oldData.pages[0]],
+                }));
+                refetch();
+              }}
+              isFetching={isFetching}
+              isLoading={isLoading}
+            />
+          )
         }
         onEndReached={() => {
           if (hasNextPage && !isFetchingNextPage) {
@@ -82,7 +88,9 @@ const PaginatedFlatList = ({
             )
           )
         }
-        initialNumToRender={5}
+        initialNumToRender={initialNumToRender}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...props}
       />
     )
   );
@@ -100,6 +108,8 @@ PaginatedFlatList.propTypes = {
   noItemsLocalizationKey: PropTypes.string,
   contentContainerStyle: stylePropType,
   hideNothingLeftToShow: PropTypes.bool,
+  onScroll: PropTypes.shape({}),
+  initialNumToRender: PropTypes.number,
 };
 PaginatedFlatList.defaultProps = {
   paginatedReactQueryParams: [],
@@ -107,6 +117,9 @@ PaginatedFlatList.defaultProps = {
   contentContainerStyle: {},
   hideNothingLeftToShow: false,
   noItemsLocalizationKey: '',
+  onScroll: undefined,
+
+  initialNumToRender: 5,
 };
 
 export default PaginatedFlatList;

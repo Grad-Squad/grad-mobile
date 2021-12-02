@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import LoadingIndicator from 'common/LoadingIndicator';
 import { useAPIGetPostById } from 'api/endpoints/posts';
@@ -42,12 +42,11 @@ const ExpandedPostContent = ({ navigation, postId }) => {
               <AuthorInfo
                 profilePicture={post.author.profilePicture}
                 name={post.author.name}
+                profileId={post.author.id}
               />
               <View style={styles.contentContainer}>
                 <EduText style={styles.postTitle}>{post.title}</EduText>
-                <PostContentList
-                  materials={post.materials}
-                />
+                <PostContentList materials={post.materials} />
               </View>
             </View>
 
@@ -71,6 +70,7 @@ const ExpandedPostContent = ({ navigation, postId }) => {
           commentCount={post.commentCount}
           isPost
           onEdit={() => {}}
+          onDelete={() => Alert.alert('Delete WIP')}
           contentProfileId={-1}
         />
       )}

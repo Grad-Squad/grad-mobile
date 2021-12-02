@@ -1,4 +1,5 @@
 export const HIT_SLOP_OBJECT = { top: 16, bottom: 16, left: 10, right: 10 };
+export const BASIC_5V_HIT_SLOP_OBJECT = { top: 5, bottom: 5 };
 
 export const UPVOTE_HIT_SLOP_OBJECT = {
   top: 16,

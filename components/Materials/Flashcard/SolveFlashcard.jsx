@@ -11,6 +11,7 @@ import FlashcardFooter from './FlashcardFooter';
 
 const SolveFlashcard = ({ navigation }) => {
   const [isFlipped, setIsFlipped] = useState(false);
+  // todo usecallback for onGood, onBad
   return (
     <Page>
       <MaterialViewHeader

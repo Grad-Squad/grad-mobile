@@ -38,6 +38,7 @@ export const IconNames = Object.freeze({
   delete: 'delete-outline',
   send: 'send',
   arrowLeft: 'arrow-left',
+  arrowRight: 'arrow-right',
   plus: 'plus',
   comment: 'comment-outline',
   share: 'sharealt',
@@ -50,6 +51,7 @@ export const IconNames = Object.freeze({
   cameraPlus: 'camera-plus-outline',
   keyboardArrowRight: 'keyboard-arrow-right',
   addVideo: 'file-video-outline',
+  Folder: 'folder-outline',
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
@@ -81,6 +83,7 @@ const map = {
   'delete-outline': MaterialIcons,
   send: MaterialIcons,
   'arrow-left': MaterialCommunityIcons,
+  'arrow-right': MaterialCommunityIcons,
   plus: Feather,
   'comment-outline': MaterialCommunityIcons,
   sharealt: AntDesign,
@@ -93,6 +96,7 @@ const map = {
   'camera-plus-outline': MaterialCommunityIcons,
   'keyboard-arrow-right': MaterialIcons,
   'file-video-outline': MaterialCommunityIcons,
+  'folder-outline': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

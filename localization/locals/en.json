@@ -139,6 +139,11 @@
         "add at least one question": "add at least one question"
       }
     },
+    "Images": {
+      "Add Images": "Add Images",
+      "Images Title": "Images Title",
+      "Press and hold to reorder, Swipe right to delete": "Press and hold to reorder, Swipe right to delete"
+    },
     "PDF": {
       "Add PDF": "Add PDF",
       "PDF Title": "PDF Title",

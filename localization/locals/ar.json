@@ -139,6 +139,11 @@
         "add at least one question": "أضف سؤالاً واحداً على الأقل"
       }
     },
+    "Images": {
+      "Add Images": "إضافة صور",
+      "Images Title": "عنوان الصور",
+      "Press and hold to reorder, Swipe right to delete": "اضغط مع الاستمرار لإعادة الترتيب ، واسحب لليمين للحذف"
+    },
     "PDF": {
       "Add PDF": "أضف ملف PDF",
       "PDF Title": "عنوان PDF",

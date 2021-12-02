@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const materialNavSlice = createSlice({
+export const imageUploadSlice = createSlice({
   name: 'imageUpload',
   initialState: {
     imagesUploadQueue: [],
@@ -38,7 +38,7 @@ export const materialNavSlice = createSlice({
       state.imagesUploadQueue = [];
     },
     addImageToUploadQueue: (state, action) => {
-      state.imagesUploadQueue.append(action.payload);
+      state.imagesUploadQueue.push(action.payload);
     },
     popImageFromUploadQueue: (state) => {
       state.imagesUploadQueue = state.imagesUploadQueue.slice(1);
@@ -46,7 +46,13 @@ export const materialNavSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { setMCQQuestions } = materialNavSlice.actions;
+export const {
+  alterImageInUploadQueue,
+  removeLastXFromUploadQueue,
+  removeImageFromUploadQueue,
+  clearImageUploadQueue,
+  addImageToUploadQueue,
+  popImageFromUploadQueue,
+} = imageUploadSlice.actions;
 
-export default materialNavSlice.reducer;
+export default imageUploadSlice.reducer;

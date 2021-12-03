@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors, Constants } from 'styles';
 import EduText from 'common/EduText';
 import { LocalizationContext } from 'localization';
+import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import GoToModal from './GoToModal';
 
 const NavMaterials = ({
@@ -20,7 +21,11 @@ const NavMaterials = ({
   const hasBackButton = !!onPressBack;
 
   const backButton = (
-    <Pressable style={styles.arrowWrapper} onPress={onPressBack}>
+    <Pressable
+      style={styles.arrowWrapper}
+      onPress={onPressBack}
+      android_ripple={pressableAndroidRipple}
+    >
       <Icon
         style={isRTL && styles.rotate180}
         name="keyboard-backspace"
@@ -30,7 +35,11 @@ const NavMaterials = ({
   );
 
   const nextButton = (
-    <Pressable style={styles.arrowWrapper} onPress={onPressNext}>
+    <Pressable
+      style={styles.arrowWrapper}
+      onPress={onPressNext}
+      android_ripple={pressableAndroidRipple}
+    >
       <Icon
         style={!isRTL && styles.rotate180}
         name="keyboard-backspace"
@@ -42,13 +51,15 @@ const NavMaterials = ({
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
-        {hasBackButton && backButton}
+        {hasBackButton && currentPageIndex !== 0 && backButton}
         <Pressable
           onPress={() => setIsModalVisible(true)}
           style={[
             styles.pageNumWrapper,
             onPressPageNum && styles.pressablePageNum,
           ]}
+          android_ripple={pressableAndroidRipple}
+          disabled={!onPressPageNum}
         >
           <EduText style={styles.text}>
             {currentPageIndex + 1}/{maxPages}

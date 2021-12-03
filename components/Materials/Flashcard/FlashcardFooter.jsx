@@ -5,38 +5,61 @@ import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
+import { useLocalization } from 'localization';
+import pressableAndroidRipple from 'common/pressableAndroidRipple';
 
-const FlashcardFooter = ({ onGood, onBad, onFlip }) => (
-  <View style={styles.container}>
-    <Pressable onPress={onFlip}>
-      <EduText style={styles.tapText}>Tap anywhere to show answer</EduText>
-    </Pressable>
-    <View style={styles.buttonsWrapper}>
-      <Pressable onPress={onGood} style={[styles.button, styles.easyButton]}>
-        <Icon
-          name={IconNames.keyboardArrowLeft}
-          color={Colors.white}
-          size={40}
-        />
-        <View style={styles.easyTextWrapper}>
-          <EduText style={styles.bigText}>Hard</EduText>
-          <EduText style={styles.smallText}>Swipe left</EduText>
-        </View>
+const FlashcardFooter = ({ onGood, onBad, onFlip }) => {
+  const { isRTL, t } = useLocalization();
+  return (
+    <View style={styles.container}>
+      <Pressable onPress={onFlip}>
+        <EduText style={styles.tapText}>
+          {t('Flashcards/Tap anywhere to show answer')}
+        </EduText>
       </Pressable>
-      <Pressable onPress={onBad} style={[styles.button, styles.hardButton]}>
-        <View style={styles.hardTextWrapper}>
-          <EduText style={styles.bigText}>Easy</EduText>
-          <EduText style={styles.smallText}>Swipe right</EduText>
-        </View>
-        <Icon
-          name={IconNames.keyboardArrowRight}
-          color={Colors.white}
-          size={40}
-        />
-      </Pressable>
+      <View style={styles.buttonsWrapper}>
+        <Pressable
+          onPress={onGood}
+          style={[styles.button, styles.easyButton]}
+          android_ripple={pressableAndroidRipple}
+        >
+          <Icon
+            name={
+              isRTL ? IconNames.keyboardArrowRight : IconNames.keyboardArrowLeft
+            }
+            color={Colors.white}
+            size={40}
+          />
+          <View style={styles.easyTextWrapper}>
+            <EduText style={styles.bigText}>{t('Flashcards/Hard')}</EduText>
+            <EduText style={styles.smallText}>
+              {t('Flashcards/Swipe hard')}
+            </EduText>
+          </View>
+        </Pressable>
+        <Pressable
+          onPress={onBad}
+          style={[styles.button, styles.hardButton]}
+          android_ripple={pressableAndroidRipple}
+        >
+          <View style={styles.hardTextWrapper}>
+            <EduText style={styles.bigText}>{t('Flashcards/Easy')}</EduText>
+            <EduText style={styles.smallText}>
+              {t('Flashcards/Swipe easy')}
+            </EduText>
+          </View>
+          <Icon
+            name={
+              isRTL ? IconNames.keyboardArrowLeft : IconNames.keyboardArrowRight
+            }
+            color={Colors.white}
+            size={40}
+          />
+        </Pressable>
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 FlashcardFooter.propTypes = {
   onGood: PropTypes.func.isRequired,

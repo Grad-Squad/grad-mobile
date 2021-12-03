@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: 50,
     height: 50,
-    borderWidth: 0.1,
-    borderColor: Colors.black,
+    // borderWidth: 1,
+    // borderColor: Colors.black,
   },
   authorName: {
     fontSize: 10,

@@ -1,45 +1,52 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "jest/globals": true
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest/globals": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier",
+    "plugin:react-hooks/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "plugin:react/recommended",
-        "airbnb",
-        "prettier",
-        "plugin:react-hooks/recommended"
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "module-resolver", "jest"],
+  "rules": {
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
     ],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "module-resolver",
-        "jest"
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": true,
+        "classes": true,
+        "variables": false
+      }
     ],
-    "rules": {
-        "react/jsx-filename-extension": [1, {
-            "extensions": [".js", ".jsx"]
-        }],
-        "no-use-before-define": ["error", {
-            "functions": true,
-            "classes": true,
-            "variables": false
-        }],
-        "import/no-unresolved": [2, {
-            "ignore": [
-                "^@env$"
-            ]
-        }]
-    },
-    "settings": {
-        "import/resolver": {
-            "babel-module": {}
-        }
+    "import/no-unresolved": [
+      2,
+      {
+        "ignore": ["^@env$"]
+      }
+    ],
+    "no-param-reassign": [
+      "error",
+      { "props": true, "ignorePropertyModificationsFor": ["state"] }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
     }
+  }
 }

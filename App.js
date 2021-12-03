@@ -10,16 +10,24 @@ import AxiosProvider from 'api/AxiosProvider';
 import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import ReactQueryClient from 'components/ReactQueryClient/ReactQueryClient';
 import { Provider as ReduxProvider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
-import store from './globalStore/store';
+import { reducers } from './globalStore/store';
+import Reactotron, { enhancer } from './ReactotronConfig';
 
+let store;
+// eslint-disable-next-line no-undef
 if (__DEV__) {
   import('./ReactotronConfig').then(() => {
     console.log('Reactotron Configured');
   });
+  store = configureStore({ reducer: reducers, enhancers: enhancer });
+} else {
+  store = configureStore({ reducer: reducers });
 }
+
 const theme = {
   ...DefaultTheme,
   colors: {

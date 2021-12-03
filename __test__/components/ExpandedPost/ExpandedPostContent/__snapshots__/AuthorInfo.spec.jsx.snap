@@ -35,9 +35,7 @@ exports[`should match snapshot when profilePicture=https://picsum.photos/200/300
       }
       style={
         Object {
-          "borderColor": "#000",
           "borderRadius": 50,
-          "borderWidth": 0.1,
           "height": 50,
           "width": 50,
         }
@@ -114,9 +112,7 @@ exports[`should match snapshot when profilePicture=undefined 1`] = `
       source={1}
       style={
         Object {
-          "borderColor": "#000",
           "borderRadius": 50,
-          "borderWidth": 0.1,
           "height": 50,
           "width": 50,
         }

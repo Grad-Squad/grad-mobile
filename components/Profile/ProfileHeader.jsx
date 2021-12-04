@@ -1,12 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  View,
-  Animated,
-  Pressable,
-} from 'react-native';
+import React, { useContext, useRef, useState } from 'react';
+import { Image, StyleSheet, View, Animated, Pressable } from 'react-native';
 import { navigationPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import GoBackButton from 'common/GoBackButton';
@@ -58,24 +51,51 @@ const ProfileHeader = ({ navigation, profile }) => {
   //   extrapolate: 'clamp',
   // });
 
+  const followButton = isFollowed ? (
+    <SecondaryActionButton
+      onPress={() => setIsFollowed(false)}
+      text={t('Profile/Unfollow')}
+      style={styles.followBtn}
+    />
+  ) : (
+    <MainActionButton
+      onPress={() => setIsFollowed(true)}
+      text={t('Profile/Follow')}
+      style={styles.followBtn}
+    />
+  );
+
   const rightHeader = (
     <View style={styles.rightHeader}>
-      <Image
-        style={styles.profileImage}
-        source={{
-          uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
-        }}
-      />
-      <NumBox
-        title={t('Profile/Header/Followers')}
-        number={123}
-        onPress={() =>
-          navigation.navigate(ScreenNames.FOLLOWERS, {
-            profileId: profile.id,
-          })
-        }
-      />
-      <NumBox title={t('Profile/Header/Posts')} number={1123} />
+      <View style={styles.centerProfile}>
+        <Image
+          style={styles.profileImage}
+          source={{
+            uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
+          }}
+        />
+        <EduText style={styles.role}>
+          {profile.role[0].toLocaleUpperCase() + profile.role.slice(1)}
+        </EduText>
+      </View>
+      <View style={styles.statsContainer}>
+        <View style={styles.NumBoxesRow}>
+          <NumBox
+            title={t('Profile/Header/Followers')}
+            number={123}
+            onPress={() =>
+              navigation.navigate(ScreenNames.FOLLOWERS, {
+                profileId: profile.id,
+              })
+            }
+          />
+          <NumBox title={t('Profile/Header/Posts')} number={1123} />
+        </View>
+        <View style={[styles.row, styles.followBtnContainer]}>
+          {followButton}
+          <Icon name={IconNames.dotsVertical} />
+        </View>
+      </View>
     </View>
   );
 
@@ -94,19 +114,6 @@ const ProfileHeader = ({ navigation, profile }) => {
     scaleYNumber.current = value;
   });
 
-  const followButton = isFollowed ? (
-    <SecondaryActionButton
-      onPress={() => setIsFollowed(false)}
-      text={t('Profile/Unfollow')}
-      style={styles.followBtn}
-    />
-  ) : (
-    <MainActionButton
-      onPress={() => setIsFollowed(true)}
-      text={t('Profile/Follow')}
-      style={styles.followBtn}
-    />
-  );
   return (
     <Animated.View
       onLayout={(event) => {
@@ -115,11 +122,8 @@ const ProfileHeader = ({ navigation, profile }) => {
         }
       }}
       style={[
-        // height && {
-        //   height: translateY,
-        // },
+        styles.container,
         {
-          backgroundColor: '#ff000050',
           transform: [
             { translateY },
             { scale: scaleYNumber.current },
@@ -133,37 +137,21 @@ const ProfileHeader = ({ navigation, profile }) => {
         onPress={() => {
           navigation.goBack();
         }}
+        otherComponent={<EduText style={[styles.name]}>{profile.name}</EduText>}
       />
-      <View style={[styles.row, styles.container]}>
-        <View
-          style={[
-            styles.leftHeader,
-            !profile.biography && styles.leftHeaderCenter,
-          ]}
-        >
-          <View style={[styles.row, styles.nameContainer]}>
-            <View>
-              <EduText numberOfLines={1} style={styles.name}>
-                {profile.name}
-              </EduText>
-              <EduText style={styles.role}>{profile.role}</EduText>
-            </View>
-          </View>
+      {rightHeader}
+
+      {!!profile.biography && (
+        <View style={[styles.leftHeaderCenter]}>
           <EduText
             numberOfLines={4}
             style={styles.biography}
             placeholder="biography..."
           >
-            {profile.biography && profile.biography}
+            {profile.biography}
           </EduText>
-          <View style={[styles.row, styles.followBtnContainer]}>
-            {followButton}
-            <Icon name={IconNames.dotsVertical} />
-          </View>
         </View>
-
-        {rightHeader}
-      </View>
+      )}
     </Animated.View>
   );
 };
@@ -188,16 +176,17 @@ ProfileHeader.defaultProps = {};
 export default ProfileHeader;
 
 const styles = StyleSheet.create({
+  NumBoxesRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flexGrow: 1,
+  },
   row: {
     flexDirection: 'row',
   },
   container: {
-    margin: Constants.commonMargin,
-  },
-  leftHeader: {
-    flexGrow: 3,
-    flexShrink: 1,
-    justifyContent: 'space-between',
+    paddingHorizontal: Constants.commonMargin,
+    marginTop: 0,
   },
   leftHeaderCenter: {
     justifyContent: 'center',
@@ -205,8 +194,9 @@ const styles = StyleSheet.create({
   rightHeader: {
     flexGrow: 1,
     flexShrink: 0,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   numBox: {
     marginTop: Constants.commonMargin,
@@ -223,15 +213,10 @@ const styles = StyleSheet.create({
   },
   biography: {
     marginTop: Constants.commonMargin / 2,
-    marginRight: Constants.commonMargin / 2,
   },
   followBtnContainer: {
     marginTop: Constants.commonMargin,
     alignItems: 'center',
-  },
-  nameContainer: {
-    marginLeft: Dimensions.get('window').width * 0.18,
-    marginTop: Dimensions.get('window').width * 0.05,
   },
 
   role: {
@@ -243,13 +228,18 @@ const styles = StyleSheet.create({
   },
 
   profileImage: {
-    marginTop: Constants.commonMargin,
-    borderRadius: 70,
-    width: 70,
-    height: 70,
+    borderRadius: 100,
+    width: 100,
+    height: 100,
+  },
+  centerProfile: {
+    alignItems: 'center',
   },
   followBtn: {
     flex: 1,
     marginRight: 7,
+  },
+  statsContainer: {
+    flexGrow: 3,
   },
 });

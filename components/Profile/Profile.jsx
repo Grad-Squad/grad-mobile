@@ -3,6 +3,7 @@ import { Animated, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
+import { Constants } from 'styles';
 import ProfileHeader from './ProfileHeader';
 import ProfileTabNav from './ProfileTabNav';
 import ProfileContext from './ProfileContext';
@@ -18,17 +19,17 @@ const Profile = ({ navigation, route }) => {
     name: 'Sameh Initial',
     role: 'student',
     profilePicture: '',
-    // biography:
-    // 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+    biography:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
     // biography: 'Lorem ipsum dolor sit ',
-    biography: '',
+    // biography: '',
     numPosts: 100,
     numFollowers: 150,
     isFollowed: true,
   };
 
   return (
-    <Page>
+    <Page style={styles.profilePadding}>
       <ProfileContext.Provider
         value={{
           offset,
@@ -53,4 +54,8 @@ Profile.defaultProps = {};
 
 export default Profile;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  profilePadding: {
+    paddingTop: Constants.fromScreenStartPadding,
+  },
+});

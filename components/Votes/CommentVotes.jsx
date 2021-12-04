@@ -29,8 +29,7 @@ function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
 
   const onErrorCallback = (
     error,
-    { isPrevUpvoted, isPrevDownvoted, offset },
-    context
+    { isPrevUpvoted, isPrevDownvoted, offset }
   ) => {
     // An error happened!
     // todo show pop up thingy

@@ -18,7 +18,7 @@ const CommentList = ({ postID, setCommentToEdit }) => (
           profileName={author.name}
           text={content}
           commentDate={createdAt}
-          voteCount={rating.upvotes - rating.downvotes}
+          rating={rating}
           profileId={author.id}
           commentId={id}
           postId={postId}

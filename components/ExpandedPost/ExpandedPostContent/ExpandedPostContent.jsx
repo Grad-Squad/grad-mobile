@@ -29,7 +29,12 @@ const ExpandedPostContent = ({ navigation, postId }) => {
   return (
     <>
       <View style={styles.outerContainer}>
-        <GoBackButton onPress={() => navigation.goBack()} />
+        <GoBackButton
+          onPress={() => navigation.goBack()}
+          otherComponent={
+            post && <EduText style={styles.header}>{post.title}</EduText>
+          }
+        />
         {isLoading && <LoadingIndicator large />}
         {isError && (
           <EduText style={styles.couldNotGetPostError}>
@@ -45,7 +50,6 @@ const ExpandedPostContent = ({ navigation, postId }) => {
                 profileId={post.author.id}
               />
               <View style={styles.contentContainer}>
-                <EduText style={styles.postTitle}>{post.title}</EduText>
                 <PostContentList materials={post.materials} />
               </View>
             </View>
@@ -103,14 +107,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.cardBody,
     paddingHorizontal: 15,
     paddingBottom: 5,
-
-    paddingTop: 1 * Constants.fromScreenStartPadding + 10,
+    paddingTop: Constants.fromScreenStartPadding,
 
     minHeight: 225,
   },
   innerContainer: {
     flexDirection: 'row',
-    flex: 1,
+    // flex: 1,
   },
   contentContainer: {
     flex: 1,
@@ -125,5 +128,9 @@ const styles = StyleSheet.create({
   footerContainer: {
     alignSelf: 'center',
     width: '90%',
+  },
+  header: {
+    fontSize: 22,
+    flexShrink: 1,
   },
 });

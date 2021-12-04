@@ -19,16 +19,15 @@ const Followers = ({ navigation, route }) => {
   const { t } = useLocalization();
   // todo axios get profile stuff
   return (
-    <Page>
+    <Page style={styles.container}>
       <GoBackButton
         onPress={() => {
           navigation.goBack();
         }}
+        otherComponent={
+          <EduText style={styles.titleText}>{t('Profile/Followers')}</EduText>
+        }
       />
-      <View style={styles.title}>
-        <EduText style={styles.titleText}>{t('Profile/Followers')}</EduText>
-      </View>
-
       <PaginatedFlatList
         contentContainerStyle={styles.container}
         paginatedReactQuery={useAPIGetProfileFollowers}
@@ -74,5 +73,8 @@ const styles = StyleSheet.create({
   },
   cardsSeparator: {
     margin: Constants.commonMargin / 4,
+  },
+  container: {
+    paddingTop: Constants.fromScreenStartPadding,
   },
 });

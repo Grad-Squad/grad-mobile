@@ -70,7 +70,8 @@ const ExpandedPostContent = ({ navigation, postId }) => {
           commentCount={post.commentCount}
           isPost
           onEdit={() => {}}
-          contentProfileId={-1}
+          onDelete={() => {}}
+          contentProfileId={post.author.id}
         />
       )}
     </>

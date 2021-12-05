@@ -6,6 +6,8 @@ import { AssetsConstants, HIT_SLOP_OBJECT } from 'constants';
 import EduText from 'common/EduText';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
+import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import { useAPIDeleteComment, getCommentsKey } from 'api/endpoints/posts';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
@@ -20,11 +22,19 @@ function Comment({
   voteCount,
   profileImageURI,
   profileId,
+  commentID,
+  postID
 }) {
   const navigation = useNavigation();
 
   const navigateToProfile = () =>
     navigation.navigate(ScreenNames.PROFILE, { profileId });
+
+  const deleteCommentMutation = useAPIDeleteComment(postID,commentID,{
+    onSuccess: () => {
+      queryClient.invalidateQueries([getCommentsKey, postID])
+    },
+  });
 
   return (
     <View style={{ width: '100%', minWidth: '100%' }}>
@@ -74,7 +84,10 @@ function Comment({
           postId={0}
           style={styles.footer}
           onEdit={() => {}}
-          contentProfileId={-1}
+          onDelete={() => {
+            deleteCommentMutation.mutate()
+          }}
+          contentProfileId={profileId}
         />
       </View>
     </View>

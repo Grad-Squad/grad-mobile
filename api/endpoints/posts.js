@@ -101,6 +101,18 @@ export const useAPIGetPostById = (postId, options) => {
       );
       return data;
     },
+options
+  );
+};
+
+export const useAPIDeleteComment = (postID, commentId, options) => {
+  const { axios } = useAxios();
+  return useMutation(async () => {
+      const { data } = await axios.delete(
+        formatString(endpoints.posts.commentsByID, postID ,commentId)
+      );
+      return data;
+    },
     options
   );
 };

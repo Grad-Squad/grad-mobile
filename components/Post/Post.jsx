@@ -37,6 +37,9 @@ function Post({
       postId: id,
     });
   };
+  const onDelete = () => {
+    
+  };
   return (
     <Pressable
       style={[styles.container, style]}
@@ -58,6 +61,7 @@ function Post({
           commentCount={commentCount}
           isPost
           onEdit={onEdit}
+          onDelete={onDelete}
         />
       </ThemeProvider>
     </Pressable>

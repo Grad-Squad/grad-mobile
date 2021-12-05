@@ -4,6 +4,7 @@ export default Object.freeze({
     register: '/auth/register',
     refresh: '/auth/refresh',
     facebookLogin: '/auth/facebook',
+    googleLogin: '/auth/google',
   },
   profile: {
     update: '/profiles/{0}',

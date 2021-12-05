@@ -8,9 +8,11 @@ import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { useAPIDeleteComment, getCommentsKey } from 'api/endpoints/posts';
+import { useLocalization } from 'localization';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
+import CommentDeletionAlert from './CommentDeletionAlert';
 
 const imageWidth = 55;
 const imageOffset = -50;
@@ -26,6 +28,8 @@ function Comment({
   postID
 }) {
   const navigation = useNavigation();
+
+  const { t } = useLocalization();
 
   const navigateToProfile = () =>
     navigation.navigate(ScreenNames.PROFILE, { profileId });
@@ -85,7 +89,7 @@ function Comment({
           style={styles.footer}
           onEdit={() => {}}
           onDelete={() => {
-            deleteCommentMutation.mutate()
+            CommentDeletionAlert(t, () => deleteCommentMutation.mutate())
           }}
           contentProfileId={profileId}
         />

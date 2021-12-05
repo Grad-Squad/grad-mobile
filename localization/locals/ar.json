@@ -254,6 +254,18 @@
       "message": "أنت تكتب سؤالا حاليا. هل أنت متأكد أنك تريد الانتهاء؟",
       "confirm button": "اتمام",
       "reject button": "البقاء"
+    },
+    "Confirm Post Deletion?": {
+      "title": "حذف المنشور؟",
+      "message": "هل أنت متأكد أنك تريد حذف المنشور؟\nلا بمكنك التراجع عن هذا الإجراء",
+      "confirm button": "حذف",
+      "reject button": "إلغاء"
+    },
+    "Confirm Comment Deletion?": {
+      "title": "حذف التعليق؟",
+      "message": "هل أنت متأكد أنك تريد حذف التعليق؟\nلا بمكنك التراجع عن هذا الإجراء",
+      "confirm button": "حذف",
+      "reject button": "إلغاء"
     }
   },
   "WIP": {

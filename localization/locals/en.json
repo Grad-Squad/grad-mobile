@@ -254,6 +254,18 @@
       "message": "You are currently writing a question. Are you sure you want to finish?",
       "confirm button": "finish",
       "reject button": "stay"
+    },
+    "Confirm Post Deletion?": {
+      "title": "Delete Post?",
+      "message": "Are you sure you want delete your post?\nyou can't undo this action",
+      "confirm button": "Delete",
+      "reject button": "Cancel"
+    },
+    "Confirm Comment Deletion?": {
+      "title": "Delete Comment?",
+      "message": "Are you sure you want delete your comment?\nyou can't undo this action",
+      "confirm button": "Delete",
+      "reject button": "Cancel"
     }
   },
   "WIP": {

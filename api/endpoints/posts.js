@@ -109,7 +109,19 @@ export const useAPIDeleteComment = (postID, commentId, options) => {
   const { axios } = useAxios();
   return useMutation(async () => {
       const { data } = await axios.delete(
-        formatString(endpoints.posts.commentsByID, postID ,commentId)
+        formatString(endpoints.posts.commentByID, postID ,commentId)
+      );
+      return data;
+    },
+    options
+  );
+};
+
+export const useAPIDeletePost = (postID, options) => {
+  const { axios } = useAxios();
+  return useMutation(async () => {
+      const { data } = await axios.delete(
+        formatString(endpoints.posts.post, postID)
       );
       return data;
     },

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import LoadingIndicator from 'common/LoadingIndicator';
-import { useAPIGetPostById } from 'api/endpoints/posts';
+import { apiFeedQueryKey, useAPIDeletePost, useAPIGetPostById } from 'api/endpoints/posts';
 import { useLocalization } from 'localization';
 import { Colors, Constants, Styles } from 'styles';
 import PostContentList from 'common/Post/PostContentList';
@@ -11,12 +11,21 @@ import { formatDate } from 'utility';
 import GoBackButton from 'common/GoBackButton';
 import { navigationPropType } from 'proptypes';
 import FooterRegion from 'components/Post/FooterRegion';
+import PostDeletionAlert from 'components/Post/PostDeletionAlert';
+import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import ScreenNames from 'navigation/ScreenNames';
 import AuthorInfo from './AuthorInfo';
 
 const ExpandedPostContent = ({ navigation, postId }) => {
   const { t } = useLocalization();
   const { data: post, isLoading, isError } = useAPIGetPostById(postId);
-
+  const deletePostMutation = useAPIDeletePost(postId,{
+    onSuccess: () => {
+      // ? success message
+      queryClient.invalidateQueries(apiFeedQueryKey)
+      navigation.navigate(ScreenNames.HOME)
+    },
+  });
   const upvotePercentage = useMemo(
     () =>
       post && post.rating.upvotes + post.rating.downvotes > 0
@@ -70,7 +79,9 @@ const ExpandedPostContent = ({ navigation, postId }) => {
           commentCount={post.commentCount}
           isPost
           onEdit={() => {}}
-          onDelete={() => {}}
+          onDelete={() => {
+            PostDeletionAlert(t,() => deletePostMutation.mutate());
+          }}
           contentProfileId={post.author.id}
         />
       )}

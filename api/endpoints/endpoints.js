@@ -12,7 +12,7 @@ export default Object.freeze({
   posts: {
     post: '/posts/{0}',
     comments: '/posts/{0}/comments',
-    commentsByID: '/posts/{0}/comments/{1}',
+    commentByID: '/posts/{0}/comments/{1}',
     commentsPaginated: '/posts/{0}/comments?page={1}&limit={2}',
     ratings: '/posts/{0}/ratings/{1}',
     create: 'posts/',

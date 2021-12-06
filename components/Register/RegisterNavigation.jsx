@@ -38,7 +38,6 @@ const RegisterNavigation = ({ navigation }) => {
   const [, dispatch] = useStore();
 
   const [isS3LinkEnabled, setIsS3LinkEnabled] = useState(false)
-  const [isUpdateProfileEnabled, setIsUpdateProfileEnabled] = useState(false)
 
   const uploadImageMutation = useAPIUploadImage();
 
@@ -69,6 +68,26 @@ const RegisterNavigation = ({ navigation }) => {
     }),
   });
 
+  const updateProfileMutation = useAPIUpdateProfile({
+    onSuccess: (data) => {
+      console.log("UPDATED PROFILE", data)
+
+      dispatch({
+        type: ReducerActions.setProfileId,
+        payload: profileId || data.id,
+      });
+    },
+  });
+
+  useEffect(() => {
+    if( updateProfileMutation.isSuccess && !(uploadImageMutation.isLoading || isLoadingUploadLink)){
+      navigation.reset({
+        index: 0,
+        routes: [{ name: ScreenNames.HOME }],
+      });
+    }
+  }, [isLoadingUploadLink, navigation, updateProfileMutation.isLoading, updateProfileMutation.isSuccess, uploadImageMutation.isLoading])
+
   useEffect(() => {
     if(gettingUploadLinkSucceeded){
     const payload = {
@@ -82,45 +101,31 @@ const RegisterNavigation = ({ navigation }) => {
         },
       },
     };
-    console.log("UPLOADING",payload)
+    console.log("UPLOADING")
     uploadImageMutation.mutate(payload, {
       onSuccess: () => {
         console.log("UPLOADED IMAGE")
-        const IMAGEOBJ = {key: uploadLinkData[0]?.fields?.key, type: 'image'}
-        formik.setFieldValue('profilePicture',IMAGEOBJ)
-        setIsUpdateProfileEnabled(true)
+        const IMAGEOBJ = {key: uploadLinkData[0].fields.key, type: 'image'}
+        const dataToSend = formik.values
+        dataToSend.profilePicture = IMAGEOBJ
+        updateProfileMutation.mutate({ dataToSend, profileId });
       },
       onError: () => {
         // TODO retry
       },
     });
   }
-  }, [formik, gettingUploadLinkSucceeded, uploadImageMutation, uploadLinkData])
+  }, [formik, gettingUploadLinkSucceeded, profileId, updateProfileMutation, uploadImageMutation, uploadLinkData])
 
-  const updateProfileMutation = useAPIUpdateProfile({
-    enabled: isUpdateProfileEnabled,
-    onSuccess: (data) => {
-      console.log("UPDATED PROFILE")
-      navigation.reset({
-        index: 0,
-        routes: [{ name: ScreenNames.HOME }],
-      });
 
-      dispatch({
-        type: ReducerActions.setProfileId,
-        payload: profileId || data.id,
-      });
-    },
-  });
-
-  const updateMutationFunction = (data) =>{
-    if(data?.profilePicture){
+  const updateMutationFunction = (proData) =>{
+    const dataToSend = {...proData}
+    if(proData?.profilePicture){
       setIsS3LinkEnabled(true)
-      setIsUpdateProfileEnabled(false)
     }else{
-      setIsUpdateProfileEnabled(true)
+      dataToSend.profilePicture = ''
     }
-    updateProfileMutation.mutate({ data, profileId });
+    updateProfileMutation.mutate({ dataToSend, profileId });
   }
 
   return (

@@ -8,6 +8,9 @@ import { IconNames } from './Icon/Icon';
 const IMAGE_SOURCE = require('../../assets/images/input/AddProfilePictures.png');
 
 const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
+
+  let image = <Image style={styles.image} source={IMAGE_SOURCE} />
+
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
@@ -21,6 +24,7 @@ const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
       }
     })();
   }, []);
+
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -36,6 +40,7 @@ const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
         width: result.width,
         height: result.height,
       });
+      // image = <Image style={styles.image} source={result.uri} />
     }
   };
   return (
@@ -44,7 +49,7 @@ const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
     {
       isRegisteration
       ? <Pressable onPress={pickImage} style={styles.button} {...props}>
-          <Image style={styles.image} source={IMAGE_SOURCE} />
+          {image}
         </Pressable>
       : <PressableIcon onPress={pickImage} name={IconNames.AddImage} size={30} {...props} />
     }

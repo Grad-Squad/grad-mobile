@@ -16,52 +16,6 @@ const AddProfileImage = ({ style, optional }) => {
   const { t } = useLocalization();
   const { formik } = useContext(RegisterContext);
 
-  const [image, setImage] = useState({})
-  const [uploadable, setUploadable] = useState(false)
-  const isS3LinkEnabled = !!image?.uri;
-
-  const uploadImageMutation = useAPIUploadImage();
-
-  const {
-    data: uploadLinkData,
-    isSuccess: gettingUploadLinkSucceeded,
-    refetch: refetchUploadLink,
-    isLoadingUploadLink
-  } = useAPIgetS3UploadImageLinks(1,{
-    enabled: isS3LinkEnabled,
-    onSuccess: () => {
-      setUploadable(true)
-    },
-    onError: () => {},
-  });
-
-  useEffect(() => {
-    if(uploadable && gettingUploadLinkSucceeded && uploadLinkData){
-      setUploadable(false)
-      const payload = {
-        payload: {
-          ...uploadLinkData[0].fields,
-          'content-type': 'image/jpeg',
-          file: {
-            uri: image.uri,
-            name: image.fileName,
-            type: 'image/jpeg',
-          },
-        },
-      };
-      uploadImageMutation.mutate(payload, {
-        onSuccess: () => {
-          setImage({})
-          const IMAGEOBJ = {key: uploadLinkData[0].fields.key, type: 'image'}
-          formik.setFieldValue('profilePicture',IMAGEOBJ)
-        },
-        onError: () => {
-          // TODO retry
-        },
-      });
-    }
-  }, [gettingUploadLinkSucceeded, uploadLinkData, image, uploadImageMutation, uploadable, formik])
-
   return (
     <View style={[styles.wrapper, style]}>
       <TitleText
@@ -70,16 +24,7 @@ const AddProfileImage = ({ style, optional }) => {
         showSubtitle={optional}
         style={styles.textGap}
       />
-      {
-        isLoadingUploadLink || uploadImageMutation.isLoading
-        ? <LoadingIndicator/>
-        :
-        <ImageSelector setImage={setImage} isRegisteration/>
-      }
-      {/* //! <Pressable onPress={onPress} style={styles.button}>
-          //! <Image style={styles.image} source={IMAGE_SOURCE} />
-          //! </Pressable>
-        */}
+        <ImageSelector setImage={(value) => formik.setFieldValue('profilePicture',value)} isRegisteration/>
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navigator from 'navigation/Navigator';
 import * as yup from 'yup';
 import { biography, roleRequired, roles } from 'validation';
@@ -9,6 +9,8 @@ import { navigationPropType } from 'proptypes';
 import ScreenNames from 'navigation/ScreenNames';
 import { useStore } from 'globalStore/GlobalStore';
 import ReducerActions from 'globalStore/ReducerActions';
+import LoadingIndicator from 'common/LoadingIndicator';
+import { useAPIgetS3UploadImageLinks, useAPIUploadImage } from 'api/endpoints/s3';
 import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
 import RollSelection from './RollSelection/RollSelection';
@@ -35,8 +37,70 @@ const RegisterNavigation = ({ navigation }) => {
   const [profileId, setProfileId] = useState();
   const [, dispatch] = useStore();
 
+  const [isS3LinkEnabled, setIsS3LinkEnabled] = useState(false)
+  const [isUpdateProfileEnabled, setIsUpdateProfileEnabled] = useState(false)
+
+  const uploadImageMutation = useAPIUploadImage();
+
+  const {
+    data: uploadLinkData,
+    isSuccess: gettingUploadLinkSucceeded,
+    refetch: refetchUploadLink,
+    isLoadingUploadLink
+  } = useAPIgetS3UploadImageLinks(1,{
+    enabled: isS3LinkEnabled,
+    onSuccess: () => {},
+    onError: () => {},
+    onSettled: () =>{},
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      role: roles.student,
+      profilePicture: null,
+      biography: '',
+    },
+    onSubmit: (profileInfo) => {
+      updateMutationFunction(profileInfo)
+    },
+    validationSchema: yup.object().shape({
+      role: roleRequired(t),
+      biography: biography(t),
+    }),
+  });
+
+  useEffect(() => {
+    if(gettingUploadLinkSucceeded){
+    const payload = {
+      payload: {
+        ...uploadLinkData[0].fields,
+        'content-type': 'image/jpeg',
+        file: {
+          uri: formik.values.profilePicture.uri,
+          name: formik.values.profilePicture.fileName,
+          type: 'image/jpeg',
+        },
+      },
+    };
+    console.log("UPLOADING",payload)
+    uploadImageMutation.mutate(payload, {
+      onSuccess: () => {
+        console.log("UPLOADED IMAGE")
+        const IMAGEOBJ = {key: uploadLinkData[0]?.fields?.key, type: 'image'}
+        formik.setFieldValue('profilePicture',IMAGEOBJ)
+        setIsUpdateProfileEnabled(true)
+      },
+      onError: () => {
+        // TODO retry
+      },
+    });
+  }
+  }, [formik, gettingUploadLinkSucceeded, uploadImageMutation, uploadLinkData])
+
   const updateProfileMutation = useAPIUpdateProfile({
+    enabled: isUpdateProfileEnabled,
     onSuccess: (data) => {
+      console.log("UPDATED PROFILE")
       navigation.reset({
         index: 0,
         routes: [{ name: ScreenNames.HOME }],
@@ -49,26 +113,26 @@ const RegisterNavigation = ({ navigation }) => {
     },
   });
 
-  const formik = useFormik({
-    initialValues: {
-      role: roles.student,
-      profilePicture: '',
-      biography: '',
-    },
-    onSubmit: (profileInfo) => {
+  const updateMutationFunction = (data) =>{
+    if(data?.profilePicture){
+      setIsS3LinkEnabled(true)
+      setIsUpdateProfileEnabled(false)
+    }else{
+      setIsUpdateProfileEnabled(true)
+    }
+    updateProfileMutation.mutate({ data, profileId });
+  }
 
-      // wait for upload
-      updateProfileMutation.mutate({ profileInfo, profileId });
-    },
-    validationSchema: yup.object().shape({
-      role: roleRequired(t),
-      biography: biography(t),
-    }),
-  });
   return (
     // <RegisterContext.Provider value={formik}>
     <RegisterContext.Provider value={{ formik, profileId, setProfileId }}>
-      <Navigator screens={screens} />
+      {
+        updateProfileMutation.isLoading || uploadImageMutation.isLoading || isLoadingUploadLink
+        ?
+        <LoadingIndicator fullScreen/>
+        :
+        <Navigator screens={screens} />
+      }
     </RegisterContext.Provider>
   );
 };

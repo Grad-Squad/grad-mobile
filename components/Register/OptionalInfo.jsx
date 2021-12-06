@@ -16,7 +16,6 @@ const OptionalInfo = () => {
       <AddProfileImage
         optional
         style={styles.profileImage}
-        onPress={() => {}}
       />
 
       <TextInputFormik

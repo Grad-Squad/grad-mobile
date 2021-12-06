@@ -53,7 +53,7 @@ const AddProfileImage = ({ style, optional }) => {
         onSuccess: () => {
           setImage({})
           const IMAGEOBJ = {key: uploadLinkData[0].fields.key, type: 'image'}
-          formik.setFieldValue('profileImage',IMAGEOBJ)
+          formik.setFieldValue('profilePicture',IMAGEOBJ)
         },
         onError: () => {
           // TODO retry

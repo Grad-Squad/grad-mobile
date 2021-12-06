@@ -52,10 +52,12 @@ const RegisterNavigation = ({ navigation }) => {
   const formik = useFormik({
     initialValues: {
       role: roles.student,
-      profileImage: '',
+      profilePicture: '',
       biography: '',
     },
     onSubmit: (profileInfo) => {
+
+      // wait for upload
       updateProfileMutation.mutate({ profileInfo, profileId });
     },
     validationSchema: yup.object().shape({

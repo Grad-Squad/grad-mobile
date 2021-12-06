@@ -3,11 +3,11 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Styles } from 'styles';
 import SignInWithFacebook from './Facebook/SignInWithFacebook';
-import SignInWithGoogle from './Google/SignInWithGoogle';
+// import SignInWithGoogle from './Google/SignInWithGoogle';
 
 const SignInWith = ({ disabled }) => (
   <View style={[Styles.cardFooter, styles.background]}>
-    <SignInWithGoogle style={styles.firstButtonGap} disabled={disabled} />
+    {/* <SignInWithGoogle style={styles.firstButtonGap} disabled={disabled} /> */}
     <SignInWithFacebook disabled={disabled} />
   </View>
 );

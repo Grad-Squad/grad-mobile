@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Platform } from 'react-native';
+import { Alert, Platform, Pressable, Image, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { PressableIcon } from './Icon';
 import { IconNames } from './Icon/Icon';
 
-const ImageSelector = ({ setImage, ...props }) => {
+const IMAGE_SOURCE = require('../../assets/images/input/AddProfilePictures.png');
+
+const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
@@ -38,13 +40,31 @@ const ImageSelector = ({ setImage, ...props }) => {
   };
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <PressableIcon onPress={pickImage} name={IconNames.AddImage} size={30} {...props} />
+    <>
+    {
+      isRegisteration
+      ? <Pressable onPress={pickImage} style={styles.button} {...props}>
+          <Image style={styles.image} source={IMAGE_SOURCE} />
+        </Pressable>
+      : <PressableIcon onPress={pickImage} name={IconNames.AddImage} size={30} {...props} />
+    }
+    </>
   );
 };
 
 ImageSelector.propTypes = {
   setImage: PropTypes.func.isRequired,
+  isRegisteration: PropTypes.bool,
 };
-ImageSelector.defaultProps = {};
+ImageSelector.defaultProps = {
+  isRegisteration: false,
+};
 
 export default ImageSelector;
+
+const styles = StyleSheet.create({
+  image: { height: 110, width: 110, alignSelf: 'center' },
+  button: {
+    alignSelf: 'center',
+  },
+});

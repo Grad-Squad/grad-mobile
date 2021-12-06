@@ -112,7 +112,7 @@ const RegisterNavigation = ({ navigation }) => {
       setIsS3LinkEnabled(true)
     }else{
       datasToSend.profilePicture = ''
-      updateProfileMutation.mutate({ datasToSend, profileId });
+      updateProfileMutation.mutate({ profileInfo:datasToSend, profileId });
     }
   }
 

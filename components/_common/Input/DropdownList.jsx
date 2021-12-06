@@ -80,7 +80,7 @@ const DropdownList = ({
           </View>
         ) : (
           <EduText style={styles.singleChoiceStyle}>
-            {choices.length === 1 ? choices[0] : placeholder}
+            {choices.length === 1 ? choices[0] || placeholder : placeholder}
           </EduText>
         )}
         <Icon name={IconNames.dropdownClosed} />

@@ -13,7 +13,7 @@ import EduText from 'common/EduText';
 import { Styles } from 'styles';
 import { mcqQuestionAddPropType, stylePropType } from 'proptypes';
 import ImageSelector from 'common/ImageSelector';
-import { useAPIgetOneS3UploadLinks } from 'api/endpoints/s3';
+import { useAPIgetS3UploadImageLinks } from 'api/endpoints/s3';
 import BaseAlert from 'common/alerts/BaseAlert';
 import { deepCompare } from 'utility';
 import { useSelector, useDispatch } from 'react-redux';
@@ -47,7 +47,7 @@ const AddQuestion = ({
     data: uploadLinkData,
     isSuccess: gettingUploadLinkSucceeded,
     refetch: refetchUploadLink,
-  } = useAPIgetOneS3UploadLinks({
+  } = useAPIgetS3UploadImageLinks(1,{
     enabled: isS3LinkEnabled,
     onSuccess: (data) => {
       if (!currentlyEditingQuestion) {

@@ -9,6 +9,8 @@ import { navigationPropType } from 'proptypes';
 import ScreenNames from 'navigation/ScreenNames';
 import { useStore } from 'globalStore/GlobalStore';
 import ReducerActions from 'globalStore/ReducerActions';
+import LoadingIndicator from 'common/LoadingIndicator';
+import { useAPIgetS3UploadImageLinks, useAPIUploadImage } from 'api/endpoints/s3';
 import RequiredInfo from './RequiredInfo';
 import OptionalInfo from './OptionalInfo';
 import RollSelection from './RollSelection/RollSelection';
@@ -35,8 +37,13 @@ const RegisterNavigation = ({ navigation }) => {
   const [profileId, setProfileId] = useState();
   const [, dispatch] = useStore();
 
+  const [isS3LinkEnabled, setIsS3LinkEnabled] = useState(false)
+
+  const uploadImageMutation = useAPIUploadImage();
+
   const updateProfileMutation = useAPIUpdateProfile({
     onSuccess: (data) => {
+
       navigation.reset({
         index: 0,
         routes: [{ name: ScreenNames.HOME }],
@@ -49,24 +56,76 @@ const RegisterNavigation = ({ navigation }) => {
     },
   });
 
+  const {
+    data: uploadLinkData,
+    isSuccess: gettingUploadLinkSucceeded,
+    refetch: refetchUploadLink,
+    isLoadingUploadLink
+  } = useAPIgetS3UploadImageLinks(1,{
+    enabled: isS3LinkEnabled,
+    onSuccess: (data) => {
+        const payload = {
+          payload: {
+            ...data[0].fields,
+            'content-type': 'image/jpeg',
+            file: {
+              uri: formik.values.profilePicture.uri,
+              name: formik.values.profilePicture.fileName,
+              type: 'image/jpeg',
+            },
+          },
+        };
+        uploadImageMutation.mutate(payload, {
+          onSuccess: () => {
+            const IMAGEOBJ = {key: data[0].fields.key, type: 'image'}
+            const dataToSend = {...formik.values}
+            dataToSend.profilePicture = {...IMAGEOBJ}
+            updateProfileMutation.mutate({ profileInfo: dataToSend, profileId });
+          },
+          onError: () => {
+            // TODO retry
+          },
+      });
+    },
+    onError: () => {},
+    onSettled: () =>{},
+  });
+
   const formik = useFormik({
     initialValues: {
       role: roles.student,
-      profileImage: '',
+      profilePicture: null,
       biography: '',
     },
     onSubmit: (profileInfo) => {
-      updateProfileMutation.mutate({ profileInfo, profileId });
+      updateMutationFunction(profileInfo)
     },
     validationSchema: yup.object().shape({
       role: roleRequired(t),
       biography: biography(t),
     }),
   });
+
+  const updateMutationFunction = (proData) =>{
+    const datasToSend = {...proData}
+    if(proData?.profilePicture){
+      setIsS3LinkEnabled(true)
+    }else{
+      datasToSend.profilePicture = ''
+      updateProfileMutation.mutate({ profileInfo:datasToSend, profileId });
+    }
+  }
+
   return (
     // <RegisterContext.Provider value={formik}>
     <RegisterContext.Provider value={{ formik, profileId, setProfileId }}>
-      <Navigator screens={screens} />
+      {
+        updateProfileMutation.isLoading || uploadImageMutation.isLoading || isLoadingUploadLink
+        ?
+        <LoadingIndicator fullScreen/>
+        :
+        <Navigator screens={screens} />
+      }
     </RegisterContext.Provider>
   );
 };

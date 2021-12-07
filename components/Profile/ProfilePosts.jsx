@@ -12,7 +12,7 @@ const ProfilePosts = () => {
 
   return (
     <PostsContainer
-      reactQueryKey={() => getApiProfileFeedQueryKey(profileId)}
+      reactQueryKey={getApiProfileFeedQueryKey(profileId)}
       paginatedReactQuery={useAPIFeedByProfileId}
       paginatedReactQueryParams={[profileId]}
       onScroll={Animated.event(

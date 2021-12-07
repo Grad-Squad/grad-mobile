@@ -47,7 +47,6 @@ const ProfileHeader = ({ navigation, profile }) => {
   const followProfileMutation = useFollowProfile();
   const [state] = useStore();
   const { offset } = useContext(ProfileContext);
-  const { profilePicture = {} } = profile;
   const { uri: profilePictureUri = 'error' } =
     profile?.profilePicture || 'error';
   // const [height, setHeight] = useState(0);

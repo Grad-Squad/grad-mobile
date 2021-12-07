@@ -40,18 +40,14 @@ export default GoBackButton;
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: '#a0a0a0',
     flexDirection: 'row',
     alignItems: 'center',
-    // justifyContent: 'space-',
   },
   backIconContainer: {
     width: 40 + Constants.commonMargin,
     padding: Constants.commonMargin / 2,
     paddingVertical: Constants.commonMargin / 5,
-    // paddingVertical: 0,
     alignSelf: 'flex-start',
-    // borderWidth,
   },
   backIcon: {},
 });

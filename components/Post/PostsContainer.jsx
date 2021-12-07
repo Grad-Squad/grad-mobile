@@ -5,7 +5,12 @@ import PropTypes from 'prop-types';
 import { stringOrNumberPropType } from 'proptypes';
 import Post from './Post';
 
-const PostsContainer = ({ reactQueryKey, paginatedReactQuery, onScroll }) => (
+const PostsContainer = ({
+  reactQueryKey,
+  paginatedReactQuery,
+  onScroll,
+  ...PaginatedFlatListParams
+}) => (
   <PaginatedFlatList
     contentContainerStyle={styles.feedList}
     paginatedReactQuery={paginatedReactQuery}
@@ -30,6 +35,8 @@ const PostsContainer = ({ reactQueryKey, paginatedReactQuery, onScroll }) => (
       // )
     }
     errorLocalizationKey="Feed/Error:Couldn't load posts"
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    {...PaginatedFlatListParams}
   />
 );
 

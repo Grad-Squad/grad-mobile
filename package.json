@@ -43,6 +43,7 @@
     "axios": "^0.21.1",
     "expo": "^42.0.5",
     "expo-app-loading": "^1.2.1",
+    "expo-auth-session": "~3.3.1",
     "expo-clipboard": "~1.1.0",
     "expo-constants": "^11.0.2",
     "expo-document-picker": "~9.2.4",
@@ -51,8 +52,10 @@
     "expo-google-sign-in": "~9.2.1",
     "expo-image-picker": "~10.2.2",
     "expo-localization": "~10.2.0",
+    "expo-random": "~11.2.0",
     "expo-status-bar": "~1.0.4",
     "expo-updates": "~0.8.2",
+    "expo-web-browser": "~9.2.0",
     "formik": "^2.2.9",
     "i18n-js": "^3.8.0",
     "prop-types": "^15.7.2",
@@ -80,10 +83,8 @@
     "react-query": "^3.34.0",
     "react-redux": "^7.2.6",
     "rn-pdf-reader-js": "^4.1.1",
-    "yup": "^0.32.11",
-    "expo-auth-session": "~3.3.1",
-    "expo-random": "~11.2.0",
-    "expo-web-browser": "~9.2.0"
+    "rn-placeholder": "^3.0.3",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

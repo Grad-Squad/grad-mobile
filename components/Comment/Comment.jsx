@@ -38,17 +38,18 @@ function Comment({
   const navigateToProfile = () =>
     navigation.navigate(ScreenNames.PROFILE, { profileId });
 
-  const deleteCommentMutation = useAPIDeleteComment(postID,commentID,{
+  const deleteCommentMutation = useAPIDeleteComment(postId, commentId, {
     onSuccess: () => {
       queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
         deleteItemInPages(oldData, commentId)
       );
+    },
   });
 
   return (
     <View style={{ width: '100%', minWidth: '100%' }}>
       <View style={styles.outerContainer}>
-        {deleteMutation.isLoading && <FillLoadingIndicator />}
+        {deleteCommentMutation.isLoading && <FillLoadingIndicator />}
         <View>
           <View style={styles.imageContainer}>
             <TouchableOpacity
@@ -90,7 +91,7 @@ function Comment({
           style={styles.footer}
           onEdit={onEdit}
           onDelete={() => {
-            CommentDeletionAlert(t, () => deleteCommentMutation.mutate())
+            CommentDeletionAlert(t, () => deleteCommentMutation.mutate());
           }}
           contentProfileId={profileId}
         />

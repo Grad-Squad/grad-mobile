@@ -13,8 +13,8 @@ import ScreenNames from 'navigation/ScreenNames';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import { AssetsConstants } from 'constants';
 import { useStore } from 'globalStore/GlobalStore';
-import ProfileContext from './ProfileContext';
 import { useFollowProfile } from 'api/endpoints/profile';
+import ProfileContext from './ProfileContext';
 
 const NumBox = ({ title, number, onPress }) => (
   <View style={styles.numBox}>
@@ -47,7 +47,9 @@ const ProfileHeader = ({ navigation, profile }) => {
   const followProfileMutation = useFollowProfile();
   const [state] = useStore();
   const { offset } = useContext(ProfileContext);
-  const { uri: profilePictureUri = 'error' } = profile.profilePicture;
+  const { profilePicture = {} } = profile;
+  const { uri: profilePictureUri = 'error' } =
+    profile?.profilePicture || 'error';
   // const [height, setHeight] = useState(0);
   const [height, setHeight] = useState(0);
 

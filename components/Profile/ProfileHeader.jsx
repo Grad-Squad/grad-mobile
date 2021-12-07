@@ -12,6 +12,7 @@ import { IconNames } from 'common/Icon/Icon';
 import ScreenNames from 'navigation/ScreenNames';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import { AssetsConstants } from 'constants';
+import { useStore } from 'globalStore/GlobalStore';
 import ProfileContext from './ProfileContext';
 
 const NumBox = ({ title, number, onPress }) => (
@@ -42,6 +43,7 @@ NumBox.defaultProps = {
 const ProfileHeader = ({ navigation, profile }) => {
   const { t } = useLocalization();
   const [isFollowed, setIsFollowed] = useState(profile.isFollowed);
+  const [state] = useStore();
   const { offset } = useContext(ProfileContext);
   const { uri: profilePictureUri = 'error' } = profile.profilePicture;
   // const [height, setHeight] = useState(0);
@@ -53,7 +55,7 @@ const ProfileHeader = ({ navigation, profile }) => {
   //   extrapolate: 'clamp',
   // });
 
-  const followButton = isFollowed ? (
+  const followButton = state.isFollowed ? (
     <SecondaryActionButton
       onPress={() => setIsFollowed(false)}
       text={t('Profile/Unfollow')}
@@ -67,6 +69,7 @@ const ProfileHeader = ({ navigation, profile }) => {
     />
   );
 
+  const isProfileOwner = state.profileId === profile.id;
   const rightHeader = (
     <View style={styles.rightHeader}>
       <View style={styles.centerProfile}>
@@ -97,10 +100,12 @@ const ProfileHeader = ({ navigation, profile }) => {
             number={profile?.numPosts}
           />
         </View>
-        <View style={[styles.row, styles.followBtnContainer]}>
-          {followButton}
-          <Icon name={IconNames.dotsVertical} />
-        </View>
+        {!isProfileOwner && (
+          <View style={[styles.row, styles.followBtnContainer]}>
+            {followButton}
+            <Icon name={IconNames.dotsVertical} />
+          </View>
+        )}
       </View>
     </View>
   );
@@ -175,6 +180,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     flexGrow: 1,
+    alignItems: 'center',
   },
   row: {
     flexDirection: 'row',

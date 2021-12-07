@@ -6,15 +6,16 @@ import { AssetsConstants, HIT_SLOP_OBJECT } from 'constants';
 import EduText from 'common/EduText';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
-import { useAPIDeleteComment } from 'api/endpoints/comments';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
-import { getCommentsKey } from 'api/endpoints/posts';
+import { useAPIDeleteComment, getCommentsKey } from 'api/endpoints/posts';
+import { useLocalization } from 'localization';
 import FillLoadingIndicator from 'common/FillLoadingIndicator';
 import { deleteItemInPages } from 'api/util';
 import { ratingPropType } from 'proptypes';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
+import CommentDeletionAlert from './CommentDeletionAlert';
 
 const imageWidth = 55;
 const imageOffset = -50;
@@ -32,10 +33,12 @@ function Comment({
 }) {
   const navigation = useNavigation();
 
+  const { t } = useLocalization();
+
   const navigateToProfile = () =>
     navigation.navigate(ScreenNames.PROFILE, { profileId });
 
-  const deleteMutation = useAPIDeleteComment({
+  const deleteCommentMutation = useAPIDeleteComment(postId, commentId, {
     onSuccess: () => {
       queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
         deleteItemInPages(oldData, commentId)
@@ -46,7 +49,7 @@ function Comment({
   return (
     <View style={{ width: '100%', minWidth: '100%' }}>
       <View style={styles.outerContainer}>
-        {deleteMutation.isLoading && <FillLoadingIndicator />}
+        {deleteCommentMutation.isLoading && <FillLoadingIndicator />}
         <View>
           <View style={styles.imageContainer}>
             <TouchableOpacity
@@ -88,7 +91,7 @@ function Comment({
           style={styles.footer}
           onEdit={onEdit}
           onDelete={() => {
-            deleteMutation.mutate({ postId, commentId });
+            CommentDeletionAlert(t, () => deleteCommentMutation.mutate());
           }}
           contentProfileId={profileId}
         />

@@ -14,6 +14,7 @@ export default Object.freeze({
     post: '/posts/{0}',
     comment: '/posts/{0}/comments/{1}',
     comments: '/posts/{0}/comments',
+    commentByID: '/posts/{0}/comments/{1}',
     commentsPaginated: '/posts/{0}/comments?page={1}&limit={2}',
     ratings: '/posts/{0}/ratings/{1}',
     create: 'posts/',

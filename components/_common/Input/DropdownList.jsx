@@ -73,12 +73,13 @@ const DropdownList = ({
         items.map((item) =>{
           if(choices.includes(item.id))
           return (
-          <View style ={{paddingHorizontal: 2}}key={item.id}>
+          <View style ={{paddingHorizontal: 2}} key={item.id}>
             <TagLabel
               labelText={item.label}
             />
           </View>
-        )}
+        )
+      return <View/>}
       )}</View>
       :
       <EduText>{choices.length === 1?items[0].label:placeholder}</EduText>}

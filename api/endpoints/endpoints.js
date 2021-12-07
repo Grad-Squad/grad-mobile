@@ -23,8 +23,9 @@ export default Object.freeze({
     ratings: '/comments/{0}/ratings/{1}',
   },
   s3: {
-    getOneUploadLink: '/s3/upload',
-    getManyUploadLinks: '/s3/upload?numberOfLinks={0}',
+    getUploadImageLinks: '/s3/upload/image?numberOfLinks={0}',
+    getUploadDocLinks: '/s3/upload/doc?numberOfLinks={0}',
+    getUploadVideoLinks: '/s3/upload/video?numberOfLinks={0}',
     uploadFile: 'https://s3.eu-central-1.amazonaws.com/educate-awesome-test',
     getFileUri: '/s3/get/{0}',
   },

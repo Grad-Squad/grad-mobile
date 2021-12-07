@@ -4,13 +4,75 @@ import { formatString } from 'utility';
 import * as normalAxios from 'axios';
 import endpoints from './endpoints';
 
-export const useAPIgetManyS3UploadLinks = (numberOfLinks, options) => {
+// export const useAPIgetManyS3UploadLinks = (numberOfLinks, options) => {
+//   const { axios } = useAxios();
+//   return useQuery(
+//     ['getManyS3UploadLinks'],
+//     async () => {
+//       const { data } = await axios.get(
+//         formatString(endpoints.s3.getManyUploadLinks, numberOfLinks)
+//       );
+//       return data;
+//     },
+//     {
+//       cacheTime: 0,
+//       ...options,
+//     }
+//   );
+// };
+// export const useAPIgetOneS3UploadLinks = (options) => {
+//   const { axios } = useAxios();
+//   return useQuery(
+//     ['getOneS3UploadLink'],
+//     async () => {
+//       const { data } = await axios.get(endpoints.s3.getOneUploadLink);
+//       return data;
+//     },
+//     {
+//       cacheTime: 0,
+//       ...options,
+//     }
+//   );
+// };
+export const useAPIgetS3UploadImageLinks = (numberOfLinks=1,options) => {
   const { axios } = useAxios();
   return useQuery(
-    ['getManyS3UploadLinks'],
+    ['getS3UploadImageLinks'],
     async () => {
       const { data } = await axios.get(
-        formatString(endpoints.s3.getManyUploadLinks, numberOfLinks)
+        formatString(endpoints.s3.getUploadImageLinks,numberOfLinks)
+      );
+      return data;
+    },
+    {
+      cacheTime: 0,
+      ...options,
+    }
+  );
+};
+export const useAPIgetS3UploadDocLinks = (numberOfLinks=1,options) => {
+  const { axios } = useAxios();
+  return useQuery(
+    ['getS3UploadDocLinks'],
+    async () => {
+      const { data } = await axios.get(
+        formatString(endpoints.s3.getUploadDocLinks,numberOfLinks)
+      );
+      return data;
+    },
+    {
+      cacheTime: 0,
+      ...options,
+    }
+  );
+};
+export const useAPIgetS3UploadVideoLinks = (numberOfLinks=1,options) => {
+  const { axios } = useAxios();
+  return useQuery(
+    ['getS3UploadVideoLinks'],
+    async () => {
+      const { data } = await axios.get(
+        formatString(endpoints.s3.getUploadVideoLinks,numberOfLinks)
       );
       return data;
     },
@@ -21,20 +83,6 @@ export const useAPIgetManyS3UploadLinks = (numberOfLinks, options) => {
   );
 };
 
-export const useAPIgetOneS3UploadLinks = (options) => {
-  const { axios } = useAxios();
-  return useQuery(
-    ['getOneS3UploadLink'],
-    async () => {
-      const { data } = await axios.get(endpoints.s3.getOneUploadLink);
-      return data;
-    },
-    {
-      cacheTime: 0,
-      ...options,
-    }
-  );
-};
 
 const formatFormData = (payload) => {
   const formData = new FormData(payload);

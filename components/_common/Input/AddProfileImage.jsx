@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Image,
-  Pressable,
   StyleSheet,
   View,
 } from 'react-native';
 import { useLocalization } from 'localization';
 import { stylePropType } from 'proptypes';
+import ImageSelector from 'common/ImageSelector';
+import { useAPIgetS3UploadImageLinks, useAPIUploadImage } from 'api/endpoints/s3';
+import LoadingIndicator from 'common/LoadingIndicator';
+import RegisterContext from 'components/Register/RegisterContext';
 import TitleText from './TitleText';
 
-const IMAGE_SOURCE = require('../../../assets/images/input/AddProfilePictures.png');
-
-const AddProfileImage = ({ style, optional, onPress }) => {
+const AddProfileImage = ({ style, optional }) => {
   const { t } = useLocalization();
+  const { formik } = useContext(RegisterContext);
+
   return (
     <View style={[styles.wrapper, style]}>
       <TitleText
@@ -22,10 +24,7 @@ const AddProfileImage = ({ style, optional, onPress }) => {
         showSubtitle={optional}
         style={styles.textGap}
       />
-
-      <Pressable onPress={onPress} style={styles.button}>
-        <Image style={styles.image} source={IMAGE_SOURCE} />
-      </Pressable>
+        <ImageSelector setImage={(value) => formik.setFieldValue('profilePicture',value)} isRegisteration/>
     </View>
   );
 };
@@ -33,7 +32,6 @@ const AddProfileImage = ({ style, optional, onPress }) => {
 AddProfileImage.propTypes = {
   style: stylePropType,
   optional: PropTypes.bool,
-  onPress: PropTypes.func.isRequired,
 };
 AddProfileImage.defaultProps = { style: {}, optional: false };
 

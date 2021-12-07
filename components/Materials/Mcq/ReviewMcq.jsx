@@ -10,17 +10,17 @@ import { MainActionButton } from 'common/Input/Button';
 import { Portal } from 'react-native-paper';
 import { useLocalization } from 'localization';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
-import ReducerActions from 'globalStore/ReducerActions';
-import { useStore } from 'globalStore/GlobalStore';
 import ScreenNames from 'navigation/ScreenNames';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMCQQuestions } from 'globalStore/materialNavSlice';
 import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
 import ReviewMcqModal from './ReviewMcqModal';
 
 const ReviewMcq = ({ navigation }) => {
   const { t } = useLocalization();
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [state, dispatch] = useStore();
-  const storedAnswers = state.material.mcqQuestions;
+  const dispatch = useDispatch();
+  const storedAnswers = useSelector((state) => state.material.mcqQuestions);
 
   const correctCount = storedAnswers.filter((ans) => ans.isCorrect).length;
   const skippedCount = storedAnswers.filter((ans) => ans.isSkipped).length;
@@ -32,7 +32,7 @@ const ReviewMcq = ({ navigation }) => {
 
   const passedExercise = correctCount >= incorrectCount + answersShownCount;
 
-  const [cheeringWord, ] = useState(
+  const [cheeringWord] = useState(
     passedExercise
       ? getCheeringWords(wordTypes.good, t)
       : getCheeringWords(wordTypes.bad, t)
@@ -44,7 +44,7 @@ const ReviewMcq = ({ navigation }) => {
   } else if (passedExercise) {
     footerText = t(
       'McqReview/footerText/Don’t stop now, Keep going until you do it perfectly!!'
-      );
+    );
   } else {
     footerText = t('McqReview/footerText/Take a deep breath and start again.');
   }
@@ -122,16 +122,17 @@ const ReviewMcq = ({ navigation }) => {
           isSkippedAllowed={skippedCount > 0}
           isShownAllowed={answersShownCount > 0}
           onFinish={(isCorrect, isWrong, isAnswerShown, isSkipped) => {
-            dispatch({
-              type: ReducerActions.setMCQQuestions,
-              payload: storedAnswers.filter(
-                (ans) =>
-                  (ans.isCorrect && isCorrect) ||
-                  (!ans.isCorrect && ans.isAlreadyAnswered && isWrong) ||
-                  (ans.isAnswerShown && isAnswerShown) ||
-                  (ans.isSkipped && isSkipped)
-              ),
-            });
+            dispatch(
+              setMCQQuestions(
+                storedAnswers.filter(
+                  (ans) =>
+                    (ans.isCorrect && isCorrect) ||
+                    (!ans.isCorrect && ans.isAlreadyAnswered && isWrong) ||
+                    (ans.isAnswerShown && isAnswerShown) ||
+                    (ans.isSkipped && isSkipped)
+                )
+              )
+            );
             navigation.replace(ScreenNames.SOLVE_MCQ);
           }}
         />

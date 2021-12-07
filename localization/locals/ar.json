@@ -294,5 +294,12 @@
       "Followers": "متابع"
     },
     "Followers": "المتابعين"
+  },
+  "Flashcards": {
+    "Tap anywhere to show answer": "اضغط في أي مكان لعرض الإجابة",
+    "Hard": "صعب",
+    "Easy": "سهل",
+    "Swipe easy": "اسحب لليسار",
+    "Swipe hard": "اسحب لليمين"
   }
 }

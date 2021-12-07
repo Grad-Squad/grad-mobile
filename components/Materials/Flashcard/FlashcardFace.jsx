@@ -6,17 +6,29 @@ import EduText from 'common/EduText';
 import ResponsiveImage from 'common/ResponsiveImage';
 
 const maxWidthRatio = 0.8;
-const maxHeightRatio = 0.7;
 
-const FlashcardFace = ({ text, imageURI }) => {
+const FlashcardFace = ({ text, imageURI, outerUnavailableHeight }) => {
   const [unavailableHeight, setUnavailableHeight] = useState(0);
+  const maxHeightRatio =
+    1 - outerUnavailableHeight / Dimensions.get('window').height;
 
   return (
-    <View style={styles.wrapper}>
+    <View
+      style={[
+        styles.wrapper,
+        {
+          maxWidth: Dimensions.get('window').width * maxWidthRatio,
+          maxHeight: Dimensions.get('window').height * maxHeightRatio,
+          minWidth: Dimensions.get('window').width * maxWidthRatio,
+          minHeight: Dimensions.get('window').height * maxHeightRatio,
+        },
+      ]}
+    >
       {imageURI && (
         <ResponsiveImage
           imageURI={imageURI}
           maxWidthRatio={maxWidthRatio}
+          canMaximize={false}
           maxHeightRatio={
             maxHeightRatio -
             (unavailableHeight + 2 * Constants.commonMargin) /
@@ -41,6 +53,7 @@ const FlashcardFace = ({ text, imageURI }) => {
 FlashcardFace.propTypes = {
   text: PropTypes.string.isRequired,
   imageURI: PropTypes.string.isRequired,
+  outerUnavailableHeight: PropTypes.number.isRequired,
 };
 FlashcardFace.defaultProps = {};
 
@@ -48,10 +61,6 @@ export default FlashcardFace;
 
 const styles = StyleSheet.create({
   wrapper: {
-    maxWidth: Dimensions.get('window').width * maxWidthRatio,
-    maxHeight: Dimensions.get('window').height * maxHeightRatio,
-    minWidth: Dimensions.get('window').width * maxWidthRatio,
-    minHeight: Dimensions.get('window').height * maxHeightRatio,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.cardBody,

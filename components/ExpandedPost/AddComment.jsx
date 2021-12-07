@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
@@ -13,6 +13,8 @@ import { Colors } from 'styles';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { deepCopy } from 'utility';
+import { useAPIEditComment } from 'api/endpoints/comments';
+import { replaceItemInPages } from 'api/util';
 import NewComment from './NewComment';
 
 const styles = StyleSheet.create({
@@ -37,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function AddComment({ postID }) {
+function AddComment({ postID, commentToEdit }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const addCommentMutation = useAPIAddComment({
     onSuccess: (data) => {
@@ -49,10 +51,32 @@ function AddComment({ postID }) {
       setIsModalVisible(false);
     },
   });
+  const editCommentMutation = useAPIEditComment({
+    onSuccess: (data) => {
+      queryClient.setQueryData([getCommentsKey, postID], (oldData) =>
+        replaceItemInPages(oldData, data.id, data)
+      );
+      setIsModalVisible(false);
+    },
+  });
 
   const onSubmitHandle = (content) => {
-    addCommentMutation.mutate({ postID, content });
+    if (commentToEdit) {
+      editCommentMutation.mutate({
+        postID,
+        commentId: commentToEdit.id,
+        content,
+      });
+    } else {
+      addCommentMutation.mutate({ postID, content });
+    }
   };
+
+  useEffect(() => {
+    if (commentToEdit) {
+      setIsModalVisible(true);
+    }
+  }, [commentToEdit]);
   return (
     <>
       <TouchableOpacity
@@ -71,7 +95,9 @@ function AddComment({ postID }) {
       >
         <NewComment
           // profileImageURI={author.profilePicture}
-          onSubmitHandleFunction={onSubmitHandle}
+          initialText={commentToEdit?.content}
+          onSubmit={onSubmitHandle}
+          isLoading={addCommentMutation.isLoading}
         />
       </Modal>
     </>
@@ -82,4 +108,11 @@ export default AddComment;
 
 AddComment.propTypes = {
   postID: PropTypes.number.isRequired,
+  commentToEdit: PropTypes.shape({
+    content: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  }),
+};
+AddComment.defaultProps = {
+  commentToEdit: undefined,
 };

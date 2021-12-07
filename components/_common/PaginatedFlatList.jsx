@@ -56,7 +56,7 @@ const PaginatedFlatList = ({
         data={flatListItems}
         onScroll={onScroll}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         refreshControl={
           !onScroll && (
             <QueryRefreshControl

@@ -9,6 +9,9 @@ import ScreenNames from 'navigation/ScreenNames';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { useAPIDeleteComment, getCommentsKey } from 'api/endpoints/posts';
 import { useLocalization } from 'localization';
+import FillLoadingIndicator from 'common/FillLoadingIndicator';
+import { deleteItemInPages } from 'api/util';
+import { ratingPropType } from 'proptypes';
 import { formatDate } from '../../utility';
 import { Colors } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
@@ -21,11 +24,12 @@ function Comment({
   profileName,
   text,
   commentDate,
-  voteCount,
+  rating,
   profileImageURI,
   profileId,
-  commentID,
-  postID
+  commentId,
+  postId,
+  onEdit,
 }) {
   const navigation = useNavigation();
 
@@ -36,13 +40,15 @@ function Comment({
 
   const deleteCommentMutation = useAPIDeleteComment(postID,commentID,{
     onSuccess: () => {
-      queryClient.invalidateQueries([getCommentsKey, postID])
-    },
+      queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
+        deleteItemInPages(oldData, commentId)
+      );
   });
 
   return (
     <View style={{ width: '100%', minWidth: '100%' }}>
       <View style={styles.outerContainer}>
+        {deleteMutation.isLoading && <FillLoadingIndicator />}
         <View>
           <View style={styles.imageContainer}>
             <TouchableOpacity
@@ -79,15 +85,10 @@ function Comment({
       </View>
       <View style={styles.footerContainer}>
         <FooterRegion
-          rating={{
-            id: 0,
-            upvotes: 0,
-            downvotes: 0,
-            currentUserStatus: 'none',
-          }}
-          postId={0}
+          rating={rating}
+          postId={postId}
           style={styles.footer}
-          onEdit={() => {}}
+          onEdit={onEdit}
           onDelete={() => {
             CommentDeletionAlert(t, () => deleteCommentMutation.mutate())
           }}
@@ -104,9 +105,12 @@ Comment.propTypes = {
   profileName: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   commentDate: PropTypes.string.isRequired,
-  voteCount: PropTypes.number.isRequired,
+  rating: ratingPropType.isRequired,
   profileImageURI: PropTypes.string,
   profileId: PropTypes.number.isRequired,
+  commentId: PropTypes.number.isRequired,
+  postId: PropTypes.number.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 Comment.defaultProps = {

@@ -50,6 +50,21 @@ export const useAPIfacebookLogin = (mutationConfig) => {
   );
 };
 
+export const useAPIGoogleLogin = (mutationConfig) => {
+  const { axios } = useAxios();
+
+  return useMutation(
+    async ({ accessToken }) => {
+      const {
+        data: { data },
+      } = await axios.get(`${endpoints.auth.googleLogin}/${accessToken}`);
+
+      return data;
+    },
+    { ...mutationConfig, onSuccess: onSuccessUpdateTokens(mutationConfig) }
+  );
+};
+
 export const useAPIRefreshToken = (mutationConfig) => {
   const { axios, updateRefreshToken } = useAxios();
   return useMutation(

@@ -9,28 +9,32 @@ import { TransparentTextInputFormik } from 'common/Input';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { navigationPropType, routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
-import ReducerActions from 'globalStore/ReducerActions';
-import { useStore } from 'globalStore/GlobalStore';
 import { deepCompare, deepCopy } from 'utility';
 import useOnGoBack from 'navigation/useOnGoBack';
 import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import { MaterialTypes } from 'constants';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addCreateMaterialItem,
+  replaceCreateMaterialItem,
+} from 'globalStore/createPostSlice';
+import { removeLastXFromUploadQueue } from 'globalStore/imageUploadSlice';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 import DiscardQuestionAlert from './DiscardQuestionAlert';
 
 const AddMCQ = ({ navigation, route }) => {
   const editIndex = route?.params?.index;
-
+  const materialList = useSelector((state) => state.createPost.materialList);
+  const dispatch = useDispatch();
   const { t } = useLocalization();
   const [currentlyEditingQuestion, setCurrentlyEditingQuestion] =
     useState(undefined);
 
-  const [state, dispatch] = useStore();
   const [subFormikDirty, setSubFormikDirty] = useState(false);
   const [numAddedImages, setNumAddedImages] = useState(0);
 
-  const editMCQ = state.createPost.materialList[editIndex];
+  const editMCQ = materialList[editIndex];
 
   const formik = useFormik({
     initialValues: {
@@ -40,18 +44,14 @@ const AddMCQ = ({ navigation, route }) => {
     onSubmit: (mcq, formikBag) => {
       const submitForm = () => {
         if (editIndex === undefined) {
-          dispatch({
-            type: ReducerActions.addCreateMaterialItem,
-            payload: { ...mcq, type: MaterialTypes.MCQ },
-          });
+          dispatch(addCreateMaterialItem({ ...mcq, type: MaterialTypes.MCQ }));
         } else {
-          dispatch({
-            type: ReducerActions.replaceCreateMaterialItem,
-            payload: {
+          dispatch(
+            replaceCreateMaterialItem({
               index: editIndex,
               material: { ...mcq, type: MaterialTypes.MCQ },
-            },
-          });
+            })
+          );
         }
         navigation.goBack();
       };
@@ -104,10 +104,7 @@ const AddMCQ = ({ navigation, route }) => {
 
       DiscardChangesAlert(t, () => {
         navigation.dispatch(e.data.action);
-        dispatch({
-          type: ReducerActions.removeLastXFromUploadQueue,
-          payload: numAddedImages,
-        });
+        dispatch(removeLastXFromUploadQueue(numAddedImages));
       });
     },
     [formik.dirty, subFormikDirty, formik.isSubmitting]

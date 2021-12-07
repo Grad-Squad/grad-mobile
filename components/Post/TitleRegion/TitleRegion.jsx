@@ -16,12 +16,12 @@ const imageOffset = -25;
 
 const styles = StyleSheet.create({
   profileImage: {
-    borderRadius: 50,
+    borderRadius: 70,
     width: imageWidth,
     height: 70,
 
-    borderWidth: 0.1,
-    borderColor: 'black',
+    // borderWidth: 0.1,
+    // borderColor: 'black',
   },
   imageContainer: {
     position: 'absolute',

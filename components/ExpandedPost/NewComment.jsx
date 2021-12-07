@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import * as yup from 'yup';
 import {
   KeyboardAvoidingView,
@@ -19,25 +19,26 @@ import { Colors } from '../../styles';
 
 const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0;
 
-function NewComment({ profileImageURI, onSubmitHandleFunction }) {
+function NewComment({ initialText, profileImageURI, onSubmit, isLoading }) {
   const { t } = useLocalization();
-  const [isDisabeld, setDisabled] = useState(false);
 
   const formik = useFormik({
     initialValues: {
       commentText: '',
     },
     onSubmit: ({ commentText }) => {
-      onSubmitHandleFunction(commentText);
+      onSubmit(commentText);
     },
     validationSchema: yup.object().shape({
       commentText: comment(t),
     }),
   });
 
-  const onPressHandler = () => {
-    setDisabled(true);
-  };
+  useEffect(() => {
+    if (initialText) {
+      formik.setFieldValue('commentText', initialText, false);
+    }
+  }, [initialText]);
 
   return (
     <View>
@@ -71,7 +72,7 @@ function NewComment({ profileImageURI, onSubmitHandleFunction }) {
           />
 
           <PressableIcon
-            pressableProps={{ disabled: isDisabeld, onClick: onPressHandler }}
+            pressableProps={{ disabled: isLoading }}
             name={IconNames.send}
             size={30}
             color={Colors.black}
@@ -87,12 +88,15 @@ function NewComment({ profileImageURI, onSubmitHandleFunction }) {
 export default NewComment;
 
 NewComment.propTypes = {
-  onSubmitHandleFunction: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   profileImageURI: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
+  initialText: PropTypes.string,
 };
 NewComment.defaultProps = {
   profileImageURI:
     'https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg',
+  initialText: '',
 };
 
 const styles = StyleSheet.create({

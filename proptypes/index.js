@@ -2,6 +2,13 @@ import { CurrentUserStatus } from 'constants';
 import PropTypes from 'prop-types';
 import { Text, ViewPropTypes } from 'react-native';
 
+export const uriPropType = PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired,
+  uri: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+});
+
 export const childrenPropType = PropTypes.oneOfType([
   PropTypes.arrayOf(PropTypes.node),
   PropTypes.node,
@@ -84,13 +91,10 @@ export const stringOrNumberPropType = PropTypes.oneOfType([
 
 export const flashcardPropType = PropTypes.exact({
   id: PropTypes.number.isRequired,
-  frontImage: PropTypes.string.isRequired,
+  frontImage: uriPropType.isRequired,
   frontText: PropTypes.string.isRequired,
   backText: PropTypes.string.isRequired,
-  backImage: PropTypes.string.isRequired,
-
-  // front: PropTypes.string.isRequired,
-  // back: PropTypes.string.isRequired,
+  backImage: uriPropType.isRequired,
 });
 
 export const materialPropType = PropTypes.exact({

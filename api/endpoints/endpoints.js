@@ -4,6 +4,7 @@ export default Object.freeze({
     register: '/auth/register',
     refresh: '/auth/refresh',
     facebookLogin: '/auth/facebook',
+    googleLogin: '/auth/google',
   },
   profile: {
     update: '/profiles/{0}',
@@ -11,6 +12,7 @@ export default Object.freeze({
   },
   posts: {
     post: '/posts/{0}',
+    comment: '/posts/{0}/comments/{1}',
     comments: '/posts/{0}/comments',
     commentByID: '/posts/{0}/comments/{1}',
     commentsPaginated: '/posts/{0}/comments?page={1}&limit={2}',

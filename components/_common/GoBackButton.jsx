@@ -1,47 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { Colors, Constants } from 'styles';
 import { useLocalization } from 'localization';
 import { Icon } from './Icon';
 import { IconNames } from './Icon/Icon';
 import pressableAndroidRipple from './pressableAndroidRipple';
 
-const GoBackButton = ({ onPress }) => {
+const GoBackButton = ({ onPress, otherComponent }) => {
   const { isRTL } = useLocalization();
   return (
-    <Pressable
-      style={styles.backIconContainer}
-      onPress={onPress}
-      android_ripple={pressableAndroidRipple}
-    >
-      <Icon
-        name={isRTL ? IconNames.arrowRight : IconNames.arrowLeft}
-        size={40}
-        color={Colors.black}
-      />
-    </Pressable>
+    <View style={styles.container}>
+      <Pressable
+        style={styles.backIconContainer}
+        onPress={onPress}
+        android_ripple={pressableAndroidRipple}
+      >
+        <Icon
+          name={isRTL ? IconNames.arrowRight : IconNames.arrowLeft}
+          size={40}
+          color={Colors.black}
+          style={styles.backIcon}
+        />
+      </Pressable>
+      {otherComponent && otherComponent}
+    </View>
   );
 };
 
-GoBackButton.propTypes = { onPress: PropTypes.func.isRequired };
-GoBackButton.defaultProps = {};
+GoBackButton.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  otherComponent: PropTypes.element,
+};
+GoBackButton.defaultProps = {
+  otherComponent: undefined,
+};
 
 export default GoBackButton;
 
-const borderWidth = 1;
 const styles = StyleSheet.create({
-  backIconContainer: {
-    position: 'absolute',
-    top: -borderWidth,
-    left: '6.5%',
-
-    paddingTop: 1 * Constants.fromScreenStartPadding + 7,
-    padding: 5,
-
-    borderWidth,
-    borderColor: Colors.black,
-    borderBottomLeftRadius: 7,
-    borderBottomRightRadius: 7,
+  container: {
+    // backgroundColor: '#a0a0a0',
+    flexDirection: 'row',
+    alignItems: 'center',
+    // justifyContent: 'space-',
   },
+  backIconContainer: {
+    width: 40 + Constants.commonMargin,
+    padding: Constants.commonMargin / 2,
+    paddingVertical: Constants.commonMargin / 5,
+    // paddingVertical: 0,
+    alignSelf: 'flex-start',
+    // borderWidth,
+  },
+  backIcon: {},
 });

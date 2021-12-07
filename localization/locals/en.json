@@ -294,5 +294,12 @@
       "Followers": "Followers"
     },
     "Followers": "Followers"
+  },
+  "Flashcards": {
+    "Tap anywhere to show answer": "Tap anywhere to show answer",
+    "Hard": "Hard",
+    "Easy": "Easy",
+    "Swipe easy": "Swipe right",
+    "Swipe hard": "Swipe left"
   }
 }

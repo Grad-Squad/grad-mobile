@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import { useAxios } from 'api/AxiosProvider';
 import { formatString } from 'utility';
 import endpoints from './endpoints';
@@ -60,4 +60,15 @@ export const useAPIGetProfileById = (profileId, options) => {
     },
     options
   );
+};
+
+export const useFollowProfile = (mutationConfig) => {
+  const { axios } = useAxios();
+  return useMutation(async (profileId) => {
+    const { data } = await axios.post(
+      formatString(endpoints.profile.followProfile, profileId)
+    );
+
+    return data;
+  }, mutationConfig);
 };

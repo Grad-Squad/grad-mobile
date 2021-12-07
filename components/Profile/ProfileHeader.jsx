@@ -14,6 +14,7 @@ import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import { AssetsConstants } from 'constants';
 import { useStore } from 'globalStore/GlobalStore';
 import ProfileContext from './ProfileContext';
+import { useFollowProfile } from 'api/endpoints/profile';
 
 const NumBox = ({ title, number, onPress }) => (
   <View style={styles.numBox}>
@@ -43,6 +44,7 @@ NumBox.defaultProps = {
 const ProfileHeader = ({ navigation, profile }) => {
   const { t } = useLocalization();
   const [isFollowed, setIsFollowed] = useState(profile.isFollowed);
+  const followProfileMutation = useFollowProfile();
   const [state] = useStore();
   const { offset } = useContext(ProfileContext);
   const { uri: profilePictureUri = 'error' } = profile.profilePicture;
@@ -55,7 +57,7 @@ const ProfileHeader = ({ navigation, profile }) => {
   //   extrapolate: 'clamp',
   // });
 
-  const followButton = state.isFollowed ? (
+  const followButton = isFollowed ? (
     <SecondaryActionButton
       onPress={() => setIsFollowed(false)}
       text={t('Profile/Unfollow')}
@@ -63,7 +65,10 @@ const ProfileHeader = ({ navigation, profile }) => {
     />
   ) : (
     <MainActionButton
-      onPress={() => setIsFollowed(true)}
+      onPress={() => {
+        setIsFollowed(true);
+        // followProfileMutation.mutate(profile.id);
+      }}
       text={t('Profile/Follow')}
       style={styles.followBtn}
     />

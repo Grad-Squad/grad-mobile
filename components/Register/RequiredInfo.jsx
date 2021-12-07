@@ -85,7 +85,7 @@ const RequiredInfo = ({ navigation }) => {
       </TextInputGroup>
 
       <WhiteButton
-        // disabled={registerMutation.status === 'loading'}
+        disabled={registerMutation.status === 'loading'}
         text={t('Register/CONTINUE')}
         onPress={onContinueClick}
       />

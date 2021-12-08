@@ -1,11 +1,14 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import EduText from 'common/EduText';
 import LoadingIndicator from 'common/LoadingIndicator';
-import { apiFeedQueryKey, useAPIDeletePost, useAPIGetPostById } from 'api/endpoints/posts';
+import {
+  apiFeedQueryKey,
+  useAPIDeletePost,
+  useAPIGetPostById,
+} from 'api/endpoints/posts';
 import { useLocalization } from 'localization';
-import { Colors, Constants, Styles } from 'styles';
 import PostContentList from 'common/Post/PostContentList';
 import { formatDate } from 'utility';
 import GoBackButton from 'common/GoBackButton';
@@ -14,16 +17,19 @@ import FooterRegion from 'components/Post/FooterRegion';
 import PostDeletionAlert from 'components/Post/PostDeletionAlert';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import ScreenNames from 'navigation/ScreenNames';
+
 import AuthorInfo from './AuthorInfo';
+import ExpandedPostContentSkeleton from './ExpandedPostContentSkeleton';
+import styles from './ExpandedPostContentStyles';
 
 const ExpandedPostContent = ({ navigation, postId }) => {
   const { t } = useLocalization();
   const { data: post, isLoading, isError } = useAPIGetPostById(postId);
-  const deletePostMutation = useAPIDeletePost(postId,{
+  const deletePostMutation = useAPIDeletePost(postId, {
     onSuccess: () => {
       // ? success message
-      queryClient.invalidateQueries(apiFeedQueryKey)
-      navigation.navigate(ScreenNames.HOME)
+      queryClient.invalidateQueries(apiFeedQueryKey);
+      navigation.navigate(ScreenNames.HOME);
     },
   });
   const upvotePercentage = useMemo(
@@ -34,6 +40,10 @@ const ExpandedPostContent = ({ navigation, postId }) => {
         : 0,
     [post]
   );
+
+  if (isLoading) {
+    return <ExpandedPostContentSkeleton navigation={navigation} />;
+  }
 
   return (
     <>
@@ -84,7 +94,7 @@ const ExpandedPostContent = ({ navigation, postId }) => {
           isPost
           onEdit={() => {}}
           onDelete={() => {
-            PostDeletionAlert(t,() => deletePostMutation.mutate());
+            PostDeletionAlert(t, () => deletePostMutation.mutate());
           }}
           contentProfileId={post.author.id}
         />
@@ -100,48 +110,3 @@ ExpandedPostContent.propTypes = {
 ExpandedPostContent.defaultProps = {};
 
 export default ExpandedPostContent;
-
-const styles = StyleSheet.create({
-  couldNotGetPostError: {
-    ...Styles.errorText,
-    textAlign: 'center',
-    fontSize: 30,
-    marginTop: 'auto',
-    marginBottom: 'auto',
-  },
-  postTitle: {
-    fontSize: 22,
-  },
-  outerContainer: {
-    ...Styles.dropShadow,
-    borderColor: Colors.border,
-    backgroundColor: Colors.cardBody,
-    paddingHorizontal: 15,
-    paddingBottom: 5,
-    paddingTop: Constants.fromScreenStartPadding,
-
-    minHeight: 225,
-  },
-  innerContainer: {
-    flexDirection: 'row',
-    // flex: 1,
-  },
-  contentContainer: {
-    flex: 1,
-  },
-  extraInfo: {
-    marginLeft: 'auto',
-  },
-  extraInfoText: {
-    fontSize: 9.5,
-    textAlign: 'right',
-  },
-  footerContainer: {
-    alignSelf: 'center',
-    width: '90%',
-  },
-  header: {
-    fontSize: 22,
-    flexShrink: 1,
-  },
-});

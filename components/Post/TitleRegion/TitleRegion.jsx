@@ -14,7 +14,7 @@ import { BASIC_5V_HIT_SLOP_OBJECT } from 'constants';
 const imageWidth = 70;
 const imageOffset = -25;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   profileImage: {
     borderRadius: 70,
     width: imageWidth,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderRightWidth: 0.1,
     borderBottomWidth: 0.1,
-    borderColor: 'rgba(0 ,0 , 0,0.5)',
+    borderColor: Colors.background,
     backgroundColor: Colors.background,
   },
   outerContainer: {

@@ -7,6 +7,7 @@ import {
   PlaceholderLine,
   PlaceholderMedia,
 } from 'rn-placeholder';
+import DarkFade from 'common/skeleton/DarkFade';
 import { styles } from './Comment';
 
 const CommentSkeleton = () => (
@@ -20,26 +21,13 @@ const CommentSkeleton = () => (
     <View style={styles.outerContainer}>
       <View>
         <View style={styles.imageContainer}>
-          <Placeholder
-            Animation={(props) => (
-              // eslint-disable-next-line react/jsx-props-no-spreading
-              <Fade {...props} style={{ backgroundColor: Colors.cgrey }} />
-            )}
-          >
+          <Placeholder Animation={DarkFade}>
             <PlaceholderMedia isRound style={styles.profileImage} />
           </Placeholder>
         </View>
         <View style={styles.innerContainer}>
           <View>
-            <Placeholder
-              Animation={(props) => (
-                <Fade
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  {...props}
-                  style={{ backgroundColor: Colors.cgrey }}
-                />
-              )}
-            >
+            <Placeholder Animation={DarkFade}>
               <PlaceholderLine />
               <PlaceholderLine />
               <PlaceholderLine width={40} />

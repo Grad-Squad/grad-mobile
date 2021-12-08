@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
 import { useAxios } from 'api/AxiosProvider';
 import { formatString } from 'utility';
 import endpoints from './endpoints';
@@ -20,7 +20,7 @@ export const useAPIGetProfileFollowers = (profileId) => {
       // );
       // return data;
       const profiles = [];
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 20; i += 1) {
         profiles.push({
           id: i,
           createdAt: '2021-09-26T17:49:56.650Z',
@@ -43,4 +43,32 @@ export const useAPIGetProfileFollowers = (profileId) => {
     },
     { getNextPageParam: (lastPage) => lastPage.nextPage }
   );
+};
+
+export const useAPIGetProfileById = (profileId, options) => {
+  const { axios } = useAxios();
+  return useQuery(
+    ['profile by id', profileId],
+    async () => {
+      const { data } = await axios.get(
+        formatString(endpoints.profile.profileById, profileId)
+      );
+      data.numPosts = -123;
+      data.numFollowers = -100;
+      data.isFollowed = true;
+      return data;
+    },
+    options
+  );
+};
+
+export const useFollowProfile = (mutationConfig) => {
+  const { axios } = useAxios();
+  return useMutation(async (profileId) => {
+    const { data } = await axios.post(
+      formatString(endpoints.profile.followProfile, profileId)
+    );
+
+    return data;
+  }, mutationConfig);
 };

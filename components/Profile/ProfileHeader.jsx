@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import { Image, StyleSheet, View, Animated, Pressable } from 'react-native';
-import { navigationPropType } from 'proptypes';
+import { fullProfilePropType, navigationPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import GoBackButton from 'common/GoBackButton';
 import EduText from 'common/EduText';
@@ -11,7 +11,10 @@ import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import ScreenNames from 'navigation/ScreenNames';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
+import { AssetsConstants } from 'constants';
+import { useStore } from 'globalStore/GlobalStore';
 import ProfileContext from './ProfileContext';
+import { useFollowProfile } from 'api/endpoints/profile';
 
 const NumBox = ({ title, number, onPress }) => (
   <View style={styles.numBox}>
@@ -41,7 +44,10 @@ NumBox.defaultProps = {
 const ProfileHeader = ({ navigation, profile }) => {
   const { t } = useLocalization();
   const [isFollowed, setIsFollowed] = useState(profile.isFollowed);
+  const followProfileMutation = useFollowProfile();
+  const [state] = useStore();
   const { offset } = useContext(ProfileContext);
+  const { uri: profilePictureUri = 'error' } = profile.profilePicture;
   // const [height, setHeight] = useState(0);
   const [height, setHeight] = useState(0);
 
@@ -59,20 +65,25 @@ const ProfileHeader = ({ navigation, profile }) => {
     />
   ) : (
     <MainActionButton
-      onPress={() => setIsFollowed(true)}
+      onPress={() => {
+        setIsFollowed(true);
+        // followProfileMutation.mutate(profile.id);
+      }}
       text={t('Profile/Follow')}
       style={styles.followBtn}
     />
   );
 
+  const isProfileOwner = state.profileId === profile.id;
   const rightHeader = (
     <View style={styles.rightHeader}>
       <View style={styles.centerProfile}>
         <Image
           style={styles.profileImage}
           source={{
-            uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
+            uri: profilePictureUri,
           }}
+          defaultSource={AssetsConstants.images.defaultProfile}
         />
         <EduText style={styles.role}>
           {profile.role[0].toLocaleUpperCase() + profile.role.slice(1)}
@@ -82,19 +93,24 @@ const ProfileHeader = ({ navigation, profile }) => {
         <View style={styles.NumBoxesRow}>
           <NumBox
             title={t('Profile/Header/Followers')}
-            number={123}
+            number={profile?.numFollowers}
             onPress={() =>
               navigation.navigate(ScreenNames.FOLLOWERS, {
                 profileId: profile.id,
               })
             }
           />
-          <NumBox title={t('Profile/Header/Posts')} number={1123} />
+          <NumBox
+            title={t('Profile/Header/Posts')}
+            number={profile?.numPosts}
+          />
         </View>
-        <View style={[styles.row, styles.followBtnContainer]}>
-          {followButton}
-          <Icon name={IconNames.dotsVertical} />
-        </View>
+        {!isProfileOwner && (
+          <View style={[styles.row, styles.followBtnContainer]}>
+            {followButton}
+            <Icon name={IconNames.dotsVertical} />
+          </View>
+        )}
       </View>
     </View>
   );
@@ -158,18 +174,7 @@ const ProfileHeader = ({ navigation, profile }) => {
 
 ProfileHeader.propTypes = {
   navigation: navigationPropType.isRequired,
-  profile: PropTypes.exact({
-    id: PropTypes.number.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    updatedAt: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    role: PropTypes.string.isRequired,
-    profilePicture: PropTypes.string.isRequired,
-    biography: PropTypes.string.isRequired,
-    numFollowers: PropTypes.number.isRequired,
-    numPosts: PropTypes.number.isRequired,
-    isFollowed: PropTypes.bool.isRequired,
-  }).isRequired,
+  profile: fullProfilePropType.isRequired,
 };
 ProfileHeader.defaultProps = {};
 
@@ -180,6 +185,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     flexGrow: 1,
+    alignItems: 'center',
   },
   row: {
     flexDirection: 'row',

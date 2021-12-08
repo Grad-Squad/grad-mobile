@@ -134,3 +134,16 @@ export const postPropType = PropTypes.exact({
   commentCount: PropTypes.number.isRequired,
   materials: materialsPropType.isRequired,
 });
+
+export const fullProfilePropType = PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
+  profilePicture: uriPropType.isRequired,
+  biography: PropTypes.string.isRequired,
+  numFollowers: PropTypes.number.isRequired,
+  numPosts: PropTypes.number.isRequired,
+  isFollowed: PropTypes.bool.isRequired,
+});

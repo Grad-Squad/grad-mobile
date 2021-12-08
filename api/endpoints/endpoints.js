@@ -7,8 +7,11 @@ export default Object.freeze({
     googleLogin: '/auth/google',
   },
   profile: {
+    profileById: '/profiles/{0}',
     update: '/profiles/{0}',
     followers: '/profiles/{0}/followers',
+    postsByProfileId: '/profiles/{0}/posts',
+    followProfile: '/profiles/follow/{0}',
   },
   posts: {
     post: '/posts/{0}',

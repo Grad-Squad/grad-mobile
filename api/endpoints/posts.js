@@ -36,12 +36,15 @@ export const useAPIGetComments = (postID) => {
   return useInfiniteQuery(
     [getCommentsKey, postID],
     async ({ pageParam = 1 }) => {
-      const { data } = await axios.get(formatString(endpoints.posts.comments, postID), {
-        params: {
-          page: pageParam,
-          limit: 7,
-        },
-      });
+      const { data } = await axios.get(
+        formatString(endpoints.posts.comments, postID),
+        {
+          params: {
+            page: pageParam,
+            limit: 7,
+          },
+        }
+      );
       return data;
     },
     { getNextPageParam: (lastPage) => lastPage.nextPage }
@@ -91,6 +94,27 @@ export const useAPIFeed = () => {
   );
 };
 
+export const getApiProfileFeedQueryKey = (profileId) => ['feed', profileId];
+export const useAPIFeedByProfileId = (profileId, options) => {
+  const { axios } = useAxios();
+  return useInfiniteQuery(
+    getApiProfileFeedQueryKey(profileId),
+    async ({ pageParam = 1 }) => {
+      const { data } = await axios.get(
+        formatString(endpoints.profile.postsByProfileId, profileId),
+        {
+          params: {
+            page: pageParam,
+            limit: 7,
+          },
+        }
+      );
+      return data;
+    },
+    { getNextPageParam: (lastPage) => lastPage.nextPage, ...options }
+  );
+};
+
 export const useAPIGetPostById = (postId, options) => {
   const { axios } = useAxios();
   return useQuery(
@@ -101,30 +125,26 @@ export const useAPIGetPostById = (postId, options) => {
       );
       return data;
     },
-options
+    options
   );
 };
 
 export const useAPIDeleteComment = (postID, commentId, options) => {
   const { axios } = useAxios();
   return useMutation(async () => {
-      const { data } = await axios.delete(
-        formatString(endpoints.posts.commentByID, postID ,commentId)
-      );
-      return data;
-    },
-    options
-  );
+    const { data } = await axios.delete(
+      formatString(endpoints.posts.commentByID, postID, commentId)
+    );
+    return data;
+  }, options);
 };
 
 export const useAPIDeletePost = (postID, options) => {
   const { axios } = useAxios();
   return useMutation(async () => {
-      const { data } = await axios.delete(
-        formatString(endpoints.posts.post, postID)
-      );
-      return data;
-    },
-    options
-  );
+    const { data } = await axios.delete(
+      formatString(endpoints.posts.post, postID)
+    );
+    return data;
+  }, options);
 };

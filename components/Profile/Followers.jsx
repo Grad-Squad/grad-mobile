@@ -13,6 +13,7 @@ import {
   useAPIGetProfileFollowers,
 } from 'api/endpoints/profile';
 import FollowerCard from './FollowerCard';
+import FollowerCardSkeleton from './FollowerCardSkeleton';
 
 const Followers = ({ navigation, route }) => {
   const { profileId } = route.params;
@@ -44,6 +45,16 @@ const Followers = ({ navigation, route }) => {
         errorLocalizationKey="Followers/Error: Couldn't Load Followers"
         noItemsLocalizationKey="Followers/This Account does not have any followers!"
         hideNothingLeftToShow
+        SkeletonComponent={() => (
+          <>
+            {Array(10)
+              .fill()
+              .map((_, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <FollowerCardSkeleton key={index + 1} />
+              ))}
+          </>
+        )}
       />
     </Page>
   );

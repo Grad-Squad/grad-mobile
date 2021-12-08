@@ -5,14 +5,17 @@ import EduText from 'common/EduText';
 import { Constants, Fonts } from 'styles';
 import { MainActionButton, TransparentButton } from 'common/Input/Button';
 import { useLocalization } from 'localization';
-import { navigationPropType } from 'proptypes';
+import { navigationPropType, uriPropType } from 'proptypes';
 import ScreenNames from 'navigation/ScreenNames';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
+import { AssetsConstants } from 'constants';
 
 const FollowerCard = ({ navigation, profile, onFollow, onUnfollow }) => {
   const { t } = useLocalization();
   const navToProfile = () =>
     navigation.push(ScreenNames.PROFILE, { profileId: profile.id });
+  const { uri: profilePictureUri = 'error' } =
+    profile?.profilePicture || 'error';
 
   return (
     <View style={[styles.row, styles.container]}>
@@ -20,8 +23,9 @@ const FollowerCard = ({ navigation, profile, onFollow, onUnfollow }) => {
         <Image
           style={styles.profileImage}
           source={{
-            uri: profile.profilePicture,
+            uri: profilePictureUri,
           }}
+          defaultSource={AssetsConstants.images.defaultProfile}
         />
       </Pressable>
       <Pressable
@@ -61,8 +65,9 @@ FollowerCard.propTypes = {
     updatedAt: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     role: PropTypes.string.isRequired,
-    profilePicture: PropTypes.string.isRequired,
+    profilePicture: uriPropType,
     isFollowed: PropTypes.bool.isRequired,
+    isOwner: PropTypes.bool.isRequired,
   }).isRequired,
   onFollow: PropTypes.func.isRequired,
   onUnfollow: PropTypes.func.isRequired,

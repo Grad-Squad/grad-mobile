@@ -60,7 +60,7 @@ PostsContainer.propTypes = {
   onScroll: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({})]),
 };
 PostsContainer.defaultProps = {
-  onScroll: () => {},
+  onScroll: undefined,
 };
 
 export default PostsContainer;

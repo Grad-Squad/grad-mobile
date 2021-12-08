@@ -105,7 +105,7 @@ PaginatedFlatList.propTypes = {
   noItemsLocalizationKey: PropTypes.string,
   contentContainerStyle: stylePropType,
   hideNothingLeftToShow: PropTypes.bool,
-  onScroll: PropTypes.shape({}),
+  onScroll: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({})]),
   initialNumToRender: PropTypes.number,
   SkeletonComponent: PropTypes.element,
 };

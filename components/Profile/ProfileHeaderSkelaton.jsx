@@ -8,7 +8,7 @@ import {
   PlaceholderLine,
   PlaceholderMedia,
 } from 'rn-placeholder';
-import { Constants } from 'styles';
+import { Colors, Constants } from 'styles';
 
 const ProfileHeaderLoading = ({ navigation }) => (
   <View style={styles.container}>
@@ -16,17 +16,8 @@ const ProfileHeaderLoading = ({ navigation }) => (
       onPress={() => {
         navigation.goBack();
       }}
-      otherComponent={
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          <Placeholder Animation={Fade} style={{ height: 24, width: '100%' }}>
-            <PlaceholderLine width={60} height={24} />
-          </Placeholder>
-        </View>
-      }
+      isPlaceholder
+      placeholderAnimStyle={{ backgroundColor: Colors.cgrey }}
     />
     <Placeholder
       Animation={Fade}

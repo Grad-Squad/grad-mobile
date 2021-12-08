@@ -301,5 +301,9 @@
     "Easy": "Easy",
     "Swipe easy": "Swipe right",
     "Swipe hard": "Swipe left"
+  },
+  "Followers": {
+    "Error: Couldn't Load Followers": "Error: Couldn't Load Followers",
+    "This Account does not have any followers!": "This Account does not have any followers!"
   }
 }

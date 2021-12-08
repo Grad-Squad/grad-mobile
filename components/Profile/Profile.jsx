@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import { Animated, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
@@ -8,16 +8,12 @@ import { useAPIGetProfileById } from 'api/endpoints/profile';
 import ProfileHeader from './ProfileHeader';
 import ProfileTabNav from './ProfileTabNav';
 import ProfileContext from './ProfileContext';
+import ProfileHeaderLoading from './ProfileHeaderSkelaton';
 
 const Profile = ({ navigation, route }) => {
   const { profileId } = route.params;
   const offset = useRef(new Animated.Value(0)).current;
   const { data: profile, isLoading } = useAPIGetProfileById(profileId);
-
-  if (isLoading) {
-    return <View />;
-  }
-
   return (
     <Page style={styles.profilePadding}>
       <ProfileContext.Provider
@@ -26,7 +22,12 @@ const Profile = ({ navigation, route }) => {
           profileId,
         }}
       >
-        <ProfileHeader navigation={navigation} profile={profile} />
+        {isLoading ? (
+          <ProfileHeaderLoading navigation={navigation} />
+        ) : (
+          <ProfileHeader navigation={navigation} profile={profile} />
+        )}
+
         <ProfileTabNav />
       </ProfileContext.Provider>
     </Page>

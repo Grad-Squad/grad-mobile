@@ -36,10 +36,10 @@ function Post({
 }) {
   const { t } = useLocalization();
   const navigation = useNavigation();
-  const deletePostMutation = useAPIDeletePost(id,{
+  const deletePostMutation = useAPIDeletePost(id, {
     onSuccess: () => {
       // ? deleted successfully message
-      queryClient.invalidateQueries(apiFeedQueryKey)
+      queryClient.invalidateQueries(apiFeedQueryKey);
     },
   });
   const onEdit = () => {
@@ -49,7 +49,7 @@ function Post({
     });
   };
   const onDelete = () => {
-    PostDeletionAlert(t, () => deletePostMutation.mutate())
+    PostDeletionAlert(t, () => deletePostMutation.mutate());
   };
   return (
     <Pressable

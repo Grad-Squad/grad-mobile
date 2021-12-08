@@ -301,5 +301,9 @@
     "Easy": "سهل",
     "Swipe easy": "اسحب لليسار",
     "Swipe hard": "اسحب لليمين"
+  },
+  "Followers": {
+    "Error: Couldn't Load Followers": "خطأ: لا يمكن تحميل المتابعين",
+    "This Account does not have any followers!": "هذا الحساب ليس لديه أي متابعين!"
   }
 }

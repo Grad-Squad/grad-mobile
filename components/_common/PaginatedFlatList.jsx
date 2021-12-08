@@ -20,6 +20,7 @@ const PaginatedFlatList = ({
   hideNothingLeftToShow,
   onScroll,
   initialNumToRender,
+  SkeletonComponent,
   ...props
 }) => {
   const { t } = useLocalization();
@@ -34,65 +35,61 @@ const PaginatedFlatList = ({
     fetchNextPage,
   } = paginatedReactQuery(...paginatedReactQueryParams);
   const flatListItems = useMemo(
-    () => data?.pages.map((page) => page.data).flat(),
+    () => data?.pages?.map((page) => page.data)?.flat() || [],
     [data]
   );
 
   if (isError) {
     return <EduText style={styles.error}>{t(errorLocalizationKey)}</EduText>;
   }
-  if (isLoading) {
-    return <LoadingIndicator large fullScreen />;
-  }
-  if (!flatListItems.length) {
-    return (
-      <EduText style={styles.noItems}>{t(noItemsLocalizationKey)}</EduText>
-    );
-  }
   return (
-    data && (
-      <Animated.FlatList
-        contentContainerStyle={contentContainerStyle}
-        data={flatListItems}
-        onScroll={onScroll}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        refreshControl={
-          !onScroll && (
-            <QueryRefreshControl
-              refetch={() => {
-                queryClient.setQueryData(reactQueryKey, (oldData) => ({
-                  pageParams: [oldData.pageParams[0]],
-                  pages: [oldData.pages[0]],
-                }));
-                refetch();
-              }}
-              isFetching={isFetching}
-              isLoading={isLoading}
-            />
-          )
+    <Animated.FlatList
+      contentContainerStyle={contentContainerStyle}
+      data={flatListItems}
+      onScroll={onScroll}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+      refreshControl={
+        !onScroll && (
+          <QueryRefreshControl
+            refetch={() => {
+              queryClient.setQueryData(reactQueryKey, (oldData) => ({
+                pageParams: [oldData.pageParams[0]],
+                pages: [oldData.pages[0]],
+              }));
+              refetch();
+            }}
+            isFetching={isFetching}
+            isLoading={isLoading}
+          />
+        )
+      }
+      ListEmptyComponent={
+        (isLoading && SkeletonComponent) ||
+        (() => (
+          <EduText style={styles.noItems}>{t(noItemsLocalizationKey)}</EduText>
+        ))
+      }
+      onEndReached={() => {
+        if (hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
         }
-        onEndReached={() => {
-          if (hasNextPage && !isFetchingNextPage) {
-            fetchNextPage();
-          }
-        }}
-        ListFooterComponent={
-          isFetchingNextPage ? (
-            <LoadingIndicator large style={styles.footerLoading} />
-          ) : (
-            !(hasNextPage || hideNothingLeftToShow) && (
-              <EduText style={styles.nothingLeftToShow}>
-                {t('FlatList/Nothing left to show')}
-              </EduText>
-            )
+      }}
+      ListFooterComponent={
+        isFetchingNextPage ? (
+          <LoadingIndicator large style={styles.footerLoading} />
+        ) : (
+          !(hasNextPage || hideNothingLeftToShow) && (
+            <EduText style={styles.nothingLeftToShow}>
+              {t('FlatList/Nothing left to show')}
+            </EduText>
           )
-        }
-        initialNumToRender={initialNumToRender}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...props}
-      />
-    )
+        )
+      }
+      initialNumToRender={initialNumToRender}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+    />
   );
 };
 
@@ -110,6 +107,7 @@ PaginatedFlatList.propTypes = {
   hideNothingLeftToShow: PropTypes.bool,
   onScroll: PropTypes.shape({}),
   initialNumToRender: PropTypes.number,
+  SkeletonComponent: PropTypes.element,
 };
 PaginatedFlatList.defaultProps = {
   paginatedReactQueryParams: [],
@@ -120,6 +118,7 @@ PaginatedFlatList.defaultProps = {
   onScroll: undefined,
 
   initialNumToRender: 5,
+  SkeletonComponent: null,
 };
 
 export default PaginatedFlatList;

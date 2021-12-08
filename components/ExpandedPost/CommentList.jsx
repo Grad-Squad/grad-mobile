@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { useAPIGetComments, getCommentsKey } from 'api/endpoints/posts';
 import PaginatedFlatList from 'common/PaginatedFlatList';
+import CommentSkeleton from 'components/Comment/CommentSkeleton';
 import Comment from '../Comment/Comment';
 
 const CommentList = ({ postID, setCommentToEdit }) => (
@@ -31,6 +32,16 @@ const CommentList = ({ postID, setCommentToEdit }) => (
     errorLocalizationKey="Comment/Error: Couldn't Load Comments"
     noItemsLocalizationKey="Comment/No Comments on this post. Be the first to add a comment!"
     hideNothingLeftToShow
+    SkeletonComponent={
+      <>
+        {Array(6)
+          .fill()
+          .map((_, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <CommentSkeleton key={index + 1} />
+          ))}
+      </>
+    }
   />
 );
 

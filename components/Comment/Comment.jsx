@@ -12,8 +12,14 @@ import { useLocalization } from 'localization';
 import FillLoadingIndicator from 'common/FillLoadingIndicator';
 import { deleteItemInPages } from 'api/util';
 import { ratingPropType } from 'proptypes';
+import {
+  Fade,
+  Placeholder,
+  PlaceholderLine,
+  PlaceholderMedia,
+} from 'rn-placeholder';
 import { formatDate } from '../../utility';
-import { Colors } from '../../styles';
+import { Colors, Constants } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
 import CommentDeletionAlert from './CommentDeletionAlert';
 
@@ -30,6 +36,7 @@ function Comment({
   commentId,
   postId,
   onEdit,
+  isPlaceholder,
 }) {
   const navigation = useNavigation();
 
@@ -45,6 +52,50 @@ function Comment({
       );
     },
   });
+
+  if (isPlaceholder) {
+    return (
+      <View
+        style={{
+          width: '100%',
+          minWidth: '100%',
+          marginBottom: Constants.commonMargin,
+        }}
+      >
+        <View style={styles.outerContainer}>
+          <View>
+            <View style={styles.imageContainer}>
+              <Placeholder
+                Animation={(props) => (
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  <Fade {...props} style={{ backgroundColor: Colors.cgrey }} />
+                )}
+              >
+                <PlaceholderMedia isRound style={styles.profileImage} />
+              </Placeholder>
+            </View>
+            <View style={styles.innerContainer}>
+              <View>
+                <Placeholder
+                  Animation={(props) => (
+                    <Fade
+                      // eslint-disable-next-line react/jsx-props-no-spreading
+                      {...props}
+                      style={{ backgroundColor: Colors.cgrey }}
+                    />
+                  )}
+                >
+                  <PlaceholderLine />
+                  <PlaceholderLine />
+                  <PlaceholderLine width={40} />
+                </Placeholder>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={{ width: '100%', minWidth: '100%' }}>
@@ -77,7 +128,7 @@ function Comment({
                 <EduText style={styles.profileName}>{profileName}</EduText>
               </View>
             </TouchableOpacity>
-            <View style={styles.postTitle}>
+            <View>
               <EduText style={styles.text}>{text}</EduText>
             </View>
           </View>
@@ -112,13 +163,15 @@ Comment.propTypes = {
   commentId: PropTypes.number.isRequired,
   postId: PropTypes.number.isRequired,
   onEdit: PropTypes.func.isRequired,
+  isPlaceholder: PropTypes.bool,
 };
 
 Comment.defaultProps = {
   profileImageURI: undefined,
+  isPlaceholder: false,
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   profileImage: {
     borderRadius: 50,
     width: imageWidth,

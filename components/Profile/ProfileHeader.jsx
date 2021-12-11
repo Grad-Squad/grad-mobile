@@ -17,7 +17,6 @@ import {
   useFollowProfile,
   useUnfollowProfile,
 } from 'api/endpoints/profile';
-import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import { useQueryClient } from 'react-query';
 import ProfileContext from './ProfileContext';
 
@@ -50,11 +49,9 @@ const ProfileHeader = ({ navigation, profile }) => {
   const { t } = useLocalization();
   const queryClient = useQueryClient();
   const [isFollowed, setIsFollowed] = useState(profile.isFollowed);
-  const { showErrorSnackbar } = useErrorSnackbar();
   const followProfileMutation = useFollowProfile({
     onError: () => {
       setIsFollowed(false);
-      showErrorSnackbar('An error has occured: cannot follow user');
     },
     onSuccess: () => {
       queryClient.setQueryData(profileByIdQueryKey(profile.id), (oldData) => ({
@@ -70,8 +67,6 @@ const ProfileHeader = ({ navigation, profile }) => {
   const unfollowProfileMutation = useUnfollowProfile({
     onError: () => {
       setIsFollowed(true);
-
-      showErrorSnackbar('An error has occured: cannot unfollow user');
     },
     onSuccess: () => {
       queryClient.setQueryData(profileByIdQueryKey(profile.id), (oldData) => ({

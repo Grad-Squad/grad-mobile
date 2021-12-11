@@ -1,16 +1,22 @@
 import React from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import PaginatedFlatList from 'common/PaginatedFlatList';
 import PropTypes from 'prop-types';
 import { stringOrNumberPropType } from 'proptypes';
 import Post from './Post';
+import PostSkeleton from './PostSkeleton';
 
-const PostsContainer = ({ reactQueryKey, paginatedReactQuery, onScroll }) => (
+const PostsContainer = ({
+  reactQueryKey,
+  paginatedReactQuery,
+  onScroll,
+  ...PaginatedFlatListParams
+}) => (
   <PaginatedFlatList
     contentContainerStyle={styles.feedList}
     paginatedReactQuery={paginatedReactQuery}
     reactQueryKey={reactQueryKey}
-    onScroll={onScroll}
+    onScroll={onScroll && onScroll}
     renderItem={
       ({
         item: { title, author, rating, createdAt, id, commentCount, materials },
@@ -30,6 +36,18 @@ const PostsContainer = ({ reactQueryKey, paginatedReactQuery, onScroll }) => (
       // )
     }
     errorLocalizationKey="Feed/Error:Couldn't load posts"
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    {...PaginatedFlatListParams}
+    SkeletonComponent={
+      <>
+        {Array(4)
+          .fill()
+          .map((_, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <PostSkeleton key={index + 1} />
+          ))}
+      </>
+    }
   />
 );
 
@@ -39,9 +57,11 @@ PostsContainer.propTypes = {
     PropTypes.string.isRequired,
     PropTypes.arrayOf(stringOrNumberPropType).isRequired,
   ]).isRequired,
-  onScroll: PropTypes.shape({}),
+  onScroll: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({})]),
 };
-PostsContainer.defaultProps = {};
+PostsContainer.defaultProps = {
+  onScroll: undefined,
+};
 
 export default PostsContainer;
 

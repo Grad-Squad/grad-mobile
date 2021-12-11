@@ -11,13 +11,16 @@ import { IconNames } from 'common/Icon/Icon';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { materialTitle } from 'validation';
-import { useStore } from 'globalStore/GlobalStore';
-import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import * as DocumentPicker from 'expo-document-picker';
-import ReducerActions from 'globalStore/ReducerActions';
 import { MaterialTypes } from 'constants';
 import { routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addCreateMaterialItem,
+  replaceCreateMaterialItem,
+} from 'globalStore/createPostSlice';
+import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import AddDocument from '../AddDocument';
 import PreviewDocument from './PreviewDocument';
 
@@ -27,9 +30,10 @@ const AddPDF = ({ route }) => {
   const { t } = useLocalization();
   const navigation = useNavigation();
 
-  const [state, dispatch] = useStore();
+  const materialList = useSelector((state) => state.createPost.materialList);
+  const dispatch = useDispatch();
 
-  const editPdf = state.createPost.materialList[editIndex];
+  const editPdf = materialList[editIndex];
 
   const formik = useFormik({
     initialValues: {
@@ -39,18 +43,14 @@ const AddPDF = ({ route }) => {
     },
     onSubmit: (pdf) => {
       if (editIndex === undefined) {
-        dispatch({
-          type: ReducerActions.addCreateMaterialItem,
-          payload: { ...pdf, type: MaterialTypes.PDF },
-        });
+        dispatch(addCreateMaterialItem({ ...pdf, type: MaterialTypes.PDF }));
       } else {
-        dispatch({
-          type: ReducerActions.replaceCreateMaterialItem,
-          payload: {
+        dispatch(
+          replaceCreateMaterialItem({
             index: editIndex,
             material: { ...pdf, type: MaterialTypes.PDF },
-          },
-        });
+          })
+        );
       }
       navigation.goBack();
     },

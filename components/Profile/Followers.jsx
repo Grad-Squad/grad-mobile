@@ -13,39 +13,43 @@ import {
   useAPIGetProfileFollowers,
 } from 'api/endpoints/profile';
 import FollowerCard from './FollowerCard';
+import FollowerCardSkeleton from './FollowerCardSkeleton';
 
 const Followers = ({ navigation, route }) => {
   const { profileId } = route.params;
   const { t } = useLocalization();
-  // todo axios get profile stuff
   return (
-    <Page>
+    <Page style={styles.container}>
       <GoBackButton
         onPress={() => {
           navigation.goBack();
         }}
+        otherComponent={
+          <EduText style={styles.titleText}>{t('Profile/Followers')}</EduText>
+        }
       />
-      <View style={styles.title}>
-        <EduText style={styles.titleText}>{t('Profile/Followers')}</EduText>
-      </View>
-
       <PaginatedFlatList
         contentContainerStyle={styles.container}
         paginatedReactQuery={useAPIGetProfileFollowers}
         paginatedReactQueryParams={[profileId]}
-        reactQueryKey={[getFollowersKey, profileId]}
+        reactQueryKey={getFollowersKey(profileId)}
         renderItem={({ item }) => (
-          <FollowerCard
-            profile={item}
-            onFollow={() => {}}
-            onUnFollow={() => {}}
-            navigation={navigation}
-          />
+          <FollowerCard profile={item} navigation={navigation} />
         )}
         ItemSeparatorComponent={() => <View style={styles.cardsSeparator} />}
-        errorLocalizationKey="Comment/Error: Couldn't Load Comments"
-        noItemsLocalizationKey="Comment/No Comments on this post. Be the first to add a comment!"
+        errorLocalizationKey="Followers/Error: Couldn't Load Followers"
+        noItemsLocalizationKey="Followers/This Account does not have any followers!"
         hideNothingLeftToShow
+        SkeletonComponent={() => (
+          <>
+            {Array(10)
+              .fill()
+              .map((_, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <FollowerCardSkeleton key={index + 1} />
+              ))}
+          </>
+        )}
       />
     </Page>
   );
@@ -74,5 +78,8 @@ const styles = StyleSheet.create({
   },
   cardsSeparator: {
     margin: Constants.commonMargin / 4,
+  },
+  container: {
+    paddingTop: Constants.fromScreenStartPadding,
   },
 });

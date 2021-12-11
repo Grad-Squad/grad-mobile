@@ -1,13 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  View,
-  Animated,
-  Pressable,
-} from 'react-native';
-import { navigationPropType } from 'proptypes';
+import React, { useContext, useRef, useState } from 'react';
+import { Image, StyleSheet, View, Animated, Pressable } from 'react-native';
+import { fullProfilePropType, navigationPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import GoBackButton from 'common/GoBackButton';
 import EduText from 'common/EduText';
@@ -18,6 +11,13 @@ import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import ScreenNames from 'navigation/ScreenNames';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
+import { AssetsConstants } from 'constants';
+import {
+  profileByIdQueryKey,
+  useFollowProfile,
+  useUnfollowProfile,
+} from 'api/endpoints/profile';
+import { useQueryClient } from 'react-query';
 import ProfileContext from './ProfileContext';
 
 const NumBox = ({ title, number, onPress }) => (
@@ -47,8 +47,45 @@ NumBox.defaultProps = {
 // const HEIGHT = Dimensions.get('window').height * 0.4;
 const ProfileHeader = ({ navigation, profile }) => {
   const { t } = useLocalization();
+  const queryClient = useQueryClient();
   const [isFollowed, setIsFollowed] = useState(profile.isFollowed);
+  const followProfileMutation = useFollowProfile({
+    onError: () => {
+      setIsFollowed(false);
+    },
+    onSuccess: () => {
+      queryClient.setQueryData(profileByIdQueryKey(profile.id), (oldData) => ({
+        ...oldData,
+        isFollowed: true,
+        _count: {
+          ...oldData._count,
+          following: oldData._count.following + 1,
+        },
+      }));
+    },
+  });
+  const unfollowProfileMutation = useUnfollowProfile({
+    onError: () => {
+      setIsFollowed(true);
+    },
+    onSuccess: () => {
+      queryClient.setQueryData(profileByIdQueryKey(profile.id), (oldData) => ({
+        ...oldData,
+        isFollowed: false,
+        _count: {
+          ...oldData._count,
+          following: oldData._count.following - 1,
+        },
+      }));
+    },
+  });
+
+  const followMutationLoading =
+    followProfileMutation.isLoading || unfollowProfileMutation.isLoading;
+
   const { offset } = useContext(ProfileContext);
+  const { uri: profilePictureUri = 'error' } =
+    profile?.profilePicture || 'error';
   // const [height, setHeight] = useState(0);
   const [height, setHeight] = useState(0);
 
@@ -58,24 +95,65 @@ const ProfileHeader = ({ navigation, profile }) => {
   //   extrapolate: 'clamp',
   // });
 
+  const followButton = isFollowed ? (
+    <SecondaryActionButton
+      onPress={() => {
+        setIsFollowed(false);
+        unfollowProfileMutation.mutate(profile?.id);
+      }}
+      text={t('Profile/Unfollow')}
+      style={styles.followBtn}
+      disabled={followMutationLoading}
+    />
+  ) : (
+    <MainActionButton
+      onPress={() => {
+        setIsFollowed(true);
+        followProfileMutation.mutate(profile?.id);
+      }}
+      text={t('Profile/Follow')}
+      style={styles.followBtn}
+      disabled={followMutationLoading}
+    />
+  );
+
   const rightHeader = (
     <View style={styles.rightHeader}>
-      <Image
-        style={styles.profileImage}
-        source={{
-          uri: 'https://cdn.discordapp.com/attachments/810207976232976446/873648416113192980/unknown.png',
-        }}
-      />
-      <NumBox
-        title={t('Profile/Header/Followers')}
-        number={123}
-        onPress={() =>
-          navigation.navigate(ScreenNames.FOLLOWERS, {
-            profileId: profile.id,
-          })
-        }
-      />
-      <NumBox title={t('Profile/Header/Posts')} number={1123} />
+      <View style={styles.centerProfile}>
+        <Image
+          style={styles.profileImage}
+          source={{
+            uri: profilePictureUri,
+          }}
+          defaultSource={AssetsConstants.images.defaultProfile}
+        />
+        <EduText style={styles.role}>
+          {profile.role[0].toLocaleUpperCase() + profile.role.slice(1)}
+        </EduText>
+      </View>
+      <View style={styles.statsContainer}>
+        <View style={styles.NumBoxesRow}>
+          <NumBox
+            title={t('Profile/Header/Followers')}
+            number={profile?._count?.following}
+            onPress={() =>
+              navigation.navigate(ScreenNames.FOLLOWERS, {
+                profileId: profile.id,
+              })
+            }
+          />
+          <NumBox
+            title={t('Profile/Header/Posts')}
+            number={profile?._count?.posts}
+          />
+        </View>
+        {!profile.isOwner && (
+          <View style={[styles.row, styles.followBtnContainer]}>
+            {followButton}
+            <Icon name={IconNames.dotsVertical} />
+          </View>
+        )}
+      </View>
     </View>
   );
 
@@ -94,19 +172,6 @@ const ProfileHeader = ({ navigation, profile }) => {
     scaleYNumber.current = value;
   });
 
-  const followButton = isFollowed ? (
-    <SecondaryActionButton
-      onPress={() => setIsFollowed(false)}
-      text={t('Profile/Unfollow')}
-      style={styles.followBtn}
-    />
-  ) : (
-    <MainActionButton
-      onPress={() => setIsFollowed(true)}
-      text={t('Profile/Follow')}
-      style={styles.followBtn}
-    />
-  );
   return (
     <Animated.View
       onLayout={(event) => {
@@ -115,11 +180,8 @@ const ProfileHeader = ({ navigation, profile }) => {
         }
       }}
       style={[
-        // height && {
-        //   height: translateY,
-        // },
+        styles.container,
         {
-          backgroundColor: '#ff000050',
           transform: [
             { translateY },
             { scale: scaleYNumber.current },
@@ -133,71 +195,46 @@ const ProfileHeader = ({ navigation, profile }) => {
         onPress={() => {
           navigation.goBack();
         }}
+        otherComponent={<EduText style={[styles.name]}>{profile.name}</EduText>}
       />
-      <View style={[styles.row, styles.container]}>
-        <View
-          style={[
-            styles.leftHeader,
-            !profile.biography && styles.leftHeaderCenter,
-          ]}
-        >
-          <View style={[styles.row, styles.nameContainer]}>
-            <View>
-              <EduText numberOfLines={1} style={styles.name}>
-                {profile.name}
-              </EduText>
-              <EduText style={styles.role}>{profile.role}</EduText>
-            </View>
-          </View>
+      {rightHeader}
+
+      {!!profile.biography && (
+        <View style={[styles.leftHeaderCenter]}>
           <EduText
             numberOfLines={4}
             style={styles.biography}
             placeholder="biography..."
           >
-            {profile.biography && profile.biography}
+            {profile.biography}
           </EduText>
-          <View style={[styles.row, styles.followBtnContainer]}>
-            {followButton}
-            <Icon name={IconNames.dotsVertical} />
-          </View>
         </View>
-
-        {rightHeader}
-      </View>
+      )}
     </Animated.View>
   );
 };
 
 ProfileHeader.propTypes = {
   navigation: navigationPropType.isRequired,
-  profile: PropTypes.exact({
-    id: PropTypes.number.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    updatedAt: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    role: PropTypes.string.isRequired,
-    profilePicture: PropTypes.string.isRequired,
-    biography: PropTypes.string.isRequired,
-    numFollowers: PropTypes.number.isRequired,
-    numPosts: PropTypes.number.isRequired,
-    isFollowed: PropTypes.bool.isRequired,
-  }).isRequired,
+  profile: fullProfilePropType.isRequired,
 };
 ProfileHeader.defaultProps = {};
 
 export default ProfileHeader;
 
 const styles = StyleSheet.create({
+  NumBoxesRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flexGrow: 1,
+    alignItems: 'center',
+  },
   row: {
     flexDirection: 'row',
   },
   container: {
-    margin: Constants.commonMargin,
-  },
-  leftHeader: {
-    flexGrow: 3,
-    flexShrink: 1,
-    justifyContent: 'space-between',
+    paddingHorizontal: Constants.commonMargin,
+    marginTop: 0,
   },
   leftHeaderCenter: {
     justifyContent: 'center',
@@ -205,8 +242,9 @@ const styles = StyleSheet.create({
   rightHeader: {
     flexGrow: 1,
     flexShrink: 0,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    flexDirection: 'row',
   },
   numBox: {
     marginTop: Constants.commonMargin,
@@ -223,15 +261,10 @@ const styles = StyleSheet.create({
   },
   biography: {
     marginTop: Constants.commonMargin / 2,
-    marginRight: Constants.commonMargin / 2,
   },
   followBtnContainer: {
     marginTop: Constants.commonMargin,
     alignItems: 'center',
-  },
-  nameContainer: {
-    marginLeft: Dimensions.get('window').width * 0.18,
-    marginTop: Dimensions.get('window').width * 0.05,
   },
 
   role: {
@@ -243,13 +276,18 @@ const styles = StyleSheet.create({
   },
 
   profileImage: {
-    marginTop: Constants.commonMargin,
-    borderRadius: 70,
-    width: 70,
-    height: 70,
+    borderRadius: 100,
+    width: 100,
+    height: 100,
+  },
+  centerProfile: {
+    alignItems: 'center',
   },
   followBtn: {
     flex: 1,
     marginRight: 7,
+  },
+  statsContainer: {
+    flexGrow: 3,
   },
 });

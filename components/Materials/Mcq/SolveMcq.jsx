@@ -2,16 +2,16 @@ import Page from 'common/Page/Page';
 import { navigationPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
-import { Constants, Colors } from 'styles';
+import { Alert } from 'react-native';
+import { Colors } from 'styles';
 import { ProgressBar } from 'react-native-paper';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
-import { useStore } from 'globalStore/GlobalStore';
-import ReducerActions from 'globalStore/ReducerActions';
 import ScreenNames from 'navigation/ScreenNames';
 import useOnGoBack from 'navigation/useOnGoBack';
 import LoseProgressAlert from 'common/alerts/LoseProgressAlert';
 import { useLocalization } from 'localization';
+import { useSelector, useDispatch } from 'react-redux';
+import { setOpenMaterialData } from 'globalStore/materialNavSlice';
 import NavMaterials from '../_common/NavMaterials';
 import McqQuestion from './McqQuestion';
 import QUESTIONS from './TEMP_DATA';
@@ -28,9 +28,10 @@ const SolveMcq = ({ navigation, route }) => {
   const { t } = useLocalization();
   const { materialID } = route.params || {};
 
-  const [state, dispatch] = useStore();
+  const dispatch = useDispatch();
+  const reduxMcqQuestions = useSelector((state) => state.material.openMaterialData);
 
-  const rawQuestions = materialID ? QUESTIONS : state.material.mcqQuestions;
+  const rawQuestions = materialID ? QUESTIONS : reduxMcqQuestions;
   const [questions, setQuestions] = useState(() =>
     rawQuestions.map((question) => ({
       ...question,
@@ -66,7 +67,7 @@ const SolveMcq = ({ navigation, route }) => {
   };
   useEffect(() => {
     if (hasFinished) {
-      dispatch({ type: ReducerActions.setMCQQuestions, payload: questions });
+      dispatch(setOpenMaterialData(questions));
       navigation.replace(ScreenNames.REVIEW_MCQ);
     }
   }, [hasFinished]);
@@ -169,11 +170,3 @@ SolveMcq.propTypes = {
 SolveMcq.defaultProps = {};
 
 export default SolveMcq;
-
-const styles = StyleSheet.create({
-  navMaterials: {
-    paddingHorizontal: Constants.commonMargin,
-    paddingVertical: Constants.commonMargin / 2,
-    alignSelf: 'flex-end',
-  },
-});

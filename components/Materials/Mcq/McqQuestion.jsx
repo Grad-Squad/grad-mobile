@@ -23,13 +23,14 @@ const McqQuestion = ({
   isAlreadyAnswered,
   handleContinue,
 }) => {
-  const { title, options, answerIndices, imageURI, chosenIndices } = question;
+  const { title, options, answerIndices, questionImage, chosenIndices } =
+    question;
+  const { uri: imageURI = undefined } = questionImage;
   const hasOneAnswer = answerIndices.length === 1;
   const [isQuestionAnswered, setIsQuestionAnswered] =
     useState(isAlreadyAnswered);
   const [selectedIndices, setSelectedIndices] = useState(chosenIndices);
   const { t } = useLocalization();
-
 
   useEffect(() => {
     setIsQuestionAnswered(isAlreadyAnswered);

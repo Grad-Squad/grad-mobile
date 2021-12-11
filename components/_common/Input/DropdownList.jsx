@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { stylePropType } from 'proptypes';
 import { Icon, PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
-import { Colors } from 'styles';
+import { Colors, Constants } from 'styles';
 import TagLabel from 'common/TagLabel';
 import EduText from 'common/EduText';
 import TransparentTextInput from './TransparentTextInput';
@@ -24,28 +24,25 @@ const DropdownList = ({
   const [choices, setChoices] = useState([value]);
 
   const onPresshandler = (key) => {
-
-    let currentChoices
+    let currentChoices;
 
     // item pressed already exists -> remove that item
-    if(choices.includes(key)){
-      const correct = [...choices]
+    if (choices.includes(key)) {
+      const correct = [...choices];
       correct.splice(correct.indexOf(key), 1);
-      currentChoices = correct
+      currentChoices = correct;
 
-    // item pressed does not exist -> add item if multiple
-    }else if(multiple){
-      if (choices.length < max)
-        currentChoices = [...choices, key]
-      else
-        return
+      // item pressed does not exist -> add item if multiple
+    } else if (multiple) {
+      if (choices.length < max) currentChoices = [...choices, key];
+      else return;
 
-    // item pressed does not exist -> switch to item if single
-    }else{
-      currentChoices = [key]
+      // item pressed does not exist -> switch to item if single
+    } else {
+      currentChoices = [key];
     }
-    setChoices(currentChoices)
-    setValueFunction(currentChoices)
+    setChoices(currentChoices);
+    setValueFunction(currentChoices);
   };
 
   const renderItem = ({ item }) => (
@@ -55,9 +52,9 @@ const DropdownList = ({
       android_ripple={pressableAndroidRipple}
     >
       <EduText>{item.label}</EduText>
-      {choices.includes(item.id) &&
-      <Icon name={IconNames.dropdown} size={20}/>
-      }
+      {choices.includes(item.id) && (
+        <Icon name={IconNames.dropdown} size={20} />
+      )}
     </Pressable>
   );
 
@@ -68,32 +65,46 @@ const DropdownList = ({
         style={styles.Button}
         android_ripple={pressableAndroidRipple}
       >
-      {choices.length > 0 && multiple?
-      <View style={[styles.tags, open ? styles.tagOpened : styles.tagOpened]}>{
-        items.map((item) =>{
-          if(choices.includes(item.id))
-          return (
-          <View style ={{paddingHorizontal: 2}}key={item.id}>
-            <TagLabel
-              labelText={item.label}
-            />
+        {choices.length > 0 && multiple ? (
+          <View
+            style={[styles.tags, open ? styles.tagOpened : styles.tagOpened]}
+          >
+            {items.map((item) => {
+              if (choices.includes(item.id))
+                return (
+                  <View style={{ paddingHorizontal: 2 }} key={item.id}>
+                    <TagLabel labelText={item.label} />
+                  </View>
+                );
+              return <View />;
+            })}
           </View>
+        ) : (
+          <EduText style={styles.singleChoiceStyle}>
+            {choices.length === 1 ? choices[0] || placeholder : placeholder}
+          </EduText>
         )}
-      )}</View>
-      :
-      <EduText>{choices.length === 1?items[0].label:placeholder}</EduText>}
-      <Icon name={IconNames.dropdownClosed}/>
+        <Icon name={IconNames.dropdownClosed} />
       </Pressable>
       <Modal
-      animationType="slide"
-      visible={open}
-      onRequestClose= {() => {
-        setOpen(!open)
-      }}>
+        animationType="slide"
+        visible={open}
+        onRequestClose={() => {
+          setOpen(!open);
+        }}
+      >
         <View style={styles.listWrapper}>
           <View style={styles.searchbar}>
-            <PressableIcon name={IconNames.close} size={35} onPress={()=> setOpen(!open)}/>
-            <TransparentTextInput text="WIP SEARCHBAR" setText={()=>{}} style={{width:'87%'}}/>
+            <PressableIcon
+              name={IconNames.close}
+              size={35}
+              onPress={() => setOpen(!open)}
+            />
+            <TransparentTextInput
+              text="WIP SEARCHBAR"
+              setText={() => {}}
+              style={{ width: '87%' }}
+            />
           </View>
           <FlatList
             style={styles.list}
@@ -109,12 +120,12 @@ const DropdownList = ({
 };
 
 DropdownList.propTypes = {
-    items: PropTypes.arrayOf(
-      PropTypes.shape({
-        label: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired, // or whatever unique value that exists
-      })
-    ).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired, // or whatever unique value that exists
+    })
+  ).isRequired,
   placeholder: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   setValueFunction: PropTypes.func.isRequired,
@@ -135,56 +146,59 @@ DropdownList.defaultProps = {
 export default DropdownList;
 
 const styles = StyleSheet.create({
-    container: {
-        zIndex: 5,
-        borderColor: Colors.separator,
-        borderBottomWidth:1,
-    },
-    list: {
-        width: '100%',
-        maxHeight:'100%',
-        backgroundColor: Colors.background,
-        zIndex:1,
-        alignSelf:'center',
-    },
-    searchbar:{
-      flexDirection:'row',
-      alignItems:'center',
-      justifyContent:'space-between',
-      paddingHorizontal:10,
-      paddingVertical:5,
-    },
-    listWrapper:{
-      flex:1,
-    },
-    listItem: {
-        flexDirection: 'row',
-        alignContent: 'center',
-        justifyContent:'space-between',
-        paddingVertical: 8,
-        paddingHorizontal: 10,
-        zIndex:1,
-        width:'100%',
-    },
-    Button: {
-        flexDirection: 'row',
-        alignContent: 'center',
-        justifyContent:'space-between',
-        paddingVertical: 7,
-        paddingHorizontal: 8,
-    },
-    tags: {
-        paddingHorizontal: 1,
-        flexDirection:'row',
-        width: '90%',
-    },
-    tagOpened:{
-      flexWrap:'wrap',
-      overflow:'visible'
-    },
-    tagClosed:{
-      flexWrap:'nowrap',
-      overflow:'hidden'
-    }
-
+  singleChoiceStyle: {
+    alignSelf: 'center',
+    marginLeft: Constants.commonMargin / 2,
+  },
+  container: {
+    zIndex: 5,
+    borderColor: Colors.separator,
+    borderBottomWidth: 1,
+  },
+  list: {
+    width: '100%',
+    maxHeight: '100%',
+    backgroundColor: Colors.background,
+    zIndex: 1,
+    alignSelf: 'center',
+  },
+  searchbar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  listWrapper: {
+    flex: 1,
+  },
+  listItem: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    zIndex: 1,
+    width: '100%',
+  },
+  Button: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 7,
+    paddingHorizontal: 8,
+  },
+  tags: {
+    paddingHorizontal: 1,
+    flexDirection: 'row',
+    width: '90%',
+  },
+  tagOpened: {
+    flexWrap: 'wrap',
+    overflow: 'visible',
+  },
+  tagClosed: {
+    flexWrap: 'nowrap',
+    overflow: 'hidden',
+  },
 });

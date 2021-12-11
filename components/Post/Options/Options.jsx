@@ -35,13 +35,17 @@ function Options({ onEdit, onDelete, contentProfileId }) {
       iconName: IconNames.edit,
     },
     {
+      divider: true,
+      key: 'divider1',
+    },
+    {
       titleKey: 'ContextMenu/Delete',
       onPress: onDelete,
       iconName: IconNames.delete,
     },
     {
       divider: true,
-      key: 'divider1',
+      key: 'lastDivider',
     },
   ];
 

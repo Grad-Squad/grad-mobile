@@ -19,11 +19,11 @@ import localStorageKeys from 'localStorageKeys';
 import { Linking, Platform } from 'react-native';
 import LoadingIndicator from 'common/LoadingIndicator';
 import SolveFlashcard from 'components/Materials/Flashcard/SolveFlashcard';
-import ScreenNames from './ScreenNames';
-import Navigator from './Navigator';
 import ViewImages from 'components/Materials/ViewImages';
 import Profile from 'components/Profile/Profile';
 import Followers from 'components/Profile/Followers';
+import ScreenNames from './ScreenNames';
+import Navigator from './Navigator';
 
 const screens = [
   {
@@ -49,6 +49,7 @@ const screens = [
   {
     name: ScreenNames.POST,
     component: ExpandedPost,
+    getId: ({ params }) => params.postID,
   },
   {
     name: ScreenNames.CREATE_POST,
@@ -93,6 +94,7 @@ const screens = [
   {
     name: ScreenNames.PROFILE,
     component: Profile,
+    getId: ({ params }) => params.profileId,
   },
   {
     name: ScreenNames.FOLLOWERS,

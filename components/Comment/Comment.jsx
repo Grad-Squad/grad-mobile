@@ -6,14 +6,22 @@ import { AssetsConstants, HIT_SLOP_OBJECT } from 'constants';
 import EduText from 'common/EduText';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
-import { useAPIDeleteComment } from 'api/endpoints/comments';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
-import { getCommentsKey } from 'api/endpoints/posts';
+import { useAPIDeleteComment, getCommentsKey } from 'api/endpoints/posts';
+import { useLocalization } from 'localization';
 import FillLoadingIndicator from 'common/FillLoadingIndicator';
 import { deleteItemInPages } from 'api/util';
+import { ratingPropType } from 'proptypes';
+import {
+  Fade,
+  Placeholder,
+  PlaceholderLine,
+  PlaceholderMedia,
+} from 'rn-placeholder';
 import { formatDate } from '../../utility';
-import { Colors } from '../../styles';
+import { Colors, Constants } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
+import CommentDeletionAlert from './CommentDeletionAlert';
 
 const imageWidth = 55;
 const imageOffset = -50;
@@ -22,19 +30,22 @@ function Comment({
   profileName,
   text,
   commentDate,
-  voteCount,
+  rating,
   profileImageURI,
   profileId,
   commentId,
   postId,
-  onEdit
+  onEdit,
+  isPlaceholder,
 }) {
   const navigation = useNavigation();
+
+  const { t } = useLocalization();
 
   const navigateToProfile = () =>
     navigation.navigate(ScreenNames.PROFILE, { profileId });
 
-  const deleteMutation = useAPIDeleteComment({
+  const deleteCommentMutation = useAPIDeleteComment(postId, commentId, {
     onSuccess: () => {
       queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
         deleteItemInPages(oldData, commentId)
@@ -42,10 +53,54 @@ function Comment({
     },
   });
 
+  if (isPlaceholder) {
+    return (
+      <View
+        style={{
+          width: '100%',
+          minWidth: '100%',
+          marginBottom: Constants.commonMargin,
+        }}
+      >
+        <View style={styles.outerContainer}>
+          <View>
+            <View style={styles.imageContainer}>
+              <Placeholder
+                Animation={(props) => (
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  <Fade {...props} style={{ backgroundColor: Colors.cgrey }} />
+                )}
+              >
+                <PlaceholderMedia isRound style={styles.profileImage} />
+              </Placeholder>
+            </View>
+            <View style={styles.innerContainer}>
+              <View>
+                <Placeholder
+                  Animation={(props) => (
+                    <Fade
+                      // eslint-disable-next-line react/jsx-props-no-spreading
+                      {...props}
+                      style={{ backgroundColor: Colors.cgrey }}
+                    />
+                  )}
+                >
+                  <PlaceholderLine />
+                  <PlaceholderLine />
+                  <PlaceholderLine width={40} />
+                </Placeholder>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={{ width: '100%', minWidth: '100%' }}>
       <View style={styles.outerContainer}>
-        {deleteMutation.isLoading && <FillLoadingIndicator />}
+        {deleteCommentMutation.isLoading && <FillLoadingIndicator />}
         <View>
           <View style={styles.imageContainer}>
             <TouchableOpacity
@@ -73,7 +128,7 @@ function Comment({
                 <EduText style={styles.profileName}>{profileName}</EduText>
               </View>
             </TouchableOpacity>
-            <View style={styles.postTitle}>
+            <View>
               <EduText style={styles.text}>{text}</EduText>
             </View>
           </View>
@@ -82,17 +137,12 @@ function Comment({
       </View>
       <View style={styles.footerContainer}>
         <FooterRegion
-          rating={{
-            id: 0,
-            upvotes: 0,
-            downvotes: 0,
-            currentUserStatus: 'none',
-          }}
-          postId={0}
+          rating={rating}
+          postId={postId}
           style={styles.footer}
           onEdit={onEdit}
           onDelete={() => {
-            deleteMutation.mutate({ postId, commentId });
+            CommentDeletionAlert(t, () => deleteCommentMutation.mutate());
           }}
           contentProfileId={profileId}
         />
@@ -107,19 +157,21 @@ Comment.propTypes = {
   profileName: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   commentDate: PropTypes.string.isRequired,
-  voteCount: PropTypes.number.isRequired,
+  rating: ratingPropType.isRequired,
   profileImageURI: PropTypes.string,
   profileId: PropTypes.number.isRequired,
   commentId: PropTypes.number.isRequired,
   postId: PropTypes.number.isRequired,
   onEdit: PropTypes.func.isRequired,
+  isPlaceholder: PropTypes.bool,
 };
 
 Comment.defaultProps = {
   profileImageURI: undefined,
+  isPlaceholder: false,
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   profileImage: {
     borderRadius: 50,
     width: imageWidth,

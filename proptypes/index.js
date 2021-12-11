@@ -82,15 +82,20 @@ export const stringOrNumberPropType = PropTypes.oneOfType([
   PropTypes.number.isRequired,
 ]);
 
+export const uriPropType = PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['image', 'pdf', 'video']).isRequired,
+  uri: PropTypes.string.isRequired,
+});
+
 export const flashcardPropType = PropTypes.exact({
   id: PropTypes.number.isRequired,
-  frontImage: PropTypes.string.isRequired,
+  frontImage: uriPropType.isRequired,
   frontText: PropTypes.string.isRequired,
   backText: PropTypes.string.isRequired,
-  backImage: PropTypes.string.isRequired,
-
-  // front: PropTypes.string.isRequired,
-  // back: PropTypes.string.isRequired,
+  backImage: uriPropType.isRequired,
+  materialCollectionId: PropTypes.number.isRequired,
 });
 
 export const materialPropType = PropTypes.exact({
@@ -101,19 +106,14 @@ export const materialPropType = PropTypes.exact({
     PropTypes.exact({
       id: PropTypes.number.isRequired,
       question: PropTypes.string.isRequired,
-      questionUriKey: PropTypes.string,
+      questionImage: uriPropType,
       answerIndices: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
       choices: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-      choicesUrisKeys: PropTypes.arrayOf(PropTypes.string.isRequired),
+      choicesImages: PropTypes.arrayOf(uriPropType),
     }).isRequired
   ).isRequired,
   flashcards: PropTypes.arrayOf(flashcardPropType.isRequired).isRequired,
-  uris: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.number.isRequired,
-      uri: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+  uris: PropTypes.arrayOf(uriPropType).isRequired,
 });
 export const materialsPropType = PropTypes.arrayOf(materialPropType);
 
@@ -129,4 +129,20 @@ export const postPropType = PropTypes.exact({
   }).isRequired,
   commentCount: PropTypes.number.isRequired,
   materials: materialsPropType.isRequired,
+});
+
+export const fullProfilePropType = PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  createdAt: PropTypes.string.isRequired,
+  updatedAt: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
+  profilePicture: uriPropType,
+  biography: PropTypes.string.isRequired,
+  isFollowed: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  _count: PropTypes.exact({
+    posts: PropTypes.number.isRequired,
+    following: PropTypes.number.isRequired,
+  }).isRequired,
 });

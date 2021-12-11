@@ -56,9 +56,8 @@ const getMaterialData = (material, materialType) => {
           answerIndices,
         })
       );
-
     default:
-      return [];
+      return material.uris;
   }
 };
 

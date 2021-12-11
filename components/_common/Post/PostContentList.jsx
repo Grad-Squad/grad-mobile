@@ -45,7 +45,7 @@ const getMaterialCount = (material, materialType) => {
 const getMaterialData = (material, materialType) => {
   switch (materialType) {
     case MaterialTypes.Flashcards:
-      return [];
+      return material.flashcards;
     case MaterialTypes.MCQ:
       return material.mcqs.map(
         ({ id, question, questionImage, choices, answerIndices }) => ({

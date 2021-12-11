@@ -143,7 +143,10 @@ export const fullProfilePropType = PropTypes.exact({
   role: PropTypes.string.isRequired,
   profilePicture: uriPropType,
   biography: PropTypes.string.isRequired,
-  numFollowers: PropTypes.number.isRequired,
-  numPosts: PropTypes.number.isRequired,
   isFollowed: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  _count: PropTypes.exact({
+    posts: PropTypes.number.isRequired,
+    following: PropTypes.number.isRequired,
+  }).isRequired,
 });

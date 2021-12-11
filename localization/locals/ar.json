@@ -164,7 +164,9 @@
   },
   "Snackbar": {
     "Error: ": "خطأ: ",
-    "Could not connect to the server": "تعذر الاتصال بالخادم"
+    "Could not connect to the server": "تعذر الاتصال بالخادم",
+    "Cannot follow user": "لم نتمكن من متابعة المستخدم",
+    "Cannot unfollow user": "لم نتمكن من إلغاء متابعة المستخدم"
   },
   "CheeringWords": {
     "Good": {

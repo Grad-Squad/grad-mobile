@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 
   disabledButton: {
     // opacity: 0.3,
+    borderColor: '#999',
     backgroundColor: '#999',
   },
 });

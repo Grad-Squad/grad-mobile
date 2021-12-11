@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Image, Pressable, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
@@ -9,14 +9,51 @@ import { navigationPropType, uriPropType } from 'proptypes';
 import ScreenNames from 'navigation/ScreenNames';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import { AssetsConstants } from 'constants';
+import {
+  getFollowersKey,
+  useFollowProfile,
+  useUnfollowProfile,
+} from 'api/endpoints/profile';
+import { useQueryClient } from 'react-query';
 
-const FollowerCard = ({ navigation, profile, onFollow, onUnfollow }) => {
+const FollowerCard = ({ navigation, profile }) => {
   const { t } = useLocalization();
   const navToProfile = () =>
     navigation.push(ScreenNames.PROFILE, { profileId: profile.id });
   const { uri: profilePictureUri = 'error' } =
     profile?.profilePicture || 'error';
 
+  const queryClient = useQueryClient();
+  const [isFollowed, setIsFollowed] = useState(profile.isFollowed);
+  const followProfileMutation = useFollowProfile({
+    onMutate: () => {
+      setIsFollowed(true);
+    },
+    onError: () => {
+      setIsFollowed(false);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(getFollowersKey(profile.id), {
+        refetchInactive: true, // force inactive queries to refetch
+      });
+    },
+  });
+  const unfollowProfileMutation = useUnfollowProfile({
+    onMutate: () => {
+      setIsFollowed(false);
+    },
+    onError: () => {
+      setIsFollowed(true);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(getFollowersKey(profile.id), {
+        refetchInactive: true, // force inactive queries to refetch
+      });
+    },
+  });
+
+  const followMutationLoading =
+    unfollowProfileMutation.isLoading || followProfileMutation.isLoading;
   return (
     <View style={[styles.row, styles.container]}>
       <Pressable onPress={navToProfile} android_ripple={pressableAndroidRipple}>
@@ -41,19 +78,22 @@ const FollowerCard = ({ navigation, profile, onFollow, onUnfollow }) => {
         </View>
       </Pressable>
 
-      {profile.isFollowed ? (
-        <TransparentButton
-          onPress={onUnfollow}
-          text={t('Profile/Unfollow')}
-          textStyle={styles.followBtnText}
-        />
-      ) : (
-        <MainActionButton
-          onPress={onFollow}
-          text={t('Profile/Follow')}
-          textStyle={styles.followBtnText}
-        />
-      )}
+      {!profile.isOwner &&
+        (isFollowed ? (
+          <TransparentButton
+            onPress={() => unfollowProfileMutation.mutate(profile.id)}
+            disabled={followMutationLoading}
+            text={t('Profile/Unfollow')}
+            textStyle={styles.followBtnText}
+          />
+        ) : (
+          <MainActionButton
+            onPress={() => followProfileMutation.mutate(profile.id)}
+            disabled={followMutationLoading}
+            text={t('Profile/Follow')}
+            textStyle={styles.followBtnText}
+          />
+        ))}
     </View>
   );
 };
@@ -61,16 +101,12 @@ const FollowerCard = ({ navigation, profile, onFollow, onUnfollow }) => {
 FollowerCard.propTypes = {
   profile: PropTypes.exact({
     id: PropTypes.number.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    updatedAt: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     role: PropTypes.string.isRequired,
     profilePicture: uriPropType,
     isFollowed: PropTypes.bool.isRequired,
     isOwner: PropTypes.bool.isRequired,
   }).isRequired,
-  onFollow: PropTypes.func.isRequired,
-  onUnfollow: PropTypes.func.isRequired,
   navigation: navigationPropType.isRequired,
 };
 FollowerCard.defaultProps = {};

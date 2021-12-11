@@ -16,7 +16,10 @@ import { TransparentTextInputFormik } from 'common/Input';
 import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import * as DocumentPicker from 'expo-document-picker';
-import { addCreateMaterialItem, replaceCreateMaterialItem } from 'globalStore/createPostSlice';
+import {
+  addCreateMaterialItem,
+  replaceCreateMaterialItem,
+} from 'globalStore/createPostSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import AddDocument from '../AddDocument';
 import PreviewVideo from './PreviewVideo';
@@ -34,13 +37,16 @@ const AddVideo = ({ route }) => {
 
   const formik = useFormik({
     initialValues: {
-      videoTitle: editVideo?.videoTitle ?? '',
+      title: editVideo?.title ?? '',
       fileName: editVideo?.fileName ?? '',
       fileUri: editVideo?.fileUri ?? '',
     },
     onSubmit: (video) => {
+      video.amount = 1;
       if (editIndex === undefined) {
-        dispatch(addCreateMaterialItem({ ...video, type: MaterialTypes.Video }));
+        dispatch(
+          addCreateMaterialItem({ ...video, type: MaterialTypes.Video })
+        );
       } else {
         dispatch(
           replaceCreateMaterialItem({
@@ -52,7 +58,7 @@ const AddVideo = ({ route }) => {
       navigation.goBack();
     },
     validationSchema: yup.object().shape({
-      videoTitle: materialTitle(t),
+      title: materialTitle(t),
       fileName: yup
         .string()
         .test(
@@ -92,16 +98,16 @@ const AddVideo = ({ route }) => {
       <View style={styles.nameRow}>
         <TransparentTextInputFormik
           formik={formik}
-          formikKey="videoTitle"
+          formikKey="title"
           title={t('AddMaterial/Video/Video Title')}
           style={styles.videoTitle}
         />
-        {!!formik.values.videoTitle && (
+        {!!formik.values.title && (
           <PressableIcon
             name={IconNames.close}
             size={30}
             style={styles.clearVideoTitle}
-            onPress={() => formik.setFieldValue('videoTitle', '')}
+            onPress={() => formik.setFieldValue('title', '')}
           />
         )}
       </View>
@@ -126,8 +132,8 @@ const AddVideo = ({ route }) => {
               type: 'video/*',
             });
             if (type !== 'canceled') {
-              if (!formik.values.videoTitle) {
-                formik.setFieldValue('videoTitle', fileName.split('.')[0]);
+              if (!formik.values.title) {
+                formik.setFieldValue('title', fileName.split('.')[0]);
               }
               formik.setFieldValue('fileName', fileName);
               formik.setFieldValue('fileUri', uri);

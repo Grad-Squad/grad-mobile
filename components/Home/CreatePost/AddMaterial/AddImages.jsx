@@ -75,10 +75,11 @@ const AddImages = ({ route }) => {
 
   const formik = useFormik({
     initialValues: {
-      imagesTitle: editImages?.pdfTitle ?? '',
-      images: editImages?.images ?? [],
+      title: editImages?.title ?? '',
+      images: editImages?.images ? [...editImages.images] : [],
     },
     onSubmit: (images) => {
+      images.amount = images.images.length;
       if (editIndex === undefined) {
         dispatch(
           addCreateMaterialItem({ ...images, type: MaterialTypes.Images })
@@ -94,7 +95,7 @@ const AddImages = ({ route }) => {
       navigation.goBack();
     },
     validationSchema: yup.object().shape({
-      imagesTitle: materialTitle(t),
+      title: materialTitle(t),
       images: yup.array().min(1, t('AddMaterial/Please add a file')),
     }),
   });
@@ -120,7 +121,7 @@ const AddImages = ({ route }) => {
       />
       <TransparentTextInputFormik
         formik={formik}
-        formikKey="imagesTitle"
+        formikKey="title"
         title={t('AddMaterial/Images/Images Title')}
       />
 

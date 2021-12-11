@@ -37,11 +37,12 @@ const AddPDF = ({ route }) => {
 
   const formik = useFormik({
     initialValues: {
-      pdfTitle: editPdf?.pdfTitle ?? '',
+      title: editPdf?.title ?? '',
       fileName: editPdf?.fileName ?? '',
       fileUri: editPdf?.fileUri ?? '',
     },
     onSubmit: (pdf) => {
+      pdf.amount = 1;
       if (editIndex === undefined) {
         dispatch(addCreateMaterialItem({ ...pdf, type: MaterialTypes.PDF }));
       } else {
@@ -55,7 +56,7 @@ const AddPDF = ({ route }) => {
       navigation.goBack();
     },
     validationSchema: yup.object().shape({
-      pdfTitle: materialTitle(t),
+      title: materialTitle(t),
       fileName: yup.string().required(t('AddMaterial/Please add a file')),
     }),
   });
@@ -81,16 +82,16 @@ const AddPDF = ({ route }) => {
       <View style={styles.pdfNameRow}>
         <TransparentTextInputFormik
           formik={formik}
-          formikKey="pdfTitle"
+          formikKey="title"
           title={t('AddMaterial/PDF/PDF Title')}
           style={styles.pdfName}
         />
-        {!!formik.values.pdfTitle && (
+        {!!formik.values.title && (
           <PressableIcon
             name={IconNames.close}
             size={30}
             style={styles.clearPdfName}
-            onPress={() => formik.setFieldValue('pdfTitle', '')}
+            onPress={() => formik.setFieldValue('title', '')}
           />
         )}
       </View>
@@ -115,8 +116,8 @@ const AddPDF = ({ route }) => {
               type: 'application/pdf',
             });
             if (type !== 'canceled') {
-              if (!formik.values.pdfTitle) {
-                formik.setFieldValue('pdfTitle', fileName.split('.pdf')[0]);
+              if (!formik.values.title) {
+                formik.setFieldValue('title', fileName.split('.pdf')[0]);
               }
               formik.setFieldValue('fileName', fileName);
               formik.setFieldValue('fileUri', uri);

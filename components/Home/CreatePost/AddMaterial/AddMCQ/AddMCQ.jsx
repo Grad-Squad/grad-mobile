@@ -41,6 +41,7 @@ const AddMCQ = ({ navigation, route }) => {
       questions: editMCQ?.questions ? deepCopy(editMCQ?.questions) : [], // Deep Clone
     },
     onSubmit: (mcq, formikBag) => {
+      mcq.amount = mcq.questions.length;
       const submitForm = () => {
         if (editIndex === undefined) {
           dispatch(addCreateMaterialItem({ ...mcq, type: MaterialTypes.MCQ }));

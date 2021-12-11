@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, Dimensions, StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { maxCharError, requiredError } from 'validation';
 import { TextInputFormik } from 'common/Input';
-import PressableText from 'common/PressableText';
 import { SecondaryActionButton, TransparentButton } from 'common/Input/Button';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
@@ -23,6 +22,7 @@ import {
   addImageToUploadQueue as addImageToUploadQueueInRedux,
 } from 'globalStore/imageUploadSlice';
 import ChoicesList from './ChoicesList';
+import QuestionImagePreview from './QuestionImagePreview';
 
 const MaxNumberOfChoices = 26;
 const MaxNumberOfQuestions = 1000;
@@ -47,7 +47,7 @@ const AddQuestion = ({
     data: uploadLinkData,
     isSuccess: gettingUploadLinkSucceeded,
     refetch: refetchUploadLink,
-  } = useAPIgetS3UploadImageLinks(1,{
+  } = useAPIgetS3UploadImageLinks(1, {
     enabled: isS3LinkEnabled,
     onSuccess: (data) => {
       if (!currentlyEditingQuestion) {
@@ -247,16 +247,16 @@ const AddQuestion = ({
           }
           style={[styles.textInputGap, !canAddQuestions && styles.disabled]}
         />
+
         {!!image.fileName && (
-          <PressableText
-            onPress={() => Alert.alert('Image name click')}
-            pressableProps={{
-              style: [styles.uploadedFileName, styles.textInputGap],
+          <QuestionImagePreview
+            image={image}
+            onDeletePress={() => {
+              if (!currentlyEditingQuestion) {
+                setImage({});
+              }
             }}
-          >
-            {t('AddMaterial/image name: ')}
-            {image.fileName}
-          </PressableText>
+          />
         )}
         <TextInputFormik
           formik={currentChoiceFormik}
@@ -333,7 +333,11 @@ const AddQuestion = ({
               );
             }
           }}
-          style={[styles.addQuestion, !canAddQuestions && styles.disabled]}
+          style={[
+            styles.addQuestion,
+            !canAddQuestions && styles.disabled,
+            questions.length === 0 && styles.emptyQuestions,
+          ]}
           disabled={!canAddQuestions}
         />
       </View>
@@ -356,21 +360,18 @@ AddQuestion.defaultProps = {
 
 export default AddQuestion;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   textInputGap: {
     marginTop: 10,
   },
   textInputRightComponent: { flexBasis: '18%', alignItems: 'center' },
-  uploadedFileName: {
-    ...Styles.underLinedFileName,
 
-    marginTop: 4,
-
-    alignSelf: 'flex-start',
-  },
   addQuestion: {
     width: 180,
     alignSelf: 'flex-end',
   },
   disabled: { opacity: 0.8 },
+  emptyQuestions: {
+    marginBottom: Dimensions.get('window').height * 0.1,
+  },
 });

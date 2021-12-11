@@ -27,7 +27,11 @@ export const mcqChoicePropType = PropTypes.exact({
 export const mcqQuestionAddPropType = PropTypes.exact({
   question: PropTypes.string.isRequired,
   choices: PropTypes.arrayOf(mcqChoicePropType.isRequired).isRequired,
-  questionUriKey: PropTypes.string.isRequired,
+  questionUriKey: PropTypes.string,
+  choicesImages: PropTypes.oneOfType([
+    PropTypes.shape({}),
+    PropTypes.arrayOf(PropTypes.shape({})),
+  ]),
 });
 export const mcqQuestionPropType = PropTypes.shape({
   id: PropTypes.number,
@@ -105,7 +109,11 @@ export const materialPropType = PropTypes.exact({
     PropTypes.exact({
       id: PropTypes.number.isRequired,
       question: PropTypes.string.isRequired,
-      questionUriKey: PropTypes.string,
+      questionImage: uriPropType,
+      choicesImages: PropTypes.oneOfType([
+        PropTypes.shape({}),
+        PropTypes.arrayOf(PropTypes.shape({})),
+      ]),
       answerIndices: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
       choices: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
       choicesUrisKeys: PropTypes.arrayOf(PropTypes.string.isRequired),

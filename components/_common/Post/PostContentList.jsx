@@ -32,13 +32,13 @@ function PostContentList({ notClickable, materials }) {
                     ({
                       id,
                       question,
-                      questionUriKey,
+                      questionImage: { uri: imageURI },
                       choices,
                       answerIndices,
                     }) => ({
                       id,
                       title: question,
-                      imageURI: questionUriKey,
+                      imageURI,
                       options: choices,
                       answerIndices,
                     })

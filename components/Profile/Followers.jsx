@@ -32,14 +32,9 @@ const Followers = ({ navigation, route }) => {
         contentContainerStyle={styles.container}
         paginatedReactQuery={useAPIGetProfileFollowers}
         paginatedReactQueryParams={[profileId]}
-        reactQueryKey={[getFollowersKey, profileId]}
+        reactQueryKey={getFollowersKey(profileId)}
         renderItem={({ item }) => (
-          <FollowerCard
-            profile={item}
-            onFollow={() => {}}
-            onUnfollow={() => {}}
-            navigation={navigation}
-          />
+          <FollowerCard profile={item} navigation={navigation} />
         )}
         ItemSeparatorComponent={() => <View style={styles.cardsSeparator} />}
         errorLocalizationKey="Followers/Error: Couldn't Load Followers"

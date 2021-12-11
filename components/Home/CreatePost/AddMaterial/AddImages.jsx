@@ -31,6 +31,7 @@ import {
   addCreateMaterialItem,
   replaceCreateMaterialItem,
 } from 'globalStore/createPostSlice';
+import { deepCompare } from 'utility';
 
 const renderItem = ({ item, drag }) => {
   const { isActive } = useOnCellActiveAnimation();
@@ -104,9 +105,13 @@ const AddImages = ({ route }) => {
     formik.handleSubmit();
   };
 
+  const didImagesChange = deepCompare(
+    editImages?.images ? editImages.images : [],
+    formik.values.images
+  );
   useOnGoBackDiscardWarning(
-    (!formik.dirty && !formik.values.images.length) || formik.isSubmitting,
-    [formik.dirty, formik.isSubmitting, formik.values.images.length]
+    (!formik.dirty && didImagesChange) || formik.isSubmitting,
+    [formik.dirty, formik.isSubmitting, didImagesChange]
   );
 
   return (

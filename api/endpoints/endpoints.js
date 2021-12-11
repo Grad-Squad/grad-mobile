@@ -11,7 +11,7 @@ export default Object.freeze({
     update: '/profiles/{0}',
     followers: '/profiles/{0}/followers',
     postsByProfileId: '/profiles/{0}/posts',
-    followProfile: '/profiles/follow/{0}',
+    followProfile: '/profiles/{0}/follow',
   },
   posts: {
     post: '/posts/{0}',

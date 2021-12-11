@@ -19,6 +19,7 @@
   },
   "plugins": ["react", "module-resolver", "jest"],
   "rules": {
+    "no-underscore-dangle": ["error", { "allow": ["_count"] }],
     "react/jsx-filename-extension": [
       1,
       {

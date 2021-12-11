@@ -24,17 +24,15 @@ export const useAPIGetProfileFollowers = (profileId) => {
   );
 };
 
+export const profileByIdQueryKey = (profileId) => ['profile by id', profileId];
 export const useAPIGetProfileById = (profileId, options) => {
   const { axios } = useAxios();
   return useQuery(
-    ['profile by id', profileId],
+    profileByIdQueryKey(profileId),
     async () => {
       const { data } = await axios.get(
         formatString(endpoints.profile.profileById, profileId)
       );
-      data.numPosts = -123;
-      data.numFollowers = -100;
-      data.isFollowed = true;
       return data;
     },
     options
@@ -45,6 +43,17 @@ export const useFollowProfile = (mutationConfig) => {
   const { axios } = useAxios();
   return useMutation(async (profileId) => {
     const { data } = await axios.post(
+      formatString(endpoints.profile.followProfile, profileId)
+    );
+
+    return data;
+  }, mutationConfig);
+};
+
+export const useUnfollowProfile = (mutationConfig) => {
+  const { axios } = useAxios();
+  return useMutation(async (profileId) => {
+    const { data } = await axios.delete(
       formatString(endpoints.profile.followProfile, profileId)
     );
 

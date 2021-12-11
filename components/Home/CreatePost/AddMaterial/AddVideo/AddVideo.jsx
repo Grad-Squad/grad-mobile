@@ -4,9 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
-import { useStore } from 'globalStore/GlobalStore';
 import { useFormik } from 'formik';
-import ReducerActions from 'globalStore/ReducerActions';
 import { MaterialTypes } from 'constants';
 import * as yup from 'yup';
 import { materialTitle, requiredError } from 'validation';
@@ -18,6 +16,8 @@ import { TransparentTextInputFormik } from 'common/Input';
 import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import * as DocumentPicker from 'expo-document-picker';
+import { addCreateMaterialItem, replaceCreateMaterialItem } from 'globalStore/createPostSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import AddDocument from '../AddDocument';
 import PreviewVideo from './PreviewVideo';
 
@@ -27,9 +27,10 @@ const AddVideo = ({ route }) => {
   const { t } = useLocalization();
   const navigation = useNavigation();
 
-  const [state, dispatch] = useStore();
+  const materialList = useSelector((state) => state.createPost.materialList);
+  const dispatch = useDispatch();
 
-  const editVideo = state.createPost.materialList[editIndex];
+  const editVideo = materialList[editIndex];
 
   const formik = useFormik({
     initialValues: {
@@ -39,18 +40,14 @@ const AddVideo = ({ route }) => {
     },
     onSubmit: (video) => {
       if (editIndex === undefined) {
-        dispatch({
-          type: ReducerActions.addCreateMaterialItem,
-          payload: { ...video, type: MaterialTypes.Video },
-        });
+        dispatch(addCreateMaterialItem({ ...video, type: MaterialTypes.Video }));
       } else {
-        dispatch({
-          type: ReducerActions.replaceCreateMaterialItem,
-          payload: {
+        dispatch(
+          replaceCreateMaterialItem({
             index: editIndex,
             material: { ...video, type: MaterialTypes.Video },
-          },
-        });
+          })
+        );
       }
       navigation.goBack();
     },

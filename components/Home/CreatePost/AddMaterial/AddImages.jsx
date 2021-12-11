@@ -13,9 +13,7 @@ import EduText from 'common/EduText';
 import * as yup from 'yup';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import { materialTitle } from 'validation';
-import ReducerActions from 'globalStore/ReducerActions';
 import { useFormik } from 'formik';
-import { useStore } from 'globalStore/GlobalStore';
 import { MaterialTypes } from 'constants';
 import { routeParamPropType } from 'proptypes';
 import { Styles } from 'styles';
@@ -28,6 +26,11 @@ import DraggableFlatList, {
 } from 'react-native-draggable-flatlist';
 import Animated from 'react-native-reanimated';
 import ResponsiveImage from 'common/ResponsiveImage';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addCreateMaterialItem,
+  replaceCreateMaterialItem,
+} from 'globalStore/createPostSlice';
 
 const renderItem = ({ item, drag }) => {
   const { isActive } = useOnCellActiveAnimation();
@@ -65,9 +68,10 @@ const AddImages = ({ route }) => {
   const { t } = useLocalization();
   const navigation = useNavigation();
 
-  const [state, dispatch] = useStore();
+  const materialList = useSelector((state) => state.createPost.materialList);
+  const dispatch = useDispatch();
 
-  const editImages = state.createPost.materialList[editIndex];
+  const editImages = materialList[editIndex];
 
   const formik = useFormik({
     initialValues: {
@@ -76,18 +80,16 @@ const AddImages = ({ route }) => {
     },
     onSubmit: (images) => {
       if (editIndex === undefined) {
-        dispatch({
-          type: ReducerActions.addCreateMaterialItem,
-          payload: { ...images, type: MaterialTypes.Images },
-        });
+        dispatch(
+          addCreateMaterialItem({ ...images, type: MaterialTypes.Images })
+        );
       } else {
-        dispatch({
-          type: ReducerActions.replaceCreateMaterialItem,
-          payload: {
+        dispatch(
+          replaceCreateMaterialItem({
             index: editIndex,
             material: { ...images, type: MaterialTypes.Images },
-          },
-        });
+          })
+        );
       }
       navigation.goBack();
     },
@@ -164,7 +166,7 @@ const AddImages = ({ route }) => {
         keyExtractor={(item) => item.uri}
         renderItem={renderItem}
         renderPlaceholder={() => <View style={{ flex: 1 }} />}
-        style={{height: '85%'}}
+        style={{ height: '85%' }}
       />
     </Page>
   );

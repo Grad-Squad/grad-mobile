@@ -9,7 +9,7 @@ const IMAGE_SOURCE = require('../../assets/images/input/AddProfilePictures.png')
 
 const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
 
-  let image = <Image style={styles.image} source={IMAGE_SOURCE} />
+  const [selectedImage, setSelectedImage] = React.useState(false);
 
   useEffect(() => {
     (async () => {
@@ -40,17 +40,28 @@ const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
         width: result.width,
         height: result.height,
       });
-      // image = <Image style={styles.image} source={result.uri} />
+      setSelectedImage(true)
     }
   };
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
     <>
     {
       isRegisteration
+      // eslint-disable-next-line react/jsx-props-no-spreading
       ? <Pressable onPress={pickImage} style={styles.button} {...props}>
-          {image}
+          <Image
+              style={styles.image}
+              source = {
+                selectedImage ?
+                {
+                  uri: selectedImage.localUri
+                }
+                :
+                IMAGE_SOURCE
+              }
+            />
         </Pressable>
+        // eslint-disable-next-line react/jsx-props-no-spreading
       : <PressableIcon onPress={pickImage} name={IconNames.AddImage} size={30} {...props} />
     }
     </>
@@ -68,7 +79,7 @@ ImageSelector.defaultProps = {
 export default ImageSelector;
 
 const styles = StyleSheet.create({
-  image: { height: 110, width: 110, alignSelf: 'center' },
+  image: { height: 110, width: 110, borderRadius: 110, alignSelf: 'center' },
   button: {
     alignSelf: 'center',
   },

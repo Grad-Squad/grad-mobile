@@ -11,7 +11,7 @@ import useOnGoBack from 'navigation/useOnGoBack';
 import LoseProgressAlert from 'common/alerts/LoseProgressAlert';
 import { useLocalization } from 'localization';
 import { useSelector, useDispatch } from 'react-redux';
-import { setMCQQuestions } from 'globalStore/materialNavSlice';
+import { setOpenMaterialData } from 'globalStore/materialNavSlice';
 import NavMaterials from '../_common/NavMaterials';
 import McqQuestion from './McqQuestion';
 import QUESTIONS from './TEMP_DATA';
@@ -29,7 +29,7 @@ const SolveMcq = ({ navigation, route }) => {
   const { materialID } = route.params || {};
 
   const dispatch = useDispatch();
-  const reduxMcqQuestions = useSelector((state) => state.material.mcqQuestions);
+  const reduxMcqQuestions = useSelector((state) => state.material.openMaterialData);
 
   const rawQuestions = materialID ? QUESTIONS : reduxMcqQuestions;
   const [questions, setQuestions] = useState(() =>
@@ -67,7 +67,7 @@ const SolveMcq = ({ navigation, route }) => {
   };
   useEffect(() => {
     if (hasFinished) {
-      dispatch(setMCQQuestions(questions));
+      dispatch(setOpenMaterialData(questions));
       navigation.replace(ScreenNames.REVIEW_MCQ);
     }
   }, [hasFinished]);

@@ -6,19 +6,14 @@ import { navigationPropType } from 'proptypes';
 import ResponsiveImage from 'common/ResponsiveImage';
 import { Modal, Portal } from 'react-native-paper';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import { useSelector } from 'react-redux';
 
 const ViewImages = ({ navigation }) => {
+  const images = useSelector((state) => state.material.openMaterialData);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
-  const data = [
-    'https://placekitten.com/500/800',
-    'https://placekitten.com/600/400',
-    'https://placekitten.com/800/400',
-    'https://placekitten.com/800/500',
-    'https://placekitten.com/600/600',
-    'https://placekitten.com/800/200',
-    'https://placekitten.com/800/300',
-  ];
+
   return (
     <Page>
       <Portal>
@@ -35,8 +30,8 @@ const ViewImages = ({ navigation }) => {
           ]}
         />
         <FlatList
-          data={data}
-          keyExtractor={(item) => item}
+          data={images}
+          keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
             <Pressable
               onPress={() => {
@@ -45,7 +40,7 @@ const ViewImages = ({ navigation }) => {
               }}
             >
               <ResponsiveImage
-                imageURI={item}
+                imageURI={item.uri}
                 maxWidthRatio={1}
                 canMaximize={false}
               />
@@ -60,7 +55,7 @@ const ViewImages = ({ navigation }) => {
           <ImageViewer
             enableSwipeDown
             onSwipeDown={() => setIsModalVisible(false)}
-            imageUrls={data.map((item) => ({ url: item }))}
+            imageUrls={images.map((image) => ({ url: image.uri }))}
             index={modalIndex}
           />
         </Modal>

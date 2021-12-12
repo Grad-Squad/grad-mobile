@@ -155,6 +155,6 @@ export const fullProfilePropType = PropTypes.exact({
   isOwner: PropTypes.bool.isRequired,
   _count: PropTypes.exact({
     posts: PropTypes.number.isRequired,
-    following: PropTypes.number.isRequired,
+    followers: PropTypes.number.isRequired,
   }).isRequired,
 });

@@ -59,7 +59,7 @@ const ProfileHeader = ({ navigation, profile }) => {
         isFollowed: true,
         _count: {
           ...oldData._count,
-          following: oldData._count.following + 1,
+          followers: oldData._count.followers + 1,
         },
       }));
     },
@@ -74,7 +74,7 @@ const ProfileHeader = ({ navigation, profile }) => {
         isFollowed: false,
         _count: {
           ...oldData._count,
-          following: oldData._count.following - 1,
+          followers: oldData._count.followers - 1,
         },
       }));
     },
@@ -135,7 +135,7 @@ const ProfileHeader = ({ navigation, profile }) => {
         <View style={styles.NumBoxesRow}>
           <NumBox
             title={t('Profile/Header/Followers')}
-            number={profile?._count?.following}
+            number={profile?._count?.followers}
             onPress={() =>
               navigation.navigate(ScreenNames.FOLLOWERS, {
                 profileId: profile.id,

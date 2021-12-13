@@ -2,45 +2,17 @@ import { useAxios } from 'api/AxiosProvider';
 import { useMutation, useQuery } from 'react-query';
 import { formatString } from 'utility';
 import * as normalAxios from 'axios';
+import { useSelector } from 'react-redux';
+import fileUploadTypes from 'constants/fileUploadTypes';
 import endpoints from './endpoints';
 
-// export const useAPIgetManyS3UploadLinks = (numberOfLinks, options) => {
-//   const { axios } = useAxios();
-//   return useQuery(
-//     ['getManyS3UploadLinks'],
-//     async () => {
-//       const { data } = await axios.get(
-//         formatString(endpoints.s3.getManyUploadLinks, numberOfLinks)
-//       );
-//       return data;
-//     },
-//     {
-//       cacheTime: 0,
-//       ...options,
-//     }
-//   );
-// };
-// export const useAPIgetOneS3UploadLinks = (options) => {
-//   const { axios } = useAxios();
-//   return useQuery(
-//     ['getOneS3UploadLink'],
-//     async () => {
-//       const { data } = await axios.get(endpoints.s3.getOneUploadLink);
-//       return data;
-//     },
-//     {
-//       cacheTime: 0,
-//       ...options,
-//     }
-//   );
-// };
-export const useAPIgetS3UploadImageLinks = (numberOfLinks=1,options) => {
+export const useAPIgetS3UploadImageLinks = (numberOfLinks = 1, options) => {
   const { axios } = useAxios();
   return useQuery(
     ['getS3UploadImageLinks'],
     async () => {
       const { data } = await axios.get(
-        formatString(endpoints.s3.getUploadImageLinks,numberOfLinks)
+        formatString(endpoints.s3.getUploadImageLinks, numberOfLinks)
       );
       return data;
     },
@@ -50,13 +22,13 @@ export const useAPIgetS3UploadImageLinks = (numberOfLinks=1,options) => {
     }
   );
 };
-export const useAPIgetS3UploadDocLinks = (numberOfLinks=1,options) => {
+export const useAPIgetS3UploadDocLinks = (numberOfLinks = 1, options) => {
   const { axios } = useAxios();
   return useQuery(
     ['getS3UploadDocLinks'],
     async () => {
       const { data } = await axios.get(
-        formatString(endpoints.s3.getUploadDocLinks,numberOfLinks)
+        formatString(endpoints.s3.getUploadDocLinks, numberOfLinks)
       );
       return data;
     },
@@ -66,13 +38,13 @@ export const useAPIgetS3UploadDocLinks = (numberOfLinks=1,options) => {
     }
   );
 };
-export const useAPIgetS3UploadVideoLinks = (numberOfLinks=1,options) => {
+export const useAPIgetS3UploadVideoLinks = (numberOfLinks = 1, options) => {
   const { axios } = useAxios();
   return useQuery(
     ['getS3UploadVideoLinks'],
     async () => {
       const { data } = await axios.get(
-        formatString(endpoints.s3.getUploadVideoLinks,numberOfLinks)
+        formatString(endpoints.s3.getUploadVideoLinks, numberOfLinks)
       );
       return data;
     },
@@ -82,7 +54,6 @@ export const useAPIgetS3UploadVideoLinks = (numberOfLinks=1,options) => {
     }
   );
 };
-
 
 const formatFormData = (payload) => {
   const formData = new FormData(payload);
@@ -101,6 +72,49 @@ const formatFormData = (payload) => {
     type: payload.file.type,
   });
   return formData;
+};
+
+export const useAPIBulkUploadImage = (mutationConfig) => {
+  const fileUploads = useSelector((state) => state.createPost.fileUploads);
+  return useMutation(async (s3Replies) => {
+    const imageFiles = fileUploads.filter(
+      (file) => file.fileType === fileUploadTypes.IMAGE
+    );
+    const formDatas = imageFiles
+      .map((imgFile, index) => ({
+        ...s3Replies[index].fields,
+        'content-type': 'image/jpeg',
+        file: {
+          uri: imgFile.file.uri,
+          name: imgFile.file.fileName,
+          type: 'image/jpeg',
+        },
+      }))
+      .map((payload) => formatFormData(payload));
+
+    const fileUploadClientIdToResourceId = await Promise.all(
+      imageFiles.map(async (imgFile, index) => {
+        await normalAxios.post(endpoints.s3.uploadFile, formDatas[index], {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        return {
+          clientId: imgFile.clientId,
+          resourceId: s3Replies[index].fields.key,
+        };
+      })
+    );
+
+    const returnedObject = fileUploadClientIdToResourceId.reduce(
+      (obj, item) => ({
+        ...obj,
+        [item.clientId]: item.resourceId,
+      }),
+      {}
+    );
+    return Promise.resolve(returnedObject);
+  }, mutationConfig);
 };
 
 export const useAPIUploadImage = (mutationConfig) =>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -7,8 +7,6 @@ import {
 import { useLocalization } from 'localization';
 import { stylePropType } from 'proptypes';
 import ImageSelector from 'common/ImageSelector';
-import { useAPIgetS3UploadImageLinks, useAPIUploadImage } from 'api/endpoints/s3';
-import LoadingIndicator from 'common/LoadingIndicator';
 import RegisterContext from 'components/Register/RegisterContext';
 import TitleText from './TitleText';
 

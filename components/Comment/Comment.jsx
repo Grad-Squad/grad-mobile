@@ -26,13 +26,13 @@ import CommentDeletionAlert from './CommentDeletionAlert';
 const imageWidth = 55;
 const imageOffset = -50;
 
+const defaultProfileImage = require('../../assets/images/defaultUser.png')
+
 function Comment({
-  profileName,
   text,
   commentDate,
   rating,
-  profileImageURI,
-  profileId,
+  author,
   commentId,
   postId,
   onEdit,
@@ -40,6 +40,7 @@ function Comment({
 }) {
   const navigation = useNavigation();
 
+  const profileId = author.id;
   const { t } = useLocalization();
 
   const navigateToProfile = () =>
@@ -108,15 +109,17 @@ function Comment({
               hitSlop={HIT_SLOP_OBJECT}
             >
               <Image
-                style={styles.profileImage}
-                source={
-                  profileImageURI
-                    ? {
-                        uri: profileImageURI,
-                      }
-                    : AssetsConstants.images.defaultProfile
+              style={styles.profileImage}
+
+              source = {
+                author.profilePicture ?
+                {
+                uri: author.profilePicture.uri
                 }
-              />
+                :
+                defaultProfileImage
+              }
+            />
             </TouchableOpacity>
           </View>
           <View style={styles.innerContainer}>
@@ -125,7 +128,7 @@ function Comment({
               hitSlop={{ top: 5, bottom: 5 }}
             >
               <View style={styles.profileInfoContainer}>
-                <EduText style={styles.profileName}>{profileName}</EduText>
+                <EduText style={styles.profileName}>{author.name}</EduText>
               </View>
             </TouchableOpacity>
             <View>
@@ -154,12 +157,16 @@ function Comment({
 export default Comment;
 
 Comment.propTypes = {
-  profileName: PropTypes.string.isRequired,
+  author: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    profilePicture: PropTypes.shape({
+      uri: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
   text: PropTypes.string.isRequired,
   commentDate: PropTypes.string.isRequired,
   rating: ratingPropType.isRequired,
-  profileImageURI: PropTypes.string,
-  profileId: PropTypes.number.isRequired,
   commentId: PropTypes.number.isRequired,
   postId: PropTypes.number.isRequired,
   onEdit: PropTypes.func.isRequired,

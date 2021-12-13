@@ -59,7 +59,7 @@ function Post({
       <ThemeProvider>
         <TitleRegion
           title={title}
-          profileName={author.name}
+          author={author}
           profileId={author.id}
           createdAt={createdAt}
           materials={materials}
@@ -89,7 +89,9 @@ Post.propTypes = {
   author: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    profilePicture: PropTypes.string.isRequired,
+    profilePicture: PropTypes.shape({
+      uri: PropTypes.string.isRequired,
+    }),
   }).isRequired,
   style: stylePropType,
   commentCount: PropTypes.number.isRequired,

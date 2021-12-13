@@ -25,7 +25,6 @@ const McqQuestion = ({
 }) => {
   const { title, options, answerIndices, questionImage, chosenIndices } =
     question;
-  const { uri: imageURI = undefined } = questionImage;
   const hasOneAnswer = answerIndices.length === 1;
   const [isQuestionAnswered, setIsQuestionAnswered] =
     useState(isAlreadyAnswered);
@@ -118,7 +117,7 @@ const McqQuestion = ({
       )}
       <FlatList
         ListHeaderComponent={
-          imageURI && <ResponsiveImage imageURI={imageURI} />
+          questionImage && <ResponsiveImage imageURI={questionImage} />
         }
         contentContainerStyle={styles.flatListContainer}
         data={options}

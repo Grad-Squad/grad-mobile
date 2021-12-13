@@ -176,7 +176,8 @@
     "Error: ": "Error: ",
     "Could not connect to the server": "Could not connect to the server",
     "Cannot follow user": "Cannot follow user",
-    "Cannot unfollow user": "Cannot unfollow user"
+    "Cannot unfollow user": "Cannot unfollow user",
+    "Email Already Registered": "Email Already Registered"
   },
   "CheeringWords": {
     "Good": {

@@ -15,11 +15,6 @@ import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
 import store from './globalStore/store';
 
-if (__DEV__) {
-  import('./ReactotronConfig').then(() => {
-    console.log('Reactotron Configured');
-  });
-}
 const theme = {
   ...DefaultTheme,
   colors: {

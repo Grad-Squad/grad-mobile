@@ -7,7 +7,7 @@ import { IconNames } from 'common/Icon/Icon';
 import { useLocalization } from 'localization';
 import { Styles } from 'styles';
 import Separator from 'common/Separator';
-import { Video } from 'expo-av';
+import VideoPlayer from 'common/VideoPlayer';
 
 const PreviewVideo = ({ fileName, uri, onRemoveFile }) => {
   const { t } = useLocalization();
@@ -21,19 +21,7 @@ const PreviewVideo = ({ fileName, uri, onRemoveFile }) => {
       </View>
       <Separator style={styles.previewSeparator} />
       <EduText style={styles.preview}>{t('AddMaterial/Preview')}</EduText>
-      <Video
-        //   ref={video}
-        style={{
-          alignSelf: 'center',
-          width: '100%',
-          height: 200,
-        }}
-        source={{
-          uri,
-        }}
-        useNativeControls
-        resizeMode="contain"
-      />
+       <VideoPlayer uri={uri} />
     </>
   );
 };

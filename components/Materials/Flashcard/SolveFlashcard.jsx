@@ -11,7 +11,10 @@ import Flashcard from './Flashcard';
 import FlashcardFooter from './FlashcardFooter';
 
 const SolveFlashcard = ({ navigation }) => {
-  const flashcards = useSelector((state) => state.material.openMaterialData);
+  const { data: flashcards, title } = useSelector(
+    (state) => state.material.openMaterialData
+  );
+  const materialOwner = useSelector((state) => state.material.materialOwner);
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [footerHeight, setFooterHeight] = useState(0);
@@ -71,8 +74,8 @@ const SolveFlashcard = ({ navigation }) => {
       >
         <MaterialViewHeader
           onBackPress={() => navigation.goBack()}
-          author="Ramez"
-          title="When the potato took over"
+          author={materialOwner?.name}
+          title={title}
           contextMenuItems={[
             {
               titleKey: 'ContextMenu/Save',

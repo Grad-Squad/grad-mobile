@@ -20,7 +20,9 @@ const ReviewMcq = ({ navigation }) => {
   const { t } = useLocalization();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
-  const storedAnswers = useSelector((state) => state.material.openMaterialData);
+  const { data: storedAnswers } = useSelector(
+    (state) => state.material.openMaterialData
+  );
 
   const correctCount = storedAnswers.filter((ans) => ans.isCorrect).length;
   const skippedCount = storedAnswers.filter((ans) => ans.isSkipped).length;

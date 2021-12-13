@@ -22,6 +22,7 @@ import SolveFlashcard from 'components/Materials/Flashcard/SolveFlashcard';
 import ViewImages from 'components/Materials/ViewImages';
 import Profile from 'components/Profile/Profile';
 import Followers from 'components/Profile/Followers';
+import ViewPdf from 'components/Materials/ViewPdf';
 import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 
@@ -70,6 +71,10 @@ const screens = [
   {
     name: ScreenNames.ADD_FLASHCARDS,
     component: AddFlashCards,
+  },
+  {
+    name: ScreenNames.VIEW_PDF,
+    component: ViewPdf,
   },
   {
     name: ScreenNames.ADD_MCQ,

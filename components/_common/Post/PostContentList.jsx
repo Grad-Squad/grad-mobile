@@ -22,7 +22,7 @@ const backendUriTypeToFrontendMap = {
 const MaterialTypeRouteMap = {
   [MaterialTypes.Flashcards]: ScreenNames.SOLVE_FLASHCARD,
   [MaterialTypes.MCQ]: ScreenNames.SOLVE_MCQ,
-  [MaterialTypes.PDF]: ScreenNames.DEV, // temp
+  [MaterialTypes.PDF]: ScreenNames.VIEW_PDF,
   [MaterialTypes.Images]: ScreenNames.VIEW_IMAGES,
   [MaterialTypes.Video]: ScreenNames.DEV, // temp
 };

@@ -39,7 +39,7 @@ const Login = ({ navigation }) => {
       password: '',
     },
     onSubmit: ({ email, password }) => {
-      loginMutation.mutate({ email, password });
+      loginMutation.mutate({ email: email.toLowerCase(), password });
     },
     validationSchema: yup.object().shape({
       email: emailRequired(t),

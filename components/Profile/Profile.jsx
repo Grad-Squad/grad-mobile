@@ -13,19 +13,24 @@ const Profile = ({ navigation, route }) => {
   const offset = useRef(new Animated.Value(0)).current;
 
   const profile = {
-    id: 2,
+    id: 1,
     createdAt: '2021-09-26T17:49:56.650Z',
     updatedAt: '2021-11-14T14:50:32.584Z',
-    name: 'Sameh Initial',
-    role: 'student',
-    profilePicture: '',
-    biography:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-    // biography: 'Lorem ipsum dolor sit ',
-    // biography: '',
-    numPosts: 100,
-    numFollowers: 150,
-    isFollowed: true,
+    name: 'Ahmed M. Sadek',
+    role: 'teacher',
+    profilePicture: {
+      id: 1,
+      key: "a09bb2c0-a721-4830-920c-4812e1228909",
+      uri: "https://educate-awesome-test.s3.eu-central-1.amazonaws.com/a09bb2c0-a721-4830-920c-4812e1228909",
+      type: "image"
+  },
+    biography: "you have any idea how fast I am ?\n",
+    _count:{
+      posts: 0,
+      followers: 0,
+    },
+    isOwner: true,
+    isFollowed: false,
   };
 
   return (

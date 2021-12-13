@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Platform, Pressable, Image, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -9,7 +9,7 @@ const IMAGE_SOURCE = require('../../assets/images/input/AddProfilePictures.png')
 
 const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
 
-  const [selectedImage, setSelectedImage] = React.useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -40,7 +40,7 @@ const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
         width: result.width,
         height: result.height,
       });
-      setSelectedImage(true)
+      setSelectedImage(result)
     }
   };
   return (
@@ -54,7 +54,7 @@ const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
               source = {
                 selectedImage ?
                 {
-                  uri: selectedImage.localUri
+                  uri: selectedImage.uri
                 }
                 :
                 IMAGE_SOURCE

@@ -23,6 +23,7 @@ import ViewImages from 'components/Materials/ViewImages';
 import Profile from 'components/Profile/Profile';
 import Followers from 'components/Profile/Followers';
 import ViewPdf from 'components/Materials/ViewPdf';
+import ViewVideo from 'components/Materials/ViewVideo';
 import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 
@@ -95,6 +96,10 @@ const screens = [
   {
     name: ScreenNames.VIEW_IMAGES,
     component: ViewImages,
+  },
+  {
+    name: ScreenNames.VIEW_VIDEO,
+    component: ViewVideo,
   },
   {
     name: ScreenNames.PROFILE,

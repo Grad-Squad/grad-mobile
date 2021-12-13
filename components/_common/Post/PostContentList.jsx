@@ -24,7 +24,7 @@ const MaterialTypeRouteMap = {
   [MaterialTypes.MCQ]: ScreenNames.SOLVE_MCQ,
   [MaterialTypes.PDF]: ScreenNames.VIEW_PDF,
   [MaterialTypes.Images]: ScreenNames.VIEW_IMAGES,
-  [MaterialTypes.Video]: ScreenNames.DEV, // temp
+  [MaterialTypes.Video]: ScreenNames.VIEW_VIDEO,
 };
 
 const getMaterialType = (material) => {

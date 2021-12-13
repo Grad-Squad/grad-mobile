@@ -17,13 +17,21 @@ import {
 } from 'api/endpoints/posts';
 import PropTypes from 'prop-types';
 import LoadingIndicator from 'common/LoadingIndicator';
-import { useAPIUploadImage } from 'api/endpoints/s3';
+import {
+  useAPIBulkUploadImage,
+  useAPIgetS3UploadImageLinks,
+  useAPIUploadImage,
+} from 'api/endpoints/s3';
 import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import { TransparentButton } from 'common/Input/Button';
 import {
+  addFileUploadId,
+  clearCreatePost,
   clearMaterialList,
+  parseFileUploads,
+  parsePost,
   setCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -31,25 +39,27 @@ import {
   clearImageUploadQueue,
   popImageFromUploadQueue,
 } from 'globalStore/imageUploadSlice';
+import fileUploadTypes from 'constants/fileUploadTypes';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
 const dropdownInitialItems = [
   { label: 'Apple', id: 'apple' },
-  { label: 'Banana0', id: 'banana1' },
-  { label: 'Banana2', id: 'banana3' },
-  { label: 'Banana4', id: 'banana5' },
-  { label: 'Banana6', id: 'banana7' },
-  { label: 'Banana8', id: 'banana9' },
-  { label: 'Banana10', id: 'banana11' },
-  { label: 'Banana12', id: 'banana13' },
-  { label: 'Banana14', id: 'banana15' },
-  { label: 'Banana16', id: 'banana17' },
-  { label: 'Banana18', id: 'banana19' },
-  { label: 'math d1', id: 'math d2' },
+  { label: 'Banana0', id: 'banana0' },
+  { label: 'Banana2', id: 'banana2' },
+  { label: 'Banana4', id: 'banana4' },
+  { label: 'Banana6', id: 'banana6' },
+  { label: 'Banana8', id: 'banana8' },
+  { label: 'Banana10', id: 'banana10' },
+  { label: 'Banana12', id: 'banana12' },
+  { label: 'Banana14', id: 'banana14' },
+  { label: 'Banana16', id: 'banana16' },
+  { label: 'Banana18', id: 'banana18' },
+  { label: 'math d1', id: 'math d1' },
 ];
 
 const CreatePost = ({ navigation, route }) => {
+  console.log('test');
   const { t } = useLocalization();
 
   const dispatch = useDispatch();
@@ -59,9 +69,8 @@ const CreatePost = ({ navigation, route }) => {
 
   const materialList = useSelector((state) => state.createPost.materialList);
   const { postId = undefined } = route?.params || {};
-  const uploadImageMutation = useAPIUploadImage();
   const [canUpload, setCanUpload] = useState(false);
-  const [imagesNumber, setImagesNumber] = useState(0);
+
   const [isProgressModalVisible, setIsProgressModalVisible] = useState(false);
 
   const {
@@ -95,13 +104,154 @@ const CreatePost = ({ navigation, route }) => {
     },
   });
 
-  const createPostMutation = useAPICreatePost();
+  const createPostMutation = useAPICreatePost({
+    onMutate: (data) => {
+      console.log(
+        '🚀 ~ file: CreatePost.jsx ~ line 109 ~ CreatePost ~ data',
+        data
+      );
+    },
+    onSuccess: () => {
+      dispatch(clearCreatePost());
+      navigation.goBack();
+    },
+  });
   const updatePostMutation = useAPIUpdatePost(postId, {
     onSubmit: () => refetchPost(),
+    onSuccess: () => {
+      dispatch(clearCreatePost());
+      navigation.goBack();
+    },
   });
+
+  const uploadImagesMutation = useAPIBulkUploadImage({
+    onSuccess: (fileUploadClientIdToResourceId) => {
+      // dispatch(set)
+      dispatch(
+        parsePost({ data: formik.values, fileUploadClientIdToResourceId })
+      );
+    },
+  });
+  const fileUploads = useSelector((state) => state.createPost.fileUploads);
+  const [numImageLinks, setNumImageLinks] = useState(0);
+  const uploadImageMutation = useAPIUploadImage({
+    // onSuccess: () => {
+    //   console.log('succ 1');
+    //   setAreImageUploadsDone(true);
+    //   // todo if this does not work increment a counter in the other on success
+    // },
+  });
+
+  // todo batches (ex: user uploading 200 pic might timeout due to upload time limit)
+  const getUploadLinks = useAPIgetS3UploadImageLinks(numImageLinks, {
+    enabled: numImageLinks !== 0,
+    onSuccess: (data) => {
+      console.log(
+        '🚀 ~ file: CreatePost.jsx ~ line 125 ~ CreatePost ~ data',
+        data
+      );
+
+      uploadImagesMutation.mutate(data);
+
+      // // eslint-disable-next-line no-restricted-syntax
+      // for (const [index, imgFile] of fileUploads
+      //   .filter((file) => file.fileType === fileUploadTypes.IMAGE)
+      //   .entries()) {
+      //   // todo image type
+      //   const payload = {
+      //     payload: {
+      //       ...data[index].fields,
+      //       'content-type': 'image/jpeg',
+      //       file: {
+      //         uri: imgFile.file.uri,
+      //         name: imgFile.file.fileName,
+      //         type: 'image/jpeg',
+      //       },
+      //     },
+      //   };
+      //   console.log(
+      //     '🚀 ~ file: CreatePost.jsx ~ line 141 ~ CreatePost ~ payload',
+      //     payload
+      //   );
+      //   // todo async?
+      //   uploadImageMutation.mutate(payload, {
+      //     onSuccess: () => {
+      //       console.log('succ 2 is sad');
+
+      //       dispatch(
+      //         addFileUploadId({
+      //           clientId: imgFile.clientId,
+      //           resourceId: data[index].fields.key,
+      //         })
+      //       );
+      //       console.log('update progress in ui ?');
+      //     },
+      //   });
+      // }
+      // console.log('after succ 2');
+      // setAreImageUploadsDone(true);
+    },
+    onError: () => {},
+  });
+
+  const areFileUploadsReady = useSelector(
+    (state) => state.createPost.areFileUploadsReady
+  );
+
+  useEffect(() => {
+    if (areFileUploadsReady) {
+      if (fileUploads.length !== 0) {
+        setNumImageLinks(
+          fileUploads.filter((file) => file.fileType === fileUploadTypes.IMAGE)
+            .length
+        );
+        // setAreImageUploadsDone(false);
+        // todo add other upload types
+      } else {
+        console.log('sad I');
+        // dispatch(parsePost(formik.values));
+      }
+    }
+  }, [fileUploads, areFileUploadsReady, dispatch]);
+
+  // const numUploadedFiles = useSelector(
+  //   (state) => state.createPost.numUploadedFiles
+  // );
+  // useEffect(() => {
+  //   if (numUploadedFiles === fileUploads.length && fileUploads.length !== 0) {
+  //     console.log(
+  //       '🚀 ~ file: CreatePost.jsx ~ line 196 ~ useEffect ~ numUploadedFiles',
+  //       numUploadedFiles
+  //     );
+  //     console.log('sad II');
+  //     dispatch(parsePost(formik.values));
+  //   }
+  // }, [fileUploads, numUploadedFiles, dispatch]);
+
+  const isPostReadyForUpload = useSelector(
+    (state) => state.createPost.isPostReadyForUpload
+  );
+
+  const parsedPost = useSelector((state) => state.createPost.post);
+
+  useEffect(() => {
+    console.log(
+      '🚀 ~ file: CreatePost.jsx ~ line 213 ~ useEffect ~ isPostReadyForUpload',
+      isPostReadyForUpload
+    );
+    if (isPostReadyForUpload) {
+      console.log(
+        '🚀 ~ file: CreatePost.jsx ~ line 234 ~ useEffect ~ isPostReadyForUpload gonna mutate',
+        isPostReadyForUpload
+      );
+      createPostMutation.mutate(parsedPost);
+      // todo editing ?
+    }
+  }, [isPostReadyForUpload, parsedPost]);
 
   useEffect(() => {
     if (canUpload) {
+      // dispatch(parseFileUploads());
       setCanUpload(false);
       if (imagesUploadQueue.length !== 0) {
         uploadImageMutation.mutate(imagesUploadQueue[0], {
@@ -158,19 +308,6 @@ const CreatePost = ({ navigation, route }) => {
     postId,
   ]);
 
-  useEffect(() => {
-    if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
-      dispatch(clearMaterialList());
-      dispatch(clearImageUploadQueue());
-      navigation.goBack();
-    }
-  }, [
-    navigation,
-    updatePostMutation.isSuccess,
-    createPostMutation.isSuccess,
-    dispatch,
-  ]);
-
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -178,10 +315,12 @@ const CreatePost = ({ navigation, route }) => {
       tags: null,
       materialList: [],
     },
-    onSubmit: () => {
-      setCanUpload(true);
-      setIsProgressModalVisible(true);
-      setImagesNumber(imagesUploadQueue.length);
+    onSubmit: (values) => {
+      dispatch(parseFileUploads());
+      // setCanUpload(true);
+      // setIsProgressModalVisible(true);
+      // setImagesNumber(imagesUploadQueue.length);
+      // dispatch(parsePost(values));
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -226,7 +365,7 @@ const CreatePost = ({ navigation, route }) => {
     [formik.dirty, updatePostMutation.isSuccess, createPostMutation.isSuccess]
   );
 
-  const isUploadingImages = imagesUploadQueue.length !== 0;
+  const isUploadingImages = fileUploads.length !== 0;
 
   const isUploadingPost =
     (isUploadingImages ||
@@ -234,22 +373,24 @@ const CreatePost = ({ navigation, route }) => {
       uploadImageMutation.isLoading) &&
     !uploadImageMutation.isError;
 
-  const imagesProgress = `${
-    imagesNumber - imagesUploadQueue.length
-  }/${imagesNumber}`;
+  // const imagesProgress = `${
+  //   numUploadedFiles - fileUploads.length
+  // }/${numUploadedFiles}`;
 
   return (
     <Page>
       <Portal>
         <Modal
-          dismissable={false}
-          visible={isProgressModalVisible}
+          // dismissable={false}
+          dismissable
+          visible={false}
           contentContainerStyle={styles.progressContainerStyle}
+          onDismiss={() => setIsProgressModalVisible(false)}
         >
           {isUploadingPost && <LoadingIndicator size="large" />}
           <EduText style={styles.padAbove}>
             {t('CreatePost/Upload in progress')}{' '}
-            {imagesNumber !== 0 && imagesProgress}
+            {/* {numUploadedFiles !== 0 && imagesProgress} */}
           </EduText>
           {!isUploadingPost && (
             <TransparentButton

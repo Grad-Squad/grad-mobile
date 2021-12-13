@@ -8,6 +8,7 @@ import PressableText from 'common/PressableText';
 import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import { Styles } from 'styles';
+import { fileUploadPropType } from 'proptypes';
 
 const QuestionImagePreview = ({ image, onDeletePress }) => {
   const { t } = useLocalization();
@@ -25,7 +26,7 @@ const QuestionImagePreview = ({ image, onDeletePress }) => {
               disabled: true,
             }}
           >
-            {image.fileName}
+            {image.file.fileName}
           </PressableText>
         </View>
 
@@ -36,16 +37,13 @@ const QuestionImagePreview = ({ image, onDeletePress }) => {
           size={30}
         />
       </View>
-      <ResponsiveImage imageURI={image.uri} style={styles.imageStyle} />
+      <ResponsiveImage imageURI={image.file.uri} style={styles.imageStyle} />
     </>
   );
 };
 
 QuestionImagePreview.propTypes = {
-  image: PropTypes.shape({
-    fileName: PropTypes.string,
-    uri: PropTypes.string,
-  }).isRequired,
+  image: fileUploadPropType.isRequired,
   onDeletePress: PropTypes.func.isRequired,
 };
 QuestionImagePreview.defaultProps = {};

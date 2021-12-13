@@ -59,7 +59,6 @@ const dropdownInitialItems = [
 ];
 
 const CreatePost = ({ navigation, route }) => {
-  console.log('test');
   const { t } = useLocalization();
 
   const dispatch = useDispatch();
@@ -105,12 +104,6 @@ const CreatePost = ({ navigation, route }) => {
   });
 
   const createPostMutation = useAPICreatePost({
-    onMutate: (data) => {
-      console.log(
-        '🚀 ~ file: CreatePost.jsx ~ line 109 ~ CreatePost ~ data',
-        data
-      );
-    },
     onSuccess: () => {
       dispatch(clearCreatePost());
       navigation.goBack();
@@ -134,23 +127,12 @@ const CreatePost = ({ navigation, route }) => {
   });
   const fileUploads = useSelector((state) => state.createPost.fileUploads);
   const [numImageLinks, setNumImageLinks] = useState(0);
-  const uploadImageMutation = useAPIUploadImage({
-    // onSuccess: () => {
-    //   console.log('succ 1');
-    //   setAreImageUploadsDone(true);
-    //   // todo if this does not work increment a counter in the other on success
-    // },
-  });
+  const uploadImageMutation = useAPIUploadImage({});
 
   // todo batches (ex: user uploading 200 pic might timeout due to upload time limit)
   const getUploadLinks = useAPIgetS3UploadImageLinks(numImageLinks, {
     enabled: numImageLinks !== 0,
     onSuccess: (data) => {
-      console.log(
-        '🚀 ~ file: CreatePost.jsx ~ line 125 ~ CreatePost ~ data',
-        data
-      );
-
       uploadImagesMutation.mutate(data);
 
       // // eslint-disable-next-line no-restricted-syntax
@@ -169,14 +151,10 @@ const CreatePost = ({ navigation, route }) => {
       //       },
       //     },
       //   };
-      //   console.log(
-      //     '🚀 ~ file: CreatePost.jsx ~ line 141 ~ CreatePost ~ payload',
-      //     payload
-      //   );
       //   // todo async?
       //   uploadImageMutation.mutate(payload, {
       //     onSuccess: () => {
-      //       console.log('succ 2 is sad');
+      //
 
       //       dispatch(
       //         addFileUploadId({
@@ -184,11 +162,11 @@ const CreatePost = ({ navigation, route }) => {
       //           resourceId: data[index].fields.key,
       //         })
       //       );
-      //       console.log('update progress in ui ?');
+      //
       //     },
       //   });
       // }
-      // console.log('after succ 2');
+      //
       // setAreImageUploadsDone(true);
     },
     onError: () => {},
@@ -208,7 +186,6 @@ const CreatePost = ({ navigation, route }) => {
         // setAreImageUploadsDone(false);
         // todo add other upload types
       } else {
-        console.log('sad I');
         // dispatch(parsePost(formik.values));
       }
     }
@@ -219,11 +196,6 @@ const CreatePost = ({ navigation, route }) => {
   // );
   // useEffect(() => {
   //   if (numUploadedFiles === fileUploads.length && fileUploads.length !== 0) {
-  //     console.log(
-  //       '🚀 ~ file: CreatePost.jsx ~ line 196 ~ useEffect ~ numUploadedFiles',
-  //       numUploadedFiles
-  //     );
-  //     console.log('sad II');
   //     dispatch(parsePost(formik.values));
   //   }
   // }, [fileUploads, numUploadedFiles, dispatch]);
@@ -235,15 +207,7 @@ const CreatePost = ({ navigation, route }) => {
   const parsedPost = useSelector((state) => state.createPost.post);
 
   useEffect(() => {
-    console.log(
-      '🚀 ~ file: CreatePost.jsx ~ line 213 ~ useEffect ~ isPostReadyForUpload',
-      isPostReadyForUpload
-    );
     if (isPostReadyForUpload) {
-      console.log(
-        '🚀 ~ file: CreatePost.jsx ~ line 234 ~ useEffect ~ isPostReadyForUpload gonna mutate',
-        isPostReadyForUpload
-      );
       createPostMutation.mutate(parsedPost);
       // todo editing ?
     }

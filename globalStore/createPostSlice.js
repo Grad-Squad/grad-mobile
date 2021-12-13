@@ -90,7 +90,6 @@ export const createPostSlice = createSlice({
         data: { title, subject, tags, materialList },
         fileUploadClientIdToResourceId,
       } = action.payload;
-      console.log('start parsing');
 
       const postMaterials = materialList.map((material) => {
         let parsedMaterial;
@@ -106,21 +105,13 @@ export const createPostSlice = createSlice({
         }
       });
 
-      console.log('parsed post i');
-      console.log(
-        '🚀 ~ file: createPostSlice.js ~ line 117 ~ postMaterials',
-        postMaterials
-      );
-
       state.post = {
         title,
         priceInCents: 0,
         subject,
         materials: postMaterials,
       };
-      console.log('parsed post');
       state.isPostReadyForUpload = true;
-      console.log('parsed post ii');
     },
   },
 });

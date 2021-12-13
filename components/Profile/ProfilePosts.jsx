@@ -19,6 +19,7 @@ const ProfilePosts = () => {
         [{ nativeEvent: { contentOffset: { y: offset } } }],
         { useNativeDriver: true }
       )}
+      noItemsLocalizationKey="Profile/This user didn't post anything yet."
     />
   );
 };

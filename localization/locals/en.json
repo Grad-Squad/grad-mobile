@@ -139,10 +139,20 @@
         "add at least one question": "add at least one question"
       }
     },
+    "Images": {
+      "Add Images": "Add Images",
+      "Images Title": "Images Title",
+      "Press and hold to reorder, Swipe right to delete": "Press and hold to reorder, Swipe right to delete"
+    },
     "PDF": {
       "Add PDF": "Add PDF",
       "PDF Title": "PDF Title",
       "PDF file name:": "PDF file name:"
+    },
+    "Video": {
+      "Add Video": "Add Video",
+      "Video Title": "Video Title",
+      "Video file name:": "Video file name:"
     },
     "Add": "Add",
     "Add Question": "Add Question",
@@ -295,7 +305,8 @@
       "Posts": "Posts",
       "Followers": "Followers"
     },
-    "Followers": "Followers"
+    "Followers": "Followers",
+    "This user didn't post anything yet.": "This user didn't post anything yet."
   },
   "Flashcards": {
     "Tap anywhere to show answer": "Tap anywhere to show answer",

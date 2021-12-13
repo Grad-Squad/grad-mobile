@@ -2,13 +2,6 @@ import { CurrentUserStatus } from 'constants';
 import PropTypes from 'prop-types';
 import { Text, ViewPropTypes } from 'react-native';
 
-export const uriPropType = PropTypes.exact({
-  id: PropTypes.number.isRequired,
-  key: PropTypes.string.isRequired,
-  uri: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-});
-
 export const childrenPropType = PropTypes.oneOfType([
   PropTypes.arrayOf(PropTypes.node),
   PropTypes.node,
@@ -101,12 +94,20 @@ export const stringOrNumberPropType = PropTypes.oneOfType([
   PropTypes.number.isRequired,
 ]);
 
+export const uriPropType = PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['image', 'pdf', 'video']).isRequired,
+  uri: PropTypes.string.isRequired,
+});
+
 export const flashcardPropType = PropTypes.exact({
   id: PropTypes.number.isRequired,
   frontImage: uriPropType.isRequired,
   frontText: PropTypes.string.isRequired,
   backText: PropTypes.string.isRequired,
   backImage: uriPropType.isRequired,
+  materialCollectionId: PropTypes.number.isRequired,
 });
 
 export const materialPropType = PropTypes.exact({
@@ -124,16 +125,11 @@ export const materialPropType = PropTypes.exact({
       ]),
       answerIndices: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
       choices: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-      choicesUrisKeys: PropTypes.arrayOf(PropTypes.string.isRequired),
+      choicesImages: PropTypes.arrayOf(uriPropType),
     }).isRequired
   ).isRequired,
   flashcards: PropTypes.arrayOf(flashcardPropType.isRequired).isRequired,
-  uris: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.number.isRequired,
-      uri: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
+  uris: PropTypes.arrayOf(uriPropType).isRequired,
 });
 export const materialsPropType = PropTypes.arrayOf(materialPropType);
 

@@ -10,8 +10,7 @@ import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { navigationPropType, routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import { deepCompare, deepCopy } from 'utility';
-import useOnGoBack from 'navigation/useOnGoBack';
-import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
+import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import { MaterialTypes } from 'constants';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -42,6 +41,7 @@ const AddMCQ = ({ navigation, route }) => {
       questions: editMCQ?.questions ? deepCopy(editMCQ?.questions) : [], // Deep Clone
     },
     onSubmit: (mcq, formikBag) => {
+      mcq.amount = mcq.questions.length;
       const submitForm = () => {
         if (editIndex === undefined) {
           dispatch(addCreateMaterialItem({ ...mcq, type: MaterialTypes.MCQ }));
@@ -88,26 +88,20 @@ const AddMCQ = ({ navigation, route }) => {
     formik.handleSubmit();
   };
 
-  useOnGoBack(
-    (e) => {
+  useOnGoBackDiscardWarning(
+    () => {
       const questionsDirty = editMCQ
         ? !deepCompare(editMCQ?.questions, formik.values.questions)
         : formik.values.questions.length !== 0;
-      if (
+      return (
         !(formik.dirty || subFormikDirty || questionsDirty) ||
         formik.isSubmitting
-      ) {
-        return;
-      }
-
-      e.preventDefault();
-
-      DiscardChangesAlert(t, () => {
-        navigation.dispatch(e.data.action);
-        dispatch(removeLastXFromUploadQueue(numAddedImages));
-      });
+      );
     },
-    [formik.dirty, subFormikDirty, formik.isSubmitting]
+    [formik.dirty, subFormikDirty, formik.isSubmitting],
+    () => {
+      dispatch(removeLastXFromUploadQueue(numAddedImages));
+    }
   );
 
   return (

@@ -16,11 +16,10 @@ const CommentList = ({ postID, setCommentToEdit }) => (
       const { content, createdAt, author, rating, postId, id } = item;
       return (
         <Comment
-          profileName={author.name}
+          author={author}
           text={content}
           commentDate={createdAt}
           rating={rating}
-          profileId={author.id}
           commentId={id}
           postId={postId}
           onEdit={() => {

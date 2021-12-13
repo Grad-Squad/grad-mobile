@@ -22,7 +22,7 @@ WebBrowser.maybeCompleteAuthSession();
 const SignInWithGoogle = ({ disabled, style }) => {
   const { t } = useLocalization();
   const navigation = useNavigation();
-  const [request, response, promptAsync] = Google.useAuthRequest({
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId: EXPO_CLIENT_ID,
     iosClientId: IOS_CLIENT_ID,
     androidClientId: ANDROID_CLIENT_ID,
@@ -40,8 +40,7 @@ const SignInWithGoogle = ({ disabled, style }) => {
 
   React.useEffect(() => {
     if (response?.type === 'success') {
-      const { authentication } = response;
-      googleLoginMutation.mutate(authentication.accessToken);
+      googleLoginMutation.mutate(response.params.id_token);
     }
   }, [response]);
 

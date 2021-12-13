@@ -53,7 +53,10 @@ const RequiredInfo = ({ navigation }) => {
 
   const onContinueClick = () => {
     if (formik.isValid && formik.dirty) {
-      registerMutation.mutate(formik.values);
+      registerMutation.mutate({
+        ...formik.values,
+        email: formik.values.email.toLowerCase(),
+      });
     } else {
       formik.setFieldTouched('email');
       formik.setFieldTouched('password');

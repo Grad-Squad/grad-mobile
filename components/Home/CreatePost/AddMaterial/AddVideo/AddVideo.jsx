@@ -1,30 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
-import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
-import Page from 'common/Page/Page';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
+import { useFormik } from 'formik';
+import { MaterialTypes } from 'constants';
+import * as yup from 'yup';
+import { materialTitle, requiredError } from 'validation';
+import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
+import Page from 'common/Page/Page';
+import { routeParamPropType } from 'proptypes';
+import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
 import { TransparentTextInputFormik } from 'common/Input';
 import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
-import * as yup from 'yup';
-import { useFormik } from 'formik';
-import { materialTitle } from 'validation';
 import * as DocumentPicker from 'expo-document-picker';
-import { MaterialTypes } from 'constants';
-import { routeParamPropType } from 'proptypes';
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   addCreateMaterialItem,
   replaceCreateMaterialItem,
 } from 'globalStore/createPostSlice';
-import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
+import { useDispatch, useSelector } from 'react-redux';
 import AddDocument from '../AddDocument';
-import PreviewDocument from './PreviewDocument';
+import PreviewVideo from './PreviewVideo';
 
-const AddPDF = ({ route }) => {
+const AddVideo = ({ route }) => {
   const editIndex = route?.params?.index;
 
   const { t } = useLocalization();
@@ -33,23 +33,25 @@ const AddPDF = ({ route }) => {
   const materialList = useSelector((state) => state.createPost.materialList);
   const dispatch = useDispatch();
 
-  const editPdf = materialList[editIndex];
+  const editVideo = materialList[editIndex];
 
   const formik = useFormik({
     initialValues: {
-      title: editPdf?.title ?? '',
-      fileName: editPdf?.fileName ?? '',
-      fileUri: editPdf?.fileUri ?? '',
+      title: editVideo?.title ?? '',
+      fileName: editVideo?.fileName ?? '',
+      fileUri: editVideo?.fileUri ?? '',
     },
-    onSubmit: (pdf) => {
-      pdf.amount = 1;
+    onSubmit: (video) => {
+      video.amount = 1;
       if (editIndex === undefined) {
-        dispatch(addCreateMaterialItem({ ...pdf, type: MaterialTypes.PDF }));
+        dispatch(
+          addCreateMaterialItem({ ...video, type: MaterialTypes.Video })
+        );
       } else {
         dispatch(
           replaceCreateMaterialItem({
             index: editIndex,
-            material: { ...pdf, type: MaterialTypes.PDF },
+            material: { ...video, type: MaterialTypes.Video },
           })
         );
       }
@@ -57,7 +59,21 @@ const AddPDF = ({ route }) => {
     },
     validationSchema: yup.object().shape({
       title: materialTitle(t),
-      fileName: yup.string().required(t('AddMaterial/Please add a file')),
+      fileName: yup
+        .string()
+        .test(
+          'required if neither filename or url are filled',
+          t('AddMaterial/Please add a file'),
+          (value) => value || formik.values.videoUrl
+        ),
+      videoUrl: yup
+        .string()
+        .test(
+          'required if neither filename or url are filled',
+          requiredError(t),
+          (value) => value || formik.values.fileName
+        )
+        .url('(should be a URL)'),
     }),
   });
   const attemptSubmit = () => {
@@ -72,31 +88,31 @@ const AddPDF = ({ route }) => {
   return (
     <Page>
       <MaterialCreateHeader
-        title={t('AddMaterial/PDF/Add PDF')}
+        title={t('AddMaterial/Video/Add Video')}
         rightButtonText={t('AddMaterial/Finish')}
         onPress={attemptSubmit}
         onBackPress={() => {
           navigation.goBack();
         }}
       />
-      <View style={styles.pdfNameRow}>
+      <View style={styles.nameRow}>
         <TransparentTextInputFormik
           formik={formik}
           formikKey="title"
-          title={t('AddMaterial/PDF/PDF Title')}
-          style={styles.pdfName}
+          title={t('AddMaterial/Video/Video Title')}
+          style={styles.videoTitle}
         />
         {!!formik.values.title && (
           <PressableIcon
             name={IconNames.close}
             size={30}
-            style={styles.clearPdfName}
+            style={styles.clearVideoTitle}
             onPress={() => formik.setFieldValue('title', '')}
           />
         )}
       </View>
       {formik.values.fileName ? (
-        <PreviewDocument
+        <PreviewVideo
           fileName={formik.values.fileName}
           uri={formik.values.fileUri}
           onRemoveFile={() => {
@@ -113,44 +129,43 @@ const AddPDF = ({ route }) => {
               uri,
             } = await DocumentPicker.getDocumentAsync({
               copyToCacheDirectory: false,
-              type: 'application/pdf',
+              type: 'video/*',
             });
             if (type !== 'canceled') {
               if (!formik.values.title) {
-                formik.setFieldValue('title', fileName.split('.pdf')[0]);
+                formik.setFieldValue('title', fileName.split('.')[0]);
               }
               formik.setFieldValue('fileName', fileName);
               formik.setFieldValue('fileUri', uri);
             }
           }}
           error={formik.touched.fileName && formik.errors.fileName}
-          iconName={IconNames.addDocument}
+          iconName={IconNames.addVideo}
         />
       )}
     </Page>
   );
 };
 
-AddPDF.propTypes = {
+AddVideo.propTypes = {
   route: routeParamPropType(
     PropTypes.shape({ index: PropTypes.number.isRequired })
   ),
 };
-AddPDF.defaultProps = {
+AddVideo.defaultProps = {
   route: undefined,
 };
-
-export default AddPDF;
+export default AddVideo;
 
 const styles = StyleSheet.create({
-  pdfNameRow: {
+  nameRow: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  pdfName: {
+  videoTitle: {
     flex: 1,
   },
-  clearPdfName: {
+  clearVideoTitle: {
     marginHorizontal: 7,
   },
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Pressable, StyleSheet } from 'react-native';
-import { IconNames } from 'common/Icon/Icon';
+import { IconNames, iconNamesPropType } from 'common/Icon/Icon';
 import EduText from 'common/EduText';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import { Icon } from 'common/Icon';
@@ -19,7 +19,7 @@ const OptionButton = ({ label, iconName, onPress }) => (
 
 OptionButton.propTypes = {
   label: PropTypes.string.isRequired,
-  iconName: PropTypes.oneOf(Object.values(IconNames)),
+  iconName: iconNamesPropType,
   onPress: PropTypes.func.isRequired,
 };
 OptionButton.defaultProps = { iconName: IconNames.settings };

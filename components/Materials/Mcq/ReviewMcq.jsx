@@ -12,7 +12,7 @@ import { useLocalization } from 'localization';
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import ScreenNames from 'navigation/ScreenNames';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMCQQuestions } from 'globalStore/materialNavSlice';
+import { setOpenMaterialData } from 'globalStore/materialNavSlice';
 import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
 import ReviewMcqModal from './ReviewMcqModal';
 
@@ -20,7 +20,9 @@ const ReviewMcq = ({ navigation }) => {
   const { t } = useLocalization();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
-  const storedAnswers = useSelector((state) => state.material.mcqQuestions);
+  const { data: storedAnswers } = useSelector(
+    (state) => state.material.openMaterialData
+  );
 
   const correctCount = storedAnswers.filter((ans) => ans.isCorrect).length;
   const skippedCount = storedAnswers.filter((ans) => ans.isSkipped).length;
@@ -123,7 +125,7 @@ const ReviewMcq = ({ navigation }) => {
           isShownAllowed={answersShownCount > 0}
           onFinish={(isCorrect, isWrong, isAnswerShown, isSkipped) => {
             dispatch(
-              setMCQQuestions(
+              setOpenMaterialData(
                 storedAnswers.filter(
                   (ans) =>
                     (ans.isCorrect && isCorrect) ||

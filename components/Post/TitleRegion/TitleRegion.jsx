@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderRightWidth: 0.1,
     borderBottomWidth: 0.1,
-    borderColor: 'rgba(0 ,0 , 0,0.5)',
+    borderColor: Colors.background,
     backgroundColor: Colors.background,
   },
   outerContainer: {

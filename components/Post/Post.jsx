@@ -6,8 +6,12 @@ import { materialsPropType, ratingPropType, stylePropType } from 'proptypes';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
+import { useLocalization } from 'localization';
+import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import { apiFeedQueryKey, useAPIDeletePost } from 'api/endpoints/posts';
 import TitleRegion from './TitleRegion/TitleRegion';
 import FooterRegion from './FooterRegion';
+import PostDeletionAlert from './PostDeletionAlert';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,12 +34,22 @@ function Post({
   commentCount,
   materials,
 }) {
+  const { t } = useLocalization();
   const navigation = useNavigation();
+  const deletePostMutation = useAPIDeletePost(id, {
+    onSuccess: () => {
+      // ? deleted successfully message
+      queryClient.invalidateQueries(apiFeedQueryKey);
+    },
+  });
   const onEdit = () => {
     navigation.navigate(ScreenNames.CREATE_POST, {
       edit: true,
       postId: id,
     });
+  };
+  const onDelete = () => {
+    PostDeletionAlert(t, () => deletePostMutation.mutate());
   };
   return (
     <Pressable
@@ -58,7 +72,7 @@ function Post({
           commentCount={commentCount}
           isPost
           onEdit={onEdit}
-          onDelete={() => Alert.alert('Delete WIP')}
+          onDelete={onDelete}
         />
       </ThemeProvider>
     </Pressable>

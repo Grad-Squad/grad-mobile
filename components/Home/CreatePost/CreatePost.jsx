@@ -130,7 +130,10 @@ const CreatePost = ({ navigation, route }) => {
                   .map(({ isCorrect }, index) => (isCorrect ? index : -1))
                   .filter((i) => i !== -1),
                 choices: choices.map(({ text }) => text),
-                questionUriKey,
+                questionImage: {
+                  key: questionUriKey,
+                  type: 'image',
+                },
               })),
             })
           ),

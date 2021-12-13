@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/core';
  * Set a handler for navigation beforeRemove.
  *
  * @param {Function} onNavBack navigation beforeRemove callback, receives event e.
- * @param {Array} onBackPress dependency list.
+ * @param {Array} dependencies dependency list.
  *
  * @example
  * ```

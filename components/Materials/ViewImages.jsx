@@ -9,7 +9,10 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { useSelector } from 'react-redux';
 
 const ViewImages = ({ navigation }) => {
-  const images = useSelector((state) => state.material.openMaterialData);
+  const { data: images, title } = useSelector(
+    (state) => state.material.openMaterialData
+  );
+  const materialOwner = useSelector((state) => state.material.materialOwner);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modalIndex, setModalIndex] = useState(0);
@@ -19,8 +22,8 @@ const ViewImages = ({ navigation }) => {
       <Portal>
         <MaterialViewHeader
           onBackPress={() => navigation.goBack()}
-          author="Ramez"
-          title="When the potato took over"
+          author={materialOwner?.name}
+          title={title}
           contextMenuItems={[
             {
               titleKey: 'ContextMenu/Save',

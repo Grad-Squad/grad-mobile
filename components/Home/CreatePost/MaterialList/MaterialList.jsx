@@ -13,31 +13,27 @@ import MaterialItem from './MaterialItem';
 const flatListRenderItem = ({ item: { title, amount, type, onPress } }) => (
   <MaterialItem title={title} amount={amount} type={type} onPress={onPress} />
 );
+const MaterialTypeRouteMap = {
+  [MaterialTypes.Flashcards]: ScreenNames.ADD_FLASHCARDS,
+  [MaterialTypes.MCQ]: ScreenNames.ADD_MCQ,
+  [MaterialTypes.PDF]: ScreenNames.ADD_PDF,
+  [MaterialTypes.Images]: ScreenNames.ADD_IMAGES,
+  [MaterialTypes.Video]: ScreenNames.ADD_VIDEO,
+};
 
 const MaterialList = ({ materials, errorMsg }) => {
   const navigation = useNavigation();
   const { t } = useLocalization();
   const formattedMaterials = useMemo(
     () =>
-      materials.map((material, index) => {
-        if (material.type === MaterialTypes.PDF) {
-          return {
-            id: index.toString(), // ! index as id
-            type: material.type,
-            title: material.pdfTitle,
-            // amount: material.questions.length,
-            amount: 6666,
-            onPress: () => navigation.navigate(ScreenNames.ADD_PDF, { index }),
-          };
-        }
-        return {
-          id: index.toString(), // ! index as id
-          type: MaterialTypes.MCQ,
-          title: material.title,
-          amount: material.questions.length,
-          onPress: () => navigation.navigate(ScreenNames.ADD_MCQ, { index }),
-        };
-      }),
+      materials.map(({ type, title, amount }, index) => ({
+        id: index.toString(), // ! index as id
+        type,
+        title,
+        amount,
+        onPress: () =>
+          navigation.navigate(MaterialTypeRouteMap[type], { index }),
+      })),
     [materials]
   );
   return (

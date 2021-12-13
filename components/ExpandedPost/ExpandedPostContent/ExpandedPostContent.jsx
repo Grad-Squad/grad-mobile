@@ -17,6 +17,8 @@ import FooterRegion from 'components/Post/FooterRegion';
 import PostDeletionAlert from 'components/Post/PostDeletionAlert';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import ScreenNames from 'navigation/ScreenNames';
+import { useDispatch } from 'react-redux';
+import { setMaterialOwner } from 'globalStore/materialNavSlice';
 
 import AuthorInfo from './AuthorInfo';
 import ExpandedPostContentSkeleton from './ExpandedPostContentSkeleton';
@@ -40,6 +42,9 @@ const ExpandedPostContent = ({ navigation, postId }) => {
         : 0,
     [post]
   );
+
+  const dispatch = useDispatch();
+  dispatch(setMaterialOwner(post?.author));
 
   if (isLoading) {
     return <ExpandedPostContentSkeleton navigation={navigation} />;

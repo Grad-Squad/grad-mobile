@@ -22,9 +22,9 @@ const backendUriTypeToFrontendMap = {
 const MaterialTypeRouteMap = {
   [MaterialTypes.Flashcards]: ScreenNames.SOLVE_FLASHCARD,
   [MaterialTypes.MCQ]: ScreenNames.SOLVE_MCQ,
-  [MaterialTypes.PDF]: ScreenNames.DEV, // temp
+  [MaterialTypes.PDF]: ScreenNames.VIEW_PDF,
   [MaterialTypes.Images]: ScreenNames.VIEW_IMAGES,
-  [MaterialTypes.Video]: ScreenNames.DEV, // temp
+  [MaterialTypes.Video]: ScreenNames.VIEW_VIDEO,
 };
 
 const getMaterialType = (material) => {
@@ -79,7 +79,7 @@ function PostContentList({ notClickable, materials }) {
               notClickable={notClickable}
               onPress={() => {
                 dispatch(
-                  setOpenMaterialData(getMaterialData(item, materialType))
+                  setOpenMaterialData({title: item.title, data: getMaterialData(item, materialType)})
                 );
                 return navigation.navigate(MaterialTypeRouteMap[materialType]);
               }}

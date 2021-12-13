@@ -12,8 +12,10 @@ const PdfViewer = ({ uri }) =>
   );
 
 PdfViewer.propTypes = {
-  uri: PropTypes.string.isRequired,
+  uri: PropTypes.string,
 };
-PdfViewer.defaultProps = {};
+PdfViewer.defaultProps = {
+  uri: undefined,
+};
 
 export default React.memo(PdfViewer);

@@ -50,6 +50,7 @@ export const IconNames = Object.freeze({
   keyboardArrowLeft: 'keyboard-arrow-left',
   keyboardArrowRight: 'keyboard-arrow-right',
   Folder: 'folder-outline',
+  removeImage: 'image-remove',
 });
 
 const map = {
@@ -90,6 +91,7 @@ const map = {
   'keyboard-arrow-left': MaterialIcons,
   'keyboard-arrow-right': MaterialIcons,
   'folder-outline': MaterialCommunityIcons,
+  'image-remove': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

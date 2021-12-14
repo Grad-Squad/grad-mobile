@@ -19,7 +19,7 @@ const AuthorInfo = ({ profilePicture, name, profileId }) => {
           source={
             profilePicture
               ? {
-                  uri: profilePicture,
+                  uri: profilePicture.uri,
                 }
               : AssetsConstants.images.defaultProfile
           }
@@ -35,7 +35,12 @@ const AuthorInfo = ({ profilePicture, name, profileId }) => {
 };
 
 AuthorInfo.propTypes = {
-  profilePicture: PropTypes.string,
+  profilePicture: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    key: PropTypes.string.isRequired,
+    uri: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+  }),
   name: PropTypes.string.isRequired,
   profileId: PropTypes.number.isRequired,
 };

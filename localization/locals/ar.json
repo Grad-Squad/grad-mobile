@@ -74,6 +74,10 @@
     "Delete": "حذف",
     "Save": "حفظ"
   },
+  "PictureBottomSheetMenu": {
+    "Edit": "تغيير صورة ملفك الشخصي",
+    "Delete": "إزالة صورة ملفك الشخصي"
+  },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",
     "Edit Post": "تعديل منشور",
@@ -269,6 +273,10 @@
       "confirm button": "حذف",
       "reject button": "إلغاء"
     }
+  },
+  "ProfilePicture":{
+    "Confirm": "اتمام",
+    "Cancel":"إلغاء"
   },
   "WIP": {
     "WIP": "الأعمال جارية",

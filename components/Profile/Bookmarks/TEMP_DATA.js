@@ -55,7 +55,7 @@ export default {
             updatedAt: '2021-09-22T20:12:50.310Z',
             name: 'Sameh Initial twe2lve',
             role: 'teacher',
-            profilePicture: '',
+            profilePicture: null,
             biography: 'Hi1',
           },
         },

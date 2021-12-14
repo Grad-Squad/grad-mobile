@@ -1,8 +1,8 @@
 import React from 'react';
 import { ThemeProvider } from 'react-native-elements';
-import { StyleSheet, Pressable, Alert } from 'react-native';
+import { StyleSheet, Pressable } from 'react-native';
 import PropTypes from 'prop-types';
-import { materialsPropType, ratingPropType, stylePropType } from 'proptypes';
+import { materialsPropType, ratingPropType, stylePropType, uriPropType } from 'proptypes';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
@@ -89,9 +89,7 @@ Post.propTypes = {
   author: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    profilePicture: PropTypes.shape({
-      uri: PropTypes.string.isRequired,
-    }),
+    profilePicture: uriPropType,
   }).isRequired,
   style: stylePropType,
   commentCount: PropTypes.number.isRequired,

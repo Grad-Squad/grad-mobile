@@ -4,12 +4,13 @@ import { Alert, Platform, Pressable, Image, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { PressableIcon } from './Icon';
 import { IconNames } from './Icon/Icon';
+import { uriPropType } from 'proptypes';
 
 const IMAGE_SOURCE = require('../../assets/images/input/AddProfilePictures.png');
 
-const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
+const ImageSelector = ({ setImage, isRegisteration, prevImage ,...props }) => {
 
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(prevImage);
 
   useEffect(() => {
     (async () => {
@@ -71,9 +72,11 @@ const ImageSelector = ({ setImage, isRegisteration ,...props }) => {
 ImageSelector.propTypes = {
   setImage: PropTypes.func.isRequired,
   isRegisteration: PropTypes.bool,
+  prevImage: uriPropType,
 };
 ImageSelector.defaultProps = {
   isRegisteration: false,
+  prevImage: null,
 };
 
 export default ImageSelector;

@@ -32,5 +32,6 @@ export default Object.freeze({
     getUploadVideoLinks: '/s3/upload/video?numberOfLinks={0}',
     uploadFile: 'https://s3.eu-central-1.amazonaws.com/educate-awesome-test',
     getFileUri: '/s3/get/{0}',
+    deleteUri: '/s3/{0}',
   },
 });

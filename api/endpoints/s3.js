@@ -2,6 +2,7 @@ import { useAxios } from 'api/AxiosProvider';
 import { useMutation, useQuery } from 'react-query';
 import { formatString } from 'utility';
 import * as normalAxios from 'axios';
+import { useStore } from 'globalStore/GlobalStore';
 import endpoints from './endpoints';
 
 // export const useAPIgetManyS3UploadLinks = (numberOfLinks, options) => {
@@ -81,6 +82,17 @@ export const useAPIgetS3UploadVideoLinks = (numberOfLinks=1,options) => {
       ...options,
     }
   );
+};
+export const useDeleteUri = (mutationConfig) => {
+  const { axios } = useAxios();
+  const [store] = useStore();
+
+  return useMutation(async (itemKey) => {
+    const { data } = await axios.delete(
+      formatString(endpoints.s3.deleteUri, `${store.profileId}%2F${itemKey}`)
+    );
+    return data;
+  }, mutationConfig);
 };
 
 

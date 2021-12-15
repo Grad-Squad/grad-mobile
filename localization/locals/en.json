@@ -74,6 +74,10 @@
     "Delete": "Delete",
     "Save": "Save"
   },
+  "PictureBottomSheetMenu": {
+    "Edit": "Edit your profile picture",
+    "Delete": "Remove your profile picture"
+  },
   "CreatePost": {
     "Create New Post": "Create New Post",
     "Edit Post": "Edit Post",
@@ -278,7 +282,17 @@
       "message": "Are you sure you want delete your comment?\nyou can't undo this action",
       "confirm button": "Delete",
       "reject button": "Cancel"
+    },
+    "Confirm Profile Picture remove?": {
+      "title": "Remove Profile picture?",
+      "message": "Are you sure you want remove your profile picture?\nyou can't undo this action",
+      "confirm button": "Remove",
+      "reject button": "Cancel"
     }
+  },
+  "ProfilePicture":{
+    "Confirm": "Confirm",
+    "Cancel": "Cancel"
   },
   "WIP": {
     "WIP": "WIP",

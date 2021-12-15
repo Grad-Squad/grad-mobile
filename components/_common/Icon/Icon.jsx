@@ -52,6 +52,7 @@ export const IconNames = Object.freeze({
   keyboardArrowRight: 'keyboard-arrow-right',
   addVideo: 'file-video-outline',
   Folder: 'folder-outline',
+  removeImage: 'image-remove',
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
@@ -97,6 +98,7 @@ const map = {
   'keyboard-arrow-right': MaterialIcons,
   'file-video-outline': MaterialCommunityIcons,
   'folder-outline': MaterialCommunityIcons,
+  'image-remove': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style }) => {

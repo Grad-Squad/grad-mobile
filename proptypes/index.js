@@ -42,6 +42,14 @@ export const contextMenuItemsPropType = PropTypes.arrayOf(
     }).isRequired,
   ])
 );
+export const bottomSheetMenuItemsPropType = PropTypes.arrayOf(
+    PropTypes.exact({
+      titleKey: PropTypes.string.isRequired,
+      optionStyle: TextPropType,
+      onPress: PropTypes.func.isRequired,
+      iconName: PropTypes.string.isRequired,
+    }).isRequired,
+);
 export const routeParamPropType = (paramsPropTypes) =>
   PropTypes.shape({
     params: paramsPropTypes,
@@ -143,6 +151,6 @@ export const fullProfilePropType = PropTypes.exact({
   isOwner: PropTypes.bool.isRequired,
   _count: PropTypes.exact({
     posts: PropTypes.number.isRequired,
-    following: PropTypes.number.isRequired,
+    followers: PropTypes.number.isRequired,
   }).isRequired,
 });

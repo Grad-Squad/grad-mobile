@@ -36,7 +36,7 @@ function Options({ onEdit, onDelete, contentProfileId }) {
     },
     {
       divider: true,
-      key: 'divider1',
+      key: 'divider_edit/delete',
     },
     {
       titleKey: 'ContextMenu/Delete',
@@ -45,7 +45,7 @@ function Options({ onEdit, onDelete, contentProfileId }) {
     },
     {
       divider: true,
-      key: 'lastDivider',
+      key: 'divider_authorItems/Items',
     },
   ];
 
@@ -57,7 +57,7 @@ function Options({ onEdit, onDelete, contentProfileId }) {
     },
     {
       divider: true,
-      key: 'divider2',
+      key: 'divider_share/report',
     },
     {
       titleKey: 'ContextMenu/Report',

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should match snapshot when profilePicture=https://picsum.photos/200/300 1`] = `
+exports[`should match snapshot when profilePicture={ uri: 'https://picsum.photos/200/300', key: 'randomkeyvalue' } 1`] = `
 <View
   style={
     Object {
@@ -81,7 +81,7 @@ exports[`should match snapshot when profilePicture=https://picsum.photos/200/300
 </View>
 `;
 
-exports[`should match snapshot when profilePicture=undefined 1`] = `
+exports[`should match snapshot when profilePicture=null 1`] = `
 <View
   style={
     Object {

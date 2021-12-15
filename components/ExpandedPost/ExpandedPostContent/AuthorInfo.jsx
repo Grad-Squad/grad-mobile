@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import EduText from 'common/EduText';
-import { Colors } from 'styles';
 import { AssetsConstants } from 'constants';
 import ScreenNames from 'navigation/ScreenNames';
 import { useNavigation } from '@react-navigation/native';
@@ -36,10 +35,7 @@ const AuthorInfo = ({ profilePicture, name, profileId }) => {
 
 AuthorInfo.propTypes = {
   profilePicture: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    key: PropTypes.string.isRequired,
     uri: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
   }),
   name: PropTypes.string.isRequired,
   profileId: PropTypes.number.isRequired,

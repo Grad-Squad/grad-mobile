@@ -157,7 +157,14 @@ const ProfileHeader = ({ navigation, profile }) => {
     }
   }
   const onRemoveProfilePicture = () => {
-    ProfilePictureAlert(t, () => deleteUriMutation.mutate(profile?.profilePicture?.key) ,() => setBottomSheetVisible(false))
+    setPreviousKey(profile?.profilePicture?.key)
+    const dataToSend = {
+      role: profile?.role,
+      profilePicture: null,
+      biography: profile?.biography,
+    }
+    setPreviousKey(profile?.profilePicture?.key)
+    ProfilePictureAlert(t, () => updateProfileMutation.mutate({ profileInfo: dataToSend, profileId: profile.id }) ,() => setBottomSheetVisible(false))
   }
 
   const { offset } = useContext(ProfileContext);

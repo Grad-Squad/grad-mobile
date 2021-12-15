@@ -14,7 +14,7 @@ import { BASIC_5V_HIT_SLOP_OBJECT } from 'constants';
 const imageWidth = 70;
 const imageOffset = -25;
 
-const defaultProfileImage = require('../../../assets/images/defaultUser.png')
+const defaultProfileImage = require('../../../assets/images/defaultUser.png');
 
 function TitleRegion({ title, author, createdAt, materials }) {
   const postDate = useMemo(() => new Date(createdAt), [createdAt]);
@@ -22,7 +22,7 @@ function TitleRegion({ title, author, createdAt, materials }) {
 
   const navigation = useNavigation();
   const navigateToProfile = () =>
-    navigation.navigate(ScreenNames.PROFILE, {authorId});
+    navigation.navigate(ScreenNames.PROFILE, { authorId });
   return (
     <View style={styles.outerContainer}>
       <View>
@@ -30,14 +30,12 @@ function TitleRegion({ title, author, createdAt, materials }) {
           <TouchableOpacity onPress={navigateToProfile}>
             <Image
               style={styles.profileImage}
-
-              source = {
-                author.profilePicture ?
-                {
-                uri: author.profilePicture.uri
-                }
-                :
-                defaultProfileImage
+              source={
+                author.profilePicture
+                  ? {
+                      uri: author.profilePicture.uri,
+                    }
+                  : defaultProfileImage
               }
             />
           </TouchableOpacity>
@@ -82,7 +80,7 @@ TitleRegion.propTypes = {
   profileId: PropTypes.number.isRequired,
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   profileImage: {
     borderRadius: 70,
     width: imageWidth,

@@ -5,6 +5,9 @@ export default Object.freeze({
     refresh: '/auth/refresh',
     facebookLogin: '/auth/facebook',
     googleLogin: '/auth/google',
+    forgotPassword: '/auth/forgot_password',
+    verifyCode: '/auth/verify_code',
+    changePassword: '/auth/change_password/{0}',
   },
   profile: {
     profileById: '/profiles/{0}',

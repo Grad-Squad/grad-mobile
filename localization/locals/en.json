@@ -29,7 +29,8 @@
     "Failed too many times": "Failed too many times",
     "Please request another password reset": "Please request another password reset",
     "your new password cannot be the same as the old password": "your new password cannot be the same as the old password",
-    "wrong code": "wrong code"
+    "wrong code (attempt)": "wrong code (attempt %{current}/%{limit})",
+    "Maximum number of daily attempts reached": "Maximum number of daily attempts reached"
   },
   "Register": {
     "Name": "Name",

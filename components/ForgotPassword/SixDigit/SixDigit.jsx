@@ -9,18 +9,38 @@ import LoginBack from 'common/backgrounds/LoginBack';
 import { TransparentButton, WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
 import ScreenNames from 'navigation/ScreenNames';
+import { useAPIVerifyCode } from 'api/endpoints/resetPassword';
+import { useDispatch, useSelector } from 'react-redux';
+import { setToken } from 'globalStore/forgotPasswordSlice';
 import CodeTextInput from './CodeTextInput';
 
 const CELL_COUNT = 6;
+const TRAILS_LIMIT = 3;
 
 const SixDigit = ({ navigation }) => {
   const { t } = useLocalization();
   const [code, setCode] = useState('');
-  const [error, setError] = useState(false);
+  const [numberOfTrails, setNumberOfTrails] = useState(0);
+
+  const email = useSelector((state) => state.forgotPassword.email);
+  const dispatch = useDispatch();
+
+  const verifyCodeMutation = useAPIVerifyCode({
+    onError: () => {
+      if (numberOfTrails === TRAILS_LIMIT) {
+        navigation.navigate(ScreenNames.ForgotPassword.SIX_DIGIT_FAILED);
+      }
+    },
+    onSuccess: (data) => {
+      dispatch(setToken(data.token));
+      navigation.navigate(ScreenNames.ForgotPassword.NEW_PASSWORD);
+    },
+  });
 
   const attemptSubmit = () => {
     if (code && code.length === CELL_COUNT) {
-      navigation.navigate(ScreenNames.ForgotPassword.NEW_PASSWORD);
+      setNumberOfTrails((oldValue) => oldValue + 1);
+      verifyCodeMutation.mutate({ email, code });
     }
   };
 
@@ -41,9 +61,12 @@ const SixDigit = ({ navigation }) => {
       <EduText style={[Styles.forgotPasswordHeader, styles.enterCode]}>
         {t('ForgotPassword/Please enter the 6 digit code sent to your email')}
       </EduText>
-      {error ? (
+      {verifyCodeMutation.isError ? (
         <EduText style={styles.wrongCode}>
-          {t('ForgotPassword/wrong code')}
+          {t('ForgotPassword/wrong code (attempt)', {
+            current: numberOfTrails,
+            limit: TRAILS_LIMIT,
+          })}
         </EduText>
       ) : (
         <EduText style={[Styles.forgotPasswordSubtitle, styles.junkFolder]}>
@@ -57,7 +80,7 @@ const SixDigit = ({ navigation }) => {
         setValue={setCode}
         onFinish={attemptSubmit}
         style={styles.CodeTextInput}
-        error={error}
+        error={verifyCodeMutation.isError}
       />
 
       <TransparentButton
@@ -65,8 +88,14 @@ const SixDigit = ({ navigation }) => {
         onPress={onPasteClick}
         textStyle={styles.pasteText}
         style={styles.paste}
+        disabled={verifyCodeMutation.isLoading}
       />
-      <WhiteButton text={t('ForgotPassword/DONE')} onPress={attemptSubmit} />
+      <WhiteButton
+        text={t('ForgotPassword/DONE')}
+        onPress={attemptSubmit}
+        disabled={verifyCodeMutation.isLoading}
+        loading={verifyCodeMutation.isLoading}
+      />
     </LoginBack>
   );
 };

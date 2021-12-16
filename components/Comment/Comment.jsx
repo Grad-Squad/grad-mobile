@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { AssetsConstants, HIT_SLOP_OBJECT } from 'constants';
+import { HIT_SLOP_OBJECT } from 'constants';
 import EduText from 'common/EduText';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';

@@ -56,6 +56,18 @@ export const useAPIgetS3UploadVideoLinks = (numberOfLinks = 1, options) => {
   );
 };
 
+export const useDeleteUri = (mutationConfig) => {
+  const { axios } = useAxios();
+  const [store] = useStore();
+
+  return useMutation(async (itemKey) => {
+    const { data } = await axios.delete(
+      formatString(endpoints.s3.deleteUri, `${store.profileId}%2F${itemKey}`)
+    );
+    return data;
+  }, mutationConfig);
+};
+
 const formatFormData = (payload) => {
   const formData = new FormData(payload);
   formData.append('bucket', payload.bucket);

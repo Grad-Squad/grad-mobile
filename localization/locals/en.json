@@ -29,7 +29,8 @@
     "Failed too many times": "Failed too many times",
     "Please request another password reset": "Please request another password reset",
     "your new password cannot be the same as the old password": "your new password cannot be the same as the old password",
-    "wrong code": "wrong code"
+    "wrong code (attempt)": "wrong code (attempt %{current}/%{limit})",
+    "Maximum number of daily attempts reached": "Maximum number of daily attempts reached"
   },
   "Register": {
     "Name": "Name",
@@ -73,6 +74,10 @@
     "Report": "Report",
     "Delete": "Delete",
     "Save": "Save"
+  },
+  "PictureBottomSheetMenu": {
+    "Edit": "Edit your profile picture",
+    "Delete": "Remove your profile picture"
   },
   "CreatePost": {
     "Create New Post": "Create New Post",
@@ -176,7 +181,8 @@
     "Error: ": "Error: ",
     "Could not connect to the server": "Could not connect to the server",
     "Cannot follow user": "Cannot follow user",
-    "Cannot unfollow user": "Cannot unfollow user"
+    "Cannot unfollow user": "Cannot unfollow user",
+    "Email Already Registered": "Email Already Registered"
   },
   "CheeringWords": {
     "Good": {
@@ -278,7 +284,17 @@
       "message": "Are you sure you want delete your comment?\nyou can't undo this action",
       "confirm button": "Delete",
       "reject button": "Cancel"
+    },
+    "Confirm Profile Picture remove?": {
+      "title": "Remove Profile picture?",
+      "message": "Are you sure you want remove your profile picture?\nyou can't undo this action",
+      "confirm button": "Remove",
+      "reject button": "Cancel"
     }
+  },
+  "ProfilePicture":{
+    "Confirm": "Confirm",
+    "Cancel": "Cancel"
   },
   "WIP": {
     "WIP": "WIP",

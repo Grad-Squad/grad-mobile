@@ -29,7 +29,8 @@
     "Failed too many times": "فشلت مرات عديدة",
     "Please request another password reset": "الرجاء طلب \"إعادة تعيين كلمة المرور\" مرة أخرى",
     "your new password cannot be the same as the old password": "لا يمكن أن تكون كلمة المرور الجديدة هي نفسها كلمة المرور القديمة",
-    "wrong code": "رمز خاطئ"
+    "wrong code": "رمز خاطئ (المحاولة %{current}/%{limit})",
+    "Maximum number of daily attempts reached": "تم بلوغ الحد الأقصى لعدد المحاولات اليومية"
   },
   "Register": {
     "Name": "الاسم",
@@ -73,6 +74,10 @@
     "Report": "إبلاغ",
     "Delete": "حذف",
     "Save": "حفظ"
+  },
+  "PictureBottomSheetMenu": {
+    "Edit": "تغيير صورة ملفك الشخصي",
+    "Delete": "إزالة صورة ملفك الشخصي"
   },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",
@@ -176,7 +181,8 @@
     "Error: ": "خطأ: ",
     "Could not connect to the server": "تعذر الاتصال بالخادم",
     "Cannot follow user": "لم نتمكن من متابعة المستخدم",
-    "Cannot unfollow user": "لم نتمكن من إلغاء متابعة المستخدم"
+    "Cannot unfollow user": "لم نتمكن من إلغاء متابعة المستخدم",
+    "Email Already Registered": "البريد الإلكتروني مسجل مسبقا"
   },
   "CheeringWords": {
     "Good": {
@@ -279,6 +285,10 @@
       "confirm button": "حذف",
       "reject button": "إلغاء"
     }
+  },
+  "ProfilePicture":{
+    "Confirm": "اتمام",
+    "Cancel":"إلغاء"
   },
   "WIP": {
     "WIP": "الأعمال جارية",

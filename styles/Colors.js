@@ -25,6 +25,7 @@ const Colors = {
   materialLightWrong: '#f6d5d5',
   disabledButton: '#999999',
   materialBackground: 'rgba(0,0,0,0.02)',
+  removalWarning: '#D0342C'
 };
 
 export default Colors;

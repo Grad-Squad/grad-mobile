@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import EduText from 'common/EduText';
-import { Colors } from 'styles';
 import { AssetsConstants } from 'constants';
 import ScreenNames from 'navigation/ScreenNames';
 import { useNavigation } from '@react-navigation/native';
@@ -19,7 +18,7 @@ const AuthorInfo = ({ profilePicture, name, profileId }) => {
           source={
             profilePicture
               ? {
-                  uri: profilePicture,
+                  uri: profilePicture.uri,
                 }
               : AssetsConstants.images.defaultProfile
           }
@@ -35,7 +34,9 @@ const AuthorInfo = ({ profilePicture, name, profileId }) => {
 };
 
 AuthorInfo.propTypes = {
-  profilePicture: PropTypes.string,
+  profilePicture: PropTypes.shape({
+    uri: PropTypes.string.isRequired,
+  }),
   name: PropTypes.string.isRequired,
   profileId: PropTypes.number.isRequired,
 };

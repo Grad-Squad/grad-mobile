@@ -15,6 +15,7 @@ import ImageSelector from 'common/ImageSelector';
 import fileUploadTypes from 'constants/fileUploadTypes';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import { useDeleteUri } from 'api/endpoints/s3';
 import ChoicesList from './ChoicesList';
 import QuestionImagePreview from './QuestionImagePreview';
 
@@ -30,8 +31,24 @@ const AddQuestion = ({
   setDirty,
 }) => {
   const { t } = useLocalization();
-  const [image, setImage] = useState({});
-  const [prevImage, setPrevImage] = useState({});
+  const getFileFromEditQuestion = () => {
+    if (currentlyEditingQuestion?.questionImage.clientId) {
+      return currentlyEditingQuestion.questionImage;
+    }
+    const { key, uri } = currentlyEditingQuestion.questionImage;
+    return {
+      file: { fileName: key, uri },
+      clientId: null,
+      fileType: fileUploadTypes.IMAGE,
+    };
+  };
+  const [image, setImage] = useState(
+    currentlyEditingQuestion ? getFileFromEditQuestion() : {}
+  );
+  const [prevImage, setPrevImage] = useState(
+    currentlyEditingQuestion ? getFileFromEditQuestion() : {}
+  );
+  const deleteUriMutation = useDeleteUri();
 
   const currentQuestionFormik = useFormik({
     initialValues: {
@@ -44,7 +61,10 @@ const AddQuestion = ({
       addQuestion({ ...values, questionImage: image });
       if (currentlyEditingQuestion) {
         if (image.clientId !== null) {
-          // todo delete image from s3 using key = prevImage.file.fileName
+          // todo check if this is correct
+          if (prevImage.questionImage) {
+            deleteUriMutation.mutate(prevImage.questionImage.uri);
+          }
         }
       }
       currentQuestionFormik.resetForm({
@@ -123,22 +143,8 @@ const AddQuestion = ({
         currentlyEditingQuestion.choices
       );
       if (currentlyEditingQuestion?.questionImage) {
-        currentQuestionFormik.setFieldValue(
-          'questionImage',
-          currentlyEditingQuestion.questionImage
-        );
-
-        const { key, uri } = currentlyEditingQuestion.questionImage;
-        setImage({
-          file: { fileName: key, uri },
-          clientId: null,
-          fileType: fileUploadTypes.IMAGE,
-        });
-        setPrevImage({
-          file: { fileName: key, uri },
-          clientId: null,
-          fileType: fileUploadTypes.IMAGE,
-        });
+        setImage(getFileFromEditQuestion());
+        setPrevImage(getFileFromEditQuestion());
       }
 
       currentChoiceFormik.resetForm();
@@ -259,7 +265,6 @@ const AddQuestion = ({
         <SecondaryActionButton
           text={t('AddMaterial/Add Question')}
           onPress={() => {
-            console.log('sdfs');
             currentQuestionFormik.handleSubmit();
           }}
           style={[

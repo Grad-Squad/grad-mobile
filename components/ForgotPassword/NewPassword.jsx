@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, {  useState } from 'react';
+import React from 'react';
 import * as yup from 'yup';
 import { StyleSheet } from 'react-native';
 import { useLocalization } from 'localization';
@@ -11,17 +11,28 @@ import { Styles, Typography } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 import EduText from 'common/EduText';
 import ScreenNames from 'navigation/ScreenNames';
+import { useSelector } from 'react-redux';
+import { useAPIChangePassword } from 'api/endpoints/resetPassword';
 
 const NewPassword = ({ navigation }) => {
   const { t } = useLocalization();
-  const [samePasswordError, setSamePasswordError] = useState(false);
+
+  const email = useSelector((state) => state.forgotPassword.email);
+  const token = useSelector((state) => state.forgotPassword.token);
+
+  const changePasswordMutation = useAPIChangePassword({
+    onSuccess: () => {
+      navigation.navigate(ScreenNames.ForgotPassword.DONE);
+    },
+  });
 
   const formik = useFormik({
     initialValues: {
       password: '',
     },
-    onSubmit: ({ password: newPassword }) => {
-      navigation.navigate(ScreenNames.ForgotPassword.DONE);
+
+    onSubmit: ({ password }) => {
+      changePasswordMutation.mutate({ email, password, token });
     },
     validationSchema: yup.object().shape({
       password: passwordRequired(t),
@@ -33,23 +44,14 @@ const NewPassword = ({ navigation }) => {
       <EduText style={styles.header}>
         {t('ForgotPassword/Reset your password')}
       </EduText>
-      {samePasswordError ? (
-        <EduText style={styles.newPasswordCannot}>
-          {t(
-            'ForgotPassword/your new password cannot be the same as the old password'
-          )}
-        </EduText>
-      ) : (
-        <EduText style={styles.subtitle}>
-          {t('ForgotPassword/Enter a new password to replace the old password')}
-        </EduText>
-      )}
+      <EduText style={styles.subtitle}>
+        {t('ForgotPassword/Enter a new password to replace the old password')}
+      </EduText>
 
       <TextInputFormik
         formik={formik}
         formikKey="password"
         title={t('ForgotPassword/New Password')}
-        error={samePasswordError}
         isPassword
         style={styles.gap}
       />

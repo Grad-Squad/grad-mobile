@@ -8,8 +8,6 @@ import * as yup from 'yup';
 import { maxCharError, requiredError } from 'validation';
 import { useLocalization } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
-import useOnGoBack from 'navigation/useOnGoBack';
-import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import {
   useAPICreatePost,
   useAPIGetPostById,
@@ -35,6 +33,7 @@ import {
 } from 'globalStore/createPostSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import fileUploadTypes from 'constants/fileUploadTypes';
+import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -81,19 +80,22 @@ const CreatePost = ({ navigation, route }) => {
     },
   });
 
-  const createPostMutation = useAPICreatePost({
-    onSuccess: () => {
-      dispatch(clearCreatePost());
-      navigation.goBack();
-    },
-  });
+  const createPostMutation = useAPICreatePost({});
   const updatePostMutation = useAPIUpdatePost(postId, {
     onSubmit: () => refetchPost(),
-    onSuccess: () => {
-      dispatch(clearCreatePost());
-      navigation.goBack();
-    },
   });
+
+  useEffect(() => {
+    if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
+      navigation.goBack();
+      dispatch(clearCreatePost());
+    }
+  }, [
+    navigation,
+    updatePostMutation.isSuccess,
+    createPostMutation.isSuccess,
+    dispatch,
+  ]);
 
   const [imagesProgress, setImagesProgress] = useState(0);
   const uploadImagesMutation = useAPIBulkUploadImage(
@@ -163,7 +165,7 @@ const CreatePost = ({ navigation, route }) => {
       tags: null,
       materialList: [],
     },
-    onSubmit: (values) => {
+    onSubmit: () => {
       setIsProgressModalVisible(true);
       dispatch(parseFileUploads());
     },
@@ -186,28 +188,12 @@ const CreatePost = ({ navigation, route }) => {
     }
   }, [materialList]);
 
-  useOnGoBack(
-    (e) => {
-      if (
-        !formik.dirty ||
-        updatePostMutation.isSuccess ||
-        createPostMutation.isSuccess
-      ) {
-        // todo sub screen edited ?
-        dispatch(clearMaterialList());
-        // dispatch(clearImageUploadQueue());
-        return;
-      }
-
-      e.preventDefault();
-
-      DiscardChangesAlert(t, () => {
-        navigation.dispatch(e.data.action);
-        dispatch(clearMaterialList());
-        // dispatch(clearImageUploadQueue());
-      });
-    },
-    [formik.dirty, updatePostMutation.isSuccess, createPostMutation.isSuccess]
+  useOnGoBackDiscardWarning(
+    !formik.dirty ||
+      updatePostMutation.isSuccess ||
+      createPostMutation.isSuccess,
+    [formik.dirty, updatePostMutation.isSuccess, createPostMutation.isSuccess],
+    () => dispatch(clearCreatePost())
   );
 
   const isUploadingImages =

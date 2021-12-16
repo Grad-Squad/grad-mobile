@@ -18,7 +18,6 @@ import LoadingIndicator from 'common/LoadingIndicator';
 import {
   useAPIBulkUploadImage,
   useAPIgetS3UploadImageLinks,
-  useAPIUploadImage,
 } from 'api/endpoints/s3';
 import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
@@ -112,10 +111,9 @@ const CreatePost = ({ navigation, route }) => {
   );
   const fileUploads = useSelector((state) => state.createPost.fileUploads);
   const [numImageLinks, setNumImageLinks] = useState(0);
-  const uploadImageMutation = useAPIUploadImage({});
 
   // todo batches (ex: user uploading 200 pic might timeout due to upload time limit)
-  useAPIgetS3UploadImageLinks(numImageLinks, {
+  const bulkUploadImagesMutation = useAPIgetS3UploadImageLinks(numImageLinks, {
     enabled: numImageLinks !== 0,
     onSuccess: (data) => {
       uploadImagesMutation.mutate(data);
@@ -202,8 +200,13 @@ const CreatePost = ({ navigation, route }) => {
   const isUploadingPost =
     (isUploadingImages ||
       createPostMutation.isLoading ||
-      uploadImageMutation.isLoading) &&
-    !uploadImageMutation.isError;
+      bulkUploadImagesMutation.isLoading) &&
+    !bulkUploadImagesMutation.isError;
+
+  const isUploadError =
+    createPostMutation.isError ||
+    bulkUploadImagesMutation.isError ||
+    updatePostMutation.isError;
 
   return (
     <Page>
@@ -217,16 +220,16 @@ const CreatePost = ({ navigation, route }) => {
           {isUploadingPost && <LoadingIndicator size="large" />}
           <EduText style={styles.padAbove}>
             {t('CreatePost/Upload in progress')}{' '}
-            {numImageLinks !== 0 && imagesProgress}/{numImageLinks}
+            {numImageLinks !== 0 && `${imagesProgress}/${numImageLinks}`}
           </EduText>
-          {!isUploadingPost && (
+          {isUploadError && (
             <TransparentButton
               text="Try again"
               // todo try again
               // onPress={() => setCanUpload(true)}
             />
           )}
-          {!isUploadingPost && (
+          {isUploadError && (
             <TransparentButton
               text="Cancel"
               onPress={() => setIsProgressModalVisible(false)}

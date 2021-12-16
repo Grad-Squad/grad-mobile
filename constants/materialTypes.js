@@ -1,6 +1,6 @@
 export default Object.freeze({
-  Flashcards: 'Flashcards',
-  MCQ: 'MCQ',
+  Flashcards: 'flashcard',
+  MCQ: 'mcq',
   PDF: 'PDF',
   Images: 'Images',
   Video: 'Video',

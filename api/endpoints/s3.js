@@ -74,7 +74,7 @@ const formatFormData = (payload) => {
   return formData;
 };
 
-export const useAPIBulkUploadImage = (mutationConfig) => {
+export const useAPIBulkUploadImage = (updateProgress, mutationConfig) => {
   const fileUploads = useSelector((state) => state.createPost.fileUploads);
   return useMutation(async (s3Replies) => {
     const imageFiles = fileUploads.filter(
@@ -99,6 +99,7 @@ export const useAPIBulkUploadImage = (mutationConfig) => {
             'Content-Type': 'multipart/form-data',
           },
         });
+        updateProgress();
         return {
           clientId: imgFile.clientId,
           resourceId: s3Replies[index].fields.key,
@@ -137,8 +138,6 @@ export const useAPIGetFileUri = (itemKey, options) => {
       const { data } = await axios.get(endpoints.s3.getFileUri);
       return data;
     },
-    {
-      ...options,
-    }
+    options
   );
 };

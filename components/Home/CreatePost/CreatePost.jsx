@@ -133,6 +133,8 @@ const CreatePost = ({ navigation, route }) => {
             .length
         );
         // todo add other upload types
+      } else {
+        dispatch(parsePost({ data: formik.values }, {}));
       }
     }
   }, [fileUploads, areFileUploadsReady, dispatch]);

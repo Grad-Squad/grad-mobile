@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { MaterialTypes } from 'constants';
 import fileUploadTypes from 'constants/fileUploadTypes';
 import materialTypes from 'constants/materialTypes';
 
@@ -17,19 +18,29 @@ const parseMcqMaterial = (
   fileUploadClientIdToResourceId
 ) => ({
   material: {
-    materialType: 'mcq',
+    materialType: MaterialTypes.MCQ,
     title,
-    mcqs: questions.map(({ question, choices, questionImage }) => ({
-      question,
-      answerIndices: choices
-        .map(({ isCorrect }, index) => (isCorrect ? index : -1))
-        .filter((i) => i !== -1),
-      choices: choices.map(({ text }) => text),
-      questionImage: {
-        key: fileUploadClientIdToResourceId[questionImage.clientId],
-        type: 'image',
-      },
-    })),
+    mcqs: questions.map(({ question, choices, questionImage }) => {
+      const mappedQuestion = {
+        question,
+        answerIndices: choices
+          .map(({ isCorrect }, index) => (isCorrect ? index : -1))
+          .filter((i) => i !== -1),
+        choices: choices.map(({ text }) => text),
+      };
+      if (questionImage?.clientId) {
+        mappedQuestion.questionImage = {
+          key: fileUploadClientIdToResourceId[questionImage.clientId],
+          type: 'image',
+        };
+      } else if (questionImage?.file?.uri) {
+        mappedQuestion.questionImage = {
+          key: questionImage?.file?.uri?.split('/').pop(),
+          type: 'image',
+        };
+      }
+      return mappedQuestion;
+    }),
   },
   fileUploads: questions.map(({ questionImage }) => questionImage),
 });
@@ -48,10 +59,9 @@ const parseMcqCollection = (collection) => ({
         isCorrect: answerIndices.indexOf(index) !== -1,
       })),
       question,
-      questionImage: mapUriMaterialToUploadFile(
-        questionImage,
-        fileUploadTypes.IMAGE
-      ),
+      questionImage:
+        questionImage &&
+        mapUriMaterialToUploadFile(questionImage, fileUploadTypes.IMAGE),
     })
   ),
   title: collection.title,
@@ -111,8 +121,8 @@ export const createPostSlice = createSlice({
         .map((material) => {
           switch (material.type) {
             case materialTypes.MCQ:
-              return material.questions.map(
-                ({ questionImage }) => questionImage
+              return material.questions.map(({ questionImage }) =>
+                questionImage?.clientId ? questionImage : null
               );
             default:
               return null;

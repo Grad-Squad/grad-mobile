@@ -73,6 +73,7 @@ const initialState = {
   materialList: [],
   post: {},
   fileUploads: [],
+  deletedUris: [],
   fileUploadClientIdToResourceId: {},
   areFileUploadsReady: false,
   isPostReadyForParsing: false,
@@ -132,6 +133,9 @@ export const createPostSlice = createSlice({
         .filter((elm) => elm != null);
       state.areFileUploadsReady = true;
     },
+    addToDeletedUris: (state, action) => {
+      state.deletedUris.push(action.payload);
+    },
     parsePost: (state, action) => {
       const {
         data: { title, subject, tags, materialList },
@@ -173,6 +177,7 @@ export const {
   parsePost,
   parseFileUploads,
   addFileUploadId,
+  addToDeletedUris,
 } = createPostSlice.actions;
 
 export default createPostSlice.reducer;

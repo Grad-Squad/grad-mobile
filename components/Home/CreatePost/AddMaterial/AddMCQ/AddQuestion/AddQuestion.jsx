@@ -18,6 +18,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDeleteUri } from 'api/endpoints/s3';
 import ChoicesList from './ChoicesList';
 import QuestionImagePreview from './QuestionImagePreview';
+import { useDispatch } from 'react-redux';
+import { addToDeletedUris } from 'globalStore/createPostSlice';
 
 const MaxNumberOfChoices = 26;
 const MaxNumberOfQuestions = 1000;
@@ -36,7 +38,7 @@ const AddQuestion = ({
   const [prevImage, setPrevImage] = useState(
     currentlyEditingQuestion ? currentlyEditingQuestion?.questionImage : {}
   );
-  const deleteUriMutation = useDeleteUri();
+  const dispatch = useDispatch();
 
   const currentQuestionFormik = useFormik({
     initialValues: {
@@ -49,7 +51,7 @@ const AddQuestion = ({
       if (currentlyEditingQuestion) {
         if (isImageEmpty || image.clientId !== null) {
           if (prevImage?.file?.uri) {
-            deleteUriMutation.mutate(prevImage.file.uri.split('/').pop());
+            dispatch(addToDeletedUris(prevImage.file.uri.split('/').pop()));
           }
         }
       }

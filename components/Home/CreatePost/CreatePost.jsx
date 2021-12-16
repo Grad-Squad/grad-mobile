@@ -18,6 +18,7 @@ import LoadingIndicator from 'common/LoadingIndicator';
 import {
   useAPIBulkUploadImage,
   useAPIgetS3UploadImageLinks,
+  useDeleteBulkUri,
 } from 'api/endpoints/s3';
 import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
@@ -25,7 +26,6 @@ import { Colors, Constants } from 'styles';
 import { TransparentButton } from 'common/Input/Button';
 import {
   clearCreatePost,
-  clearMaterialList,
   parseFileUploads,
   parsePost,
   setCreateMaterialItem,
@@ -84,16 +84,21 @@ const CreatePost = ({ navigation, route }) => {
     onSubmit: () => refetchPost(),
   });
 
+  const bulkUriDeleteMutation = useDeleteBulkUri();
+  const deletedUris = useSelector((state) => state.createPost.deletedUris);
   useEffect(() => {
     if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
-      navigation.goBack();
       dispatch(clearCreatePost());
+      bulkUriDeleteMutation.mutate(deletedUris);
+      navigation.goBack();
     }
   }, [
     navigation,
     updatePostMutation.isSuccess,
     createPostMutation.isSuccess,
     dispatch,
+    bulkUriDeleteMutation,
+    deletedUris,
   ]);
 
   const [imagesProgress, setImagesProgress] = useState(0);
@@ -246,7 +251,7 @@ const CreatePost = ({ navigation, route }) => {
         rightButtonText={t('CreatePost/Post')}
         onPress={formik.handleSubmit}
         onBackPress={() => {
-          dispatch(clearMaterialList());
+          dispatch(clearCreatePost());
           navigation.goBack();
         }}
       />

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import fileUploadTypes from 'constants/fileUploadTypes';
 import materialTypes from 'constants/materialTypes';
 
 // current plan:
@@ -33,6 +34,31 @@ const parseMcqMaterial = (
   fileUploads: questions.map(({ questionImage }) => questionImage),
 });
 
+const mapUriMaterialToUploadFile = (uriMaterial, type) => ({
+  file: { fileName: uriMaterial.key, uri: uriMaterial.uri },
+  fileType: type,
+  clientId: null,
+});
+
+const parseMcqCollection = (collection) => ({
+  questions: collection.mcqs.map(
+    ({ question, choices, answerIndices, questionImage }) => ({
+      choices: choices.map((choice, index) => ({
+        text: choice,
+        isCorrect: answerIndices.indexOf(index) !== -1,
+      })),
+      question,
+      questionImage: mapUriMaterialToUploadFile(
+        questionImage,
+        fileUploadTypes.IMAGE
+      ),
+    })
+  ),
+  title: collection.title,
+  type: materialTypes.MCQ,
+  amount: collection.mcqs.length,
+});
+
 const initialState = {
   materialList: [],
   post: {},
@@ -54,7 +80,18 @@ export const createPostSlice = createSlice({
       state.materialList = [];
     },
     setCreateMaterialItem: (state, action) => {
-      state.materialList = action.payload;
+      const materials = action.payload;
+      const parsedMaterials = materials
+        .map((collection) => {
+          switch (collection.materialType) {
+            case materialTypes.MCQ:
+              return parseMcqCollection(collection);
+            default:
+              return null;
+          }
+        })
+        .filter((elm) => elm != null);
+      state.materialList = parsedMaterials;
     },
     addCreateMaterialItem: (state, action) => {
       state.materialList.unshift(action.payload);

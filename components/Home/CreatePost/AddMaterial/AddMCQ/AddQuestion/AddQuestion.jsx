@@ -27,43 +27,29 @@ const AddQuestion = ({
   contentStyle,
   questions,
   currentlyEditingQuestion,
-  // incrementNumAddedImages,
   setDirty,
 }) => {
   const { t } = useLocalization();
-  const getFileFromEditQuestion = () => {
-    if (currentlyEditingQuestion?.questionImage.clientId) {
-      return currentlyEditingQuestion.questionImage;
-    }
-    const { key, uri } = currentlyEditingQuestion.questionImage;
-    return {
-      file: { fileName: key, uri },
-      clientId: null,
-      fileType: fileUploadTypes.IMAGE,
-    };
-  };
   const [image, setImage] = useState(
-    currentlyEditingQuestion ? getFileFromEditQuestion() : {}
+    currentlyEditingQuestion ? currentlyEditingQuestion?.questionImage : {}
   );
   const [prevImage, setPrevImage] = useState(
-    currentlyEditingQuestion ? getFileFromEditQuestion() : {}
+    currentlyEditingQuestion ? currentlyEditingQuestion?.questionImage : {}
   );
   const deleteUriMutation = useDeleteUri();
 
   const currentQuestionFormik = useFormik({
     initialValues: {
       question: '',
-      // questionImage: {},
       choices: [],
     },
     onSubmit: (values) => {
-      // currentQuestionFormik.setFieldValue('questionImage', image);
-      addQuestion({ ...values, questionImage: image });
+      const isImageEmpty = Object.keys(image).length === 0;
+      addQuestion({ ...values, questionImage: isImageEmpty ? null : image });
       if (currentlyEditingQuestion) {
-        if (image.clientId !== null) {
-          // todo check if this is correct
-          if (prevImage.questionImage) {
-            deleteUriMutation.mutate(prevImage.questionImage.uri);
+        if (isImageEmpty || image.clientId !== null) {
+          if (prevImage?.file?.uri) {
+            deleteUriMutation.mutate(prevImage.file.uri.split('/').pop());
           }
         }
       }
@@ -143,8 +129,8 @@ const AddQuestion = ({
         currentlyEditingQuestion.choices
       );
       if (currentlyEditingQuestion?.questionImage) {
-        setImage(getFileFromEditQuestion());
-        setPrevImage(getFileFromEditQuestion());
+        setImage(currentlyEditingQuestion?.questionImage);
+        setPrevImage(currentlyEditingQuestion?.questionImage);
       }
 
       currentChoiceFormik.resetForm();
@@ -199,9 +185,7 @@ const AddQuestion = ({
           <QuestionImagePreview
             image={image}
             onDeletePress={() => {
-              if (!currentlyEditingQuestion) {
-                setImage({});
-              }
+              setImage({});
             }}
           />
         )}
@@ -285,7 +269,6 @@ AddQuestion.propTypes = {
   contentStyle: stylePropType,
   currentlyEditingQuestion: mcqQuestionAddPropType,
   setDirty: PropTypes.func.isRequired,
-  // incrementNumAddedImages: PropTypes.func.isRequired,
 };
 AddQuestion.defaultProps = {
   contentStyle: {},

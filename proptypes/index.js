@@ -28,7 +28,7 @@ export const fileUploadPropType = PropTypes.shape({
 export const mcqQuestionAddPropType = PropTypes.exact({
   question: PropTypes.string.isRequired,
   choices: PropTypes.arrayOf(mcqChoicePropType.isRequired).isRequired,
-  questionImage: fileUploadPropType.isRequired,
+  questionImage: fileUploadPropType,
   choicesImages: PropTypes.oneOfType([
     PropTypes.shape({}),
     PropTypes.arrayOf(PropTypes.shape({})),

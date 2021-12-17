@@ -28,7 +28,6 @@
     "Now you can login in with your new password": "الآن يمكنك تسجيل الدخول باستخدام كلمة المرور الجديدة الخاصة بك",
     "Failed too many times": "فشلت مرات عديدة",
     "Please request another password reset": "الرجاء طلب \"إعادة تعيين كلمة المرور\" مرة أخرى",
-    "your new password cannot be the same as the old password": "لا يمكن أن تكون كلمة المرور الجديدة هي نفسها كلمة المرور القديمة",
     "wrong code": "رمز خاطئ (المحاولة %{current}/%{limit})",
     "Maximum number of daily attempts reached": "تم بلوغ الحد الأقصى لعدد المحاولات اليومية"
   },

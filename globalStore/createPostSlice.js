@@ -74,11 +74,9 @@ const initialState = {
   post: {},
   fileUploads: [],
   deletedUris: [],
-  fileUploadClientIdToResourceId: {},
   areFileUploadsReady: false,
   isPostReadyForParsing: false,
   isPostReadyForUpload: false,
-  numUploadedFiles: 0,
 };
 export const createPostSlice = createSlice({
   name: 'createPost',
@@ -109,13 +107,6 @@ export const createPostSlice = createSlice({
     },
     replaceCreateMaterialItem: (state, action) => {
       state.materialList[action.payload.index] = action.payload.material;
-    },
-    addFileUploadId: (state, action) => {
-      state.fileUploadClientIdToResourceId[action.payload.clientId] =
-        action.payload.resourceId;
-      state.numUploadedFiles = Object.keys(
-        state.fileUploadClientIdToResourceId
-      ).length;
     },
     parseFileUploads: (state) => {
       state.fileUploads = state.materialList
@@ -167,7 +158,6 @@ export const createPostSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const {
   clearCreatePost,
   clearMaterialList,
@@ -176,7 +166,6 @@ export const {
   replaceCreateMaterialItem,
   parsePost,
   parseFileUploads,
-  addFileUploadId,
   addToDeletedUris,
 } = createPostSlice.actions;
 

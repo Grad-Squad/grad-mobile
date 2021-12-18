@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { Colors, Styles } from 'styles';
@@ -8,10 +8,30 @@ import { MaterialTypes } from 'constants';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
-import MaterialItem from './MaterialItem';
+import { useDispatch } from 'react-redux';
+import { deleteMaterial } from 'globalStore/createPostSlice';
+import { MaterialItemWithCheckBox } from './MaterialItem';
 
-const flatListRenderItem = ({ item: { title, amount, type, onPress } }) => (
-  <MaterialItem title={title} amount={amount} type={type} onPress={onPress} />
+const flatListRenderItem = ({
+  item: {
+    title,
+    amount,
+    type,
+    onPress,
+    onLongPress,
+    isSelected,
+    isSelectionEnabled,
+  },
+}) => (
+  <MaterialItemWithCheckBox
+    title={title}
+    amount={amount}
+    type={type}
+    onPress={onPress}
+    onLongPress={onLongPress || null}
+    isSelected={isSelected}
+    isSelectionEnabled={isSelectionEnabled}
+  />
 );
 const MaterialTypeRouteMap = {
   [MaterialTypes.Flashcards]: ScreenNames.ADD_FLASHCARDS,
@@ -22,8 +42,18 @@ const MaterialTypeRouteMap = {
 };
 
 const MaterialList = ({ materials, errorMsg }) => {
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
+  const toggleSelectionIndex = (index) =>
+    setSelectedMaterials((prev) => {
+      const indexInState = prev.indexOf(index);
+      if (indexInState === -1) {
+        return [...prev, index];
+      }
+      return prev.filter((ind) => ind !== index);
+    });
   const navigation = useNavigation();
   const { t } = useLocalization();
+  const dispatch = useDispatch();
   const formattedMaterials = useMemo(
     () =>
       materials.map(({ type, title, amount }, index) => ({
@@ -33,8 +63,11 @@ const MaterialList = ({ materials, errorMsg }) => {
         amount,
         onPress: () =>
           navigation.navigate(MaterialTypeRouteMap[type], { index }),
+        onLongPress: () => toggleSelectionIndex(index),
+        isSelected: selectedMaterials.includes(index),
+        isSelectionEnabled: selectedMaterials.length !== 0,
       })),
-    [materials]
+    [materials, selectedMaterials]
   );
   return (
     <View style={styles.materialsList}>

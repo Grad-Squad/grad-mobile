@@ -41,7 +41,7 @@ import { useQueryClient } from 'react-query';
 import SelectedItemsHeader from 'common/SelectedItemsHeader';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
-
+import useUploadPost from './useUploadPost';
 const dropdownInitialItems = [
   { label: 'Apple', id: 'apple' },
   { label: 'Banana0', id: 'banana0' },
@@ -92,97 +92,6 @@ const CreatePost = ({ navigation, route }) => {
     },
   });
 
-  const createPostMutation = useAPICreatePost({});
-  const updatePostMutation = useAPIUpdatePost(postId, {
-    onSubmit: () => refetchPost(),
-  });
-
-  const bulkUriDeleteMutation = useDeleteBulkUri();
-  const deletedUris = useSelector((state) => state.createPost.deletedUris);
-  const queryClient = useQueryClient();
-  useEffect(() => {
-    if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
-      dispatch(clearCreatePost());
-      bulkUriDeleteMutation.mutate(deletedUris);
-      queryClient.invalidateQueries(apiFeedQueryKey);
-      navigation.goBack();
-    }
-  }, [
-    navigation,
-    updatePostMutation.isSuccess,
-    createPostMutation.isSuccess,
-    dispatch,
-    bulkUriDeleteMutation,
-    deletedUris,
-    queryClient,
-  ]);
-
-  const [imagesProgress, setImagesProgress] = useState(0);
-  const bulkUploadImagesMutation = useAPIBulkUploadImage(
-    () => {
-      setImagesProgress((prev) => prev + 1);
-    },
-    {
-      onSuccess: (fileUploadClientIdToResourceId) => {
-        dispatch(
-          parsePost({ data: formik.values, fileUploadClientIdToResourceId })
-        );
-      },
-    }
-  );
-  const fileUploads = useSelector((state) => state.createPost.fileUploads);
-  const [numImageLinks, setNumImageLinks] = useState(0);
-
-  // todo batches (ex: user uploading 200 pic might timeout due to upload time limit)
-  const getS3ImageLinks = useAPIgetS3UploadImageLinks(numImageLinks, {
-    enabled: numImageLinks !== 0,
-    onSuccess: (data) => {
-      bulkUploadImagesMutation.mutate(data);
-    },
-    onError: () => {},
-  });
-
-  const areFileUploadsReady = useSelector(
-    (state) => state.createPost.areFileUploadsReady
-  );
-
-  useEffect(() => {
-    if (areFileUploadsReady) {
-      dispatch(resetAreFileUploadsReady());
-      if (fileUploads.length !== 0) {
-        setNumImageLinks(
-          fileUploads.filter((file) => file.fileType === fileUploadTypes.IMAGE)
-            .length
-        );
-        if (getS3ImageLinks.isError) {
-          getS3ImageLinks.refetch();
-        }
-        // todo add other upload types
-      } else {
-        dispatch(parsePost({ data: formik.values }, {}));
-      }
-    }
-  }, [fileUploads, areFileUploadsReady, dispatch, resetAreFileUploadsReady]);
-
-  const isPostReadyForUpload = useSelector(
-    (state) => state.createPost.isPostReadyForUpload
-  );
-
-  const parsedPost = useSelector((state) => state.createPost.post);
-
-  useEffect(() => {
-    if (isPostReadyForUpload) {
-      if (postId) {
-        updatePostMutation.mutate({
-          ...fetchedPostData,
-          ...parsedPost,
-        });
-      } else {
-        createPostMutation.mutate(parsedPost);
-      }
-    }
-  }, [isPostReadyForUpload, parsedPost]);
-
   const formik = useFormik({
     initialValues: {
       title: '',
@@ -207,32 +116,11 @@ const CreatePost = ({ navigation, route }) => {
     }),
   });
 
+  const { numImageLinks, imagesProgress, isUploadError, isUploadingPost } =
+    useUploadPost(formik, postId, refetchPost, navigation, fetchedPostData);
   useEffect(() => {
     formik.setFieldValue('materialList', materialList);
   }, [materialList]);
-
-  useOnGoBackDiscardWarning(
-    !formik.dirty ||
-      updatePostMutation.isSuccess ||
-      createPostMutation.isSuccess,
-    [formik.dirty, updatePostMutation.isSuccess, createPostMutation.isSuccess],
-    () => dispatch(clearCreatePost())
-  );
-
-  const isUploadingImages =
-    fileUploads.length !== 0 && imagesProgress !== numImageLinks;
-
-  const isUploadingPost =
-    (isUploadingImages ||
-      createPostMutation.isLoading ||
-      bulkUploadImagesMutation.isLoading) &&
-    !bulkUploadImagesMutation.isError;
-
-  const isUploadError =
-    getS3ImageLinks.isError ||
-    createPostMutation.isError ||
-    bulkUploadImagesMutation.isError ||
-    updatePostMutation.isError;
 
   return (
     <Page>

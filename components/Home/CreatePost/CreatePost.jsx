@@ -301,6 +301,7 @@ const CreatePost = ({ navigation, route }) => {
           formik.setFieldValue('subject', newValue[0])
         }
         items={dropdownInitialItems}
+        lateInitChoice={isPostFetchedForEdit && fetchedPostData.subject}
         // error={formik.errors.subject && formik.touched.subject}
         // errorMsg={formik.errors.subject}
       />
@@ -314,6 +315,7 @@ const CreatePost = ({ navigation, route }) => {
           formik.setFieldValue('tags', newValues);
         }}
         items={dropdownInitialItems}
+        lateInitChoice={isPostFetchedForEdit && fetchedPostData.tags}
       />
 
       <MaterialList

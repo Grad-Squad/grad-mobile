@@ -74,7 +74,7 @@ const ProfileHeader = ({ navigation, profile }) => {
         isFollowed: true,
         _count: {
           ...oldData._count,
-          following: oldData._count.following + 1,
+          followers: oldData._count.followers + 1,
         },
       }));
     },
@@ -89,7 +89,7 @@ const ProfileHeader = ({ navigation, profile }) => {
         isFollowed: false,
         _count: {
           ...oldData._count,
-          following: oldData._count.following - 1,
+          followers: oldData._count.followers - 1,
         },
       }));
     },

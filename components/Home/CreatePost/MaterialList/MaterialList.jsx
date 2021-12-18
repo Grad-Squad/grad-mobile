@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, LayoutAnimation, StyleSheet, View } from 'react-native';
 import { Colors, Styles } from 'styles';
 import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
@@ -8,10 +8,28 @@ import { MaterialTypes } from 'constants';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
-import MaterialItem from './MaterialItem';
+import { MaterialItemWithCheckBox } from './MaterialItem';
 
-const flatListRenderItem = ({ item: { title, amount, type, onPress } }) => (
-  <MaterialItem title={title} amount={amount} type={type} onPress={onPress} />
+const flatListRenderItem = ({
+  item: {
+    title,
+    amount,
+    type,
+    onPress,
+    onLongPress,
+    isSelected,
+    isSelectionEnabled,
+  },
+}) => (
+  <MaterialItemWithCheckBox
+    title={title}
+    amount={amount}
+    type={type}
+    onPress={onPress}
+    onLongPress={onLongPress || null}
+    isSelected={isSelected}
+    isSelectionEnabled={isSelectionEnabled}
+  />
 );
 const MaterialTypeRouteMap = {
   [MaterialTypes.Flashcards]: ScreenNames.ADD_FLASHCARDS,
@@ -21,20 +39,39 @@ const MaterialTypeRouteMap = {
   [MaterialTypes.Video]: ScreenNames.ADD_VIDEO,
 };
 
-const MaterialList = ({ materials, errorMsg }) => {
+const MaterialList = ({
+  materials,
+  errorMsg,
+  selectedMaterials,
+  setSelectedMaterials,
+}) => {
+  const toggleSelectionIndex = (index) =>
+    setSelectedMaterials((prev) => {
+      const indexInState = prev.indexOf(index);
+      if (indexInState === -1) {
+        return [...prev, index];
+      }
+      return prev.filter((ind) => ind !== index);
+    });
   const navigation = useNavigation();
   const { t } = useLocalization();
   const formattedMaterials = useMemo(
     () =>
-      materials.map(({ type, title, amount }, index) => ({
-        id: index.toString(), // ! index as id
+      materials.map(({ id, type, title, amount }, index) => ({
+        id: id || title + type + index.toString(),
         type,
         title,
         amount,
         onPress: () =>
           navigation.navigate(MaterialTypeRouteMap[type], { index }),
+        onLongPress: () => {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+          toggleSelectionIndex(index);
+        },
+        isSelected: selectedMaterials.includes(index),
+        isSelectionEnabled: selectedMaterials.length !== 0,
       })),
-    [materials]
+    [materials, selectedMaterials]
   );
   return (
     <View style={styles.materialsList}>
@@ -64,6 +101,8 @@ const MaterialList = ({ materials, errorMsg }) => {
 
 MaterialList.propTypes = {
   errorMsg: PropTypes.string,
+  selectedMaterials: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  setSelectedMaterials: PropTypes.func.isRequired,
   materials: PropTypes.arrayOf(PropTypes.object).isRequired, // :D
 };
 MaterialList.defaultProps = { errorMsg: '' };

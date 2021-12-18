@@ -97,7 +97,12 @@ const ExpandedPostContent = ({ navigation, postId }) => {
           postId={postId}
           commentCount={post.commentCount}
           isPost
-          onEdit={() => {}}
+          onEdit={() =>
+            navigation.navigate(ScreenNames.CREATE_POST, {
+              edit: true,
+              postId,
+            })
+          }
           onDelete={() => {
             PostDeletionAlert(t, () => deletePostMutation.mutate());
           }}

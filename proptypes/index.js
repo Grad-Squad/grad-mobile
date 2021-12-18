@@ -17,10 +17,22 @@ export const mcqChoicePropType = PropTypes.exact({
   text: PropTypes.string.isRequired,
   isCorrect: PropTypes.bool.isRequired,
 });
+export const fileUploadPropType = PropTypes.shape({
+  file: PropTypes.shape({
+    fileName: PropTypes.string.isRequired,
+    uri: PropTypes.string.isRequired,
+  }).isRequired,
+  fileType: PropTypes.string.isRequired,
+  clientId: PropTypes.string,
+});
 export const mcqQuestionAddPropType = PropTypes.exact({
   question: PropTypes.string.isRequired,
   choices: PropTypes.arrayOf(mcqChoicePropType.isRequired).isRequired,
-  questionUriKey: PropTypes.string.isRequired,
+  questionImage: fileUploadPropType,
+  choicesImages: PropTypes.oneOfType([
+    PropTypes.shape({}),
+    PropTypes.arrayOf(PropTypes.shape({})),
+  ]),
 });
 export const mcqQuestionPropType = PropTypes.shape({
   id: PropTypes.number,
@@ -115,6 +127,10 @@ export const materialPropType = PropTypes.exact({
       id: PropTypes.number.isRequired,
       question: PropTypes.string.isRequired,
       questionImage: uriPropType,
+      choicesImages: PropTypes.oneOfType([
+        PropTypes.shape({}),
+        PropTypes.arrayOf(PropTypes.shape({})),
+      ]),
       answerIndices: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
       choices: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
       choicesImages: PropTypes.arrayOf(uriPropType),

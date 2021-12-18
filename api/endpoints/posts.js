@@ -94,7 +94,10 @@ export const useAPIFeed = () => {
   );
 };
 
-export const getApiProfileFeedQueryKey = (profileId) => ['feed', profileId];
+export const getApiProfileFeedQueryKey = (profileId) => [
+  apiFeedQueryKey,
+  profileId,
+];
 export const useAPIFeedByProfileId = (profileId, options) => {
   const { axios } = useAxios();
   return useInfiniteQuery(
@@ -115,10 +118,11 @@ export const useAPIFeedByProfileId = (profileId, options) => {
   );
 };
 
+export const getPostByIdQueryKey = (postId) => ['postById', postId];
 export const useAPIGetPostById = (postId, options) => {
   const { axios } = useAxios();
   return useQuery(
-    ['postById', postId],
+    getPostByIdQueryKey(postId),
     async () => {
       const { data } = await axios.get(
         formatString(endpoints.posts.post, postId)

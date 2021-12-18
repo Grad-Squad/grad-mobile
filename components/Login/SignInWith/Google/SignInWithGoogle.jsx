@@ -15,6 +15,8 @@ import { stylePropType } from 'proptypes';
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
 import { useAPIGoogleLogin } from 'api/endpoints/auth';
+import { useStore } from 'globalStore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
 import GoogleIcon from './Google';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -29,11 +31,17 @@ const SignInWithGoogle = ({ disabled, style }) => {
     webClientId: WEB_CLIENT_ID,
   });
 
+  const [, dispatch] = useStore();
+
   const googleLoginMutation = useAPIGoogleLogin({
-    onSuccess: () => {
+    onSuccess: (data) => {
       navigation.reset({
         index: 0,
         routes: [{ name: ScreenNames.HOME }],
+      });
+      dispatch({
+        type: ReducerActions.setProfileId,
+        payload: data.user.profile.id,
       });
     },
   });

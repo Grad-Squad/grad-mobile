@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, Dimensions, StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { maxCharError, requiredError } from 'validation';
 import { TextInputFormik } from 'common/Input';
-import PressableText from 'common/PressableText';
 import { SecondaryActionButton, TransparentButton } from 'common/Input/Button';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
-import { Styles } from 'styles';
+import { Constants, Styles } from 'styles';
 import { mcqQuestionAddPropType, stylePropType } from 'proptypes';
 import ImageSelector from 'common/ImageSelector';
-import { useAPIgetS3UploadImageLinks } from 'api/endpoints/s3';
-import BaseAlert from 'common/alerts/BaseAlert';
-import { deepCompare } from 'utility';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  alterImageInUploadQueue,
-  removeImageFromUploadQueue,
-  addImageToUploadQueue as addImageToUploadQueueInRedux,
-} from 'globalStore/imageUploadSlice';
+import fileUploadTypes from 'constants/fileUploadTypes';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+import { useDeleteUri } from 'api/endpoints/s3';
 import ChoicesList from './ChoicesList';
+import QuestionImagePreview from './QuestionImagePreview';
+import { useDispatch } from 'react-redux';
+import { addToDeletedUris } from 'globalStore/createPostSlice';
 
 const MaxNumberOfChoices = 26;
 const MaxNumberOfQuestions = 1000;
@@ -32,84 +29,35 @@ const AddQuestion = ({
   contentStyle,
   questions,
   currentlyEditingQuestion,
-  incrementNumAddedImages,
   setDirty,
 }) => {
   const { t } = useLocalization();
-  const [image, setImage] = useState({});
-  const [prevImage, setPrevImage] = useState({});
-  const dispatch = useDispatch();
-  const imagesUploadQueue = useSelector(
-    (state) => state.imageUpload.imagesUploadQueue
+  const [image, setImage] = useState(
+    currentlyEditingQuestion ? currentlyEditingQuestion?.questionImage : {}
   );
-  const isS3LinkEnabled = !!image?.uri;
-  const {
-    data: uploadLinkData,
-    isSuccess: gettingUploadLinkSucceeded,
-    refetch: refetchUploadLink,
-  } = useAPIgetS3UploadImageLinks(1,{
-    enabled: isS3LinkEnabled,
-    onSuccess: (data) => {
-      if (!currentlyEditingQuestion) {
-        currentQuestionFormik.setFieldValue(
-          'questionUriKey',
-          data[0]?.fields?.key
-        );
-      }
-    },
-    onError: () => {},
-  });
-
-  const addImageToUploadQueue = () => {
-    const payload = {
-      payload: {
-        ...uploadLinkData[0].fields,
-        'content-type': 'image/jpeg',
-        file: {
-          uri: image.uri,
-          name: image.fileName,
-          type: 'image/jpeg',
-        },
-      },
-    };
-    incrementNumAddedImages();
-    dispatch(addImageToUploadQueueInRedux(payload));
-  };
+  const [prevImage, setPrevImage] = useState(
+    currentlyEditingQuestion ? currentlyEditingQuestion?.questionImage : {}
+  );
+  const dispatch = useDispatch();
 
   const currentQuestionFormik = useFormik({
     initialValues: {
       question: '',
-      questionUriKey: '',
       choices: [],
     },
     onSubmit: (values) => {
-      addQuestion(values);
-      currentQuestionFormik.resetForm({
-        values: { question: '', choices: [], questionUriKey: '' },
-      });
-
+      const isImageEmpty = Object.keys(image).length === 0;
+      addQuestion({ ...values, questionImage: isImageEmpty ? null : image });
       if (currentlyEditingQuestion) {
-        const noPreviousImage = !prevImage?.uri;
-        const imageChanged = () => !deepCompare(image, prevImage);
-
-        if (noPreviousImage) {
-          addImageToUploadQueue();
-        } else if (!isS3LinkEnabled) {
-          // todo: handle image removal
-          dispatch(
-            removeImageFromUploadQueue(currentQuestionFormik.questionUriKey)
-          );
-        } else if (imageChanged()) {
-          dispatch(
-            alterImageInUploadQueue({
-              image,
-              key: currentlyEditingQuestion.questionUriKey,
-            })
-          );
+        if (isImageEmpty || image.clientId !== null) {
+          if (prevImage?.file?.uri) {
+            dispatch(addToDeletedUris(prevImage.file.uri.split('/').pop()));
+          }
         }
-      } else if (gettingUploadLinkSucceeded && isS3LinkEnabled) {
-        addImageToUploadQueue();
       }
+      currentQuestionFormik.resetForm({
+        values: { question: '', choices: [] },
+      });
       setImage({});
       setPrevImage({});
       currentChoiceFormik.resetForm();
@@ -182,28 +130,9 @@ const AddQuestion = ({
         'choices',
         currentlyEditingQuestion.choices
       );
-
-      if (currentlyEditingQuestion?.questionUriKey) {
-        currentQuestionFormik.setFieldValue(
-          'questionUriKey',
-          currentlyEditingQuestion.questionUriKey
-        );
-        const [
-          {
-            payload: { file },
-          },
-        ] = imagesUploadQueue.filter(
-          (payload) =>
-            payload?.payload?.key === currentlyEditingQuestion.questionUriKey
-        );
-        setImage({
-          fileName: file?.name,
-          uri: file?.uri,
-        });
-        setPrevImage({
-          fileName: file?.name,
-          uri: file?.uri,
-        });
+      if (currentlyEditingQuestion?.questionImage) {
+        setImage(currentlyEditingQuestion?.questionImage);
+        setPrevImage(currentlyEditingQuestion?.questionImage);
       }
 
       currentChoiceFormik.resetForm();
@@ -238,7 +167,13 @@ const AddQuestion = ({
           textInputRightComponent={
             <View style={styles.textInputRightComponent}>
               <ImageSelector
-                setImage={setImage}
+                setImage={(imgData) => {
+                  setImage({
+                    file: imgData,
+                    clientId: uuidv4(),
+                    fileType: fileUploadTypes.IMAGE,
+                  });
+                }}
                 pressableProps={{
                   disabled: !canAddQuestions,
                 }}
@@ -247,16 +182,14 @@ const AddQuestion = ({
           }
           style={[styles.textInputGap, !canAddQuestions && styles.disabled]}
         />
-        {!!image.fileName && (
-          <PressableText
-            onPress={() => Alert.alert('Image name click')}
-            pressableProps={{
-              style: [styles.uploadedFileName, styles.textInputGap],
+
+        {!!image?.file?.fileName && (
+          <QuestionImagePreview
+            image={image}
+            onDeletePress={() => {
+              setImage({});
             }}
-          >
-            {t('AddMaterial/image name: ')}
-            {image.fileName}
-          </PressableText>
+          />
         )}
         <TextInputFormik
           formik={currentChoiceFormik}
@@ -318,22 +251,13 @@ const AddQuestion = ({
         <SecondaryActionButton
           text={t('AddMaterial/Add Question')}
           onPress={() => {
-            if (!isS3LinkEnabled || gettingUploadLinkSucceeded) {
-              currentQuestionFormik.handleSubmit();
-            } else {
-              BaseAlert(
-                t,
-                'Discard Image?',
-                () => {
-                  currentQuestionFormik.handleSubmit();
-                },
-                () => {
-                  refetchUploadLink();
-                }
-              );
-            }
+            currentQuestionFormik.handleSubmit();
           }}
-          style={[styles.addQuestion, !canAddQuestions && styles.disabled]}
+          style={[
+            styles.addQuestion,
+            !canAddQuestions && styles.disabled,
+            questions.length === 0 && styles.emptyQuestions,
+          ]}
           disabled={!canAddQuestions}
         />
       </View>
@@ -347,7 +271,6 @@ AddQuestion.propTypes = {
   contentStyle: stylePropType,
   currentlyEditingQuestion: mcqQuestionAddPropType,
   setDirty: PropTypes.func.isRequired,
-  incrementNumAddedImages: PropTypes.func.isRequired,
 };
 AddQuestion.defaultProps = {
   contentStyle: {},
@@ -356,21 +279,22 @@ AddQuestion.defaultProps = {
 
 export default AddQuestion;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   textInputGap: {
     marginTop: 10,
   },
-  textInputRightComponent: { flexBasis: '18%', alignItems: 'center' },
-  uploadedFileName: {
-    ...Styles.underLinedFileName,
-
-    marginTop: 4,
-
-    alignSelf: 'flex-start',
+  textInputRightComponent: {
+    flexBasis: '18%',
+    alignItems: 'center',
+    marginLeft: Constants.commonMargin / 2,
   },
+
   addQuestion: {
     width: 180,
     alignSelf: 'flex-end',
   },
   disabled: { opacity: 0.8 },
+  emptyQuestions: {
+    marginBottom: Dimensions.get('window').height * 0.1,
+  },
 });

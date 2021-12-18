@@ -10,16 +10,12 @@ import AxiosProvider from 'api/AxiosProvider';
 import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import ReactQueryClient from 'components/ReactQueryClient/ReactQueryClient';
 import { Provider as ReduxProvider } from 'react-redux';
+import { Platform, UIManager } from 'react-native';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
 import store from './globalStore/store';
 
-if (__DEV__) {
-  import('./ReactotronConfig').then(() => {
-    console.log('Reactotron Configured');
-  });
-}
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -30,6 +26,13 @@ const theme = {
     placeholder: Colors.offBlack,
   },
 };
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 export default function App() {
   const ready = initStyles();

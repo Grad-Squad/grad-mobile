@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, FlatList, Pressable, StyleSheet, Modal } from 'react-native';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import PropTypes from 'prop-types';
@@ -19,9 +19,15 @@ const DropdownList = ({
   setValueFunction,
   min,
   max,
+  lateInitChoice,
 }) => {
   const [open, setOpen] = useState(false);
-  const [choices, setChoices] = useState([value]);
+  const [choices, setChoices] = useState(value ? [value] : []);
+  useEffect(() => {
+    if (lateInitChoice) {
+      setChoices([lateInitChoice]);
+    }
+  }, [lateInitChoice]);
 
   const onPresshandler = (key) => {
     let currentChoices;
@@ -76,7 +82,7 @@ const DropdownList = ({
                     <TagLabel labelText={item.label} />
                   </View>
                 );
-              return <View />;
+              return null;
             })}
           </View>
         ) : (
@@ -133,6 +139,7 @@ DropdownList.propTypes = {
   multiple: PropTypes.bool,
   min: PropTypes.number,
   max: PropTypes.number,
+  lateInitChoice: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 };
 DropdownList.defaultProps = {
   placeholder: 'list', // todo
@@ -141,6 +148,7 @@ DropdownList.defaultProps = {
   multiple: false,
   min: 0,
   max: 1,
+  lateInitChoice: null,
 };
 
 export default DropdownList;

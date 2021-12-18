@@ -5,10 +5,12 @@ import { Colors, Constants } from 'styles';
 import EduText from 'common/EduText';
 import { Icon, MaterialTypeIconsMap } from 'common/Icon';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
+import Checkbox from 'common/Input/Checkbox';
 
-const MaterialItem = ({ title, amount, type, onPress }) => (
+const MaterialItem = ({ title, amount, type, onPress, onLongPress }) => (
   <Pressable
     onPress={onPress}
+    onLongPress={onLongPress}
     android_ripple={pressableAndroidRipple}
     style={styles.materialItem}
   >
@@ -22,20 +24,73 @@ const MaterialItem = ({ title, amount, type, onPress }) => (
   </Pressable>
 );
 
-MaterialItem.propTypes = {
+export const MaterialItemWithCheckBox = ({
+  title,
+  amount,
+  type,
+  onPress,
+  onLongPress,
+  isSelected,
+  isSelectionEnabled,
+}) => {
+  const materialItem = (
+    <MaterialItem
+      title={title}
+      amount={amount}
+      type={type}
+      onPress={onPress}
+      onLongPress={onLongPress || null}
+      isSelected={isSelected}
+      isSelectionEnabled={isSelectionEnabled}
+    />
+  );
+  return (
+    <View style={styles.row}>
+      {isSelectionEnabled && (
+        <Checkbox
+          checked={isSelected}
+          onPress={onLongPress}
+          pressableProps={{
+            style: styles.checkbox,
+          }}
+        />
+      )}
+      {materialItem}
+    </View>
+  );
+};
+
+const commonPropTypes = {
   title: PropTypes.string.isRequired,
   amount: PropTypes.number.isRequired,
   type: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
+  onLongPress: PropTypes.func,
 };
-MaterialItem.defaultProps = {};
+MaterialItem.defaultProps = { onLongPress: null };
+MaterialItem.propTypes = commonPropTypes;
+MaterialItemWithCheckBox.propTypes = {
+  ...commonPropTypes,
+  isSelected: PropTypes.bool.isRequired,
+  isSelectionEnabled: PropTypes.bool.isRequired,
+};
+MaterialItemWithCheckBox.defaultProps = MaterialItem.defaultProps;
 
 export default React.memo(MaterialItem);
 
 const styles = StyleSheet.create({
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  checkbox: {
+    marginRight: Constants.commonMargin / 2,
+  },
   materialItem: {
     backgroundColor: Colors.foreground,
     borderRadius: Constants.borderRadius,
+    flex: 1,
 
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -49,7 +104,6 @@ const styles = StyleSheet.create({
     color: Colors.black,
     fontSize: 20,
 
-    flex: 1,
     flexWrap: 'wrap',
 
     marginRight: 10,

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FlatList, LayoutAnimation, StyleSheet, View } from 'react-native';
 import { Colors, Styles } from 'styles';
@@ -8,8 +8,6 @@ import { MaterialTypes } from 'constants';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
-import { useDispatch } from 'react-redux';
-import { deleteMaterial } from 'globalStore/createPostSlice';
 import { MaterialItemWithCheckBox } from './MaterialItem';
 
 const flatListRenderItem = ({
@@ -41,8 +39,12 @@ const MaterialTypeRouteMap = {
   [MaterialTypes.Video]: ScreenNames.ADD_VIDEO,
 };
 
-const MaterialList = ({ materials, errorMsg }) => {
-  const [selectedMaterials, setSelectedMaterials] = useState([]);
+const MaterialList = ({
+  materials,
+  errorMsg,
+  selectedMaterials,
+  setSelectedMaterials,
+}) => {
   const toggleSelectionIndex = (index) =>
     setSelectedMaterials((prev) => {
       const indexInState = prev.indexOf(index);
@@ -53,11 +55,10 @@ const MaterialList = ({ materials, errorMsg }) => {
     });
   const navigation = useNavigation();
   const { t } = useLocalization();
-  const dispatch = useDispatch();
   const formattedMaterials = useMemo(
     () =>
-      materials.map(({ type, title, amount }, index) => ({
-        id: index.toString(), // ! index as id
+      materials.map(({ id, type, title, amount }, index) => ({
+        id: id || title + type + index.toString(),
         type,
         title,
         amount,
@@ -65,7 +66,6 @@ const MaterialList = ({ materials, errorMsg }) => {
           navigation.navigate(MaterialTypeRouteMap[type], { index }),
         onLongPress: () => {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-
           toggleSelectionIndex(index);
         },
         isSelected: selectedMaterials.includes(index),
@@ -101,6 +101,8 @@ const MaterialList = ({ materials, errorMsg }) => {
 
 MaterialList.propTypes = {
   errorMsg: PropTypes.string,
+  selectedMaterials: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  setSelectedMaterials: PropTypes.func.isRequired,
   materials: PropTypes.arrayOf(PropTypes.object).isRequired, // :D
 };
 MaterialList.defaultProps = { errorMsg: '' };

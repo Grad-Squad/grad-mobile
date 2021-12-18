@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { LayoutAnimation, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
 import { TransparentTextInputFormik, DropdownList } from 'common/Input';
@@ -37,6 +37,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import fileUploadTypes from 'constants/fileUploadTypes';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import { useQueryClient } from 'react-query';
+import SelectedItemsHeader from 'common/SelectedItemsHeader';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -60,6 +61,12 @@ const CreatePost = ({ navigation, route }) => {
 
   const dispatch = useDispatch();
   const materialList = useSelector((state) => state.createPost.materialList);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
+  const resetSelectedMaterials = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setSelectedMaterials([]);
+  };
+
   const { postId = undefined } = route?.params || {};
 
   const [isProgressModalVisible, setIsProgressModalVisible] = useState(false);
@@ -260,17 +267,25 @@ const CreatePost = ({ navigation, route }) => {
           )}
         </Modal>
       </Portal>
-      <MaterialCreateHeader
-        title={
-          postId ? t('CreatePost/Edit Post') : t('CreatePost/Create New Post')
-        }
-        rightButtonText={t('CreatePost/Post')}
-        onPress={formik.handleSubmit}
-        onBackPress={() => {
-          dispatch(clearCreatePost());
-          navigation.goBack();
-        }}
-      />
+      {selectedMaterials.length === 0 ? (
+        <MaterialCreateHeader
+          title={
+            postId ? t('CreatePost/Edit Post') : t('CreatePost/Create New Post')
+          }
+          rightButtonText={t('CreatePost/Post')}
+          onPress={formik.handleSubmit}
+          onBackPress={() => {
+            dispatch(clearCreatePost());
+            navigation.goBack();
+          }}
+        />
+      ) : (
+        <SelectedItemsHeader
+          numSelected={selectedMaterials.length}
+          onBackPress={resetSelectedMaterials}
+          onDeletePress={() => {}}
+        />
+      )}
 
       <TransparentTextInputFormik
         title={t('CreatePost/Title')}
@@ -302,6 +317,8 @@ const CreatePost = ({ navigation, route }) => {
       <MaterialList
         materials={formik.values.materialList}
         errorMsg={formik.touched.materialList && formik.errors.materialList}
+        selectedMaterials={selectedMaterials}
+        setSelectedMaterials={setSelectedMaterials}
       />
       {postId && isFetchingPostForEdit && <LoadingIndicator size="large" />}
       <AddMaterialList navigation={navigation} />

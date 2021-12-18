@@ -164,6 +164,36 @@ export const createPostSlice = createSlice({
       };
       state.isPostReadyForUpload = true;
     },
+    deleteMaterials: (state, action) => {
+      const indices = action.payload;
+      while (indices.length) {
+        const index = indices.pop();
+        if (index > -1 && index < state.materialList.length) {
+          let fileKeysToDelete = [];
+          const materialToDelete = state.materialList[index];
+          switch (materialToDelete.type) {
+            case materialTypes.MCQ:
+              fileKeysToDelete = materialToDelete.questions
+                .map(
+                  ({ questionImage }) =>
+                    questionImage?.file?.uri?.split('/')?.pop() || null
+                )
+                .filter((elm) => elm != null);
+
+              break;
+            default:
+          }
+          state.deletedUris.push(...fileKeysToDelete);
+          state.materialList.splice(index, 1);
+        } else {
+          console.log(
+            '🚀 ~ file: createPostSlice.js ~ line 171 ~ ERROR: material list index(',
+            index,
+            ') is out of bounds'
+          );
+        }
+      }
+    },
   },
 });
 
@@ -178,6 +208,7 @@ export const {
   addToDeletedUris,
   resetUploadState,
   resetAreFileUploadsReady,
+  deleteMaterials,
 } = createPostSlice.actions;
 
 export default createPostSlice.reducer;

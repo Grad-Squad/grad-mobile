@@ -27,6 +27,7 @@ import { Colors, Constants } from 'styles';
 import { TransparentButton } from 'common/Input/Button';
 import {
   clearCreatePost,
+  deleteMaterials,
   parseFileUploads,
   parsePost,
   resetAreFileUploadsReady,
@@ -206,9 +207,7 @@ const CreatePost = ({ navigation, route }) => {
   });
 
   useEffect(() => {
-    if (materialList.length !== 0) {
-      formik.setFieldValue('materialList', materialList);
-    }
+    formik.setFieldValue('materialList', materialList);
   }, [materialList]);
 
   useOnGoBackDiscardWarning(
@@ -283,7 +282,10 @@ const CreatePost = ({ navigation, route }) => {
         <SelectedItemsHeader
           numSelected={selectedMaterials.length}
           onBackPress={resetSelectedMaterials}
-          onDeletePress={() => {}}
+          onDeletePress={() => {
+            dispatch(deleteMaterials(selectedMaterials));
+            resetSelectedMaterials();
+          }}
         />
       )}
 

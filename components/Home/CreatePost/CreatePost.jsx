@@ -2,60 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { LayoutAnimation, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
-import { TransparentTextInputFormik, DropdownList } from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { maxCharError, requiredError } from 'validation';
 import { useLocalization } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
-import {
-  apiFeedQueryKey,
-  useAPICreatePost,
-  useAPIGetPostById,
-  useAPIUpdatePost,
-} from 'api/endpoints/posts';
+import { useAPIGetPostById } from 'api/endpoints/posts';
 import PropTypes from 'prop-types';
 import LoadingIndicator from 'common/LoadingIndicator';
-import {
-  useAPIBulkUploadImage,
-  useAPIgetS3UploadImageLinks,
-  useDeleteBulkUri,
-} from 'api/endpoints/s3';
 import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import { TransparentButton } from 'common/Input/Button';
 import {
-  clearCreatePost,
   deleteMaterials,
   parseFileUploads,
-  parsePost,
-  resetAreFileUploadsReady,
   resetUploadState,
   setCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import fileUploadTypes from 'constants/fileUploadTypes';
-import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
-import { useQueryClient } from 'react-query';
 import SelectedItemsHeader from 'common/SelectedItemsHeader';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 import useUploadPost from './useUploadPost';
-const dropdownInitialItems = [
-  { label: 'Apple', id: 'apple' },
-  { label: 'Banana0', id: 'banana0' },
-  { label: 'Banana2', id: 'banana2' },
-  { label: 'Banana4', id: 'banana4' },
-  { label: 'Banana6', id: 'banana6' },
-  { label: 'Banana8', id: 'banana8' },
-  { label: 'Banana10', id: 'banana10' },
-  { label: 'Banana12', id: 'banana12' },
-  { label: 'Banana14', id: 'banana14' },
-  { label: 'Banana16', id: 'banana16' },
-  { label: 'Banana18', id: 'banana18' },
-  { label: 'math d1', id: 'math d1' },
-];
+import CreatePostForm from './CreatePostForm';
 
 const CreatePost = ({ navigation, route }) => {
   const { t } = useLocalization();
@@ -177,35 +147,12 @@ const CreatePost = ({ navigation, route }) => {
         />
       )}
 
-      <TransparentTextInputFormik
-        title={t('CreatePost/Title')}
+      <CreatePostForm
+        lateInitSubject={isPostFetchedForEdit && fetchedPostData.subject}
+        lateInitTags={isPostFetchedForEdit && fetchedPostData.tags}
         formik={formik}
-        formikKey="title"
+        t={t}
       />
-      <DropdownList
-        placeholder={t('CreatePost/SubjectCourse')}
-        value={formik.values.subject}
-        setValueFunction={(newValue) =>
-          formik.setFieldValue('subject', newValue[0])
-        }
-        items={dropdownInitialItems}
-        lateInitChoice={isPostFetchedForEdit && fetchedPostData.subject}
-        // error={formik.errors.subject && formik.touched.subject}
-        // errorMsg={formik.errors.subject}
-      />
-      <DropdownList
-        placeholder={t('CreatePost/Tags')}
-        multiple
-        min={0}
-        max={5}
-        value={formik.values.tags}
-        setValueFunction={(newValues) => {
-          formik.setFieldValue('tags', newValues);
-        }}
-        items={dropdownInitialItems}
-        lateInitChoice={isPostFetchedForEdit && fetchedPostData.tags}
-      />
-
       <MaterialList
         materials={formik.values.materialList}
         errorMsg={formik.touched.materialList && formik.errors.materialList}
@@ -240,7 +187,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     margin: Constants.commonMargin,
     alignItems: 'center',
-    // height: '40%',
   },
   padAbove: {
     paddingTop: Constants.commonMargin / 2,

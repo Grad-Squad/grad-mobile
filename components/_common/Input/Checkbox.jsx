@@ -15,7 +15,10 @@ const Checkbox = ({
 }) => (
   <PressableIcon
     android_ripple={pressableAndroidRipple}
-    onPress={onPress || (() => setChecked(!checked))}
+    onPress={() => {
+      setChecked(!checked);
+      onPress();
+    }}
     style={style}
     name={checked ? IconNames.checkbox : IconNames.square}
     // eslint-disable-next-line react/jsx-props-no-spreading

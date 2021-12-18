@@ -44,18 +44,17 @@ export const MaterialItemWithCheckBox = ({
       isSelectionEnabled={isSelectionEnabled}
     />
   );
-  if (!isSelectionEnabled) {
-    return materialItem;
-  }
   return (
     <View style={styles.row}>
-      <Checkbox
-        checked={isSelected}
-        onPress={onLongPress}
-        pressableProps={{
-          style: styles.checkbox,
-        }}
-      />
+      {isSelectionEnabled && (
+        <Checkbox
+          checked={isSelected}
+          onPress={onLongPress}
+          pressableProps={{
+            style: styles.checkbox,
+          }}
+        />
+      )}
       {materialItem}
     </View>
   );

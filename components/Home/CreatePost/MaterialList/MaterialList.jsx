@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, LayoutAnimation, StyleSheet, View } from 'react-native';
 import { Colors, Styles } from 'styles';
 import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
@@ -63,7 +63,11 @@ const MaterialList = ({ materials, errorMsg }) => {
         amount,
         onPress: () =>
           navigation.navigate(MaterialTypeRouteMap[type], { index }),
-        onLongPress: () => toggleSelectionIndex(index),
+        onLongPress: () => {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+          toggleSelectionIndex(index);
+        },
         isSelected: selectedMaterials.includes(index),
         isSelectionEnabled: selectedMaterials.length !== 0,
       })),

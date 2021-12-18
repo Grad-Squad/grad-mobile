@@ -275,7 +275,6 @@ const CreatePost = ({ navigation, route }) => {
           rightButtonText={t('CreatePost/Post')}
           onPress={formik.handleSubmit}
           onBackPress={() => {
-            dispatch(clearCreatePost());
             navigation.goBack();
           }}
         />

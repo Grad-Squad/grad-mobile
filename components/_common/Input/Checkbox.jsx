@@ -5,7 +5,7 @@ import { PressableIcon } from 'common/Icon';
 import { stylePropType } from 'proptypes';
 import { IconNames } from 'common/Icon/Icon';
 
-const Checkbox = ({ checked, setChecked, style, pressableProps }) => (
+const Checkbox = ({ checked, setChecked, style, pressableProps, disabled }) => (
   <PressableIcon
     android_ripple={pressableAndroidRipple}
     onPress={() => setChecked(!checked)}
@@ -13,6 +13,7 @@ const Checkbox = ({ checked, setChecked, style, pressableProps }) => (
     name={checked ? IconNames.checkbox : IconNames.square}
     // eslint-disable-next-line react/jsx-props-no-spreading
     pressableProps={pressableProps}
+    disabled={disabled}
   />
 );
 
@@ -20,9 +21,10 @@ Checkbox.propTypes = {
   checked: PropTypes.bool.isRequired,
   setChecked: PropTypes.func.isRequired,
   style: stylePropType,
+  disabled: PropTypes.bool,
   // eslint-disable-next-line react/forbid-prop-types
   pressableProps: PropTypes.object,
 };
-Checkbox.defaultProps = { style: {}, pressableProps: {} };
+Checkbox.defaultProps = { style: {}, pressableProps: {}, disabled: false };
 
 export default React.memo(Checkbox);

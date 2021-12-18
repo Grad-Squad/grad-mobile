@@ -29,6 +29,8 @@ import {
   clearCreatePost,
   parseFileUploads,
   parsePost,
+  resetAreFileUploadsReady,
+  resetUploadState,
   setCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import { useSelector, useDispatch } from 'react-redux';
@@ -107,7 +109,7 @@ const CreatePost = ({ navigation, route }) => {
   ]);
 
   const [imagesProgress, setImagesProgress] = useState(0);
-  const uploadImagesMutation = useAPIBulkUploadImage(
+  const bulkUploadImagesMutation = useAPIBulkUploadImage(
     () => {
       setImagesProgress((prev) => prev + 1);
     },
@@ -123,10 +125,10 @@ const CreatePost = ({ navigation, route }) => {
   const [numImageLinks, setNumImageLinks] = useState(0);
 
   // todo batches (ex: user uploading 200 pic might timeout due to upload time limit)
-  const bulkUploadImagesMutation = useAPIgetS3UploadImageLinks(numImageLinks, {
+  const getS3ImageLinks = useAPIgetS3UploadImageLinks(numImageLinks, {
     enabled: numImageLinks !== 0,
     onSuccess: (data) => {
-      uploadImagesMutation.mutate(data);
+      bulkUploadImagesMutation.mutate(data);
     },
     onError: () => {},
   });
@@ -137,17 +139,21 @@ const CreatePost = ({ navigation, route }) => {
 
   useEffect(() => {
     if (areFileUploadsReady) {
+      dispatch(resetAreFileUploadsReady());
       if (fileUploads.length !== 0) {
         setNumImageLinks(
           fileUploads.filter((file) => file.fileType === fileUploadTypes.IMAGE)
             .length
         );
+        if (getS3ImageLinks.isError) {
+          getS3ImageLinks.refetch();
+        }
         // todo add other upload types
       } else {
         dispatch(parsePost({ data: formik.values }, {}));
       }
     }
-  }, [fileUploads, areFileUploadsReady, dispatch]);
+  }, [fileUploads, areFileUploadsReady, dispatch, resetAreFileUploadsReady]);
 
   const isPostReadyForUpload = useSelector(
     (state) => state.createPost.isPostReadyForUpload
@@ -216,6 +222,7 @@ const CreatePost = ({ navigation, route }) => {
     !bulkUploadImagesMutation.isError;
 
   const isUploadError =
+    getS3ImageLinks.isError ||
     createPostMutation.isError ||
     bulkUploadImagesMutation.isError ||
     updatePostMutation.isError;
@@ -229,7 +236,9 @@ const CreatePost = ({ navigation, route }) => {
           contentContainerStyle={styles.progressContainerStyle}
           onDismiss={() => setIsProgressModalVisible(false)}
         >
-          {isUploadingPost && <LoadingIndicator size="large" />}
+          {isUploadingPost && !isUploadError && (
+            <LoadingIndicator size="large" />
+          )}
           <EduText style={styles.padAbove}>
             {t('CreatePost/Upload in progress')}{' '}
             {numImageLinks !== 0 && `${imagesProgress}/${numImageLinks}`}
@@ -237,8 +246,10 @@ const CreatePost = ({ navigation, route }) => {
           {isUploadError && (
             <TransparentButton
               text="Try again"
-              // todo try again
-              // onPress={() => setCanUpload(true)}
+              onPress={() => {
+                dispatch(resetUploadState());
+                dispatch(parseFileUploads());
+              }}
             />
           )}
           {isUploadError && (

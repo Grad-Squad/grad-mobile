@@ -9,7 +9,7 @@ import { TextInputFormik } from 'common/Input';
 import { SecondaryActionButton, TransparentButton } from 'common/Input/Button';
 import Separator from 'common/Separator';
 import EduText from 'common/EduText';
-import { Styles } from 'styles';
+import { Constants, Styles } from 'styles';
 import { mcqQuestionAddPropType, stylePropType } from 'proptypes';
 import ImageSelector from 'common/ImageSelector';
 import fileUploadTypes from 'constants/fileUploadTypes';
@@ -283,7 +283,11 @@ export const styles = StyleSheet.create({
   textInputGap: {
     marginTop: 10,
   },
-  textInputRightComponent: { flexBasis: '18%', alignItems: 'center' },
+  textInputRightComponent: {
+    flexBasis: '18%',
+    alignItems: 'center',
+    marginLeft: Constants.commonMargin / 2,
+  },
 
   addQuestion: {
     width: 180,

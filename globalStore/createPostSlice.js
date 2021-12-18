@@ -124,6 +124,15 @@ export const createPostSlice = createSlice({
         .filter((elm) => elm != null);
       state.areFileUploadsReady = true;
     },
+    resetUploadState: (state) => {
+      state.fileUploads = [];
+      state.areFileUploadsReady = false;
+      state.isPostReadyForParsing = false;
+      state.isPostReadyForUpload = false;
+    },
+    resetAreFileUploadsReady: (state) => {
+      state.areFileUploadsReady = false;
+    },
     addToDeletedUris: (state, action) => {
       state.deletedUris.push(action.payload);
     },
@@ -167,6 +176,8 @@ export const {
   parsePost,
   parseFileUploads,
   addToDeletedUris,
+  resetUploadState,
+  resetAreFileUploadsReady,
 } = createPostSlice.actions;
 
 export default createPostSlice.reducer;

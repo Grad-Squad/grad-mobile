@@ -76,6 +76,7 @@ const CreatePost = ({ navigation, route }) => {
     data: fetchedPostData,
     isFetching: isFetchingPostForEdit,
     refetch: refetchPost,
+    isSuccess: isPostFetchedForEdit,
   } = useAPIGetPostById(postId, {
     enabled: !!postId,
     onError: (error) => {

@@ -82,7 +82,7 @@ const DropdownList = ({
                     <TagLabel labelText={item.label} />
                   </View>
                 );
-              return <View />;
+              return null;
             })}
           </View>
         ) : (

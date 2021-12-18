@@ -33,6 +33,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import fileUploadTypes from 'constants/fileUploadTypes';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
+import { useQueryClient } from 'react-query';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 
@@ -86,10 +87,12 @@ const CreatePost = ({ navigation, route }) => {
 
   const bulkUriDeleteMutation = useDeleteBulkUri();
   const deletedUris = useSelector((state) => state.createPost.deletedUris);
+  const queryClient = useQueryClient();
   useEffect(() => {
     if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
       dispatch(clearCreatePost());
       bulkUriDeleteMutation.mutate(deletedUris);
+      queryClient.invalidateQueries(apiFeedQueryKey);
       navigation.goBack();
     }
   }, [
@@ -99,6 +102,7 @@ const CreatePost = ({ navigation, route }) => {
     dispatch,
     bulkUriDeleteMutation,
     deletedUris,
+    queryClient,
   ]);
 
   const [imagesProgress, setImagesProgress] = useState(0);

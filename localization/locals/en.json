@@ -127,6 +127,16 @@
     "Finish": "Finish",
     "Preview": "Preview",
     "Please add a file": "Please add a file",
+    "Flashcards": {
+      "Create flashcards": "Create flashcards",
+      "Exercise Title": "Exercise Title",
+      "Flashcard": "Flashcard",
+      "Card": "Card",
+      "errors": {
+        "(maximum number of questions reached)": "(maximum number of questions reached)",
+        "add at least one flashcard": "add at least one flashcard"
+      }
+    },
     "MCQ": {
       "Create MCQ": "Create MCQ",
       "Exercise Title": "Exercise Title",
@@ -272,6 +282,12 @@
       "confirm button": "finish",
       "reject button": "stay"
     },
+    "Discard Flashcard?": {
+      "title": "Discard Flashcard?",
+      "message": "You are currently writing a flashcard. Are you sure you want to finish?",
+      "confirm button": "finish",
+      "reject button": "stay"
+    },
     "Confirm Post Deletion?": {
       "title": "Delete Post?",
       "message": "Are you sure you want delete your post?\nyou can't undo this action",
@@ -291,7 +307,7 @@
       "reject button": "Cancel"
     }
   },
-  "ProfilePicture":{
+  "ProfilePicture": {
     "Confirm": "Confirm",
     "Cancel": "Cancel"
   },

@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Platform, Pressable, Image, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { uriPropType } from 'proptypes';
 import { PressableIcon } from './Icon';
 import { IconNames } from './Icon/Icon';
-import { uriPropType } from 'proptypes';
 
 const IMAGE_SOURCE = require('../../assets/images/input/AddProfilePictures.png');
 
-const ImageSelector = ({ setImage, isRegisteration, prevImage ,...props }) => {
-
+const ImageSelector = ({ setImage, isRegisteration, prevImage, ...props }) => {
   const [selectedImage, setSelectedImage] = useState(prevImage);
 
   useEffect(() => {
@@ -26,7 +25,6 @@ const ImageSelector = ({ setImage, isRegisteration, prevImage ,...props }) => {
     })();
   }, []);
 
-
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -41,30 +39,34 @@ const ImageSelector = ({ setImage, isRegisteration, prevImage ,...props }) => {
         width: result.width,
         height: result.height,
       });
-      setSelectedImage(result)
+      setSelectedImage(result);
     }
   };
   return (
     <>
-    {
-      isRegisteration
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      ? <Pressable onPress={pickImage} style={styles.button} {...props}>
-          <Image
-              style={styles.image}
-              source = {
-                selectedImage ?
-                {
-                  uri: selectedImage.uri
-                }
-                :
-                IMAGE_SOURCE
-              }
-            />
-        </Pressable>
+      {isRegisteration ? (
         // eslint-disable-next-line react/jsx-props-no-spreading
-      : <PressableIcon onPress={pickImage} name={IconNames.AddImage} size={30} {...props} />
-    }
+        <Pressable onPress={pickImage} style={styles.button} {...props}>
+          <Image
+            style={styles.image}
+            source={
+              selectedImage
+                ? {
+                    uri: selectedImage.uri,
+                  }
+                : IMAGE_SOURCE
+            }
+          />
+        </Pressable>
+      ) : (
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        <PressableIcon
+          onPress={pickImage}
+          name={IconNames.AddImage}
+          size={30}
+          {...props}
+        />
+      )}
     </>
   );
 };

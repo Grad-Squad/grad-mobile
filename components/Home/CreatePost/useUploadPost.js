@@ -5,7 +5,7 @@ import {
   useAPIUpdatePost,
 } from 'api/endpoints/posts';
 import {
-  useAPIBulkUploadImage,
+  useAPIBulkUploadFiles,
   useAPIgetS3UploadImageLinks,
   useDeleteBulkUri,
 } from 'api/endpoints/s3';
@@ -58,7 +58,7 @@ const useUploadPost = (
   ]);
 
   const [imagesProgress, setImagesProgress] = useState(0);
-  const bulkUploadImagesMutation = useAPIBulkUploadImage(
+  const bulkUploadFilesMutation = useAPIBulkUploadFiles(
     () => {
       setImagesProgress((prev) => prev + 1);
     },
@@ -77,7 +77,10 @@ const useUploadPost = (
   const getS3ImageLinks = useAPIgetS3UploadImageLinks(numImageLinks, {
     enabled: numImageLinks !== 0,
     onSuccess: (data) => {
-      bulkUploadImagesMutation.mutate(data);
+      bulkUploadFilesMutation.mutate({
+        s3Replies: data,
+        fileType: fileUploadTypes.IMAGE,
+      });
     },
     onError: () => {},
   });
@@ -137,8 +140,8 @@ const useUploadPost = (
   const isUploadingPost =
     (isUploadingImages ||
       createPostMutation.isLoading ||
-      bulkUploadImagesMutation.isLoading) &&
-    !bulkUploadImagesMutation.isError;
+      bulkUploadFilesMutation.isLoading) &&
+    !bulkUploadFilesMutation.isError;
 
   const isUploadError =
     getS3ImageLinks.isError ||

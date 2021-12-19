@@ -3,18 +3,21 @@ import { useMutation, useQuery } from 'react-query';
 import { formatString } from 'utility';
 import * as normalAxios from 'axios';
 import { useSelector } from 'react-redux';
-import fileUploadTypes from 'constants/fileUploadTypes';
 import { useStore } from 'globalStore/GlobalStore';
+import getMimeTypeFromFileName from 'constants/mimeTypes';
 import endpoints from './endpoints';
 
-export const useAPIgetS3UploadImageLinks = (numberOfLinks = 1, options) => {
+const useAPIGetS3UploadLink = (
+  queryKey,
+  endpoint,
+  numberOfLinks = 1,
+  options
+) => {
   const { axios } = useAxios();
   return useQuery(
-    ['getS3UploadImageLinks'],
+    queryKey,
     async () => {
-      const { data } = await axios.get(
-        formatString(endpoints.s3.getUploadImageLinks, numberOfLinks)
-      );
+      const { data } = await axios.get(formatString(endpoint, numberOfLinks));
       return data;
     },
     {
@@ -23,38 +26,30 @@ export const useAPIgetS3UploadImageLinks = (numberOfLinks = 1, options) => {
     }
   );
 };
-export const useAPIgetS3UploadDocLinks = (numberOfLinks = 1, options) => {
-  const { axios } = useAxios();
-  return useQuery(
-    ['getS3UploadDocLinks'],
-    async () => {
-      const { data } = await axios.get(
-        formatString(endpoints.s3.getUploadDocLinks, numberOfLinks)
-      );
-      return data;
-    },
-    {
-      cacheTime: 0,
-      ...options,
-    }
+
+export const useAPIgetS3UploadImageLinks = (numberOfLinks = 1, options) =>
+  useAPIGetS3UploadLink(
+    'getS3UploadImageLinks',
+    endpoints.s3.getUploadImageLinks,
+    numberOfLinks,
+    options
   );
-};
-export const useAPIgetS3UploadVideoLinks = (numberOfLinks = 1, options) => {
-  const { axios } = useAxios();
-  return useQuery(
-    ['getS3UploadVideoLinks'],
-    async () => {
-      const { data } = await axios.get(
-        formatString(endpoints.s3.getUploadVideoLinks, numberOfLinks)
-      );
-      return data;
-    },
-    {
-      cacheTime: 0,
-      ...options,
-    }
+
+export const useAPIgetS3UploadDocLinks = (numberOfLinks = 1, options) =>
+  useAPIGetS3UploadLink(
+    'getS3UploadDocLinks',
+    endpoints.s3.getUploadDocLinks,
+    numberOfLinks,
+    options
   );
-};
+
+export const useAPIgetS3UploadVideoLinks = (numberOfLinks = 1, options) =>
+  useAPIGetS3UploadLink(
+    'getS3UploadVideoLinks',
+    endpoints.s3.getUploadVideoLinks,
+    numberOfLinks,
+    options
+  );
 
 const formatFormData = (payload) => {
   const formData = new FormData(payload);
@@ -69,32 +64,32 @@ const formatFormData = (payload) => {
   formData.append('content-type', payload['content-type']);
   formData.append('file', {
     uri: payload.file.uri,
-    name: payload.file.fileName,
+    name: payload.file.name,
     type: payload.file.type,
   });
   return formData;
 };
 
-export const useAPIBulkUploadImage = (updateProgress, mutationConfig) => {
+export const useAPIBulkUploadFiles = (updateProgress, mutationConfig) => {
   const fileUploads = useSelector((state) => state.createPost.fileUploads);
-  return useMutation(async (s3Replies) => {
-    const imageFiles = fileUploads.filter(
-      (file) => file.fileType === fileUploadTypes.IMAGE
+  return useMutation(async ({ s3Replies, fileType }) => {
+    const filteredFiles = fileUploads.filter(
+      (file) => file.fileType === fileType
     );
-    const formDatas = imageFiles
-      .map((imgFile, index) => ({
+    const formDatas = filteredFiles
+      .map((filteredFile, index) => ({
         ...s3Replies[index].fields,
-        'content-type': 'image/jpeg',
+        'content-type': getMimeTypeFromFileName(filteredFile.file.fileName),
         file: {
-          uri: imgFile.file.uri,
-          name: imgFile.file.fileName,
-          type: 'image/jpeg',
+          uri: filteredFile.file.uri,
+          name: filteredFile.file.fileName,
+          type: getMimeTypeFromFileName(filteredFile.file.fileName),
         },
       }))
       .map((payload) => formatFormData(payload));
 
     const fileUploadClientIdToResourceId = await Promise.all(
-      imageFiles.map(async (imgFile, index) => {
+      filteredFiles.map(async (filteredFile, index) => {
         await normalAxios.post(endpoints.s3.uploadFile, formDatas[index], {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -102,7 +97,7 @@ export const useAPIBulkUploadImage = (updateProgress, mutationConfig) => {
         });
         updateProgress();
         return {
-          clientId: imgFile.clientId,
+          clientId: filteredFile.clientId,
           resourceId: s3Replies[index].fields.key,
         };
       })

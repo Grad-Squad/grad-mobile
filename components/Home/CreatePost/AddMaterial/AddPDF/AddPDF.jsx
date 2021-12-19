@@ -17,6 +17,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addCreateMaterialItem,
+  addToDeletedUris,
   replaceCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
@@ -61,6 +62,9 @@ const AddPDF = ({ route }) => {
       if (editIndex === undefined) {
         dispatch(addCreateMaterialItem(material));
       } else {
+        if (pdf.fileUri !== editPdf?.fileUri) {
+          dispatch(addToDeletedUris(editPdf?.fileUri?.split('/').pop()));
+        }
         dispatch(
           replaceCreateMaterialItem({
             index: editIndex,

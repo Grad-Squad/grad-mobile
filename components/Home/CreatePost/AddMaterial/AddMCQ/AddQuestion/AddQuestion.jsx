@@ -15,11 +15,10 @@ import ImageSelector from 'common/ImageSelector';
 import fileUploadTypes from 'constants/fileUploadTypes';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
-import { useDeleteUri } from 'api/endpoints/s3';
+import { addToDeletedUris } from 'globalStore/createPostSlice';
+import { useDispatch } from 'react-redux';
 import ChoicesList from './ChoicesList';
 import QuestionImagePreview from './QuestionImagePreview';
-import { useDispatch } from 'react-redux';
-import { addToDeletedUris } from 'globalStore/createPostSlice';
 
 const MaxNumberOfChoices = 26;
 const MaxNumberOfQuestions = 1000;

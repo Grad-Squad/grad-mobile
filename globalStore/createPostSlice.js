@@ -178,7 +178,11 @@ export const createPostSlice = createSlice({
 
               break;
             case materialTypes.PDF:
-              fileKeysToDelete = [materialToDelete.file.file.uri];
+              if (materialToDelete?.prevFile) {
+                fileKeysToDelete = [
+                  materialToDelete?.prevFile?.file?.uri?.split('/')?.pop(),
+                ];
+              }
               break;
             default:
           }

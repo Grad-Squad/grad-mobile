@@ -11,13 +11,12 @@ import { navigationPropType, routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import { deepCompare, deepCopy } from 'utility';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
-import { MaterialTypes } from 'constants';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addCreateMaterialItem,
   replaceCreateMaterialItem,
 } from 'globalStore/createPostSlice';
-import { removeLastXFromUploadQueue } from 'globalStore/imageUploadSlice';
+import materialTypes from 'constants/materialTypes';
 import AddQuestion from './AddQuestion';
 import QuestionsList from './QuestionsList';
 import DiscardQuestionAlert from './DiscardQuestionAlert';
@@ -31,7 +30,6 @@ const AddMCQ = ({ navigation, route }) => {
     useState(undefined);
 
   const [subFormikDirty, setSubFormikDirty] = useState(false);
-  const [numAddedImages, setNumAddedImages] = useState(0);
 
   const editMCQ = materialList[editIndex];
 
@@ -41,15 +39,18 @@ const AddMCQ = ({ navigation, route }) => {
       questions: editMCQ?.questions ? deepCopy(editMCQ?.questions) : [], // Deep Clone
     },
     onSubmit: (mcq, formikBag) => {
-      mcq.amount = mcq.questions.length;
+      const material = {
+        amount: mcq.questions.length,
+        type: materialTypes.MCQ,
+      };
       const submitForm = () => {
         if (editIndex === undefined) {
-          dispatch(addCreateMaterialItem({ ...mcq, type: MaterialTypes.MCQ }));
+          dispatch(addCreateMaterialItem(material));
         } else {
           dispatch(
             replaceCreateMaterialItem({
               index: editIndex,
-              material: { ...mcq, type: MaterialTypes.MCQ },
+              material,
             })
           );
         }
@@ -88,21 +89,14 @@ const AddMCQ = ({ navigation, route }) => {
     formik.handleSubmit();
   };
 
-  useOnGoBackDiscardWarning(
-    () => {
-      const questionsDirty = editMCQ
-        ? !deepCompare(editMCQ?.questions, formik.values.questions)
-        : formik.values.questions.length !== 0;
-      return (
-        !(formik.dirty || subFormikDirty || questionsDirty) ||
-        formik.isSubmitting
-      );
-    },
-    [formik.dirty, subFormikDirty, formik.isSubmitting],
-    () => {
-      dispatch(removeLastXFromUploadQueue(numAddedImages));
-    }
-  );
+  useOnGoBackDiscardWarning(() => {
+    const questionsDirty = editMCQ
+      ? !deepCompare(editMCQ?.questions, formik.values.questions)
+      : formik.values.questions.length !== 0;
+    return (
+      !(formik.dirty || subFormikDirty || questionsDirty) || formik.isSubmitting
+    );
+  }, [formik.dirty, subFormikDirty, formik.isSubmitting]);
 
   return (
     <Page useSafeArea={false}>
@@ -129,7 +123,6 @@ const AddMCQ = ({ navigation, route }) => {
           contentStyle={styles.content}
           currentlyEditingQuestion={currentlyEditingQuestion}
           setDirty={setSubFormikDirty}
-          incrementNumAddedImages={() => setNumAddedImages((prev) => prev + 1)}
         />
         <QuestionsList
           questions={formik.values.questions}

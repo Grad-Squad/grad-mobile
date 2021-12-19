@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { MaterialTypes } from 'constants';
 import fileUploadTypes from 'constants/fileUploadTypes';
 import materialTypes from 'constants/materialTypes';
+import uriTypes from 'constants/uriTypes';
 
 // current plan:
 // formik post form
@@ -44,6 +45,23 @@ const parseMcqMaterial = (
   },
   fileUploads: questions.map(({ questionImage }) => questionImage),
 });
+
+const parsePdfMaterial = ({ title, file }, fileUploadClientIdToResourceId) => {
+  const material = {
+    materialType: materialTypes.URI,
+    title,
+  };
+  if (file?.clientId) {
+    material.uris = [
+      {
+        key: fileUploadClientIdToResourceId[file.clientId],
+        type: uriTypes.PDF,
+      },
+    ];
+  }
+  return { material };
+  // fileUploads: questions.map(({ questionImage }) => questionImage),
+};
 
 const mapUriMaterialToUploadFile = (uriMaterial, type) => ({
   file: { fileName: uriMaterial.key, uri: uriMaterial.uri },
@@ -104,6 +122,7 @@ export const createPostSlice = createSlice({
     },
     addCreateMaterialItem: (state, action) => {
       state.materialList.unshift(action.payload);
+      console.log(action.payload);
     },
     replaceCreateMaterialItem: (state, action) => {
       state.materialList[action.payload.index] = action.payload.material;
@@ -116,6 +135,8 @@ export const createPostSlice = createSlice({
               return material.questions.map(({ questionImage }) =>
                 questionImage?.clientId ? questionImage : null
               );
+            case materialTypes.PDF:
+              return material?.file?.clientId ? material?.file : null;
             default:
               return null;
           }
@@ -147,6 +168,12 @@ export const createPostSlice = createSlice({
         switch (material.type) {
           case materialTypes.MCQ:
             parsedMaterial = parseMcqMaterial(
+              material,
+              fileUploadClientIdToResourceId
+            );
+            return parsedMaterial.material;
+          case materialTypes.PDF:
+            parsedMaterial = parsePdfMaterial(
               material,
               fileUploadClientIdToResourceId
             );

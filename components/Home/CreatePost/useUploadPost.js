@@ -6,6 +6,7 @@ import {
 } from 'api/endpoints/posts';
 import {
   useAPIBulkUploadFiles,
+  useAPIgetS3UploadDocLinks,
   useAPIgetS3UploadImageLinks,
   useDeleteBulkUri,
 } from 'api/endpoints/s3';
@@ -85,6 +86,18 @@ const useUploadPost = (
     onError: () => {},
   });
 
+  const [numPdfLinks, setNumPdfLinks] = useState(0);
+  const getS3PdfLinks = useAPIgetS3UploadDocLinks(numPdfLinks, {
+    enabled: numPdfLinks !== 0,
+    onSuccess: (data) => {
+      bulkUploadFilesMutation.mutate({
+        s3Replies: data,
+        fileType: fileUploadTypes.DOC,
+      });
+    },
+    onError: () => {},
+  });
+
   const areFileUploadsReady = useSelector(
     (state) => state.createPost.areFileUploadsReady
   );
@@ -99,6 +112,13 @@ const useUploadPost = (
         );
         if (getS3ImageLinks.isError) {
           getS3ImageLinks.refetch();
+        }
+        setNumPdfLinks(
+          fileUploads.filter((file) => file.fileType === fileUploadTypes.DOC)
+            .length
+        );
+        if (getS3PdfLinks.isError) {
+          getS3PdfLinks.refetch();
         }
         // todo add other upload types
       } else {
@@ -135,7 +155,7 @@ const useUploadPost = (
   );
 
   const isUploadingImages =
-    fileUploads.length !== 0 && imagesProgress !== numImageLinks;
+    fileUploads.length !== 0 && imagesProgress !== numImageLinks + numPdfLinks;
 
   const isUploadingPost =
     (isUploadingImages ||
@@ -146,11 +166,11 @@ const useUploadPost = (
   const isUploadError =
     getS3ImageLinks.isError ||
     createPostMutation.isError ||
-    bulkUploadImagesMutation.isError ||
+    bulkUploadFilesMutation.isError ||
     updatePostMutation.isError;
 
   return {
-    numImageLinks,
+    totalFilesToUpload: numImageLinks + numPdfLinks,
     imagesProgress,
     isUploadError,
     isUploadingPost,

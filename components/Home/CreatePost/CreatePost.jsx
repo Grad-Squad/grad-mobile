@@ -86,7 +86,7 @@ const CreatePost = ({ navigation, route }) => {
     }),
   });
 
-  const { numImageLinks, imagesProgress, isUploadError, isUploadingPost } =
+  const { totalFilesToUpload, imagesProgress, isUploadError, isUploadingPost } =
     useUploadPost(formik, postId, refetchPost, navigation, fetchedPostData);
   useEffect(() => {
     formik.setFieldValue('materialList', materialList);
@@ -106,7 +106,8 @@ const CreatePost = ({ navigation, route }) => {
           )}
           <EduText style={styles.padAbove}>
             {t('CreatePost/Upload in progress')}{' '}
-            {numImageLinks !== 0 && `${imagesProgress}/${numImageLinks}`}
+            {totalFilesToUpload !== 0 &&
+              `${imagesProgress}/${totalFilesToUpload}`}
           </EduText>
           {isUploadError && (
             <TransparentButton
@@ -148,8 +149,8 @@ const CreatePost = ({ navigation, route }) => {
       )}
 
       <CreatePostForm
-        lateInitSubject={isPostFetchedForEdit && fetchedPostData.subject}
-        lateInitTags={isPostFetchedForEdit && fetchedPostData.tags}
+        lateInitSubject={isPostFetchedForEdit ? fetchedPostData.subject : null}
+        lateInitTags={isPostFetchedForEdit ? fetchedPostData.tags : null}
         formik={formik}
         t={t}
       />

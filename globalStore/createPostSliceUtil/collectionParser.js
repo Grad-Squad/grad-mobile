@@ -43,6 +43,7 @@ export default class CollectionParser {
               questionImage,
               fileUploadTypes.IMAGE
             ),
+          prevUri: questionImage,
         })
       ),
       title: this.collection.title,
@@ -71,10 +72,7 @@ export default class CollectionParser {
   parsePdfCollection() {
     return {
       title: this.collection.title,
-      prevFile: CollectionParser.mapUriMaterialToUploadFile(
-        this.collection.uris[0],
-        fileUploadTypes.DOC
-      ),
+      prevUri: this.collection.uris[0],
       fileName: this.collection.uris[0].key,
       fileUri: this.collection.uris[0].uri,
       type: materialTypes.PDF,
@@ -85,10 +83,7 @@ export default class CollectionParser {
   parseVideoCollection() {
     return {
       title: this.collection.title,
-      prevFile: CollectionParser.mapUriMaterialToUploadFile(
-        this.collection.uris[0],
-        fileUploadTypes.VIDEO
-      ),
+      prevUri: this.collection.uris[0],
       fileName: this.collection.uris[0].key,
       fileUri: this.collection.uris[0].uri,
       type: materialTypes.Video,

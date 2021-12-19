@@ -21,7 +21,7 @@ const parseMcqMaterial = (
   material: {
     materialType: MaterialTypes.MCQ,
     title,
-    mcqs: questions.map(({ question, choices, questionImage }) => {
+    mcqs: questions.map(({ question, choices, questionImage, prevUri }) => {
       const mappedQuestion = {
         question,
         answerIndices: choices
@@ -34,11 +34,8 @@ const parseMcqMaterial = (
           key: fileUploadClientIdToResourceId[questionImage.clientId],
           type: 'image',
         };
-      } else if (questionImage?.file?.uri) {
-        mappedQuestion.questionImage = {
-          key: questionImage?.file?.uri?.split('/').pop(),
-          type: 'image',
-        };
+      } else if (prevUri) {
+        mappedQuestion.questionImage = prevUri;
       }
       return mappedQuestion;
     }),
@@ -46,10 +43,21 @@ const parseMcqMaterial = (
   fileUploads: questions.map(({ questionImage }) => questionImage),
 });
 
-const parsePdfMaterial = ({ title, file }, fileUploadClientIdToResourceId) => {
+const parsePdfMaterial = (
+  { title, file, prevUri },
+  fileUploadClientIdToResourceId
+) => {
   const material = {
     materialType: materialTypes.URI,
     title,
+    uris: file?.clientId
+      ? [
+          {
+            key: fileUploadClientIdToResourceId[file.clientId],
+            type: uriTypes.PDF,
+          },
+        ]
+      : [prevUri],
   };
   if (file?.clientId) {
     material.uris = [
@@ -178,10 +186,8 @@ export const createPostSlice = createSlice({
 
               break;
             case materialTypes.PDF:
-              if (materialToDelete?.prevFile) {
-                fileKeysToDelete = [
-                  materialToDelete?.prevFile?.file?.uri?.split('/')?.pop(),
-                ];
+              if (materialToDelete?.prevUri) {
+                fileKeysToDelete = [materialToDelete?.prevUri?.key];
               }
               break;
             default:

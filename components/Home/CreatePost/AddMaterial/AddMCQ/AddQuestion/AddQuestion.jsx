@@ -46,7 +46,11 @@ const AddQuestion = ({
     },
     onSubmit: (values) => {
       const isImageEmpty = Object.keys(image).length === 0;
-      addQuestion({ ...values, questionImage: isImageEmpty ? null : image });
+      addQuestion({
+        ...values,
+        questionImage: isImageEmpty ? null : image,
+        prevUri: currentlyEditingQuestion?.prevUri,
+      });
       if (currentlyEditingQuestion) {
         if (isImageEmpty || image.clientId !== null) {
           if (prevImage?.file?.uri) {

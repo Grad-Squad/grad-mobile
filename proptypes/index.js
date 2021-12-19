@@ -13,6 +13,13 @@ export const navigationPropType = PropTypes.shape({
 export const stylePropType = ViewPropTypes.style;
 export const TextPropType = Text.propTypes.style;
 
+export const uriPropType = PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['image', 'pdf', 'video']).isRequired,
+  uri: PropTypes.string.isRequired,
+});
+
 export const mcqChoicePropType = PropTypes.exact({
   text: PropTypes.string.isRequired,
   isCorrect: PropTypes.bool.isRequired,
@@ -29,6 +36,7 @@ export const mcqQuestionAddPropType = PropTypes.exact({
   question: PropTypes.string.isRequired,
   choices: PropTypes.arrayOf(mcqChoicePropType.isRequired).isRequired,
   questionImage: fileUploadPropType,
+  prevUri: uriPropType,
   choicesImages: PropTypes.oneOfType([
     PropTypes.shape({}),
     PropTypes.arrayOf(PropTypes.shape({})),
@@ -55,12 +63,12 @@ export const contextMenuItemsPropType = PropTypes.arrayOf(
   ])
 );
 export const bottomSheetMenuItemsPropType = PropTypes.arrayOf(
-    PropTypes.exact({
-      titleKey: PropTypes.string.isRequired,
-      optionStyle: TextPropType,
-      onPress: PropTypes.func.isRequired,
-      iconName: PropTypes.string.isRequired,
-    }).isRequired,
+  PropTypes.exact({
+    titleKey: PropTypes.string.isRequired,
+    optionStyle: TextPropType,
+    onPress: PropTypes.func.isRequired,
+    iconName: PropTypes.string.isRequired,
+  }).isRequired
 );
 export const routeParamPropType = (paramsPropTypes) =>
   PropTypes.shape({
@@ -101,13 +109,6 @@ export const stringOrNumberPropType = PropTypes.oneOfType([
   PropTypes.string.isRequired,
   PropTypes.number.isRequired,
 ]);
-
-export const uriPropType = PropTypes.exact({
-  id: PropTypes.number.isRequired,
-  key: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['image', 'pdf', 'video']).isRequired,
-  uri: PropTypes.string.isRequired,
-});
 
 export const flashcardPropType = PropTypes.exact({
   id: PropTypes.number.isRequired,

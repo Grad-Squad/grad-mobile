@@ -64,6 +64,9 @@ const AddPDF = ({ route }) => {
       } else {
         if (pdf.fileUri !== editPdf?.fileUri) {
           dispatch(addToDeletedUris(editPdf?.fileUri?.split('/').pop()));
+        } else {
+          delete material.file.clientId;
+          material.prevUri = editPdf?.prevUri;
         }
         dispatch(
           replaceCreateMaterialItem({

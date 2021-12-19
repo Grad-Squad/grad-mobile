@@ -22,11 +22,11 @@ import {
 } from 'globalStore/createPostSlice';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import fileUploadTypes from 'constants/fileUploadTypes';
+import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import materialTypes from 'constants/materialTypes';
 import AddDocument from '../AddDocument';
 import PreviewDocument from './PreviewDocument';
-import 'react-native-get-random-values';
 
 const AddPDF = ({ route }) => {
   const editIndex = route?.params?.index;

@@ -102,13 +102,16 @@ const CreatePost = ({ navigation, route }) => {
           onDismiss={() => setIsProgressModalVisible(false)}
         >
           {isUploadingPost && !isUploadError && (
-            <LoadingIndicator size="large" />
+            <>
+              <LoadingIndicator size="large" />
+              <EduText style={styles.padAbove}>
+                {t('CreatePost/Upload in progress')}{' '}
+                {totalFilesToUpload !== 0 &&
+                  `${imagesProgress}/${totalFilesToUpload}`}
+              </EduText>
+            </>
           )}
-          <EduText style={styles.padAbove}>
-            {t('CreatePost/Upload in progress')}{' '}
-            {totalFilesToUpload !== 0 &&
-              `${imagesProgress}/${totalFilesToUpload}`}
-          </EduText>
+
           {isUploadError && (
             <TransparentButton
               text="Try again"
@@ -121,7 +124,10 @@ const CreatePost = ({ navigation, route }) => {
           {isUploadError && (
             <TransparentButton
               text="Cancel"
-              onPress={() => setIsProgressModalVisible(false)}
+              onPress={() => {
+                dispatch(resetUploadState());
+                setIsProgressModalVisible(false);
+              }}
             />
           )}
         </Modal>

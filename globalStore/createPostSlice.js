@@ -43,9 +43,10 @@ const parseMcqMaterial = (
   fileUploads: questions.map(({ questionImage }) => questionImage),
 });
 
-const parsePdfMaterial = (
+const parseUriMaterial = (
   { title, file, prevUri },
-  fileUploadClientIdToResourceId
+  fileUploadClientIdToResourceId,
+  uriType
 ) => {
   const material = {
     materialType: materialTypes.URI,
@@ -54,7 +55,7 @@ const parsePdfMaterial = (
       ? [
           {
             key: fileUploadClientIdToResourceId[file.clientId],
-            type: uriTypes.PDF,
+            type: uriType,
           },
         ]
       : [prevUri],
@@ -63,7 +64,7 @@ const parsePdfMaterial = (
     material.uris = [
       {
         key: fileUploadClientIdToResourceId[file.clientId],
-        type: uriTypes.PDF,
+        type: uriType,
       },
     ];
   }
@@ -99,7 +100,6 @@ export const createPostSlice = createSlice({
     },
     addCreateMaterialItem: (state, action) => {
       state.materialList.unshift(action.payload);
-      console.log(action.payload);
     },
     replaceCreateMaterialItem: (state, action) => {
       state.materialList[action.payload.index] = action.payload.material;
@@ -113,6 +113,8 @@ export const createPostSlice = createSlice({
                 questionImage?.clientId ? questionImage : null
               );
             case materialTypes.PDF:
+              return material?.file?.clientId ? material?.file : null;
+            case materialTypes.Video:
               return material?.file?.clientId ? material?.file : null;
             default:
               return null;
@@ -150,9 +152,17 @@ export const createPostSlice = createSlice({
             );
             return parsedMaterial.material;
           case materialTypes.PDF:
-            parsedMaterial = parsePdfMaterial(
+            parsedMaterial = parseUriMaterial(
               material,
-              fileUploadClientIdToResourceId
+              fileUploadClientIdToResourceId,
+              uriTypes.PDF
+            );
+            return parsedMaterial.material;
+          case materialTypes.Video:
+            parsedMaterial = parseUriMaterial(
+              material,
+              fileUploadClientIdToResourceId,
+              uriTypes.VIDEO
             );
             return parsedMaterial.material;
           default:
@@ -186,8 +196,11 @@ export const createPostSlice = createSlice({
 
               break;
             case materialTypes.PDF:
+            case materialTypes.Video:
               if (materialToDelete?.prevUri) {
-                fileKeysToDelete = [materialToDelete?.prevUri?.key];
+                fileKeysToDelete = [
+                  materialToDelete?.prevUri?.key?.split('/').pop(),
+                ];
               }
               break;
             default:

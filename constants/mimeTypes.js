@@ -367,6 +367,7 @@ const mimeTypes = {
   mime: 'message/rfc822',
   mj2: 'video/mj2',
   mjp2: 'video/mj2',
+  mkv: 'video/x-matroska',
   mlp: 'application/vnd.dolby.mlp',
   mmd: 'application/vnd.chipnuts.karaoke-mmd',
   mmf: 'application/vnd.smaf',

@@ -21,7 +21,7 @@ const PreviewVideo = ({ fileName, uri, onRemoveFile }) => {
       </View>
       <Separator style={styles.previewSeparator} />
       <EduText style={styles.preview}>{t('AddMaterial/Preview')}</EduText>
-       <VideoPlayer uri={uri} />
+      <VideoPlayer uri={uri} />
     </>
   );
 };

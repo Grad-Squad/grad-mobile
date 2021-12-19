@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { MaterialTypes } from 'constants';
-import fileUploadTypes from 'constants/fileUploadTypes';
 import materialTypes from 'constants/materialTypes';
 import uriTypes from 'constants/uriTypes';
+import CollectionParser from './createPostSliceUtil/collectionParser';
 
 // current plan:
 // formik post form
@@ -63,30 +63,6 @@ const parsePdfMaterial = ({ title, file }, fileUploadClientIdToResourceId) => {
   // fileUploads: questions.map(({ questionImage }) => questionImage),
 };
 
-const mapUriMaterialToUploadFile = (uriMaterial, type) => ({
-  file: { fileName: uriMaterial.key, uri: uriMaterial.uri },
-  fileType: type,
-  clientId: null,
-});
-
-const parseMcqCollection = (collection) => ({
-  questions: collection.mcqs.map(
-    ({ question, choices, answerIndices, questionImage }) => ({
-      choices: choices.map((choice, index) => ({
-        text: choice,
-        isCorrect: answerIndices.indexOf(index) !== -1,
-      })),
-      question,
-      questionImage:
-        questionImage &&
-        mapUriMaterialToUploadFile(questionImage, fileUploadTypes.IMAGE),
-    })
-  ),
-  title: collection.title,
-  type: materialTypes.MCQ,
-  amount: collection.mcqs.length,
-});
-
 const initialState = {
   materialList: [],
   post: {},
@@ -109,14 +85,7 @@ export const createPostSlice = createSlice({
     setCreateMaterialItem: (state, action) => {
       const materials = action.payload;
       const parsedMaterials = materials
-        .map((collection) => {
-          switch (collection.materialType) {
-            case materialTypes.MCQ:
-              return parseMcqCollection(collection);
-            default:
-              return null;
-          }
-        })
+        .map((collection) => new CollectionParser(collection).parse())
         .filter((elm) => elm != null);
       state.materialList = parsedMaterials;
     },
@@ -207,6 +176,9 @@ export const createPostSlice = createSlice({
                 )
                 .filter((elm) => elm != null);
 
+              break;
+            case materialTypes.PDF:
+              fileKeysToDelete = [materialToDelete.file.file.uri];
               break;
             default:
           }

@@ -24,7 +24,7 @@ const FlashcardFace = ({ text, imageURI, outerUnavailableHeight }) => {
         },
       ]}
     >
-      {imageURI && (
+      {!!imageURI && (
         <ResponsiveImage
           imageURI={imageURI}
           maxWidthRatio={maxWidthRatio}
@@ -36,7 +36,7 @@ const FlashcardFace = ({ text, imageURI, outerUnavailableHeight }) => {
           }
         />
       )}
-      {text && (
+      {!!text && (
         <EduText
           style={styles.text}
           onLayout={(event) => {

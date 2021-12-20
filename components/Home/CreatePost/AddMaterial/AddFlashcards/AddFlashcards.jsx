@@ -19,6 +19,7 @@ import {
 import materialTypes from 'constants/materialTypes';
 import DiscardFlashcardAlert from './DiscardFlashcardAlert';
 import AddFlashcard from './AddFlashcard';
+import FlashcardsList from './FlashcardsList';
 
 const AddFlashCards = ({ navigation, route }) => {
   const editIndex = route?.params?.index;
@@ -120,22 +121,23 @@ const AddFlashCards = ({ navigation, route }) => {
           AddFlashcardToCollection={(flashcard) => {
             formik.values.flashcards.push(flashcard);
             formik.setFieldValue('flashcards', formik.values.flashcards);
+            setCurrentlyEditingFlashcard(undefined);
           }}
           flashcards={formik.values.flashcards}
           contentStyle={styles.content}
           currentlyEditingFlashcard={currentlyEditingFlashcard}
           setDirty={setSubFormikDirty}
         />
-        {/* <QuestionsList
-          questions={formik.values.questions}
+        <FlashcardsList
+          flashcards={formik.values.flashcards}
           contentStyle={styles.content}
           onEdit={(i) => {
-            setCurrentlyEditingFlashcard(formik.values.questions[i]);
+            setCurrentlyEditingFlashcard(formik.values.flashcards[i]);
             deleteFlashcard(i);
           }}
-          onDelete={deleteFlashcard} // dirty ?
-          error={formik.touched.questions && formik.errors.questions}
-        /> */}
+          onDelete={deleteFlashcard}
+          error={formik.touched.flashcards && formik.errors.flashcards}
+        />
       </ScrollView>
     </Page>
   );

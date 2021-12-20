@@ -27,17 +27,20 @@ const SubmittedFlashcard = ({ flashcard, onEdit, onDelete }) => {
   ];
   return (
     <View style={styles.wrapper}>
-      {flashcard?.frontText && (
-        <EduText style={styles.text} numberOfLines={3}>
-          {flashcard.frontText}
-        </EduText>
-      )}
-      {flashcard?.frontImage?.file && (
-        <ResponsiveImage
-          imageURI={flashcard?.frontImage?.file?.uri}
-          maxWidthRatio={0.2}
-        />
-      )}
+      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+        {!!flashcard?.frontText && (
+          <EduText style={styles.text} numberOfLines={3}>
+            {flashcard.frontText}
+          </EduText>
+        )}
+        {flashcard?.frontImage?.file && (
+          <ResponsiveImage
+            imageURI={flashcard?.frontImage?.file?.uri}
+            maxWidthRatio={0.2}
+          />
+        )}
+      </View>
+
       <View style={{ alignItems: 'flex-end' }}>
         <ContextMenu
           visible={contextMenuVisible}
@@ -71,7 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: Constants.borderRadius,
 
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
 
     marginTop: 15,

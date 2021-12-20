@@ -17,9 +17,8 @@ import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import { addToDeletedUris } from 'globalStore/createPostSlice';
 import { useDispatch } from 'react-redux';
+// todo
 import QuestionImagePreview from '../AddMCQ/AddQuestion/QuestionImagePreview';
-// import ChoicesList from './ChoicesList';
-// import QuestionImagePreview from './QuestionImagePreview';
 
 const MaxNumberOfFlashcards = 1000;
 const isObjectEmpty = (ob) => Object.keys(ob).length === 0;
@@ -127,26 +126,6 @@ const AddFlashcard = ({
     ),
   });
 
-  // useEffect(() => {
-  //   if (currentlyEditingFlashcard) {
-  //     currentFlashcardFormik.setFieldValue(
-  //       'frontText',
-  //       currentlyEditingFlashcard.question
-  //     );
-  //     currentFlashcardFormik.setFieldValue(
-  //       'choices',
-  //       currentlyEditingFlashcard.choices
-  //     );
-  //     if (currentlyEditingFlashcard?.questionImage) {
-  //       setImage(currentlyEditingFlashcard?.questionImage);
-  //       setPrevImage(currentlyEditingFlashcard?.questionImage);
-  //     }
-
-  //     currentChoiceFormik.resetForm();
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [currentlyEditingFlashcard]);
-
   useEffect(() => {
     setDirty(currentFlashcardFormik.dirty);
   }, [currentFlashcardFormik.dirty, setDirty]);
@@ -159,7 +138,7 @@ const AddFlashcard = ({
         <TextInputFormik
           formik={currentFlashcardFormik}
           formikKey="frontText"
-          title={t('AddMaterial/Flashcards/Face')}
+          title={t('AddMaterial/Flashcards/Front')}
           multiline
           subtitle={
             canAddFlashcards
@@ -194,7 +173,7 @@ const AddFlashcard = ({
           <QuestionImagePreview
             image={currentFlashcardFormik.values.frontImage}
             onDeletePress={() => {
-              currentFlashcardFormik.setFieldValue('backImage', {});
+              currentFlashcardFormik.setFieldValue('frontImage', {});
             }}
           />
         )}

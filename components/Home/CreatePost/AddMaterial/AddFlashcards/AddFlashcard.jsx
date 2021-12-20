@@ -39,7 +39,7 @@ const AddFlashcard = ({
       frontText: currentlyEditingFlashcard?.frontText ?? '',
       backText: currentlyEditingFlashcard?.backText ?? '',
       frontImage: currentlyEditingFlashcard?.frontImage ?? {},
-      backImage: currentlyEditingFlashcard?.frontImage ?? {},
+      backImage: currentlyEditingFlashcard?.backImage ?? {},
     },
     onSubmit: (values) => {
       const newFlashcard = {

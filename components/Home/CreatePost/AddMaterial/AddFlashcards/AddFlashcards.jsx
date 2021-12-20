@@ -18,6 +18,7 @@ import {
 } from 'globalStore/createPostSlice';
 import materialTypes from 'constants/materialTypes';
 import DiscardFlashcardAlert from './DiscardFlashcardAlert';
+import AddFlashcard from './AddFlashcard';
 
 const AddFlashCards = ({ navigation, route }) => {
   const editIndex = route?.params?.index;
@@ -40,7 +41,7 @@ const AddFlashCards = ({ navigation, route }) => {
     },
     onSubmit: (flashcards, formikBag) => {
       const material = {
-        amount: flashcards.flashcards.length,
+        amount: flashcards.length,
         type: materialTypes.Flashcards,
       };
       const submitForm = () => {
@@ -115,17 +116,17 @@ const AddFlashCards = ({ navigation, route }) => {
         formikKey="title"
       />
       <ScrollView keyboardShouldPersistTaps="handled">
-        {/* <AddQuestion
-          addQuestion={(question) => {
-            formik.values.questions.push(question);
-            formik.setFieldValue('questions', formik.values.questions);
+        <AddFlashcard
+          AddFlashcardToCollection={(flashcard) => {
+            formik.values.flashcards.push(flashcard);
+            formik.setFieldValue('flashcards', formik.values.flashcards);
           }}
-          questions={formik.values.questions}
+          flashcards={formik.values.flashcards}
           contentStyle={styles.content}
-          currentlyEditingQuestion={currentlyEditingFlashcard}
+          currentlyEditingFlashcard={currentlyEditingFlashcard}
           setDirty={setSubFormikDirty}
         />
-        <QuestionsList
+        {/* <QuestionsList
           questions={formik.values.questions}
           contentStyle={styles.content}
           onEdit={(i) => {

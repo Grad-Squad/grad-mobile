@@ -55,6 +55,7 @@
   "InputValidationError": {
     "invalid email": "(invalid email)",
     "field required": "(field required)",
+    "field required. add text or an image": "(field required). add text or an image",
     "invalid password": "• at least 8 characters long\n• one uppercase letter\n• one lowercase letter\n• one number"
   },
   "Time": {
@@ -131,9 +132,11 @@
       "Create flashcards": "Create flashcards",
       "Exercise Title": "Exercise Title",
       "Flashcard": "Flashcard",
+      "Face": "Face",
+      "Back": "Back",
       "Card": "Card",
       "errors": {
-        "(maximum number of questions reached)": "(maximum number of questions reached)",
+        "(maximum number of flashcards reached)": "(maximum number of flashcards reached)",
         "add at least one flashcard": "add at least one flashcard"
       }
     },
@@ -170,6 +173,7 @@
     },
     "Add": "Add",
     "Add Question": "Add Question",
+    "Add Flashcard": "Add Flashcard",
     "Questions": {
       "one": "1 Question",
       "other": "{{number}} Questions",

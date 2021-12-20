@@ -69,7 +69,7 @@ const AddQuestion = ({
       question: yup
         .string()
         .trim()
-        .max(400, t('TextInput/max char error', { max: 400 }))
+        .max(400, maxCharError(t, 400))
         .test(
           'not already in questions',
           t('AddMaterial/MCQ/errors/(question already exists)'),

@@ -42,6 +42,16 @@ export const mcqQuestionAddPropType = PropTypes.exact({
     PropTypes.arrayOf(PropTypes.shape({})),
   ]),
 });
+export const flashcardAddPropType = PropTypes.exact({
+  id: PropTypes.number,
+  frontText: PropTypes.string,
+  backText: PropTypes.string,
+  materialCollectionId: PropTypes.number,
+  frontImage: fileUploadPropType,
+  backImage: fileUploadPropType,
+  prevFrontImageUri: uriPropType,
+  prevBackImageUri: uriPropType,
+});
 export const mcqQuestionPropType = PropTypes.shape({
   id: PropTypes.number,
   options: PropTypes.arrayOf(PropTypes.string).isRequired,

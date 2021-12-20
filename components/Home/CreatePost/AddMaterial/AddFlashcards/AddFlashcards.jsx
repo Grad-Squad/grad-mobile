@@ -40,9 +40,11 @@ const AddFlashCards = ({ navigation, route }) => {
         ? deepCopy(editFlashcard?.flashcards)
         : [], // Deep Clone
     },
-    onSubmit: (flashcards, formikBag) => {
+    onSubmit: ({ flashcards, title }, formikBag) => {
       const material = {
         amount: flashcards.length,
+        flashcards,
+        title,
         type: materialTypes.Flashcards,
       };
       const submitForm = () => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { PressableIcon } from 'common/Icon';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';

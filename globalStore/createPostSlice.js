@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { MaterialTypes } from 'constants';
 import materialTypes from 'constants/materialTypes';
 import uriTypes from 'constants/uriTypes';
 import CollectionParser from './createPostSliceUtil/collectionParser';
 
+// ! mksl 2a2ra bas probs kinda outdated
 // current plan:
 // formik post form
 // dispatch parse file uploads => set state file uploads array
@@ -19,7 +19,7 @@ const parseMcqMaterial = (
   fileUploadClientIdToResourceId
 ) => ({
   material: {
-    materialType: MaterialTypes.MCQ,
+    materialType: materialTypes.MCQ,
     title,
     mcqs: questions.map(({ question, choices, questionImage, prevUri }) => {
       const mappedQuestion = {
@@ -41,6 +41,49 @@ const parseMcqMaterial = (
     }),
   },
   fileUploads: questions.map(({ questionImage }) => questionImage),
+});
+
+const parseFlashcardsMaterial = (
+  { flashcards, title },
+  fileUploadClientIdToResourceId
+) => ({
+  material: {
+    materialType: materialTypes.Flashcards,
+    title,
+    flashcards: flashcards.map(
+      ({
+        frontText,
+        backText,
+        frontImage,
+        backImage,
+        prevFrontImageUri,
+        prevBackImageUri,
+      }) => {
+        const mappedFlashcard = {
+          frontText,
+          backText,
+        };
+        if (frontImage?.clientId) {
+          mappedFlashcard.frontImage = {
+            key: fileUploadClientIdToResourceId[frontImage.clientId],
+            type: 'image',
+          };
+        } else if (prevFrontImageUri) {
+          mappedFlashcard.frontImage = prevFrontImageUri;
+        }
+        if (backImage?.clientId) {
+          mappedFlashcard.backImage = {
+            key: fileUploadClientIdToResourceId[backImage.clientId],
+            type: 'image',
+          };
+        } else if (prevBackImageUri) {
+          mappedFlashcard.backImage = prevBackImageUri;
+        }
+        return mappedFlashcard;
+      }
+    ),
+  },
+  // fileUploads: questions.map(({ questionImage }) => questionImage),
 });
 
 const parseUriMaterial = (
@@ -116,6 +159,16 @@ export const createPostSlice = createSlice({
               return material?.file?.clientId ? material?.file : null;
             case materialTypes.Video:
               return material?.file?.clientId ? material?.file : null;
+            case materialTypes.Flashcards:
+              return material.flashcards
+                .map(({ frontImage, backImage }) =>
+                  [
+                    frontImage?.clientId ? frontImage : null,
+                    backImage?.clientId ? backImage : null,
+                  ].filter((elm) => elm != null)
+                )
+                .flat()
+                .filter((elm) => !!elm);
             default:
               return null;
           }
@@ -147,6 +200,12 @@ export const createPostSlice = createSlice({
         switch (material.type) {
           case materialTypes.MCQ:
             parsedMaterial = parseMcqMaterial(
+              material,
+              fileUploadClientIdToResourceId
+            );
+            return parsedMaterial.material;
+          case materialTypes.Flashcards:
+            parsedMaterial = parseFlashcardsMaterial(
               material,
               fileUploadClientIdToResourceId
             );
@@ -202,6 +261,15 @@ export const createPostSlice = createSlice({
                   materialToDelete?.prevUri?.key?.split('/').pop(),
                 ];
               }
+              break;
+            case materialTypes.Flashcards:
+              fileKeysToDelete = materialToDelete
+                .map(({ prevFrontImageUri, prevBackImageUri }) => [
+                  prevFrontImageUri?.key ? prevFrontImageUri?.key : null,
+                  prevBackImageUri?.key ? prevBackImageUri?.key : null,
+                ])
+                .flat()
+                .filter((elm) => elm != null);
               break;
             default:
           }

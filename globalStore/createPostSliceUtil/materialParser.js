@@ -2,7 +2,7 @@ import fileUploadTypes from 'constants/fileUploadTypes';
 import materialTypes from 'constants/materialTypes';
 import uriTypes from 'constants/uriTypes';
 
-export default class CollectionParser {
+export default class MaterialParser {
   constructor(collection) {
     this.collection = collection;
   }
@@ -13,8 +13,12 @@ export default class CollectionParser {
         return this.parseMcqCollection();
       case materialTypes.Flashcards:
         return this.parseFlashcardsCollection();
-      case materialTypes.URI:
-        return this.parseUriCollection();
+      case materialTypes.PDF:
+        return this.parsePdfCollection();
+      case materialTypes.Images:
+        return this.parseImageCollection();
+      case materialTypes.Video:
+        return this.parseVideoCollection();
       default:
         return null;
     }
@@ -43,7 +47,6 @@ export default class CollectionParser {
               questionImage,
               fileUploadTypes.IMAGE
             ),
-          prevUri: questionImage,
         })
       ),
       title: this.collection.title,
@@ -53,31 +56,8 @@ export default class CollectionParser {
   }
 
   parseFlashcardsCollection() {
-    return {
-      flashcards: this.collection.flashcards.map(
-        ({ frontText, backText, frontImage, backImage }) => ({
-          frontText,
-          backText,
-          frontImage:
-            !!frontImage &&
-            CollectionParser.mapUriMaterialToUploadFile(
-              frontImage,
-              fileUploadTypes.IMAGE
-            ),
-          prevFrontImageUri: frontImage,
-          backImage:
-            !!backImage &&
-            CollectionParser.mapUriMaterialToUploadFile(
-              backImage,
-              fileUploadTypes.IMAGE
-            ),
-          prevBackImageUri: backImage,
-        })
-      ),
-      title: this.collection.title,
-      type: materialTypes.Flashcards,
-      amount: this.collection.flashcards.length,
-    };
+    throw new Error();
+    return this.collection;
   }
 
   parseUriCollection() {
@@ -96,7 +76,10 @@ export default class CollectionParser {
   parsePdfCollection() {
     return {
       title: this.collection.title,
-      prevUri: this.collection.uris[0],
+      prevFile: CollectionParser.mapUriMaterialToUploadFile(
+        this.collection.uris[0],
+        fileUploadTypes.DOC
+      ),
       fileName: this.collection.uris[0].key,
       fileUri: this.collection.uris[0].uri,
       type: materialTypes.PDF,
@@ -107,7 +90,10 @@ export default class CollectionParser {
   parseVideoCollection() {
     return {
       title: this.collection.title,
-      prevUri: this.collection.uris[0],
+      prevFile: CollectionParser.mapUriMaterialToUploadFile(
+        this.collection.uris[0],
+        fileUploadTypes.VIDEO
+      ),
       fileName: this.collection.uris[0].key,
       fileUri: this.collection.uris[0].uri,
       type: materialTypes.Video,

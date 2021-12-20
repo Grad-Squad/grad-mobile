@@ -101,7 +101,7 @@ const CreatePost = ({ navigation, route }) => {
           contentContainerStyle={styles.progressContainerStyle}
           onDismiss={() => setIsProgressModalVisible(false)}
         >
-          {isUploadingPost && !isUploadError && (
+          {!isUploadError && (
             <>
               <LoadingIndicator size="large" />
               <EduText style={styles.padAbove}>

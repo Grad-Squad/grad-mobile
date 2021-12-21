@@ -3,6 +3,7 @@ import AppLoading from 'expo-app-loading';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import * as Sentry from 'sentry-expo';
 
 import GlobalStore from 'globalStore/GlobalStore';
 import { Colors } from 'styles';
@@ -31,12 +32,19 @@ const theme = {
   },
 };
 
-export default function App() {
+function App() {
   const ready = initStyles();
 
   if (!ready) {
     return <AppLoading />;
   }
+
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    enableInExpoDevelopment: true,
+    enableNative: false,
+    debug: true, // TODO set to false in production
+  });
 
   return (
     <LocalizationProvider>
@@ -59,3 +67,5 @@ export default function App() {
     </LocalizationProvider>
   );
 }
+
+export default App;

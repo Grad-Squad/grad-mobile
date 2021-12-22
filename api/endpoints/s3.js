@@ -141,10 +141,11 @@ export const useAPIGetFileUri = (itemKey, options) => {
 export const useDeleteUri = (mutationConfig) => {
   const { axios } = useAxios();
   const [store] = useStore();
-
   return useMutation(async (itemKey) => {
+    const deletionKey =
+      itemKey.length === 36 ? itemKey : `${store.profileId}%2F${itemKey}`;
     const { data } = await axios.delete(
-      formatString(endpoints.s3.deleteUri, `${store.profileId}%2F${itemKey}`)
+      formatString(endpoints.s3.deleteUri, deletionKey)
     );
     return data;
   }, mutationConfig);

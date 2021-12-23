@@ -42,10 +42,29 @@ export const mcqQuestionAddPropType = PropTypes.exact({
     PropTypes.arrayOf(PropTypes.shape({})),
   ]),
 });
+
+const frontTextOrFrontImageRequired = (props, propName, componentName) => {
+  if (!props.frontText && !props.frontImage) {
+    return new Error(
+      `One of 'frontImage' or 'frontText' is required by '${componentName}' component.`
+    );
+  }
+  return null;
+};
+
+const backTextOrBackImageRequired = (props, propName, componentName) => {
+  if (!props.backText && !props.backImage) {
+    return new Error(
+      `One of 'backImage' or 'backText' is required by '${componentName}' component.`
+    );
+  }
+  return null;
+};
+
 export const flashcardAddPropType = PropTypes.exact({
   id: PropTypes.number,
-  frontText: PropTypes.string,
-  backText: PropTypes.string,
+  frontText: frontTextOrFrontImageRequired,
+  backText: backTextOrBackImageRequired,
   materialCollectionId: PropTypes.number,
   frontImage: fileUploadPropType,
   backImage: fileUploadPropType,
@@ -122,10 +141,10 @@ export const stringOrNumberPropType = PropTypes.oneOfType([
 
 export const flashcardPropType = PropTypes.exact({
   id: PropTypes.number.isRequired,
-  frontImage: uriPropType.isRequired,
-  frontText: PropTypes.string.isRequired,
-  backText: PropTypes.string.isRequired,
-  backImage: uriPropType.isRequired,
+  frontText: frontTextOrFrontImageRequired,
+  backText: backTextOrBackImageRequired,
+  frontImage: uriPropType,
+  backImage: uriPropType,
   materialCollectionId: PropTypes.number.isRequired,
 });
 
@@ -138,10 +157,10 @@ export const materialPropType = PropTypes.exact({
       id: PropTypes.number.isRequired,
       question: PropTypes.string.isRequired,
       questionImage: uriPropType,
-      choicesImages: PropTypes.oneOfType([
-        PropTypes.shape({}),
-        PropTypes.arrayOf(PropTypes.shape({})),
-      ]),
+      // choicesImages: PropTypes.oneOfType([
+      //   PropTypes.shape({}),
+      //   PropTypes.arrayOf(PropTypes.shape({})),
+      // ]),
       answerIndices: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
       choices: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
       choicesImages: PropTypes.arrayOf(uriPropType),

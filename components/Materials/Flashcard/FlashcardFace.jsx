@@ -50,12 +50,24 @@ const FlashcardFace = ({ text, imageURI, outerUnavailableHeight }) => {
   );
 };
 
+const textOrImageRequired = (props, propName, componentName) => {
+  if (!props.text && !props.imageURI) {
+    return new Error(
+      `One of 'text' or 'imageURI' is required by '${componentName}' component.`
+    );
+  }
+  return null;
+};
+
 FlashcardFace.propTypes = {
-  text: PropTypes.string.isRequired,
-  imageURI: PropTypes.string.isRequired,
+  text: textOrImageRequired,
+  imageURI: PropTypes.string,
   outerUnavailableHeight: PropTypes.number.isRequired,
 };
-FlashcardFace.defaultProps = {};
+FlashcardFace.defaultProps = {
+  text: '',
+  imageURI: null,
+};
 
 export default FlashcardFace;
 

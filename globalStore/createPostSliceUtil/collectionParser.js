@@ -58,19 +58,19 @@ export default class CollectionParser {
         ({ frontText, backText, frontImage, backImage }) => ({
           frontText,
           backText,
-          frontImage:
-            !!frontImage &&
-            CollectionParser.mapUriMaterialToUploadFile(
-              frontImage,
-              fileUploadTypes.IMAGE
-            ),
+          frontImage: frontImage
+            ? CollectionParser.mapUriMaterialToUploadFile(
+                frontImage,
+                fileUploadTypes.IMAGE
+              )
+            : null,
           prevFrontImageUri: frontImage,
-          backImage:
-            !!backImage &&
-            CollectionParser.mapUriMaterialToUploadFile(
-              backImage,
-              fileUploadTypes.IMAGE
-            ),
+          backImage: backImage
+            ? CollectionParser.mapUriMaterialToUploadFile(
+                backImage,
+                fileUploadTypes.IMAGE
+              )
+            : null,
           prevBackImageUri: backImage,
         })
       ),

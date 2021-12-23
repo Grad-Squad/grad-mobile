@@ -40,6 +40,7 @@ const AddMCQ = ({ navigation, route }) => {
     },
     onSubmit: (mcq, formikBag) => {
       const material = {
+        ...mcq,
         amount: mcq.questions.length,
         type: materialTypes.MCQ,
       };

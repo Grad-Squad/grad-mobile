@@ -3,31 +3,26 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { Colors, Styles, Typography } from 'styles';
 import { stylePropType } from 'proptypes';
-import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
 
-const TitleText = ({ title, subtitle, showSubtitle, error, style }) => {
-  const { isRTL } = useLocalization();
-  return (
-    <View
-      style={[
-        styles.titleRow,
-        isRTL && styles.titleRowRTL,
-        subtitle.indexOf('\n') !== -1 && styles.titleCol,
-        style,
-      ]}
-    >
-      <EduText style={[Typography.userInput.title, error && Styles.errorText]}>
-        {title}
+const TitleText = ({ title, subtitle, showSubtitle, error, style }) => (
+  <View
+    style={[
+      styles.titleRow,
+      subtitle.indexOf('\n') !== -1 && styles.titleCol,
+      style,
+    ]}
+  >
+    <EduText style={[Typography.userInput.title, error && Styles.errorText]}>
+      {title}
+    </EduText>
+    {showSubtitle && (
+      <EduText style={[styles.subtitle, error && Styles.errorText]}>
+        {subtitle}
       </EduText>
-      {showSubtitle && (
-        <EduText style={[styles.subtitle, error && Styles.errorText]}>
-          {subtitle}
-        </EduText>
-      )}
-    </View>
-  );
-};
+    )}
+  </View>
+);
 
 TitleText.propTypes = {
   title: PropTypes.string.isRequired,
@@ -51,9 +46,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     marginBottom: 7,
     alignItems: 'baseline',
-  },
-  titleRowRTL: {
-    flexDirection: 'row-reverse',
   },
   titleCol: {
     flexDirection: 'column',

@@ -77,7 +77,7 @@ const AddFlashCards = ({ navigation, route }) => {
     },
     validationSchema: yup.object().shape({
       title: materialTitle(t),
-      questions: yup
+      flashcards: yup
         .array()
         .min(1, t('AddMaterial/Flashcards/errors/add at least one flashcard')),
     }),

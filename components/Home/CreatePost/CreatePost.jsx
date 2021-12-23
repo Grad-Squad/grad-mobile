@@ -115,16 +115,16 @@ const CreatePost = ({ navigation, route }) => {
 
           {isUploadError && (
             <>
-              <EduText>An Error has occured while uploading</EduText>
+              <EduText>{t('CreatePost/Modal/Error')}</EduText>
               <TransparentButton
-                text="Try again"
+                text={t('CreatePost/Modal/Try again')}
                 onPress={() => {
                   resetErrors();
                   dispatch(parseFileUploads());
                 }}
               />
               <TransparentButton
-                text="Cancel"
+                text={t('CreatePost/Modal/Cancel')}
                 onPress={() => {
                   dispatch(resetUploadState());
                   setIsProgressModalVisible(false);

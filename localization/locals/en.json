@@ -96,6 +96,11 @@
       "PDF": "Add PDF",
       "Images": "Add Images",
       "Video": "Add Video"
+    },
+    "Modal": {
+      "Error": "An Error has occured while uploading",
+      "Try again": "Try again",
+      "Cancel": "Cancel"
     }
   },
   "DropDown": {

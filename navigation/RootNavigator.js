@@ -6,7 +6,7 @@ import CreatePost from 'components/Home/CreatePost';
 import ExpandedPost from 'components/ExpandedPost/ExpandedPost';
 import SolveMcq from 'components/Materials/Mcq/SolveMcq';
 import ReviewMcq from 'components/Materials/Mcq/ReviewMcq';
-import AddFlashCards from 'components/Home/CreatePost/AddMaterial/AddFlashCards';
+import AddFlashCards from 'components/Home/CreatePost/AddMaterial/AddFlashcards/AddFlashcards';
 import AddPDF from 'components/Home/CreatePost/AddMaterial/AddPDF';
 import AddImages from 'components/Home/CreatePost/AddMaterial/AddImages';
 import AddVideo from 'components/Home/CreatePost/AddMaterial/AddVideo';

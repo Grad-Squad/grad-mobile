@@ -17,32 +17,35 @@ import {
   replaceCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import materialTypes from 'constants/materialTypes';
-import AddQuestion from './AddQuestion';
-import QuestionsList from './QuestionsList';
-import DiscardQuestionAlert from './DiscardQuestionAlert';
+import DiscardFlashcardAlert from './DiscardFlashcardAlert';
+import AddFlashcard from './AddFlashcard';
+import FlashcardsList from './FlashcardsList';
 
-const AddMCQ = ({ navigation, route }) => {
+const AddFlashCards = ({ navigation, route }) => {
   const editIndex = route?.params?.index;
   const materialList = useSelector((state) => state.createPost.materialList);
   const dispatch = useDispatch();
   const { t } = useLocalization();
-  const [currentlyEditingQuestion, setCurrentlyEditingQuestion] =
+  const [currentlyEditingFlashcard, setCurrentlyEditingFlashcard] =
     useState(undefined);
 
   const [subFormikDirty, setSubFormikDirty] = useState(false);
 
-  const editMCQ = materialList[editIndex];
+  const editFlashcard = materialList[editIndex];
 
   const formik = useFormik({
     initialValues: {
-      title: editMCQ?.title ?? '',
-      questions: editMCQ?.questions ? deepCopy(editMCQ?.questions) : [], // Deep Clone
+      title: editFlashcard?.title ?? '',
+      flashcards: editFlashcard?.flashcards
+        ? deepCopy(editFlashcard?.flashcards)
+        : [], // Deep Clone
     },
-    onSubmit: (mcq, formikBag) => {
+    onSubmit: ({ flashcards, title }, formikBag) => {
       const material = {
-        ...mcq,
-        amount: mcq.questions.length,
-        type: materialTypes.MCQ,
+        amount: flashcards.length,
+        flashcards,
+        title,
+        type: materialTypes.Flashcards,
       };
       const submitForm = () => {
         if (editIndex === undefined) {
@@ -59,7 +62,7 @@ const AddMCQ = ({ navigation, route }) => {
       };
 
       if (subFormikDirty) {
-        DiscardQuestionAlert(
+        DiscardFlashcardAlert(
           t,
           () => {
             submitForm();
@@ -74,35 +77,36 @@ const AddMCQ = ({ navigation, route }) => {
     },
     validationSchema: yup.object().shape({
       title: materialTitle(t),
-      questions: yup
+      flashcards: yup
         .array()
-        .min(1, t('AddMaterial/MCQ/errors/add at least one question')),
+        .min(1, t('AddMaterial/Flashcards/errors/add at least one flashcard')),
     }),
   });
 
-  const deleteQuestion = (i) => {
-    formik.values.questions.splice(i, 1);
-    formik.setFieldValue('questions', formik.values.questions);
+  const deleteFlashcard = (i) => {
+    formik.values.flashcards.splice(i, 1);
+    formik.setFieldValue('flashcards', formik.values.flashcards);
   };
 
   const attemptSubmit = () => {
-    formik.setFieldTouched('questions', true);
+    formik.setFieldTouched('flashcards', true);
     formik.handleSubmit();
   };
 
   useOnGoBackDiscardWarning(() => {
-    const questionsDirty = editMCQ
-      ? !deepCompare(editMCQ?.questions, formik.values.questions)
-      : formik.values.questions.length !== 0;
+    const flashcardsDirty = editFlashcard
+      ? !deepCompare(editFlashcard?.flashcards, formik.values.flashcards)
+      : formik.values.flashcards.length !== 0;
     return (
-      !(formik.dirty || subFormikDirty || questionsDirty) || formik.isSubmitting
+      !(formik.dirty || subFormikDirty || flashcardsDirty) ||
+      formik.isSubmitting
     );
   }, [formik.dirty, subFormikDirty, formik.isSubmitting]);
 
   return (
     <Page useSafeArea={false}>
       <MaterialCreateHeader
-        title={t('AddMaterial/MCQ/Create MCQ')}
+        title={t('AddMaterial/Flashcards/Create flashcards')}
         rightButtonText={t('AddMaterial/Finish')}
         onPress={attemptSubmit}
         onBackPress={() => {
@@ -110,45 +114,46 @@ const AddMCQ = ({ navigation, route }) => {
         }}
       />
       <TransparentTextInputFormik
-        title={t('AddMaterial/MCQ/Exercise Title')}
+        title={t('AddMaterial/Flashcards/Exercise Title')}
         formik={formik}
         formikKey="title"
       />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <AddQuestion
-          addQuestion={(question) => {
-            formik.values.questions.push(question);
-            formik.setFieldValue('questions', formik.values.questions);
+        <AddFlashcard
+          AddFlashcardToCollection={(flashcard) => {
+            formik.values.flashcards.push(flashcard);
+            formik.setFieldValue('flashcards', formik.values.flashcards);
+            setCurrentlyEditingFlashcard(undefined);
           }}
-          questions={formik.values.questions}
+          flashcards={formik.values.flashcards}
           contentStyle={styles.content}
-          currentlyEditingQuestion={currentlyEditingQuestion}
+          currentlyEditingFlashcard={currentlyEditingFlashcard}
           setDirty={setSubFormikDirty}
         />
-        <QuestionsList
-          questions={formik.values.questions}
+        <FlashcardsList
+          flashcards={formik.values.flashcards}
           contentStyle={styles.content}
           onEdit={(i) => {
-            setCurrentlyEditingQuestion(formik.values.questions[i]);
-            deleteQuestion(i);
+            setCurrentlyEditingFlashcard(formik.values.flashcards[i]);
+            deleteFlashcard(i);
           }}
-          onDelete={deleteQuestion} // dirty ?
-          error={formik.touched.questions && formik.errors.questions}
+          onDelete={deleteFlashcard}
+          error={formik.touched.flashcards && formik.errors.flashcards}
         />
       </ScrollView>
     </Page>
   );
 };
 
-AddMCQ.propTypes = {
+AddFlashCards.propTypes = {
   navigation: navigationPropType.isRequired,
   route: routeParamPropType(
     PropTypes.shape({ index: PropTypes.number.isRequired })
   ),
 };
-AddMCQ.defaultProps = { route: undefined };
+AddFlashCards.defaultProps = { route: undefined };
 
-export default AddMCQ;
+export default AddFlashCards;
 
 const styles = StyleSheet.create({
   content: { width: '95%', alignSelf: 'center' },

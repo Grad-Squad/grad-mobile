@@ -39,7 +39,9 @@ const Dev = ({ navigation }) => {
       />
       <Button
         title="Go to Profile page"
-        onPress={() => navigation.navigate(ScreenNames.PROFILE,{profileId: 1})}
+        onPress={() =>
+          navigation.navigate(ScreenNames.PROFILE, { profileId: 1 })
+        }
       />
       <Button
         title="Go to Create Post"
@@ -54,6 +56,10 @@ const Dev = ({ navigation }) => {
         onPress={() =>
           navigation.navigate(ScreenNames.SOLVE_MCQ, { materialID: '1' })
         }
+      />
+      <Button
+        title="Go to add flashcard"
+        onPress={() => navigation.navigate(ScreenNames.ADD_FLASHCARDS)}
       />
       <Button
         title="Go to flashcard"

@@ -5,7 +5,6 @@ import { useLocalization } from 'localization';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import { useFormik } from 'formik';
-import { MaterialTypes } from 'constants';
 import * as yup from 'yup';
 import { materialTitle, requiredError } from 'validation';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
@@ -18,9 +17,14 @@ import { IconNames } from 'common/Icon/Icon';
 import * as DocumentPicker from 'expo-document-picker';
 import {
   addCreateMaterialItem,
+  addToDeletedUris,
   replaceCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+import materialTypes from 'constants/materialTypes';
+import fileUploadTypes from 'constants/fileUploadTypes';
 import AddDocument from '../AddDocument';
 import PreviewVideo from './PreviewVideo';
 
@@ -42,16 +46,32 @@ const AddVideo = ({ route }) => {
       fileUri: editVideo?.fileUri ?? '',
     },
     onSubmit: (video) => {
-      video.amount = 1;
+      const material = {
+        amount: 1,
+        title: video.title,
+        file: {
+          file: {
+            fileName: video.fileName,
+            uri: video.fileUri,
+          },
+          clientId: uuidv4(),
+          fileType: fileUploadTypes.VIDEO,
+        },
+        type: materialTypes.Video,
+      };
       if (editIndex === undefined) {
-        dispatch(
-          addCreateMaterialItem({ ...video, type: MaterialTypes.Video })
-        );
+        dispatch(addCreateMaterialItem(material));
       } else {
+        if (video.fileUri !== editVideo?.fileUri) {
+          dispatch(addToDeletedUris(editVideo?.fileUri?.split('/').pop()));
+        } else {
+          delete material.file.clientId;
+          material.prevUri = editVideo?.prevUri;
+        }
         dispatch(
           replaceCreateMaterialItem({
             index: editIndex,
-            material: { ...video, type: MaterialTypes.Video },
+            material,
           })
         );
       }

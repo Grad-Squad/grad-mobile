@@ -12,15 +12,19 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { materialTitle } from 'validation';
 import * as DocumentPicker from 'expo-document-picker';
-import { MaterialTypes } from 'constants';
 import { routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addCreateMaterialItem,
+  addToDeletedUris,
   replaceCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
+import fileUploadTypes from 'constants/fileUploadTypes';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+import materialTypes from 'constants/materialTypes';
 import AddDocument from '../AddDocument';
 import PreviewDocument from './PreviewDocument';
 
@@ -42,14 +46,32 @@ const AddPDF = ({ route }) => {
       fileUri: editPdf?.fileUri ?? '',
     },
     onSubmit: (pdf) => {
-      pdf.amount = 1;
+      const material = {
+        amount: 1,
+        title: pdf.title,
+        file: {
+          file: {
+            fileName: pdf.fileName,
+            uri: pdf.fileUri,
+          },
+          clientId: uuidv4(),
+          fileType: fileUploadTypes.DOC,
+        },
+        type: materialTypes.PDF,
+      };
       if (editIndex === undefined) {
-        dispatch(addCreateMaterialItem({ ...pdf, type: MaterialTypes.PDF }));
+        dispatch(addCreateMaterialItem(material));
       } else {
+        if (pdf.fileUri !== editPdf?.fileUri) {
+          dispatch(addToDeletedUris(editPdf?.fileUri?.split('/').pop()));
+        } else {
+          delete material.file.clientId;
+          material.prevUri = editPdf?.prevUri;
+        }
         dispatch(
           replaceCreateMaterialItem({
             index: editIndex,
-            material: { ...pdf, type: MaterialTypes.PDF },
+            material,
           })
         );
       }

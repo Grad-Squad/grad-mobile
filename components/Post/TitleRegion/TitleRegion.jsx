@@ -22,7 +22,8 @@ function TitleRegion({ title, author, createdAt, materials }) {
 
   const navigation = useNavigation();
   const navigateToProfile = () =>
-    navigation.navigate(ScreenNames.PROFILE, { authorId });
+    navigation.navigate(ScreenNames.PROFILE, { profileId: authorId });
+
   return (
     <View style={styles.outerContainer}>
       <View>

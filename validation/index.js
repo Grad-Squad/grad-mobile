@@ -44,8 +44,4 @@ export const comment = (t) =>
   yup.string().max(commentMaxChar, maxCharError(t, commentMaxChar));
 
 export const materialTitle = (t) =>
-  yup
-    .string()
-    .trim()
-    .max(100, maxCharError(t, 100))
-    .required(requiredError(t));
+  yup.string().trim().max(100, maxCharError(t, 100)).required(requiredError(t));

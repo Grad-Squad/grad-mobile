@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   materialItemTitle: {
     color: Colors.black,
     fontSize: 20,
-
+    flex: 1,
     flexWrap: 'wrap',
 
     marginRight: 10,

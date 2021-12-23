@@ -59,27 +59,33 @@ const useUploadPost = (
     postId,
   ]);
 
-  const [imagesProgress, setImagesProgress] = useState(0);
-  const bulkUploadFilesMutation = useAPIBulkUploadFiles(
-    () => {
-      setImagesProgress((prev) => prev + 1);
-    },
-    {
-      onSuccess: (fileUploadClientIdToResourceId) => {
-        dispatch(
-          parsePost({ data: formik.values, fileUploadClientIdToResourceId })
-        );
-      },
-    }
-  );
   const fileUploads = useSelector((state) => state.createPost.fileUploads);
+  const [imagesProgress, setImagesProgress] = useState(0);
+  const [imagesClientIdToResourceId, setImagesClientIdToResourceId] = useState(
+    {}
+  );
+  const [docsClientIdToResourceId, setDocsClientIdToResourceId] = useState({});
+  const [videosClientIdToResourceId, setVideosClientIdToResourceId] = useState(
+    {}
+  );
+  const incrementProgress = () => setImagesProgress((prev) => prev + 1);
+
+  const bulkUploadImagesMutation = useAPIBulkUploadFiles(incrementProgress, {
+    onSuccess: (mapping) => setImagesClientIdToResourceId(mapping),
+  });
+  const bulkUploadDocsMutation = useAPIBulkUploadFiles(incrementProgress, {
+    onSuccess: (mapping) => setDocsClientIdToResourceId(mapping),
+  });
+  const bulkUploadVideosMutation = useAPIBulkUploadFiles(incrementProgress, {
+    onSuccess: (mapping) => setVideosClientIdToResourceId(mapping),
+  });
   const [numImageLinks, setNumImageLinks] = useState(0);
 
   // todo batches (ex: user uploading 200 pic might timeout due to upload time limit)
   const getS3ImageLinks = useAPIgetS3UploadImageLinks(numImageLinks, {
     enabled: numImageLinks !== 0,
     onSuccess: (data) => {
-      bulkUploadFilesMutation.mutate({
+      bulkUploadImagesMutation.mutate({
         s3Replies: data,
         fileType: fileUploadTypes.IMAGE,
       });
@@ -91,7 +97,7 @@ const useUploadPost = (
   const getS3PdfLinks = useAPIgetS3UploadDocLinks(numPdfLinks, {
     enabled: numPdfLinks !== 0,
     onSuccess: (data) => {
-      bulkUploadFilesMutation.mutate({
+      bulkUploadDocsMutation.mutate({
         s3Replies: data,
         fileType: fileUploadTypes.DOC,
       });
@@ -103,7 +109,7 @@ const useUploadPost = (
   const getS3VideoLinks = useAPIgetS3UploadVideoLinks(numVideoLinks, {
     enabled: numVideoLinks !== 0,
     onSuccess: (data) => {
-      bulkUploadFilesMutation.mutate({
+      bulkUploadVideosMutation.mutate({
         s3Replies: data,
         fileType: fileUploadTypes.VIDEO,
       });
@@ -151,6 +157,28 @@ const useUploadPost = (
     (state) => state.createPost.isPostReadyForUpload
   );
 
+  useEffect(() => {
+    if (
+      !areFileUploadsReady &&
+      !isPostReadyForUpload &&
+      fileUploads.length !== 0 &&
+      (bulkUploadImagesMutation.isSuccess || numImageLinks === 0) &&
+      (bulkUploadDocsMutation.isSuccess || numPdfLinks === 0) &&
+      (bulkUploadVideosMutation.isSuccess || numVideoLinks === 0)
+    ) {
+      dispatch(
+        parsePost({
+          data: formik.values,
+          fileUploadClientIdToResourceId: {
+            ...imagesClientIdToResourceId,
+            ...docsClientIdToResourceId,
+            ...videosClientIdToResourceId,
+          },
+        })
+      );
+    }
+  });
+
   const parsedPost = useSelector((state) => state.createPost.post);
 
   useEffect(() => {
@@ -178,16 +206,26 @@ const useUploadPost = (
     fileUploads.length !== 0 &&
     imagesProgress !== numImageLinks + numPdfLinks + numVideoLinks;
 
+  const isBulkUploadFilesLoading =
+    bulkUploadImagesMutation.isLoading ||
+    bulkUploadDocsMutation.isLoading ||
+    bulkUploadVideosMutation.isLoading;
+
+  const isBulkUploadFilesError =
+    bulkUploadImagesMutation.isError ||
+    bulkUploadDocsMutation.isError ||
+    bulkUploadVideosMutation.isError;
+
   const isUploadingPost =
     (isUploadingImages ||
       createPostMutation.isLoading ||
-      bulkUploadFilesMutation.isLoading) &&
-    !bulkUploadFilesMutation.isError;
+      isBulkUploadFilesLoading) &&
+    !isBulkUploadFilesError;
 
   const isUploadError =
     getS3ImageLinks.isError ||
     createPostMutation.isError ||
-    bulkUploadFilesMutation.isError ||
+    isBulkUploadFilesError ||
     updatePostMutation.isError;
 
   return {

@@ -16,6 +16,7 @@ import {
   clearCreatePost,
   parsePost,
   resetAreFileUploadsReady,
+  resetUploadState,
 } from 'globalStore/createPostSlice';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import { useEffect, useState } from 'react';
@@ -80,6 +81,8 @@ const useUploadPost = (
     onSuccess: (mapping) => setVideosClientIdToResourceId(mapping),
   });
   const [numImageLinks, setNumImageLinks] = useState(0);
+  const [isS3Error, setIsS3Error] = useState(false);
+  const resetErrors = () => setIsS3Error(false);
 
   // todo batches (ex: user uploading 200 pic might timeout due to upload time limit)
   const getS3ImageLinks = useAPIgetS3UploadImageLinks(numImageLinks, {
@@ -90,7 +93,7 @@ const useUploadPost = (
         fileType: fileUploadTypes.IMAGE,
       });
     },
-    onError: () => {},
+    onError: () => setIsS3Error(true),
   });
 
   const [numPdfLinks, setNumPdfLinks] = useState(0);
@@ -102,7 +105,7 @@ const useUploadPost = (
         fileType: fileUploadTypes.DOC,
       });
     },
-    onError: () => {},
+    onError: () => setIsS3Error(true),
   });
 
   const [numVideoLinks, setNumVideoLinks] = useState(0);
@@ -114,7 +117,7 @@ const useUploadPost = (
         fileType: fileUploadTypes.VIDEO,
       });
     },
-    onError: () => {},
+    onError: () => setIsS3Error(true),
   });
 
   const areFileUploadsReady = useSelector(
@@ -202,37 +205,45 @@ const useUploadPost = (
     () => dispatch(clearCreatePost())
   );
 
-  const isUploadingImages =
-    fileUploads.length !== 0 &&
-    imagesProgress !== numImageLinks + numPdfLinks + numVideoLinks;
+  // const isUploadingImages =
+  //   fileUploads.length !== 0 &&
+  //   imagesProgress !== numImageLinks + numPdfLinks + numVideoLinks;
 
-  const isBulkUploadFilesLoading =
-    bulkUploadImagesMutation.isLoading ||
-    bulkUploadDocsMutation.isLoading ||
-    bulkUploadVideosMutation.isLoading;
+  // const isBulkUploadFilesLoading =
+  //   bulkUploadImagesMutation.isLoading ||
+  //   bulkUploadDocsMutation.isLoading ||
+  //   bulkUploadVideosMutation.isLoading;
 
   const isBulkUploadFilesError =
     bulkUploadImagesMutation.isError ||
     bulkUploadDocsMutation.isError ||
     bulkUploadVideosMutation.isError;
 
-  const isUploadingPost =
-    (isUploadingImages ||
-      createPostMutation.isLoading ||
-      isBulkUploadFilesLoading) &&
-    !isBulkUploadFilesError;
+  // const isUploadingPost =
+  //   (isUploadingImages ||
+  //     createPostMutation.isLoading ||
+  //     isBulkUploadFilesLoading) &&
+  //   !isBulkUploadFilesError;
 
   const isUploadError =
     getS3ImageLinks.isError ||
     createPostMutation.isError ||
     isBulkUploadFilesError ||
-    updatePostMutation.isError;
+    updatePostMutation.isError ||
+    isS3Error;
+
+  useEffect(() => {
+    if (isUploadError) {
+      dispatch(resetUploadState());
+    }
+  }, [dispatch, isUploadError]);
 
   return {
     totalFilesToUpload: numImageLinks + numPdfLinks + numVideoLinks,
     imagesProgress,
     isUploadError,
-    isUploadingPost,
+    resetErrors,
+    // isUploadingPost,
   };
 };
 

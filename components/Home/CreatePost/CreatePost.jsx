@@ -86,8 +86,9 @@ const CreatePost = ({ navigation, route }) => {
     }),
   });
 
-  const { totalFilesToUpload, imagesProgress, isUploadError, isUploadingPost } =
+  const { totalFilesToUpload, imagesProgress, isUploadError, resetErrors } =
     useUploadPost(formik, postId, refetchPost, navigation, fetchedPostData);
+
   useEffect(() => {
     formik.setFieldValue('materialList', materialList);
   }, [materialList]);
@@ -113,22 +114,23 @@ const CreatePost = ({ navigation, route }) => {
           )}
 
           {isUploadError && (
-            <TransparentButton
-              text="Try again"
-              onPress={() => {
-                dispatch(resetUploadState());
-                dispatch(parseFileUploads());
-              }}
-            />
-          )}
-          {isUploadError && (
-            <TransparentButton
-              text="Cancel"
-              onPress={() => {
-                dispatch(resetUploadState());
-                setIsProgressModalVisible(false);
-              }}
-            />
+            <>
+              <EduText>An Error has occured while uploading</EduText>
+              <TransparentButton
+                text="Try again"
+                onPress={() => {
+                  resetErrors();
+                  dispatch(parseFileUploads());
+                }}
+              />
+              <TransparentButton
+                text="Cancel"
+                onPress={() => {
+                  dispatch(resetUploadState());
+                  setIsProgressModalVisible(false);
+                }}
+              />
+            </>
           )}
         </Modal>
       </Portal>

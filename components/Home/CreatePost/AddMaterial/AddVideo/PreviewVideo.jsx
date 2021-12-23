@@ -17,7 +17,11 @@ const PreviewVideo = ({ fileName, uri, onRemoveFile }) => {
         <EduText style={styles.fileName}>
           {`${t('AddMaterial/Video/Video file name:')} ${fileName}`}
         </EduText>
-        <PressableIcon name={IconNames.delete} onPress={onRemoveFile} />
+        <PressableIcon
+          name={IconNames.delete}
+          onPress={onRemoveFile}
+          style={styles.delete}
+        />
       </View>
       <Separator style={styles.previewSeparator} />
       <EduText style={styles.preview}>{t('AddMaterial/Preview')}</EduText>
@@ -45,7 +49,15 @@ const styles = StyleSheet.create({
     ...Styles.underLinedFileName,
 
     marginLeft: 10,
+    flex: 1,
+    flexWrap: 'wrap',
     marginRight: 4,
+  },
+  delete: {
+    flexShrink: 0,
+    padding: 7,
+    flexBasis: '18%',
+    alignItems: 'center',
   },
   previewSeparator: {
     marginTop: 20,

@@ -68,7 +68,7 @@ const parseFlashcardsMaterial = (
             key: fileUploadClientIdToResourceId[frontImage.clientId],
             type: 'image',
           };
-        } else if (prevFrontImageUri) {
+        } else if (frontImage && prevFrontImageUri) {
           mappedFlashcard.frontImage = prevFrontImageUri;
         }
         if (backImage?.clientId) {
@@ -76,7 +76,7 @@ const parseFlashcardsMaterial = (
             key: fileUploadClientIdToResourceId[backImage.clientId],
             type: 'image',
           };
-        } else if (prevBackImageUri) {
+        } else if (backImage && prevBackImageUri) {
           mappedFlashcard.backImage = prevBackImageUri;
         }
         return mappedFlashcard;

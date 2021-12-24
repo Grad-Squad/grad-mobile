@@ -53,6 +53,7 @@ export const IconNames = Object.freeze({
   addVideo: 'file-video-outline',
   Folder: 'folder-outline',
   removeImage: 'image-remove',
+  history: 'history',
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
@@ -99,6 +100,7 @@ const map = {
   'file-video-outline': MaterialCommunityIcons,
   'folder-outline': MaterialCommunityIcons,
   'image-remove': MaterialCommunityIcons,
+  'history': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style, disabled }) => {

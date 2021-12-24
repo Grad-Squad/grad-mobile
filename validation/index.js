@@ -49,3 +49,7 @@ export const materialTitle = (t) =>
     .trim()
     .max(100, maxCharError(t, 100))
     .required(requiredError(t));
+
+const searchMaxChar = 190;
+export const search = (t) =>
+  yup.string().max(searchMaxChar, maxCharError(t, searchMaxChar));

@@ -22,6 +22,7 @@ import {
 } from 'globalStore/createPostSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import SelectedItemsHeader from 'common/SelectedItemsHeader';
+import { useNetInfo } from '@react-native-community/netinfo';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 import useUploadPost from './useUploadPost';
@@ -30,6 +31,7 @@ import CreatePostForm from './CreatePostForm';
 const CreatePost = ({ navigation, route }) => {
   const { t } = useLocalization();
 
+  const netInfo = useNetInfo();
   const dispatch = useDispatch();
   const materialList = useSelector((state) => state.createPost.materialList);
   const [selectedMaterials, setSelectedMaterials] = useState([]);
@@ -144,6 +146,7 @@ const CreatePost = ({ navigation, route }) => {
           onBackPress={() => {
             navigation.goBack();
           }}
+          rightButtonProps={{ disabled: !netInfo.isConnected }}
         />
       ) : (
         <SelectedItemsHeader

@@ -10,6 +10,7 @@ const MaterialCreateHeader = ({
   rightButtonText,
   onPress,
   onBackPress,
+  rightButtonProps,
 }) => (
   <MaterialHeader
     titleComponent={<EduText style={styles.text}>{title}</EduText>}
@@ -18,6 +19,8 @@ const MaterialCreateHeader = ({
         text={rightButtonText}
         onPress={onPress}
         textStyle={styles.postButtonText}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...rightButtonProps}
       />
     }
     onBackPress={onBackPress}
@@ -29,8 +32,11 @@ MaterialCreateHeader.propTypes = {
   rightButtonText: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
   onBackPress: PropTypes.func.isRequired,
+  rightButtonProps: PropTypes.shape({}),
 };
-MaterialCreateHeader.defaultProps = {};
+MaterialCreateHeader.defaultProps = {
+  rightButtonProps: {},
+};
 
 export default MaterialCreateHeader;
 

@@ -4,15 +4,19 @@ import { StyleSheet, View } from 'react-native';
 import { Colors, Constants, Styles } from 'styles';
 import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
+import NoInternetConnectionText from 'common/NoInternetConnectionText';
 
 const MaterialHeader = ({ titleComponent, rightComponent, onBackPress }) => (
-  <View style={styles.wrapper}>
-    <View style={styles.leftSide}>
-      <PressableIcon name={IconNames.close} onPress={onBackPress} size={28} />
-      {titleComponent}
+  <>
+    <View style={styles.wrapper}>
+      <View style={styles.leftSide}>
+        <PressableIcon name={IconNames.close} onPress={onBackPress} size={28} />
+        {titleComponent}
+      </View>
+      {rightComponent}
     </View>
-    {rightComponent}
-  </View>
+    <NoInternetConnectionText />
+  </>
 );
 
 MaterialHeader.propTypes = {

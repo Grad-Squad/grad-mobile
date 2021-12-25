@@ -25,6 +25,7 @@ import { apiFeedQueryKey, getApiProfileFeedQueryKey } from 'api/endpoints/posts'
 import ProfileContext from './ProfileContext';
 import ProfilePictureOptions from './profilePictureOptions';
 import ProfilePictureModal from './ProfilePictureModal';
+import NoInternetConnectionText from 'common/NoInternetConnectionText';
 
 const NumBox = ({ title, number, onPress }) => (
   <View style={styles.numBox}>
@@ -282,6 +283,7 @@ const ProfileHeader = ({ navigation, profile }) => {
         }}
         otherComponent={<EduText style={[styles.name]}>{profile.name}</EduText>}
       />
+      <NoInternetConnectionText />
       {rightHeader}
 
       {!!profile.biography && (

@@ -37,4 +37,7 @@ export default Object.freeze({
     getFileUri: '/s3/get/{0}',
     deleteUri: '/s3/{0}',
   },
+  tags: {
+    tags: '/tags',
+  },
 });

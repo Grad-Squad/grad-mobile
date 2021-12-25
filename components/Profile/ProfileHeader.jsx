@@ -187,7 +187,7 @@ const ProfileHeader = ({ navigation, profile }) => {
     <MainActionButton
       onPress={() => {
         setIsFollowed(true);
-        followProfileMutation.mutate(profile?.profilePicture?.key);
+        followProfileMutation.mutate(profile?.id);
       }}
       text={t('Profile/Follow')}
       style={styles.followBtn}

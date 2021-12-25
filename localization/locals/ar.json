@@ -1,5 +1,8 @@
 {
   "hello": "هلا والله",
+  "General": {
+    "No Internet Connection": "لا يوجد اتصال بالإنترنت"
+  },
   "Login": {
     "Email": "البريد الإلكتروني",
     "Password": "كلمة السر",

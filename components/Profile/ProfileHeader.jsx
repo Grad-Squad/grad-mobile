@@ -1,5 +1,12 @@
 import React, { useContext, useRef, useState } from 'react';
-import { Image, StyleSheet, View, Animated, Pressable, TouchableOpacity } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  View,
+  Animated,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import { fullProfilePropType, navigationPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import GoBackButton from 'common/GoBackButton';
@@ -18,10 +25,17 @@ import {
   useUnfollowProfile,
 } from 'api/endpoints/profile';
 import { useQueryClient } from 'react-query';
-import { useAPIgetS3UploadImageLinks, useAPIUploadImage, useDeleteUri } from 'api/endpoints/s3';
+import {
+  useAPIgetS3UploadImageLinks,
+  useAPIUploadImage,
+  useDeleteUri,
+} from 'api/endpoints/s3';
 import ProfilePictureAlert from 'common/alerts/ProfilePictureAlert';
 import { useAPIUpdateProfile } from 'api/endpoints/auth';
-import { apiFeedQueryKey, getApiProfileFeedQueryKey } from 'api/endpoints/posts';
+import {
+  apiFeedQueryKey,
+  getApiProfileFeedQueryKey,
+} from 'api/endpoints/posts';
 import ProfileContext from './ProfileContext';
 import ProfilePictureOptions from './profilePictureOptions';
 import ProfilePictureModal from './ProfilePictureModal';
@@ -57,10 +71,11 @@ const ProfileHeader = ({ navigation, profile }) => {
   const queryClient = useQueryClient();
   const [isFollowed, setIsFollowed] = useState(profile.isFollowed);
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
-  const [profilePictureModalVisible, setProfilePictureModalVisible] = useState(false);
-  const [previousKey, setPreviousKey] = useState()
-  const [isS3LinkEnabled, setIsS3LinkEnabled] = useState(false)
-  const [image, setImage] = useState()
+  const [profilePictureModalVisible, setProfilePictureModalVisible] =
+    useState(false);
+  const [previousKey, setPreviousKey] = useState();
+  const [isS3LinkEnabled, setIsS3LinkEnabled] = useState(false);
+  const [image, setImage] = useState();
 
   const profilePictureOptionHandler = () => {
     setBottomSheetVisible((prev) => !prev);
@@ -100,66 +115,70 @@ const ProfileHeader = ({ navigation, profile }) => {
   const deleteUriMutation = useDeleteUri({
     onError: () => {},
     onSuccess: () => {
-      queryClient.invalidateQueries(profileByIdQueryKey(profile.id))
-      queryClient.invalidateQueries(getApiProfileFeedQueryKey(profile.id))
-      queryClient.invalidateQueries(apiFeedQueryKey)
-      setIsS3LinkEnabled(false)
-    }
-  })
+      queryClient.invalidateQueries(profileByIdQueryKey(profile.id));
+      queryClient.invalidateQueries(getApiProfileFeedQueryKey(profile.id));
+      queryClient.invalidateQueries(apiFeedQueryKey);
+      setIsS3LinkEnabled(false);
+    },
+  });
   const updateProfileMutation = useAPIUpdateProfile({
     onSuccess: () => {
-      if(previousKey)
-        deleteUriMutation.mutate(previousKey)
-      setProfilePictureModalVisible(false)
+      if (previousKey) deleteUriMutation.mutate(previousKey);
+      setProfilePictureModalVisible(false);
     },
   });
 
-  const {
-    isLoadingUploadLink
-  } = useAPIgetS3UploadImageLinks(1,{
+  const { isLoadingUploadLink } = useAPIgetS3UploadImageLinks(1, {
     enabled: isS3LinkEnabled,
     onSuccess: (data) => {
-        const payload = {
-          payload: {
-            ...data[0].fields,
-            'content-type': 'image/jpeg',
-            file: {
-              uri: image.uri,
-              name: image.fileName,
-              type: 'image/jpeg',
-            },
+      const payload = {
+        payload: {
+          ...data[0].fields,
+          'content-type': 'image/jpeg',
+          file: {
+            uri: image.uri,
+            name: image.fileName,
+            type: 'image/jpeg',
           },
-        };
-        uploadImageMutation.mutate(payload, {
-          onSuccess: () => {
-            const IMAGEOBJ = {key: data[0].fields.key, type: 'image'}
-            const dataToSend = {
-              role: profile?.role,
-              profilePicture: null,
-              biography: profile?.biography,
-            }
-            dataToSend.profilePicture= {...IMAGEOBJ}
-            setPreviousKey(profile?.profilePicture?.key)
-            updateProfileMutation.mutate({ profileInfo: dataToSend, profileId: profile.id });
-          },
-          onError: () => {},
+        },
+      };
+      uploadImageMutation.mutate(payload, {
+        onSuccess: () => {
+          const IMAGEOBJ = { key: data[0].fields.key, type: 'image' };
+          const dataToSend = {
+            role: profile?.role,
+            profilePicture: null,
+            biography: profile?.biography,
+          };
+          dataToSend.profilePicture = { ...IMAGEOBJ };
+          setPreviousKey(profile?.profilePicture?.key);
+          updateProfileMutation.mutate({
+            profileInfo: dataToSend,
+            profileId: profile.id,
+          });
+        },
+        onError: () => {},
       });
     },
     onError: () => {},
-    onSettled: () =>{},
+    onSettled: () => {},
   });
 
   const followMutationLoading =
     followProfileMutation.isLoading || unfollowProfileMutation.isLoading;
 
   const onEditProfilePicture = () => {
-    if(image){
-      setIsS3LinkEnabled(true)
+    if (image) {
+      setIsS3LinkEnabled(true);
     }
-  }
+  };
   const onRemoveProfilePicture = () => {
-    ProfilePictureAlert(t, () => deleteUriMutation.mutate(profile?.profilePicture?.key) ,() => setBottomSheetVisible(false))
-  }
+    ProfilePictureAlert(
+      t,
+      () => deleteUriMutation.mutate(profile?.profilePicture?.key),
+      () => setBottomSheetVisible(false)
+    );
+  };
 
   const { offset } = useContext(ProfileContext);
   const { uri: profilePictureUri = 'error' } =
@@ -199,9 +218,9 @@ const ProfileHeader = ({ navigation, profile }) => {
     <View style={styles.rightHeader}>
       <View style={styles.centerProfile}>
         <TouchableOpacity
-            disabled={!profile?.isOwner}
-            style={styles.button}
-            onPress={profilePictureOptionHandler}
+          disabled={!profile?.isOwner}
+          style={styles.button}
+          onPress={profilePictureOptionHandler}
         >
           <Image
             style={styles.profileImage}
@@ -210,8 +229,20 @@ const ProfileHeader = ({ navigation, profile }) => {
             }}
             defaultSource={AssetsConstants.images.defaultProfile}
           />
-          <ProfilePictureModal t={t} visible={profilePictureModalVisible} setVisible={setProfilePictureModalVisible} prevImage={profile?.profilePicture} onConfirm={onEditProfilePicture} setImage={setImage}/>
-          <ProfilePictureOptions visible={bottomSheetVisible} setVisible={setBottomSheetVisible} onDelete={onRemoveProfilePicture} onEdit={() => setProfilePictureModalVisible(true)}/>
+          <ProfilePictureModal
+            t={t}
+            visible={profilePictureModalVisible}
+            setVisible={setProfilePictureModalVisible}
+            prevImage={profile?.profilePicture}
+            onConfirm={onEditProfilePicture}
+            setImage={setImage}
+          />
+          <ProfilePictureOptions
+            visible={bottomSheetVisible}
+            setVisible={setBottomSheetVisible}
+            onDelete={onRemoveProfilePicture}
+            onEdit={() => setProfilePictureModalVisible(true)}
+          />
         </TouchableOpacity>
         <EduText style={styles.role}>
           {profile.role[0].toLocaleUpperCase() + profile.role.slice(1)}

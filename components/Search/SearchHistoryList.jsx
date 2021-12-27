@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import { Icon, PressableIcon } from 'common/Icon';
 import EduText from 'common/EduText';
 import { IconNames } from 'common/Icon/Icon';
+import { stylePropType } from 'proptypes';
 
-const SearchHistoryList = ({setText, items, setItems}) => {
+const SearchHistoryList = ({setText, items, setItems, style}) => {
+
 
     const onHistoryItemPress = (text) => {
       setText(text)
@@ -20,7 +22,8 @@ const SearchHistoryList = ({setText, items, setItems}) => {
     return(
         <FlatList
             data={items}
-            contentContainerStyle={styles.container}
+            contentContainerStyle={[styles.container, style]}
+            keyboardShouldPersistTaps='handled'
             keyExtractor={item => item.id}
             renderItem={({ item }) => {
             const { id, text } = item;
@@ -46,9 +49,12 @@ SearchHistoryList.propTypes = {
     }).isRequired,
   ).isRequired,
   setItems: PropTypes.func.isRequired,
+  style: stylePropType,
 };
 
-SearchHistoryList.defaultProps = {};
+SearchHistoryList.defaultProps = {
+  style: {},
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -7,6 +7,7 @@ import { useLocalization } from 'localization';
 import { search } from 'validation';
 import SearchHeader from './SearchHeader';
 import SearchHistoryList from './SearchHistoryList';
+import SearchNavTab from './SearchNavTab';
 
 const testHistoryData = [
   {text: 'phusics', id: 'itemName1+time1'},
@@ -18,7 +19,7 @@ const testHistoryData = [
   {text: 'Chemistry', id: 'itemName7+time7' },
 ]
 
-const SearchPage = () =>
+const SearchMainPage = () =>
 {
   const { t } = useLocalization();
 
@@ -26,7 +27,7 @@ const SearchPage = () =>
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
 
   const onHandleSubmit = (txt) => {
-    console.log("🚀 ~ file: SearchPage.jsx ~ line 18 ~ onHandleSubmit ~ txt", txt)
+    console.log("🚀 ~ file: SearchPage.jsx ~ line 18 ~ onHandleSubmit ~ txt", txt) // todo do actuall search
     setIsHistoryOpen(false)
   }
 
@@ -47,14 +48,14 @@ const SearchPage = () =>
     <SearchHeader formik={formik} setIsHistoryOpen={setIsHistoryOpen}/>
     {
       isHistoryOpen?
-      <SearchHistoryList setText={(txt) => {formik.setFieldValue('searchText',txt); onHandleSubmit(txt)}} items={items} setItems={setItems}/>
+      <SearchHistoryList setText={(txt) => {formik.setFieldValue('searchText',txt); formik.submitForm()}} items={items} setItems={setItems}/>
       :
-      <></>
+      <SearchNavTab searchText={formik.values.searchText}/>
     }
   </Page>
 )};
 
-SearchPage.propTypes = {};
-SearchPage.defaultProps = {};
+SearchMainPage.propTypes = {};
+SearchMainPage.defaultProps = {};
 
-export default SearchPage;
+export default SearchMainPage;

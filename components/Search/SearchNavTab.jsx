@@ -1,0 +1,56 @@
+import React from 'react';
+
+import { useLocalization } from 'localization';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { Colors, Constants } from 'styles';
+import SearchAll from './SearchAll';
+import SearchPosts from './SearchPosts';
+import SearchPeople from './Searchpeople';
+
+const Tab = createMaterialTopTabNavigator();
+
+const SearchNavTab = ({searchText}) => {
+  const { t } = useLocalization();
+
+  return (
+      <Tab.Navigator
+        initialRouteName="SearchAll"
+        activeColor={Colors.accent}
+        barStyle={{
+          backgroundColor: Colors.foreground,
+          borderColor: Colors.border,
+          borderRadius: Constants.borderRadius,
+          borderTopWidth: 0.2,
+        }}
+        backBehavior="history"
+        shifting
+      >
+        <Tab.Screen
+          name="SearchAll"
+          component={SearchAll}
+          options={{
+            tabBarLabel: t('SearchNav/All'),
+          }}
+        />
+        <Tab.Screen
+          name="SearchPosts"
+          component={SearchPosts}
+          options={{
+            tabBarLabel: t('SearchNav/Posts'),
+          }}
+        />
+        <Tab.Screen
+          name="SearchPeople"
+          component={SearchPeople}
+          options={{
+            tabBarLabel: t('SearchNav/People'),
+          }}
+        />
+      </Tab.Navigator>
+  );
+};
+
+SearchNavTab.propTypes = {};
+SearchNavTab.defaultProps = {};
+
+export default SearchNavTab;

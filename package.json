@@ -71,10 +71,11 @@
     "react-native-gesture-handler": "~1.10.2",
     "react-native-get-random-values": "^1.7.1",
     "react-native-image-zoom-viewer": "^3.0.1",
-    "react-native-pager-view": "5.0.12",
+    "react-native-pager-view": "^5.0.12",
     "react-native-paper": "^4.11.0",
     "react-native-pie-chart": "^2.0.2",
     "react-native-popup-menu": "^0.15.12",
+    "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-svg": "12.1.1",
@@ -87,8 +88,7 @@
     "rn-pdf-reader-js": "^4.1.1",
     "rn-placeholder": "^3.0.3",
     "uuid": "^8.3.2",
-    "yup": "^0.32.11",
-    "react-native-reanimated": "~2.2.0"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

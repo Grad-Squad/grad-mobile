@@ -176,6 +176,11 @@
     "Go to question": "انتقل إلى السؤال",
     "Question Number": "رقم السؤال"
   },
+  "SearchNav":{
+    "All": "الكل",
+    "People": "الأشخاص",
+    "Posts": "المنشورات"
+  },
   "Snackbar": {
     "Error: ": "خطأ: ",
     "Could not connect to the server": "تعذر الاتصال بالخادم",
@@ -281,6 +286,12 @@
     "Confirm Comment Deletion?": {
       "title": "حذف التعليق؟",
       "message": "هل أنت متأكد أنك تريد حذف التعليق؟\nلا بمكنك التراجع عن هذا الإجراء",
+      "confirm button": "حذف",
+      "reject button": "إلغاء"
+    },
+    "Confirm Profile Picture remove?": {
+      "title": "حذف صورتك الشخصية؟",
+      "message": "هل أنت متأكد أنك تريد حذف صورتك الشخصية؟\nلا بمكنك التراجع عن هذا الإجراء",
       "confirm button": "حذف",
       "reject button": "إلغاء"
     }

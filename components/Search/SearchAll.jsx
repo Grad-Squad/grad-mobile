@@ -1,22 +1,32 @@
 import EduText from 'common/EduText';
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { navigationBarPropType } from 'proptypes';
+import { Colors, Constants } from 'styles';
+import { ScrollView } from 'react-native-gesture-handler';
 import SearchContext from './SearchContext';
+import SearchPosts from './SearchPosts';
+import SearchPeople from './Searchpeople';
 
 // eslint-disable-next-line arrow-body-style
 const SearchAll = ({navigation}) => {
 
-    const { formik } = useContext(SearchContext);
+    const { formik, t } = useContext(SearchContext);
 
     return(
-        <View>
-            <EduText>{formik.values.searchText} In All</EduText>
-            <Button mode="outlined" onPress={() => navigation.jumpTo('SearchPosts')} style={styles.viewMoreButton}>See More (Posts)</Button>
-            <Button  mode="outlined" onPress={() => navigation.jumpTo('SearchPeople')}>See More (People)</Button>
-        </View>
+        <ScrollView>
+            <View style={styles.specificSearchContainer}>
+                <EduText style={styles.specificSearchTitle}>{t('Search/People')}</EduText>
+                <SearchPeople numOfProfiles={2}/>
+                <Button mode="outlined" onPress={() => navigation.jumpTo('SearchPeople')} style={styles.viewMoreButton}>{t('Search/More')}</Button>
+            </View>
+            <View style={styles.specificSearchContainer}>
+                <EduText style={styles.specificSearchTitle}>{t('Search/Posts')}</EduText>
+                <SearchPosts numOfPosts={2}/>
+                <Button mode="outlined" onPress={() => navigation.jumpTo('SearchPosts')} style={styles.viewMoreButton}>{t('Search/More')}</Button>
+            </View>
+        </ScrollView>
     )
 }
 
@@ -28,5 +38,23 @@ SearchAll.defaultProps = {};
 export default SearchAll;
 
 const styles = StyleSheet.create({
-    viewMoreButton:{}
+    specificSearchContainer:{
+        padding: 5,
+        backgroundColor: Colors.background2,
+        marginVertical: 5,
+        borderColor: Colors.border,
+        borderWidth: 0.25,
+    },
+    viewMoreButton:{
+        alignSelf:'center',
+        width: '90%',
+        borderColor: Colors.accent,
+        borderRadius: Constants.borderRadius,
+        margin: 5,
+    },
+    specificSearchTitle:{
+        margin: 5,
+        marginTop: 7,
+        fontSize: 15,
+    }
 })

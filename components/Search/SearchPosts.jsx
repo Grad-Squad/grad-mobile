@@ -1,17 +1,26 @@
-import EduText from 'common/EduText';
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
+import { apiFeedQueryKey, useAPIFeed } from 'api/endpoints/posts';
+import PostsContainer from 'components/Post/PostsContainer';
 import SearchContext from './SearchContext';
 
-const SearchPosts = () => {
+const SearchPosts = ({numOfPosts}) => { // ? I don't think this is right
 
-    const { formik } = useContext(SearchContext);
+    const { formik, t } = useContext(SearchContext); // todo use search with for query
 
     return(
-        <EduText>{formik.values.searchText} In Posts</EduText>
+        <PostsContainer
+            reactQueryKey={apiFeedQueryKey}
+            paginatedReactQuery={useAPIFeed}
+        />
     )
 }
 
-SearchPosts.propTypes = {};
-SearchPosts.defaultProps = {};
+SearchPosts.propTypes = {
+    numOfPosts: PropTypes.number,
+};
+SearchPosts.defaultProps = {
+    numOfPosts: null,
+};
 
 export default SearchPosts;

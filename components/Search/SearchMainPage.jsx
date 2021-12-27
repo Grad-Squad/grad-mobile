@@ -46,7 +46,7 @@ const SearchMainPage = () =>
 
   return(
   <Page>
-    <SearchContext.Provider value={{formik}}>
+    <SearchContext.Provider value={{formik, t}}>
       <SearchHeader formik={formik} isHistoryOpen={isHistoryOpen} setIsHistoryOpen={setIsHistoryOpen}/>
       {
         isHistoryOpen?

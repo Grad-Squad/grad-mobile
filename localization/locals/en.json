@@ -338,5 +338,10 @@
   "Followers": {
     "Error: Couldn't Load Followers": "Error: Couldn't Load Followers",
     "This Account does not have any followers!": "This Account does not have any followers!"
+  },
+  "Search":{
+    "More": "See More",
+    "Posts": "Posts",
+    "People": "People"
   }
 }

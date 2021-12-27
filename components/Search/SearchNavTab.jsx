@@ -9,7 +9,7 @@ import SearchPeople from './Searchpeople';
 
 const Tab = createMaterialTopTabNavigator();
 
-const SearchNavTab = ({searchText}) => {
+const SearchNavTab = ({ searchText }) => {
   const { t } = useLocalization();
 
   return (
@@ -26,31 +26,25 @@ const SearchNavTab = ({searchText}) => {
       >
         <Tab.Screen
           name="SearchAll"
-          // component={SearchAll}
+          component={SearchAll}
           options={{
             tabBarLabel: t('SearchNav/All'),
           }}
-        >
-          {() => <SearchAll searchText={searchText} />}
-        </Tab.Screen>
+         />
         <Tab.Screen
           name="SearchPosts"
-          // component={SearchPosts}
+          component={SearchPosts}
           options={{
             tabBarLabel: t('SearchNav/Posts'),
           }}
-        >
-          {() => <SearchPosts searchText={searchText} />}
-        </Tab.Screen>
+         />
         <Tab.Screen
           name="SearchPeople"
-          // component={SearchPeople}
+          component={SearchPeople}
           options={{
             tabBarLabel: t('SearchNav/People'),
           }}
-        >
-          {() => <SearchPeople searchText={searchText} />}
-        </Tab.Screen>
+         />
       </Tab.Navigator>
   );
 };

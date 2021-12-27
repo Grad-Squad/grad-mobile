@@ -1,17 +1,32 @@
 import EduText from 'common/EduText';
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { StyleSheet, View } from 'react-native';
+import { Button } from 'react-native-paper';
+import { navigationBarPropType } from 'proptypes';
+import SearchContext from './SearchContext';
 
 // eslint-disable-next-line arrow-body-style
-const SearchAll = ({searchText}) => {
+const SearchAll = ({navigation}) => {
+
+    const { formik } = useContext(SearchContext);
+
     return(
-        <EduText>{searchText} In All</EduText>
+        <View>
+            <EduText>{formik.values.searchText} In All</EduText>
+            <Button mode="outlined" onPress={() => navigation.jumpTo('SearchPosts')} style={styles.viewMoreButton}>See More (Posts)</Button>
+            <Button  mode="outlined" onPress={() => navigation.jumpTo('SearchPeople')}>See More (People)</Button>
+        </View>
     )
 }
 
 SearchAll.propTypes = {
-    searchText: PropTypes.string.isRequired,
+    navigation: navigationBarPropType.isRequired,
 };
 SearchAll.defaultProps = {};
 
 export default SearchAll;
+
+const styles = StyleSheet.create({
+    viewMoreButton:{}
+})

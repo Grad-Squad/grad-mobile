@@ -8,6 +8,7 @@ import { search } from 'validation';
 import SearchHeader from './SearchHeader';
 import SearchHistoryList from './SearchHistoryList';
 import SearchNavTab from './SearchNavTab';
+import SearchContext from './SearchContext';
 
 const testHistoryData = [
   {text: 'phusics', id: 'itemName1+time1'},
@@ -45,13 +46,15 @@ const SearchMainPage = () =>
 
   return(
   <Page>
-    <SearchHeader formik={formik} isHistoryOpen={isHistoryOpen} setIsHistoryOpen={setIsHistoryOpen}/>
-    {
-      isHistoryOpen?
-      <SearchHistoryList setText={(txt) => {formik.setFieldValue('searchText',txt); formik.submitForm()}} items={items} setItems={setItems}/>
-      :
-      <SearchNavTab searchText={formik.values.searchText}/>
-    }
+    <SearchContext.Provider value={{formik}}>
+      <SearchHeader formik={formik} isHistoryOpen={isHistoryOpen} setIsHistoryOpen={setIsHistoryOpen}/>
+      {
+        isHistoryOpen?
+        <SearchHistoryList setText={(txt) => {formik.setFieldValue('searchText',txt); formik.submitForm()}} items={items} setItems={setItems}/>
+        :
+        <SearchNavTab searchText={formik.values.searchText}/>
+      }
+    </SearchContext.Provider>
   </Page>
 )};
 

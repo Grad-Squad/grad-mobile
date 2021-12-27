@@ -1,17 +1,17 @@
 import EduText from 'common/EduText';
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import SearchContext from './SearchContext';
 
-// eslint-disable-next-line arrow-body-style
-const SearchPosts = ({searchText}) => {
+const SearchPosts = () => {
+
+    const { formik } = useContext(SearchContext);
+
     return(
-        <EduText>{searchText} In Posts</EduText>
+        <EduText>{formik.values.searchText} In Posts</EduText>
     )
 }
 
-SearchPosts.propTypes = {
-    searchText: PropTypes.string.isRequired,
-};
+SearchPosts.propTypes = {};
 SearchPosts.defaultProps = {};
 
 export default SearchPosts;

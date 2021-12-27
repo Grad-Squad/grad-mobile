@@ -1,14 +1,17 @@
 import EduText from 'common/EduText';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 // eslint-disable-next-line arrow-body-style
-const SearchAll = () => {
+const SearchAll = ({searchText}) => {
     return(
-        <EduText>ALL</EduText>
+        <EduText>{searchText} In All</EduText>
     )
 }
 
-SearchAll.propTypes = {};
+SearchAll.propTypes = {
+    searchText: PropTypes.string.isRequired,
+};
 SearchAll.defaultProps = {};
 
 export default SearchAll;

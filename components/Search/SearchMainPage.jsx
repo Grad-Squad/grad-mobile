@@ -45,7 +45,7 @@ const SearchMainPage = () =>
 
   return(
   <Page>
-    <SearchHeader formik={formik} setIsHistoryOpen={setIsHistoryOpen}/>
+    <SearchHeader formik={formik} isHistoryOpen={isHistoryOpen} setIsHistoryOpen={setIsHistoryOpen}/>
     {
       isHistoryOpen?
       <SearchHistoryList setText={(txt) => {formik.setFieldValue('searchText',txt); formik.submitForm()}} items={items} setItems={setItems}/>

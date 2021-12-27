@@ -16,11 +16,8 @@ const SearchNavTab = ({searchText}) => {
       <Tab.Navigator
         initialRouteName="SearchAll"
         activeColor={Colors.accent}
-        barStyle={{
-          backgroundColor: Colors.foreground,
-          borderColor: Colors.border,
-          borderRadius: Constants.borderRadius,
-          borderTopWidth: 0.2,
+        screenOptions={{
+          tabBarStyle: { backgroundColor: Colors.foreground },
         }}
         backBehavior="history"
         shifting

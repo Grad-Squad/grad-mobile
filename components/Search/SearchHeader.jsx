@@ -6,12 +6,12 @@ import { Colors, Constants, Styles } from 'styles';
 import { IconNames } from 'common/Icon/Icon';
 import { SearchTextInputFormik } from 'common/Input/SearchTextInput';
 
-const SearchHeader = ({formik, setIsHistoryOpen}) => {
+const SearchHeader = ({formik, isHistoryOpen, setIsHistoryOpen}) => {
 
   const onPressBackButton = () => {}
 
   return(
-  <View style={styles.wrapper}>
+  <View style={[styles.wrapper, isHistoryOpen? styles.wrapperOpen : styles.wrapperClosed]}>
     <PressableIcon name={IconNames.arrowLeft} size={35} onPress={onPressBackButton}/>
     <SearchTextInputFormik formik={formik} formikKey="searchText" onFocus={()=> setIsHistoryOpen(true)}/>
   </View>
@@ -37,7 +37,6 @@ export default SearchHeader;
 
 const styles = StyleSheet.create({
   wrapper: {
-    ...Styles.dropShadow,
     backgroundColor: Colors.foreground,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -49,6 +48,12 @@ const styles = StyleSheet.create({
 
     borderColor: Colors.border,
     borderRadius: Constants.borderRadius,
+  },
+  wrapperOpen: {
+    ...Styles.dropShadow,
     borderBottomWidth: 0.2,
+  },
+  wrapperClosed: {
+    borderBottomWidth: 0,
   },
 });

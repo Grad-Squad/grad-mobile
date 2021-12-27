@@ -40,4 +40,7 @@ export default Object.freeze({
   tags: {
     tags: '/tags',
   },
+  subjects: {
+    subjects: '/subjects',
+  },
 });

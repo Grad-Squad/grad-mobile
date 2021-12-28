@@ -1,5 +1,5 @@
 import EduText from 'common/EduText';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { navigationBarPropType } from 'proptypes';
@@ -12,7 +12,15 @@ import SearchPeople from './Searchpeople';
 // eslint-disable-next-line arrow-body-style
 const SearchAll = ({navigation}) => {
 
-    const { formik, t } = useContext(SearchContext);
+    const { formik, t, setFilterMode } = useContext(SearchContext);
+
+    useEffect(() => {
+        const unsubscribe = navigation?.addListener('tabPress', (e) => {
+            setFilterMode(null)
+        });
+
+        return unsubscribe;
+    }, [navigation]);
 
     return(
         <ScrollView>

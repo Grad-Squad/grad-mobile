@@ -54,6 +54,13 @@ export const IconNames = Object.freeze({
   Folder: 'folder-outline',
   removeImage: 'image-remove',
   history: 'history',
+  date: 'date-range',
+  subject: 'subject',
+  dollarSign: 'attach-money',
+  sort: 'sort',
+  followStatus: 'account-multiple-plus-outline',
+  role: 'team',
+  filter: 'tune',
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
@@ -101,6 +108,13 @@ const map = {
   'folder-outline': MaterialCommunityIcons,
   'image-remove': MaterialCommunityIcons,
   'history': MaterialCommunityIcons,
+  'date-range': MaterialIcons,
+  'subject': MaterialIcons,
+  'attach-money': MaterialIcons,
+  'sort': MaterialCommunityIcons,
+  'account-multiple-plus-outline': MaterialCommunityIcons,
+  'team': AntDesign,
+  'tune': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style, disabled }) => {

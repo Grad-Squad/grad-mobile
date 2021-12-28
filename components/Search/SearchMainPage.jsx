@@ -26,6 +26,7 @@ const SearchMainPage = () =>
 
   const [items, setItems] = useState(testHistoryData) // todo fetch search history form local storage
   const [isHistoryOpen, setIsHistoryOpen] = useState(true);
+  const [filterMode, setFilterMode] = useState(null)
 
   const onHandleSubmit = (txt) => {
     console.log("🚀 ~ file: SearchPage.jsx ~ line 18 ~ onHandleSubmit ~ txt", txt) // todo do actuall search
@@ -46,7 +47,7 @@ const SearchMainPage = () =>
 
   return(
   <Page>
-    <SearchContext.Provider value={{formik, t}}>
+    <SearchContext.Provider value={{formik, t, filterMode, setFilterMode}}>
       <SearchHeader formik={formik} isHistoryOpen={isHistoryOpen} setIsHistoryOpen={setIsHistoryOpen}/>
       {
         isHistoryOpen?

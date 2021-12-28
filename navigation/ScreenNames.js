@@ -38,4 +38,10 @@ export default {
     NEW_PASSWORD: 'forgotPassword/newPassword',
     DONE: 'forgotPassword/done',
   },
+
+  SearchFilter: {
+    MAIN: 'searchFilter/main',
+    POSTS: 'searchFilter/post',
+    PEOPLE: 'searchFilter/people',
+  },
 };

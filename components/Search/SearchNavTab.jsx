@@ -9,9 +9,9 @@ import SearchContext from './SearchContext';
 
 const Tab = createMaterialTopTabNavigator();
 
-const SearchNavTab = ({ searchText }) => {
+const SearchNavTab = () => {
 
-  const { formik, t } = useContext(SearchContext);
+  const { formik, t, setFilterMode } = useContext(SearchContext);
 
   return (
       <Tab.Navigator

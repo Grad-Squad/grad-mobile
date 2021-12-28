@@ -12,6 +12,7 @@ export const navigationPropType = PropTypes.shape({
 });
 export const navigationBarPropType = PropTypes.shape({
   jumpTo: PropTypes.func.isRequired,
+  addListener: PropTypes.func.isRequired,
 });
 export const stylePropType = ViewPropTypes.style;
 export const TextPropType = Text.propTypes.style;

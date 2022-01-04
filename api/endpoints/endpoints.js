@@ -5,6 +5,9 @@ export default Object.freeze({
     refresh: '/auth/refresh',
     facebookLogin: '/auth/facebook',
     googleLogin: '/auth/google',
+    forgotPassword: '/auth/forgot_password',
+    verifyCode: '/auth/verify_code',
+    changePassword: '/auth/change_password/{0}',
   },
   profile: {
     profileById: '/profiles/{0}',
@@ -33,5 +36,11 @@ export default Object.freeze({
     uploadFile: 'https://s3.eu-central-1.amazonaws.com/educate-awesome-test',
     getFileUri: '/s3/get/{0}',
     deleteUri: '/s3/{0}',
+  },
+  tags: {
+    tags: '/tags',
+  },
+  subjects: {
+    subjects: '/subjects',
   },
 });

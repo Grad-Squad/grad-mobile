@@ -17,10 +17,13 @@ import FooterRegion from 'components/Post/FooterRegion';
 import PostDeletionAlert from 'components/Post/PostDeletionAlert';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import ScreenNames from 'navigation/ScreenNames';
+import { useDispatch } from 'react-redux';
+import { setMaterialOwner } from 'globalStore/materialNavSlice';
 
 import AuthorInfo from './AuthorInfo';
 import ExpandedPostContentSkeleton from './ExpandedPostContentSkeleton';
 import styles from './ExpandedPostContentStyles';
+import NoInternetConnectionText from 'common/NoInternetConnectionText';
 
 const ExpandedPostContent = ({ navigation, postId }) => {
   const { t } = useLocalization();
@@ -41,6 +44,9 @@ const ExpandedPostContent = ({ navigation, postId }) => {
     [post]
   );
 
+  const dispatch = useDispatch();
+  dispatch(setMaterialOwner(post?.author));
+
   if (isLoading) {
     return <ExpandedPostContentSkeleton navigation={navigation} />;
   }
@@ -54,6 +60,7 @@ const ExpandedPostContent = ({ navigation, postId }) => {
             post && <EduText style={styles.header}>{post.title}</EduText>
           }
         />
+        <NoInternetConnectionText />
         {isLoading && <LoadingIndicator large />}
         {isError && (
           <EduText style={styles.couldNotGetPostError}>
@@ -92,7 +99,12 @@ const ExpandedPostContent = ({ navigation, postId }) => {
           postId={postId}
           commentCount={post.commentCount}
           isPost
-          onEdit={() => {}}
+          onEdit={() =>
+            navigation.navigate(ScreenNames.CREATE_POST, {
+              edit: true,
+              postId,
+            })
+          }
           onDelete={() => {
             PostDeletionAlert(t, () => deletePostMutation.mutate());
           }}

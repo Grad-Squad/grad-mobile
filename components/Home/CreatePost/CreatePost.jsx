@@ -1,73 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { LayoutAnimation, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { navigationPropType, routeParamPropType } from 'proptypes';
-import { TransparentTextInputFormik, DropdownList } from 'common/Input';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { maxCharError, requiredError } from 'validation';
 import { useLocalization } from 'localization';
 import MaterialCreateHeader from 'common/MaterialHeader/MaterialCreateHeader';
-import useOnGoBack from 'navigation/useOnGoBack';
-import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
-import {
-  useAPICreatePost,
-  useAPIGetPostById,
-  useAPIUpdatePost,
-} from 'api/endpoints/posts';
+import { useAPIGetPostById } from 'api/endpoints/posts';
 import PropTypes from 'prop-types';
 import LoadingIndicator from 'common/LoadingIndicator';
-import { useAPIUploadImage } from 'api/endpoints/s3';
 import { Modal, Portal } from 'react-native-paper';
 import EduText from 'common/EduText';
 import { Colors, Constants } from 'styles';
 import { TransparentButton } from 'common/Input/Button';
 import {
-  clearMaterialList,
+  deleteMaterials,
+  parseFileUploads,
+  resetUploadState,
   setCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  clearImageUploadQueue,
-  popImageFromUploadQueue,
-} from 'globalStore/imageUploadSlice';
+import SelectedItemsHeader from 'common/SelectedItemsHeader';
+import { useNetInfo } from '@react-native-community/netinfo';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
-
-const dropdownInitialItems = [
-  { label: 'Apple', id: 'apple' },
-  { label: 'Banana0', id: 'banana1' },
-  { label: 'Banana2', id: 'banana3' },
-  { label: 'Banana4', id: 'banana5' },
-  { label: 'Banana6', id: 'banana7' },
-  { label: 'Banana8', id: 'banana9' },
-  { label: 'Banana10', id: 'banana11' },
-  { label: 'Banana12', id: 'banana13' },
-  { label: 'Banana14', id: 'banana15' },
-  { label: 'Banana16', id: 'banana17' },
-  { label: 'Banana18', id: 'banana19' },
-  { label: 'math d1', id: 'math d2' },
-];
+import useUploadPost from './useUploadPost';
+import CreatePostForm from './CreatePostForm';
 
 const CreatePost = ({ navigation, route }) => {
   const { t } = useLocalization();
 
+  const netInfo = useNetInfo();
   const dispatch = useDispatch();
-  const imagesUploadQueue = useSelector(
-    (state) => state.imageUpload.imagesUploadQueue
-  );
-
   const materialList = useSelector((state) => state.createPost.materialList);
+  const [selectedMaterials, setSelectedMaterials] = useState([]);
+  const resetSelectedMaterials = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setSelectedMaterials([]);
+  };
+
   const { postId = undefined } = route?.params || {};
-  const uploadImageMutation = useAPIUploadImage();
-  const [canUpload, setCanUpload] = useState(false);
-  const [imagesNumber, setImagesNumber] = useState(0);
+
   const [isProgressModalVisible, setIsProgressModalVisible] = useState(false);
 
   const {
     data: fetchedPostData,
     isFetching: isFetchingPostForEdit,
     refetch: refetchPost,
+    isSuccess: isPostFetchedForEdit,
   } = useAPIGetPostById(postId, {
     enabled: !!postId,
     onError: (error) => {
@@ -79,97 +60,9 @@ const CreatePost = ({ navigation, route }) => {
       formik.setFieldValue('title', title);
       formik.setFieldValue('subject', subject);
 
-      const mcqs = materials.map((collection) => ({
-        questions: collection.mcqs.map(
-          ({ question, choices, answerIndices }) => ({
-            choices: choices.map((choice, index) => ({
-              text: choice,
-              isCorrect: answerIndices.indexOf(index) !== -1,
-            })),
-            question,
-          })
-        ),
-        title: collection.title,
-      }));
-      dispatch(setCreateMaterialItem(mcqs));
+      dispatch(setCreateMaterialItem(materials));
     },
   });
-
-  const createPostMutation = useAPICreatePost();
-  const updatePostMutation = useAPIUpdatePost(postId, {
-    onSubmit: () => refetchPost(),
-  });
-
-  useEffect(() => {
-    if (canUpload) {
-      setCanUpload(false);
-      if (imagesUploadQueue.length !== 0) {
-        uploadImageMutation.mutate(imagesUploadQueue[0], {
-          onError: () => {
-            // todo try again
-          },
-          onSuccess: () => {
-            setCanUpload(true);
-            dispatch(popImageFromUploadQueue());
-          },
-        });
-      } else {
-        // const { title, subject, tags, materialList } = formik.values;
-        const { title, subject } = formik.values;
-        const post = {
-          title,
-          priceInCents: 0,
-          subject,
-          materials: formik.values.materialList.map(
-            ({ questions, title: materialTitle }) => ({
-              materialType: 'mcq',
-              title: materialTitle,
-              mcqs: questions.map(({ question, choices, questionUriKey }) => ({
-                question,
-                answerIndices: choices
-                  .map(({ isCorrect }, index) => (isCorrect ? index : -1))
-                  .filter((i) => i !== -1),
-                choices: choices.map(({ text }) => text),
-                questionImage: {
-                  key: questionUriKey,
-                  type: 'image',
-                },
-              })),
-            })
-          ),
-        };
-        if (postId) {
-          updatePostMutation.mutate({
-            ...fetchedPostData,
-            ...post,
-          });
-        } else {
-          createPostMutation.mutate(post, { onError: () => {} });
-        }
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    canUpload,
-    imagesUploadQueue,
-    uploadImageMutation,
-    createPostMutation,
-    updatePostMutation,
-    postId,
-  ]);
-
-  useEffect(() => {
-    if (createPostMutation.isSuccess || updatePostMutation.isSuccess) {
-      dispatch(clearMaterialList());
-      dispatch(clearImageUploadQueue());
-      navigation.goBack();
-    }
-  }, [
-    navigation,
-    updatePostMutation.isSuccess,
-    createPostMutation.isSuccess,
-    dispatch,
-  ]);
 
   const formik = useFormik({
     initialValues: {
@@ -179,9 +72,8 @@ const CreatePost = ({ navigation, route }) => {
       materialList: [],
     },
     onSubmit: () => {
-      setCanUpload(true);
       setIsProgressModalVisible(true);
-      setImagesNumber(imagesUploadQueue.length);
+      dispatch(parseFileUploads());
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -196,47 +88,12 @@ const CreatePost = ({ navigation, route }) => {
     }),
   });
 
+  const { totalFilesToUpload, imagesProgress, isUploadError, resetErrors } =
+    useUploadPost(formik, postId, refetchPost, navigation, fetchedPostData);
+
   useEffect(() => {
-    if (materialList.length !== 0) {
-      formik.setFieldValue('materialList', materialList);
-    }
+    formik.setFieldValue('materialList', materialList);
   }, [materialList]);
-
-  useOnGoBack(
-    (e) => {
-      if (
-        !formik.dirty ||
-        updatePostMutation.isSuccess ||
-        createPostMutation.isSuccess
-      ) {
-        // todo sub screen edited ?
-        dispatch(clearMaterialList());
-        dispatch(clearImageUploadQueue());
-        return;
-      }
-
-      e.preventDefault();
-
-      DiscardChangesAlert(t, () => {
-        navigation.dispatch(e.data.action);
-        dispatch(clearMaterialList());
-        dispatch(clearImageUploadQueue());
-      });
-    },
-    [formik.dirty, updatePostMutation.isSuccess, createPostMutation.isSuccess]
-  );
-
-  const isUploadingImages = imagesUploadQueue.length !== 0;
-
-  const isUploadingPost =
-    (isUploadingImages ||
-      createPostMutation.isLoading ||
-      uploadImageMutation.isLoading) &&
-    !uploadImageMutation.isError;
-
-  const imagesProgress = `${
-    imagesNumber - imagesUploadQueue.length
-  }/${imagesNumber}`;
 
   return (
     <Page>
@@ -245,68 +102,74 @@ const CreatePost = ({ navigation, route }) => {
           dismissable={false}
           visible={isProgressModalVisible}
           contentContainerStyle={styles.progressContainerStyle}
+          onDismiss={() => setIsProgressModalVisible(false)}
         >
-          {isUploadingPost && <LoadingIndicator size="large" />}
-          <EduText style={styles.padAbove}>
-            {t('CreatePost/Upload in progress')}{' '}
-            {imagesNumber !== 0 && imagesProgress}
-          </EduText>
-          {!isUploadingPost && (
-            <TransparentButton
-              text="Try again"
-              onPress={() => setCanUpload(true)}
-            />
+          {!isUploadError && (
+            <>
+              <LoadingIndicator size="large" />
+              <EduText style={styles.padAbove}>
+                {t('CreatePost/Upload in progress')}{' '}
+                {totalFilesToUpload !== 0 &&
+                  `${imagesProgress}/${totalFilesToUpload}`}
+              </EduText>
+            </>
           )}
-          {!isUploadingPost && (
-            <TransparentButton
-              text="Cancel"
-              onPress={() => setIsProgressModalVisible(false)}
-            />
+
+          {isUploadError && (
+            <>
+              <EduText>{t('CreatePost/Modal/Error')}</EduText>
+              <TransparentButton
+                text={t('CreatePost/Modal/Try again')}
+                onPress={() => {
+                  resetErrors();
+                  dispatch(parseFileUploads());
+                }}
+              />
+              <TransparentButton
+                text={t('CreatePost/Modal/Cancel')}
+                onPress={() => {
+                  dispatch(resetUploadState());
+                  setIsProgressModalVisible(false);
+                }}
+              />
+            </>
           )}
         </Modal>
       </Portal>
-      <MaterialCreateHeader
-        title={
-          postId ? t('CreatePost/Edit Post') : t('CreatePost/Create New Post')
-        }
-        rightButtonText={t('CreatePost/Post')}
-        onPress={formik.handleSubmit}
-        onBackPress={() => {
-          dispatch(clearMaterialList());
-          navigation.goBack();
-        }}
-      />
+      {selectedMaterials.length === 0 ? (
+        <MaterialCreateHeader
+          title={
+            postId ? t('CreatePost/Edit Post') : t('CreatePost/Create New Post')
+          }
+          rightButtonText={t('CreatePost/Post')}
+          onPress={formik.handleSubmit}
+          onBackPress={() => {
+            navigation.goBack();
+          }}
+          rightButtonProps={{ disabled: !netInfo.isConnected }}
+        />
+      ) : (
+        <SelectedItemsHeader
+          numSelected={selectedMaterials.length}
+          onBackPress={resetSelectedMaterials}
+          onDeletePress={() => {
+            dispatch(deleteMaterials(selectedMaterials));
+            resetSelectedMaterials();
+          }}
+        />
+      )}
 
-      <TransparentTextInputFormik
-        title={t('CreatePost/Title')}
+      <CreatePostForm
+        lateInitSubject={isPostFetchedForEdit ? fetchedPostData.subject : null}
+        lateInitTags={isPostFetchedForEdit ? fetchedPostData.tags : null}
         formik={formik}
-        formikKey="title"
+        t={t}
       />
-      <DropdownList
-        placeholder={t('CreatePost/SubjectCourse')}
-        value={formik.values.subject}
-        setValueFunction={(newValue) =>
-          formik.setFieldValue('subject', newValue[0])
-        }
-        items={dropdownInitialItems}
-        // error={formik.errors.subject && formik.touched.subject}
-        // errorMsg={formik.errors.subject}
-      />
-      <DropdownList
-        placeholder={t('CreatePost/Tags')}
-        multiple
-        min={0}
-        max={5}
-        value={formik.values.tags}
-        setValueFunction={(newValues) => {
-          formik.setFieldValue('tags', newValues);
-        }}
-        items={dropdownInitialItems}
-      />
-
       <MaterialList
         materials={formik.values.materialList}
         errorMsg={formik.touched.materialList && formik.errors.materialList}
+        selectedMaterials={selectedMaterials}
+        setSelectedMaterials={setSelectedMaterials}
       />
       {postId && isFetchingPostForEdit && <LoadingIndicator size="large" />}
       <AddMaterialList navigation={navigation} />
@@ -336,7 +199,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     margin: Constants.commonMargin,
     alignItems: 'center',
-    // height: '40%',
   },
   padAbove: {
     paddingTop: Constants.commonMargin / 2,

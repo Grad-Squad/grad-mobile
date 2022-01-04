@@ -48,10 +48,14 @@ export const IconNames = Object.freeze({
   tagDot: 'dot-single',
   addDocument: 'text-box-plus-outline',
   keyboardArrowLeft: 'keyboard-arrow-left',
+  cameraPlus: 'camera-plus-outline',
   keyboardArrowRight: 'keyboard-arrow-right',
+  addVideo: 'file-video-outline',
   Folder: 'folder-outline',
   removeImage: 'image-remove',
 });
+
+export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
 
 const map = {
   question: AntDesign,
@@ -88,15 +92,25 @@ const map = {
   logout: MaterialCommunityIcons,
   flag: AntDesign,
   'dot-single': Entypo,
+  'text-box-plus-outline': MaterialCommunityIcons,
   'keyboard-arrow-left': MaterialIcons,
+  'camera-plus-outline': MaterialCommunityIcons,
   'keyboard-arrow-right': MaterialIcons,
+  'file-video-outline': MaterialCommunityIcons,
   'folder-outline': MaterialCommunityIcons,
   'image-remove': MaterialCommunityIcons,
 };
 
-const Icon = ({ name, size, color, style }) => {
+const Icon = ({ name, size, color, style, disabled }) => {
   const IconLibrary = map[name] || map[IconNames.question];
-  return <IconLibrary name={name} size={size} color={color} style={style} />;
+  return (
+    <IconLibrary
+      name={name}
+      size={size}
+      color={disabled ? Colors.disabledButton : color}
+      style={style}
+    />
+  );
 };
 
 Icon.propTypes = {
@@ -104,11 +118,13 @@ Icon.propTypes = {
   size: PropTypes.number,
   color: PropTypes.string,
   style: TextPropType,
+  disabled: PropTypes.bool,
 };
 Icon.defaultProps = {
   size: 26,
   color: Colors.offBlack,
   style: {},
+  disabled: false,
 };
 
 export default React.memo(Icon);

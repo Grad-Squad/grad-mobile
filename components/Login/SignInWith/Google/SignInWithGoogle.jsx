@@ -15,6 +15,8 @@ import { stylePropType } from 'proptypes';
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
 import { useAPIGoogleLogin } from 'api/endpoints/auth';
+import { useStore } from 'globalStore/GlobalStore';
+import ReducerActions from 'globalStore/ReducerActions';
 import GoogleIcon from './Google';
 
 WebBrowser.maybeCompleteAuthSession();
@@ -22,26 +24,31 @@ WebBrowser.maybeCompleteAuthSession();
 const SignInWithGoogle = ({ disabled, style }) => {
   const { t } = useLocalization();
   const navigation = useNavigation();
-  const [request, response, promptAsync] = Google.useAuthRequest({
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     expoClientId: EXPO_CLIENT_ID,
     iosClientId: IOS_CLIENT_ID,
     androidClientId: ANDROID_CLIENT_ID,
     webClientId: WEB_CLIENT_ID,
   });
 
+  const [, dispatch] = useStore();
+
   const googleLoginMutation = useAPIGoogleLogin({
-    onSuccess: () => {
+    onSuccess: (data) => {
       navigation.reset({
         index: 0,
         routes: [{ name: ScreenNames.HOME }],
+      });
+      dispatch({
+        type: ReducerActions.setProfileId,
+        payload: data.user.profile.id,
       });
     },
   });
 
   React.useEffect(() => {
     if (response?.type === 'success') {
-      const { authentication } = response;
-      googleLoginMutation.mutate(authentication.accessToken);
+      googleLoginMutation.mutate(response.params.id_token);
     }
   }, [response]);
 
@@ -55,6 +62,7 @@ const SignInWithGoogle = ({ disabled, style }) => {
       style={style}
       smallButton
       disabled={!request || disabled}
+      loading={googleLoginMutation.isLoading}
     />
   );
 };

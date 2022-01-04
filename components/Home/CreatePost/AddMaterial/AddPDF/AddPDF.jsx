@@ -11,18 +11,21 @@ import { IconNames } from 'common/Icon/Icon';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { materialTitle } from 'validation';
-import useOnGoBack from 'navigation/useOnGoBack';
-import DiscardChangesAlert from 'common/alerts/DiscardChangesAlert';
 import * as DocumentPicker from 'expo-document-picker';
-import { MaterialTypes } from 'constants';
 import { routeParamPropType } from 'proptypes';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addCreateMaterialItem,
+  addToDeletedUris,
   replaceCreateMaterialItem,
 } from 'globalStore/createPostSlice';
-import AddDocument from './AddDocument';
+import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
+import fileUploadTypes from 'constants/fileUploadTypes';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+import materialTypes from 'constants/materialTypes';
+import AddDocument from '../AddDocument';
 import PreviewDocument from './PreviewDocument';
 
 const AddPDF = ({ route }) => {
@@ -38,25 +41,44 @@ const AddPDF = ({ route }) => {
 
   const formik = useFormik({
     initialValues: {
-      pdfTitle: editPdf?.pdfTitle ?? '',
+      title: editPdf?.title ?? '',
       fileName: editPdf?.fileName ?? '',
       fileUri: editPdf?.fileUri ?? '',
     },
     onSubmit: (pdf) => {
+      const material = {
+        amount: 1,
+        title: pdf.title,
+        file: {
+          file: {
+            fileName: pdf.fileName,
+            uri: pdf.fileUri,
+          },
+          clientId: uuidv4(),
+          fileType: fileUploadTypes.DOC,
+        },
+        type: materialTypes.PDF,
+      };
       if (editIndex === undefined) {
-        dispatch(addCreateMaterialItem({ ...pdf, type: MaterialTypes.PDF }));
+        dispatch(addCreateMaterialItem(material));
       } else {
+        if (pdf.fileUri !== editPdf?.fileUri) {
+          dispatch(addToDeletedUris(editPdf?.fileUri?.split('/').pop()));
+        } else {
+          delete material.file.clientId;
+          material.prevUri = editPdf?.prevUri;
+        }
         dispatch(
           replaceCreateMaterialItem({
             index: editIndex,
-            material: { ...pdf, type: MaterialTypes.PDF },
+            material,
           })
         );
       }
       navigation.goBack();
     },
     validationSchema: yup.object().shape({
-      pdfTitle: materialTitle(t),
+      title: materialTitle(t),
       fileName: yup.string().required(t('AddMaterial/Please add a file')),
     }),
   });
@@ -65,20 +87,10 @@ const AddPDF = ({ route }) => {
     formik.handleSubmit();
   };
 
-  useOnGoBack(
-    (e) => {
-      if (!formik.dirty || formik.isSubmitting) {
-        return;
-      }
-
-      e.preventDefault();
-
-      DiscardChangesAlert(t, () => {
-        navigation.dispatch(e.data.action);
-      });
-    },
-    [formik.dirty, formik.isSubmitting]
-  );
+  useOnGoBackDiscardWarning(!formik.dirty || formik.isSubmitting, [
+    formik.dirty,
+    formik.isSubmitting,
+  ]);
   return (
     <Page>
       <MaterialCreateHeader
@@ -92,16 +104,16 @@ const AddPDF = ({ route }) => {
       <View style={styles.pdfNameRow}>
         <TransparentTextInputFormik
           formik={formik}
-          formikKey="pdfTitle"
+          formikKey="title"
           title={t('AddMaterial/PDF/PDF Title')}
           style={styles.pdfName}
         />
-        {!!formik.values.pdfTitle && (
+        {!!formik.values.title && (
           <PressableIcon
             name={IconNames.close}
             size={30}
             style={styles.clearPdfName}
-            onPress={() => formik.setFieldValue('pdfTitle', '')}
+            onPress={() => formik.setFieldValue('title', '')}
           />
         )}
       </View>
@@ -126,14 +138,15 @@ const AddPDF = ({ route }) => {
               type: 'application/pdf',
             });
             if (type !== 'canceled') {
-              if (!formik.values.pdfTitle) {
-                formik.setFieldValue('pdfTitle', fileName.split('.pdf')[0]);
+              if (!formik.values.title) {
+                formik.setFieldValue('title', fileName.split('.pdf')[0]);
               }
               formik.setFieldValue('fileName', fileName);
               formik.setFieldValue('fileUri', uri);
             }
           }}
           error={formik.touched.fileName && formik.errors.fileName}
+          iconName={IconNames.addDocument}
         />
       )}
     </Page>

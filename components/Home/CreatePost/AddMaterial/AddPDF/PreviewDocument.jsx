@@ -17,7 +17,11 @@ const PreviewDocument = ({ fileName, uri, onRemoveFile }) => {
         <EduText style={styles.pdfFileName}>
           {`${t('AddMaterial/PDF/PDF file name:')} ${fileName}`}
         </EduText>
-        <PressableIcon name={IconNames.delete} onPress={onRemoveFile} />
+        <PressableIcon
+          name={IconNames.delete}
+          onPress={onRemoveFile}
+          style={styles.delete}
+        />
       </View>
       <Separator style={styles.previewSeparator} />
       <EduText style={styles.preview}>{t('AddMaterial/Preview')}</EduText>
@@ -44,11 +48,19 @@ const styles = StyleSheet.create({
   pdfFileName: {
     ...Styles.underLinedFileName,
 
+    flex: 1,
+    flexWrap: 'wrap',
     marginLeft: 10,
     marginRight: 4,
   },
   previewSeparator: {
     marginTop: 20,
+  },
+  delete: {
+    flexShrink: 0,
+    padding: 7,
+    flexBasis: '18%',
+    alignItems: 'center',
   },
   preview: {
     fontSize: 41,

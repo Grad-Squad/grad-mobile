@@ -29,7 +29,10 @@ const SolveMcq = ({ navigation, route }) => {
   const { materialID } = route.params || {};
 
   const dispatch = useDispatch();
-  const reduxMcqQuestions = useSelector((state) => state.material.openMaterialData);
+  const { data: reduxMcqQuestions, title } = useSelector(
+    (state) => state.material.openMaterialData
+  );
+  const materialOwner = useSelector((state) => state.material.materialOwner);
 
   const rawQuestions = materialID ? QUESTIONS : reduxMcqQuestions;
   const [questions, setQuestions] = useState(() =>
@@ -67,7 +70,7 @@ const SolveMcq = ({ navigation, route }) => {
   };
   useEffect(() => {
     if (hasFinished) {
-      dispatch(setOpenMaterialData(questions));
+      dispatch(setOpenMaterialData({ title, data: questions }));
       navigation.replace(ScreenNames.REVIEW_MCQ);
     }
   }, [hasFinished]);
@@ -121,8 +124,8 @@ const SolveMcq = ({ navigation, route }) => {
     <Page>
       <MaterialViewHeader
         onBackPress={() => navigation.goBack()}
-        author="Ramez"
-        title="When the potato took over"
+        author={materialOwner?.name}
+        title={title}
         contextMenuItems={[
           {
             titleKey: 'ContextMenu/Save',

@@ -54,10 +54,10 @@ export const useAPIGoogleLogin = (mutationConfig) => {
   const { axios } = useAxios();
 
   return useMutation(
-    async ({ accessToken }) => {
+    async (idToken) => {
       const {
         data: { data },
-      } = await axios.get(`${endpoints.auth.googleLogin}/${accessToken}`);
+      } = await axios.get(`${endpoints.auth.googleLogin}/${idToken}`);
 
       return data;
     },

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, LayoutAnimation, StyleSheet, View } from 'react-native';
 import { Colors, Styles } from 'styles';
 import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
@@ -8,37 +8,70 @@ import { MaterialTypes } from 'constants';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
-import MaterialItem from './MaterialItem';
+import { MaterialItemWithCheckBox } from './MaterialItem';
 
-const flatListRenderItem = ({ item: { title, amount, type, onPress } }) => (
-  <MaterialItem title={title} amount={amount} type={type} onPress={onPress} />
+const flatListRenderItem = ({
+  item: {
+    title,
+    amount,
+    type,
+    onPress,
+    onLongPress,
+    isSelected,
+    isSelectionEnabled,
+  },
+}) => (
+  <MaterialItemWithCheckBox
+    title={title}
+    amount={amount}
+    type={type}
+    onPress={onPress}
+    onLongPress={onLongPress || null}
+    isSelected={isSelected}
+    isSelectionEnabled={isSelectionEnabled}
+  />
 );
+const MaterialTypeRouteMap = {
+  [MaterialTypes.Flashcards]: ScreenNames.ADD_FLASHCARDS,
+  [MaterialTypes.MCQ]: ScreenNames.ADD_MCQ,
+  [MaterialTypes.PDF]: ScreenNames.ADD_PDF,
+  [MaterialTypes.Images]: ScreenNames.ADD_IMAGES,
+  [MaterialTypes.Video]: ScreenNames.ADD_VIDEO,
+};
 
-const MaterialList = ({ materials, errorMsg }) => {
+const MaterialList = ({
+  materials,
+  errorMsg,
+  selectedMaterials,
+  setSelectedMaterials,
+}) => {
+  const toggleSelectionIndex = (index) =>
+    setSelectedMaterials((prev) => {
+      const indexInState = prev.indexOf(index);
+      if (indexInState === -1) {
+        return [...prev, index];
+      }
+      return prev.filter((ind) => ind !== index);
+    });
   const navigation = useNavigation();
   const { t } = useLocalization();
   const formattedMaterials = useMemo(
     () =>
-      materials.map((material, index) => {
-        if (material.type === MaterialTypes.PDF) {
-          return {
-            id: index.toString(), // ! index as id
-            type: material.type,
-            title: material.pdfTitle,
-            // amount: material.questions.length,
-            amount: 6666,
-            onPress: () => navigation.navigate(ScreenNames.ADD_PDF, { index }),
-          };
-        }
-        return {
-          id: index.toString(), // ! index as id
-          type: MaterialTypes.MCQ,
-          title: material.title,
-          amount: material.questions.length,
-          onPress: () => navigation.navigate(ScreenNames.ADD_MCQ, { index }),
-        };
-      }),
-    [materials]
+      materials.map(({ id, type, title, amount }, index) => ({
+        id: id || title + type + index.toString(),
+        type,
+        title,
+        amount,
+        onPress: () =>
+          navigation.navigate(MaterialTypeRouteMap[type], { index }),
+        onLongPress: () => {
+          LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+          toggleSelectionIndex(index);
+        },
+        isSelected: selectedMaterials.includes(index),
+        isSelectionEnabled: selectedMaterials.length !== 0,
+      })),
+    [materials, selectedMaterials]
   );
   return (
     <View style={styles.materialsList}>
@@ -68,6 +101,8 @@ const MaterialList = ({ materials, errorMsg }) => {
 
 MaterialList.propTypes = {
   errorMsg: PropTypes.string,
+  selectedMaterials: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  setSelectedMaterials: PropTypes.func.isRequired,
   materials: PropTypes.arrayOf(PropTypes.object).isRequired, // :D
 };
 MaterialList.defaultProps = { errorMsg: '' };
@@ -76,7 +111,8 @@ export default MaterialList;
 
 const styles = StyleSheet.create({
   materialsList: {
-    width: '90%',
+    width: '100%',
+    // marginHorizontal: '10%',
     alignSelf: 'center',
     flex: 1,
 
@@ -87,11 +123,14 @@ const styles = StyleSheet.create({
 
     color: Colors.black,
 
+    paddingLeft: '5%',
     marginVertical: 10,
   },
   content: {
     width: '95%',
     alignSelf: 'center',
+    paddingHorizontal: '5%',
+
     flex: 1,
   },
   addMaterialUsing: {

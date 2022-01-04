@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { PressableIcon } from 'common/Icon';
-import { IconNames } from 'common/Icon/Icon';
 import EduText from 'common/EduText';
-import { Styles } from 'styles';
+import { Colors, Styles } from 'styles';
+import { iconNamesPropType } from 'common/Icon/Icon';
 
-const AddDocument = ({ onAddPress, error }) => (
+const AddDocument = ({ onAddPress, error, iconName }) => (
   <View style={styles.addDocumentIcon}>
     <PressableIcon
-      name={IconNames.addDocument}
+      name={iconName}
       size={90}
       onPress={onAddPress}
+      color={Colors.accent}
     />
     {error && (
       <EduText style={[Styles.errorText, styles.error]}> {error}</EduText>
@@ -22,6 +23,7 @@ const AddDocument = ({ onAddPress, error }) => (
 AddDocument.propTypes = {
   onAddPress: PropTypes.func.isRequired,
   error: PropTypes.string,
+  iconName: iconNamesPropType.isRequired,
 };
 AddDocument.defaultProps = { error: undefined };
 

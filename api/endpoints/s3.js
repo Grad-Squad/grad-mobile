@@ -2,47 +2,22 @@ import { useAxios } from 'api/AxiosProvider';
 import { useMutation, useQuery } from 'react-query';
 import { formatString } from 'utility';
 import * as normalAxios from 'axios';
+import { useSelector } from 'react-redux';
 import { useStore } from 'globalStore/GlobalStore';
+import getMimeTypeFromFileName from 'constants/mimeTypes';
 import endpoints from './endpoints';
 
-// export const useAPIgetManyS3UploadLinks = (numberOfLinks, options) => {
-//   const { axios } = useAxios();
-//   return useQuery(
-//     ['getManyS3UploadLinks'],
-//     async () => {
-//       const { data } = await axios.get(
-//         formatString(endpoints.s3.getManyUploadLinks, numberOfLinks)
-//       );
-//       return data;
-//     },
-//     {
-//       cacheTime: 0,
-//       ...options,
-//     }
-//   );
-// };
-// export const useAPIgetOneS3UploadLinks = (options) => {
-//   const { axios } = useAxios();
-//   return useQuery(
-//     ['getOneS3UploadLink'],
-//     async () => {
-//       const { data } = await axios.get(endpoints.s3.getOneUploadLink);
-//       return data;
-//     },
-//     {
-//       cacheTime: 0,
-//       ...options,
-//     }
-//   );
-// };
-export const useAPIgetS3UploadImageLinks = (numberOfLinks=1,options) => {
+const useAPIGetS3UploadLink = (
+  queryKey,
+  endpoint,
+  numberOfLinks = 1,
+  options
+) => {
   const { axios } = useAxios();
   return useQuery(
-    ['getS3UploadImageLinks'],
+    queryKey,
     async () => {
-      const { data } = await axios.get(
-        formatString(endpoints.s3.getUploadImageLinks,numberOfLinks)
-      );
+      const { data } = await axios.get(formatString(endpoint, numberOfLinks));
       return data;
     },
     {
@@ -50,51 +25,31 @@ export const useAPIgetS3UploadImageLinks = (numberOfLinks=1,options) => {
       ...options,
     }
   );
-};
-export const useAPIgetS3UploadDocLinks = (numberOfLinks=1,options) => {
-  const { axios } = useAxios();
-  return useQuery(
-    ['getS3UploadDocLinks'],
-    async () => {
-      const { data } = await axios.get(
-        formatString(endpoints.s3.getUploadDocLinks,numberOfLinks)
-      );
-      return data;
-    },
-    {
-      cacheTime: 0,
-      ...options,
-    }
-  );
-};
-export const useAPIgetS3UploadVideoLinks = (numberOfLinks=1,options) => {
-  const { axios } = useAxios();
-  return useQuery(
-    ['getS3UploadVideoLinks'],
-    async () => {
-      const { data } = await axios.get(
-        formatString(endpoints.s3.getUploadVideoLinks,numberOfLinks)
-      );
-      return data;
-    },
-    {
-      cacheTime: 0,
-      ...options,
-    }
-  );
-};
-export const useDeleteUri = (mutationConfig) => {
-  const { axios } = useAxios();
-  const [store] = useStore();
-
-  return useMutation(async (itemKey) => {
-    const { data } = await axios.delete(
-      formatString(endpoints.s3.deleteUri, `${store.profileId}%2F${itemKey}`)
-    );
-    return data;
-  }, mutationConfig);
 };
 
+export const useAPIgetS3UploadImageLinks = (numberOfLinks = 1, options) =>
+  useAPIGetS3UploadLink(
+    'getS3UploadImageLinks',
+    endpoints.s3.getUploadImageLinks,
+    numberOfLinks,
+    options
+  );
+
+export const useAPIgetS3UploadDocLinks = (numberOfLinks = 1, options) =>
+  useAPIGetS3UploadLink(
+    'getS3UploadDocLinks',
+    endpoints.s3.getUploadDocLinks,
+    numberOfLinks,
+    options
+  );
+
+export const useAPIgetS3UploadVideoLinks = (numberOfLinks = 1, options) =>
+  useAPIGetS3UploadLink(
+    'getS3UploadVideoLinks',
+    endpoints.s3.getUploadVideoLinks,
+    numberOfLinks,
+    options
+  );
 
 const formatFormData = (payload) => {
   const formData = new FormData(payload);
@@ -109,10 +64,54 @@ const formatFormData = (payload) => {
   formData.append('content-type', payload['content-type']);
   formData.append('file', {
     uri: payload.file.uri,
-    name: payload.file.fileName,
+    name: payload.file.name,
     type: payload.file.type,
   });
   return formData;
+};
+
+export const useAPIBulkUploadFiles = (updateProgress, mutationConfig) => {
+  const fileUploads = useSelector((state) => state.createPost.fileUploads);
+  return useMutation(async ({ s3Replies, fileType }) => {
+    const filteredFiles = fileUploads.filter(
+      (file) => file.fileType === fileType
+    );
+    const formDatas = filteredFiles
+      .map((filteredFile, index) => ({
+        ...s3Replies[index].fields,
+        'content-type': getMimeTypeFromFileName(filteredFile.file.fileName),
+        file: {
+          uri: filteredFile.file.uri,
+          name: filteredFile.file.fileName,
+          type: getMimeTypeFromFileName(filteredFile.file.fileName),
+        },
+      }))
+      .map((payload) => formatFormData(payload));
+
+    const fileUploadClientIdToResourceId = await Promise.all(
+      filteredFiles.map(async (filteredFile, index) => {
+        await normalAxios.post(endpoints.s3.uploadFile, formDatas[index], {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        updateProgress();
+        return {
+          clientId: filteredFile.clientId,
+          resourceId: s3Replies[index].fields.key,
+        };
+      })
+    );
+
+    const returnedObject = fileUploadClientIdToResourceId.reduce(
+      (obj, item) => ({
+        ...obj,
+        [item.clientId]: item.resourceId,
+      }),
+      {}
+    );
+    return Promise.resolve(returnedObject);
+  }, mutationConfig);
 };
 
 export const useAPIUploadImage = (mutationConfig) =>
@@ -135,8 +134,41 @@ export const useAPIGetFileUri = (itemKey, options) => {
       const { data } = await axios.get(endpoints.s3.getFileUri);
       return data;
     },
-    {
-      ...options,
-    }
+    options
   );
+};
+
+export const useDeleteUri = (mutationConfig) => {
+  const { axios } = useAxios();
+  const [store] = useStore();
+  return useMutation(async (itemKey) => {
+    const { data } = await axios.delete(
+      formatString(
+        endpoints.s3.deleteUri,
+        `${store.profileId}%2F${itemKey.slice(-36)}`
+      )
+    );
+    return data;
+  }, mutationConfig);
+};
+
+export const useDeleteBulkUri = (mutationConfig) => {
+  const { axios } = useAxios();
+  const [store] = useStore();
+
+  return useMutation(async (itemKeys) => {
+    const ret = await Promise.all(
+      itemKeys.map(async (itemKey) => {
+        const { data } = await axios.delete(
+          formatString(
+            endpoints.s3.deleteUri,
+            `${store.profileId}%2F${itemKey.slice(-36)}`
+          )
+        );
+        return data;
+      })
+    );
+
+    return ret;
+  }, mutationConfig);
 };

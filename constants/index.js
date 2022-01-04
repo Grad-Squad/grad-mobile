@@ -25,3 +25,4 @@ export { default as ApiConstants } from './api';
 export { default as AssetsConstants } from './assets';
 export { default as CurrentUserStatus } from './currentUserStatus';
 export { default as MaterialTypes } from './materialTypes';
+export { default as FileUploadTypes } from './fileUploadTypes';

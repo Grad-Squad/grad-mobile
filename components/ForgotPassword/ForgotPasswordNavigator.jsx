@@ -1,12 +1,12 @@
 import React from 'react';
 import Navigator from 'navigation/Navigator';
+import ScreenNames from 'navigation/ScreenNames';
 import EnterEmail from './EnterEmail';
 import CheckEmail from './CheckEmail';
 import SixDigit from './SixDigit/SixDigit';
 import SixDigitFailed from './SixDigitFailed';
 import NewPassword from './NewPassword';
 import Done from './Done';
-import ScreenNames from 'navigation/ScreenNames';
 
 const screens = [
   {

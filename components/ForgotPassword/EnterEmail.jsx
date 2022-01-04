@@ -7,23 +7,38 @@ import { useLocalization } from 'localization';
 import { emailRequired } from 'validation';
 import LoginBack from 'common/backgrounds/LoginBack';
 import { TextInputFormik } from 'common/Input';
-import { navigationPropType } from 'proptypes';
-import { Typography } from 'styles';
+import { navigationPropType, routeParamPropType } from 'proptypes';
+import { Styles, Typography } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 
 import EduText from 'common/EduText';
 import ScreenNames from 'navigation/ScreenNames';
+import { useAPIForgotPassword } from 'api/endpoints/resetPassword';
+import { useDispatch } from 'react-redux';
+import { setEmail } from 'globalStore/forgotPasswordSlice';
+
+const tooManyAttemptsErrorCode = 429;
 
 const EnterEmail = ({ navigation, route }) => {
   const { t } = useLocalization();
   const { existingEmail = '' } = route?.params || {};
+  const dispatch = useDispatch();
+
+  const forgotPasswordMutation = useAPIForgotPassword({
+    onSuccess: () => {
+      dispatch(setEmail(formik.values.email));
+      navigation.navigate(ScreenNames.ForgotPassword.CHECK_EMAIL);
+    },
+  });
+  const dailyLimitReached =
+    forgotPasswordMutation.error?.response.status === tooManyAttemptsErrorCode;
 
   const formik = useFormik({
     initialValues: {
       email: existingEmail,
     },
     onSubmit: ({ email }) => {
-      navigation.navigate(ScreenNames.ForgotPassword.CHECK_EMAIL);
+      forgotPasswordMutation.mutate(email);
     },
     validationSchema: yup.object().shape({
       email: emailRequired(t),
@@ -42,13 +57,20 @@ const EnterEmail = ({ navigation, route }) => {
         style={styles.gap}
       />
 
-      <EduText style={styles.subtitle}>
-        {t('ForgotPassword/AnEmailWith')}
-      </EduText>
-
+      {dailyLimitReached ? (
+        <EduText style={[Styles.errorText, styles.subtitle]}>
+          {t('ForgotPassword/Maximum number of daily attempts reached')}
+        </EduText>
+      ) : (
+        <EduText style={styles.subtitle}>
+          {t('ForgotPassword/AnEmailWith')}
+        </EduText>
+      )}
       <WhiteButton
         text={t('ForgotPassword/RESET PASSWORD')}
         onPress={formik.handleSubmit}
+        disabled={forgotPasswordMutation.isLoading || dailyLimitReached}
+        loading={forgotPasswordMutation.isLoading}
       />
     </LoginBack>
   );
@@ -56,12 +78,13 @@ const EnterEmail = ({ navigation, route }) => {
 
 EnterEmail.propTypes = {
   navigation: navigationPropType.isRequired,
-  route: PropTypes.shape({
-    params: {
+  route: routeParamPropType(
+    PropTypes.shape({
       email: PropTypes.string,
-    },
-  }).isRequired,
+    })
+  ).isRequired,
 };
+
 EnterEmail.defaultProps = {};
 
 export default EnterEmail;

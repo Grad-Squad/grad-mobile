@@ -14,6 +14,59 @@ import { BASIC_5V_HIT_SLOP_OBJECT } from 'constants';
 const imageWidth = 70;
 const imageOffset = -25;
 
+const defaultProfileImage = require('../../../assets/images/defaultUser.png');
+
+function TitleRegion({ title, author, createdAt, materials }) {
+  const postDate = useMemo(() => new Date(createdAt), [createdAt]);
+  const authorId = author.id;
+
+  const navigation = useNavigation();
+  const navigateToProfile = () =>
+    navigation.navigate(ScreenNames.PROFILE, { profileId: authorId });
+
+  return (
+    <View style={styles.outerContainer}>
+      <View>
+        <View style={styles.imageContainer}>
+          <TouchableOpacity onPress={navigateToProfile}>
+            <Image
+              style={styles.profileImage}
+              source={
+                author.profilePicture
+                  ? {
+                      uri: author.profilePicture.uri,
+                    }
+                  : defaultProfileImage
+              }
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.innerContainer}>
+          <TouchableOpacity
+            onPress={navigateToProfile}
+            hitSlop={BASIC_5V_HIT_SLOP_OBJECT}
+          >
+            <View style={styles.profileInfoContainer}>
+              <EduText style={styles.profileName}>{author.name}</EduText>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.postTitle}>
+            <EduText style={styles.titleText}>{title}</EduText>
+          </View>
+        </View>
+      </View>
+      <View style={styles.contentContainer}>
+        <View style={styles.material}>
+          <PostContentList materials={materials} notClickable />
+        </View>
+      </View>
+      <EduText style={styles.date}>{formatDate(postDate)}</EduText>
+    </View>
+  );
+}
+
+export default React.memo(TitleRegion);
+
 export const styles = StyleSheet.create({
   profileImage: {
     borderRadius: 70,
@@ -86,60 +139,6 @@ export const styles = StyleSheet.create({
   },
 });
 
-const defaultProfileImage = require('../../../assets/images/defaultUser.png')
-
-function TitleRegion({ title, author, createdAt, materials }) {
-  const postDate = useMemo(() => new Date(createdAt), [createdAt]);
-  const authorId = author.id;
-
-  const navigation = useNavigation();
-  const navigateToProfile = () =>
-    navigation.navigate(ScreenNames.PROFILE, {profileId: authorId});
-  return (
-    <View style={styles.outerContainer}>
-      <View>
-        <View style={styles.imageContainer}>
-          <TouchableOpacity onPress={navigateToProfile}>
-            <Image
-              style={styles.profileImage}
-
-              source = {
-                author.profilePicture ?
-                {
-                uri: author.profilePicture.uri
-                }
-                :
-                defaultProfileImage
-              }
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.innerContainer}>
-          <TouchableOpacity
-            onPress={navigateToProfile}
-            hitSlop={BASIC_5V_HIT_SLOP_OBJECT}
-          >
-            <View style={styles.profileInfoContainer}>
-              <EduText style={styles.profileName}>{author.name}</EduText>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.postTitle}>
-            <EduText style={styles.titleText}>{title}</EduText>
-          </View>
-        </View>
-      </View>
-      <View style={styles.contentContainer}>
-        <View style={styles.material}>
-          <PostContentList materials={materials} notClickable />
-        </View>
-      </View>
-      <EduText style={styles.date}>{formatDate(postDate)}</EduText>
-    </View>
-  );
-}
-
-export default React.memo(TitleRegion);
-
 TitleRegion.propTypes = {
   author: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -151,5 +150,4 @@ TitleRegion.propTypes = {
   title: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   materials: materialsPropType.isRequired,
-  profileId: PropTypes.number.isRequired,
 };

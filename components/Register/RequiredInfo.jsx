@@ -11,16 +11,19 @@ import React, { useContext } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 import { emailRequired, nameRequired, passwordRequired } from 'validation';
 import * as yup from 'yup';
+import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import RegisterContext from './RegisterContext';
 
 const RequiredInfo = ({ navigation }) => {
   const { t } = useLocalization();
   const { setProfileId } = useContext(RegisterContext);
+  const { showErrorSnackbar } = useErrorSnackbar();
   const registerMutation = useAPIRegister({
     onError: () => {},
     onSuccess: (data, variables) => {
       const code = data?.code;
       if (code === ApiConstants.duplicate_email) {
+        showErrorSnackbar(t('Snackbar/Email Already Registered'));
         navigation.navigate(ScreenNames.FORGOT_PASSWORD, {
           screen: ScreenNames.ForgotPassword.ENTER_EMAIL,
           params: {
@@ -53,7 +56,10 @@ const RequiredInfo = ({ navigation }) => {
 
   const onContinueClick = () => {
     if (formik.isValid && formik.dirty) {
-      registerMutation.mutate(formik.values);
+      registerMutation.mutate({
+        ...formik.values,
+        email: formik.values.email.toLowerCase(),
+      });
     } else {
       formik.setFieldTouched('email');
       formik.setFieldTouched('password');

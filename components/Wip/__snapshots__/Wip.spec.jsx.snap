@@ -77,6 +77,7 @@ exports[`should match snapshot 1`] = `
         },
         Array [
           Object {},
+          false,
           Object {
             "alignSelf": "center",
             "bottom": 10,
@@ -98,6 +99,7 @@ exports[`should match snapshot 1`] = `
             Object {
               "color": "#0A7DA4",
             },
+            false,
             Object {},
           ],
         ]

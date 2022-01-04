@@ -25,7 +25,9 @@ const SixDigitFailed = ({ navigation }) => {
 
       <WhiteButton
         text={t('ForgotPassword/OK')}
-        onPress={() => navigation.navigate(ScreenNames.ENTER_EMAIL)}
+        onPress={() =>
+          navigation.navigate(ScreenNames.ForgotPassword.ENTER_EMAIL)
+        }
       />
     </LoginBack>
   );

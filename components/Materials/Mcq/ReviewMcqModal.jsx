@@ -50,7 +50,12 @@ const ReviewMcqModal = ({
                 disabled: !isCorrectAllowed,
               }}
             />
-            <EduText style={styles.reviewOption}>
+            <EduText
+              style={[
+                !isCorrectAllowed && styles.disabledText,
+                styles.reviewOption,
+              ]}
+            >
               {t('McqReview/Correct')}
             </EduText>
           </Pressable>
@@ -63,11 +68,17 @@ const ReviewMcqModal = ({
             <Checkbox
               checked={isWrongChecked}
               setChecked={setIsWrongChecked}
+              disabled={!isWrongAllowed}
               pressableProps={{
                 disabled: !isWrongAllowed,
               }}
             />
-            <EduText style={styles.reviewOption}>
+            <EduText
+              style={[
+                !isWrongAllowed && styles.disabledText,
+                styles.reviewOption,
+              ]}
+            >
               {t('McqReview/Wrong')}
             </EduText>
           </Pressable>
@@ -80,11 +91,17 @@ const ReviewMcqModal = ({
             <Checkbox
               checked={isAnswersShownChecked}
               setChecked={setIsAnswersShownChecked}
+              disabled={!isShownAllowed}
               pressableProps={{
                 disabled: !isShownAllowed,
               }}
             />
-            <EduText style={styles.reviewOption}>
+            <EduText
+              style={[
+                !isShownAllowed && styles.disabledText,
+                styles.reviewOption,
+              ]}
+            >
               {t('McqReview/AnswersShown')}
             </EduText>
           </Pressable>
@@ -97,11 +114,17 @@ const ReviewMcqModal = ({
             <Checkbox
               checked={isSkippedChecked}
               setChecked={setIsSkippedChecked}
+              disabled={!isSkippedAllowed}
               pressableProps={{
                 disabled: !isSkippedAllowed,
               }}
             />
-            <EduText style={styles.reviewOption}>
+            <EduText
+              style={[
+                !isSkippedAllowed && styles.disabledText,
+                styles.reviewOption,
+              ]}
+            >
               {t('McqReview/Skipped')}
             </EduText>
           </Pressable>
@@ -145,6 +168,9 @@ ReviewMcqModal.defaultProps = {};
 export default ReviewMcqModal;
 
 const styles = StyleSheet.create({
+  disabledText: {
+    color: Colors.disabledButton,
+  },
   modalTitle: {
     // marginTop: Constants.commonMargin / 2,
     fontSize: 28,

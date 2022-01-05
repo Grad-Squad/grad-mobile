@@ -26,7 +26,8 @@ const DropdownList = ({
   useEffect(() => {
     if (Array.isArray(lateInitChoice)) {
       setChoices(lateInitChoice);
-    } else {
+      // setValueFunction(lateInitChoice);
+    } else if (lateInitChoice) {
       setChoices([lateInitChoice]);
     }
   }, [lateInitChoice]);
@@ -49,7 +50,7 @@ const DropdownList = ({
     } else {
       currentChoices = [key];
     }
-    setChoices(currentChoices);
+    setChoices(currentChoices.filter((ch) => !!ch));
     setValueFunction(currentChoices);
   };
 
@@ -135,7 +136,10 @@ DropdownList.propTypes = {
     })
   ).isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
   setValueFunction: PropTypes.func.isRequired,
   style: stylePropType,
   multiple: PropTypes.bool,

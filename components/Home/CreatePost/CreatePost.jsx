@@ -57,10 +57,14 @@ const CreatePost = ({ navigation, route }) => {
     },
     onSuccess: (data) => {
       // todo: tags
-      const { title, subject, materials } = data;
+      const { title, subject, materials, tags } = data;
       formik.setFieldValue('title', title);
-      formik.setFieldValue('subject', subject);
-      setLateInitTags(data.tags.map((tag) => tag.content));
+      formik.setFieldValue('subject', subject.content);
+      formik.setFieldValue(
+        'tags',
+        tags.map((tag) => tag.content)
+      );
+      setLateInitTags(tags.map((tag) => tag.content));
 
       dispatch(setCreateMaterialItem(materials));
     },

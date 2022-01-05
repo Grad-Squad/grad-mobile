@@ -10,6 +10,7 @@ const TransparentButton = ({ style, textStyle, disabled, ...props }) => (
     style={[styles.transparentButton, disabled && styles.disabled, style]}
     textStyle={[styles.text, disabled && styles.disabledText, textStyle]}
     disabled={disabled}
+    // eslint-disable-next-line react/jsx-props-no-spreading
     {...props}
   />
 );

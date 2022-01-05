@@ -8,6 +8,7 @@ import { materialsPropType } from 'proptypes';
 import { MaterialTypes } from 'constants';
 import { useDispatch } from 'react-redux';
 import { setOpenMaterialData } from 'globalStore/materialNavSlice';
+import { Divider } from 'react-native-paper';
 import PostContentMaterial from './PostContentMaterial';
 
 const backendMaterialTypeToFrontendMap = {
@@ -89,6 +90,7 @@ function PostContentList({ notClickable, materials }) {
             />
           );
         }}
+        ItemSeparatorComponent={Divider}
       />
     </View>
   );
@@ -98,7 +100,8 @@ export default PostContentList;
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 5,
+    paddingBottom: 5,
+    paddingTop: 10,
   },
 });
 

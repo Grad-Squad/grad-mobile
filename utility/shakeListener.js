@@ -3,9 +3,10 @@ import { Accelerometer } from 'expo-sensors';
 // Higher => More Shake needed
 // Lower => More Sensitive, Less Shake needed
 // speed (which is compared to the threshold is affected by accelerometerInterval)
-const threshold = 110;
+const threshold = 100;
 
 const accelerometerInterval = 300;
+const accelerometerIntervalWithMarginOfError = accelerometerInterval - 20;
 
 /**
  * Adds a listener for shake events
@@ -40,7 +41,10 @@ const addShakeListener = (handler) => {
     const speed =
       (Math.abs(x + y + z - lastX - lastY - lastZ) / diffTime) * 10000;
 
-    if (speed > threshold) {
+    if (
+      speed > threshold &&
+      diffTime > accelerometerIntervalWithMarginOfError
+    ) {
       handler();
     }
 

@@ -1,5 +1,8 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
 import Dev from 'components/Dev/Dev';
 import HomeNavigation from 'components/Home/HomeNavigation';
 import CreatePost from 'components/Home/CreatePost';
@@ -24,6 +27,7 @@ import Profile from 'components/Profile/Profile';
 import Followers from 'components/Profile/Followers';
 import ViewPdf from 'components/Materials/ViewPdf';
 import ViewVideo from 'components/Materials/ViewVideo';
+import Feedback from 'components/Feedback/Feedback';
 import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 
@@ -115,6 +119,7 @@ const screens = [
 const RootNavigator = () => {
   const [isReady, setIsReady] = React.useState(false);
   const [initialState, setInitialState] = React.useState();
+  const navigationRef = useNavigationContainerRef();
 
   React.useEffect(() => {
     const restoreState = async () => {
@@ -148,14 +153,21 @@ const RootNavigator = () => {
     return <LoadingIndicator fullScreen size="large" />;
   }
   return (
-    <NavigationContainer
-      initialState={initialState}
-      onStateChange={(state) =>
-        AsyncStorage.setItem(localStorageKeys.nav_state, JSON.stringify(state))
-      }
-    >
-      <Navigator screens={screens} />
-    </NavigationContainer>
+    <>
+      <Feedback navigationRef={navigationRef} />
+      <NavigationContainer
+        ref={navigationRef}
+        initialState={initialState}
+        onStateChange={(state) =>
+          AsyncStorage.setItem(
+            localStorageKeys.nav_state,
+            JSON.stringify(state)
+          )
+        }
+      >
+        <Navigator screens={screens} />
+      </NavigationContainer>
+    </>
   );
 };
 export default RootNavigator;

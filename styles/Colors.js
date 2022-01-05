@@ -25,7 +25,8 @@ const Colors = {
   materialLightWrong: '#f6d5d5',
   disabledButton: '#999999',
   materialBackground: 'rgba(0,0,0,0.02)',
-  removalWarning: '#D0342C'
+  removalWarning: '#D0342C',
+  modalBackdrop: 'rgba(0,0,0,0.5)',
 };
 
 export default Colors;

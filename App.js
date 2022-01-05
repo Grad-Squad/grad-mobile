@@ -35,7 +35,7 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export default function App() {
+function App() {
   const ready = initStyles();
 
   if (!ready) {

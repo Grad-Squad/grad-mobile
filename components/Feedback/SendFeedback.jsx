@@ -13,6 +13,7 @@ import { MainActionButton, TransparentButton } from 'common/Input/Button';
 import { DropdownList, TransparentTextInputFormik } from 'common/Input';
 import Checkbox from 'common/Input/Checkbox';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
+import { useAPISendFeedback } from 'api/endpoints/feedback';
 
 const deviceInfoKeys = [
   'brand',
@@ -45,10 +46,11 @@ const SendFeedback = ({
 
   const globalState = useSelector((state) => state);
 
-  const feedbackMutation = {
-    isLoading: false,
-    mutate: (stuff) => console.log(stuff),
-  };
+  const feedbackMutation = useAPISendFeedback({
+    onSuccess: () => {
+      switchToThankyou();
+    },
+  });
 
   const feedbackTypes = useMemo(
     () => [
@@ -75,13 +77,12 @@ const SendFeedback = ({
       });
 
       feedbackMutation.mutate({
-        navState: JSON.stringify(navigationRef.getRootState()),
+        navStack: JSON.stringify(navigationRef.getRootState()),
         globalState: JSON.stringify(globalState),
         deviceInfo: JSON.stringify(deviceInfo),
         content,
         feedbackType,
       });
-      switchToThankyou();
     },
     validationSchema: yup.object().shape({
       content: yup
@@ -177,6 +178,7 @@ const SendFeedback = ({
               onPress={formik.handleSubmit}
               style={styles.sendButton}
               disabled={!formik.isValid}
+              loading={feedbackMutation.isLoading}
             />
           </View>
         </View>

@@ -43,4 +43,7 @@ export default Object.freeze({
   subjects: {
     subjects: '/subjects',
   },
+  feedback: {
+    feedback: '/feedback',
+  },
 });

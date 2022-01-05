@@ -22,7 +22,6 @@ const ThankYou = ({ modalVisible, setModalVisible }) => {
       <View style={styles.centeredView}>
         <View style={styles.backgroundView}>
           <ResponsiveImage
-            style={styles.thankYouGif}
             imageURI="https://c.tenor.com/_UaFpyE0SPYAAAAd/praying-cat.gif"
             canMaximize={false}
             maxWidthRatio={0.82}

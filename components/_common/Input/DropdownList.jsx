@@ -24,7 +24,9 @@ const DropdownList = ({
   const [open, setOpen] = useState(false);
   const [choices, setChoices] = useState(value ? [value] : []);
   useEffect(() => {
-    if (lateInitChoice) {
+    if (Array.isArray(lateInitChoice)) {
+      setChoices(lateInitChoice);
+    } else {
       setChoices([lateInitChoice]);
     }
   }, [lateInitChoice]);

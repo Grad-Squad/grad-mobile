@@ -87,7 +87,9 @@ const ExpandedPostContent = ({ navigation, postId }) => {
               <EduText style={styles.extraInfoText}>
                 {`${upvotePercentage}% ${t('ExpandedPost/upvoted')}`}
               </EduText>
-              <EduText style={styles.extraInfoText}>{post.subject}</EduText>
+              <EduText style={styles.extraInfoText}>
+                {post.subject.content}
+              </EduText>
             </View>
           </>
         )}

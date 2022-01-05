@@ -43,6 +43,7 @@ const CreatePost = ({ navigation, route }) => {
   const { postId = undefined } = route?.params || {};
 
   const [isProgressModalVisible, setIsProgressModalVisible] = useState(false);
+  const [lateInitTags, setLateInitTags] = useState(null);
 
   const {
     data: fetchedPostData,
@@ -59,6 +60,7 @@ const CreatePost = ({ navigation, route }) => {
       const { title, subject, materials } = data;
       formik.setFieldValue('title', title);
       formik.setFieldValue('subject', subject);
+      setLateInitTags(data.tags.map((tag) => tag.content));
 
       dispatch(setCreateMaterialItem(materials));
     },
@@ -160,8 +162,10 @@ const CreatePost = ({ navigation, route }) => {
       )}
 
       <CreatePostForm
-        lateInitSubject={isPostFetchedForEdit ? fetchedPostData.subject : null}
-        lateInitTags={isPostFetchedForEdit ? fetchedPostData.tags : null}
+        lateInitSubject={
+          isPostFetchedForEdit ? fetchedPostData.subject.content : null
+        }
+        lateInitTags={lateInitTags}
         formik={formik}
         t={t}
       />

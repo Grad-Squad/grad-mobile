@@ -167,7 +167,8 @@
     "Images": {
       "Add Images": "إضافة صور",
       "Images Title": "عنوان الصور",
-      "Press and hold to reorder, Swipe right to delete": "اضغط مع الاستمرار لإعادة الترتيب ، واسحب لليمين للحذف"
+      "Remove images": "إزالة الصور",
+      "Press and hold to reorder": "اضغط ضغطه طويلة لإعادة الترتيب"
     },
     "PDF": {
       "Add PDF": "أضف ملف PDF",

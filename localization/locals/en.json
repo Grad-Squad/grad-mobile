@@ -167,7 +167,8 @@
     "Images": {
       "Add Images": "Add Images",
       "Images Title": "Images Title",
-      "Press and hold to reorder, Swipe right to delete": "Press and hold to reorder, Swipe right to delete"
+      "Remove images": "Remove images",
+      "Press and hold to reorder": "Press and hold to reorder"
     },
     "PDF": {
       "Add PDF": "Add PDF",

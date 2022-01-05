@@ -8,7 +8,7 @@ import { useLocalization } from 'localization';
 import { useNavigation } from '@react-navigation/core';
 import { TransparentTextInputFormik } from 'common/Input';
 import { PressableIcon } from 'common/Icon';
-import { IconNames } from 'common/Icon/Icon';
+import Icon, { IconNames } from 'common/Icon/Icon';
 import EduText from 'common/EduText';
 import * as yup from 'yup';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
@@ -16,7 +16,7 @@ import { materialTitle } from 'validation';
 import { useFormik } from 'formik';
 import { MaterialTypes } from 'constants';
 import { routeParamPropType } from 'proptypes';
-import { Styles } from 'styles';
+import { Colors, Styles } from 'styles';
 import ImageSelector from 'common/ImageSelector';
 import DraggableFlatList, {
   OpacityDecorator,
@@ -32,6 +32,9 @@ import {
   replaceCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import { deepCompare } from 'utility';
+import { SecondaryActionButton } from 'common/Input/Button';
+import materialTypes from 'constants/materialTypes';
+import fileUploadTypes from 'constants/fileUploadTypes';
 
 const renderItem = ({ item, drag }) => {
   const { isActive } = useOnCellActiveAnimation();
@@ -157,10 +160,20 @@ const AddImages = ({ route }) => {
             )}
 
             {!!formik.values.images.length && (
+              <View>
+                <SecondaryActionButton
+                  style={styles.removeImagesBtn}
+                  textStyle={styles.removeImagesBtnText}
+                  text={t('AddMaterial/Images/Remove images')}
+                  onPress={() => {}}
+                  leftIcon={<Icon name={IconNames.delete} />}
+                />
+              </View>
+            )}
+
+            {!!formik.values.images.length && (
               <EduText style={styles.instructions}>
-                {t(
-                  'AddMaterial/Images/Press and hold to reorder, Swipe right to delete'
-                )}
+                {t('AddMaterial/Images/Press and hold to reorder')}
               </EduText>
             )}
           </>
@@ -198,5 +211,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 5,
+  },
+  removeImagesBtn: {
+    alignSelf: 'center',
+    marginBottom: 5,
+  },
+  removeImagesBtnText: {
+    color: Colors.offBlack,
   },
 });

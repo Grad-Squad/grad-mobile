@@ -92,8 +92,8 @@
     "uuid": "^8.3.2",
     "yup": "^0.32.11",
     "react-native-reanimated": "~2.2.0",
-    "@react-native-community/netinfo": "6.0.0"
-    "sentry-expo": "^4.0.0",
+    "@react-native-community/netinfo": "6.0.0",
+    "sentry-expo": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

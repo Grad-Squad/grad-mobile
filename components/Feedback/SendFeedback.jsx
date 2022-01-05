@@ -168,9 +168,7 @@ const SendFeedback = ({
           <View style={styles.actionsRow}>
             <TransparentButton
               text={t('Feedback/SendFeedback/cancel')}
-              onPress={() => {
-                hideModal();
-              }}
+              onPress={hideModal}
               style={styles.cancelButton}
             />
             <MainActionButton

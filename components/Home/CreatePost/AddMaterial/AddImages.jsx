@@ -14,7 +14,6 @@ import * as yup from 'yup';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import { materialTitle } from 'validation';
 import { useFormik } from 'formik';
-import { MaterialTypes } from 'constants';
 import { routeParamPropType } from 'proptypes';
 import { Colors, Styles } from 'styles';
 import ImageSelector from 'common/ImageSelector';
@@ -29,14 +28,17 @@ import ResponsiveImage from 'common/ResponsiveImage';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addCreateMaterialItem,
+  addToDeletedUris,
   replaceCreateMaterialItem,
 } from 'globalStore/createPostSlice';
 import { deepCompare } from 'utility';
 import { SecondaryActionButton } from 'common/Input/Button';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 import materialTypes from 'constants/materialTypes';
 import fileUploadTypes from 'constants/fileUploadTypes';
 
-const renderItem = ({ item, drag }) => {
+const renderItem = ({ item: { file: item }, drag }) => {
   const { isActive } = useOnCellActiveAnimation();
 
   return (
@@ -54,7 +56,7 @@ const renderItem = ({ item, drag }) => {
           >
             <Animated.View>
               <ResponsiveImage
-                imageURI={item.uri}
+                imageURI={item.fileUri}
                 maxWidthRatio={1}
                 canMaximize={false}
               />
@@ -80,19 +82,37 @@ const AddImages = ({ route }) => {
   const formik = useFormik({
     initialValues: {
       title: editImages?.title ?? '',
-      images: editImages?.images ? [...editImages.images] : [],
+      images: editImages?.files ? [...editImages.files] : [],
     },
-    onSubmit: (images) => {
-      images.amount = images.images.length;
+    enablereinitialize: true,
+    onSubmit: (values) => {
+      const material = {
+        amount: values.images.length,
+        title: values.title,
+        files: values.images,
+        type: materialTypes.Images,
+      };
       if (editIndex === undefined) {
-        dispatch(
-          addCreateMaterialItem({ ...images, type: MaterialTypes.Images })
-        );
+        dispatch(addCreateMaterialItem(material));
       } else {
+        editImages.files.forEach((oldImage) => {
+          if (
+            !values.images
+              .map((newImage) => newImage.file.fileUri)
+              .includes(oldImage?.fileUri)
+          ) {
+            dispatch(addToDeletedUris(oldImage?.fileUri?.split('/').pop()));
+          }
+        });
+
+        // todo added an image
+        // for (const image of values.images) {
+        // dispatch(addToDeletedUris(editImages?.fileUri?.split('/').pop()));
+        // }
         dispatch(
           replaceCreateMaterialItem({
             index: editIndex,
-            material: { ...images, type: MaterialTypes.Images },
+            material,
           })
         );
       }
@@ -109,12 +129,62 @@ const AddImages = ({ route }) => {
   };
 
   const didImagesChange = deepCompare(
-    editImages?.images ? editImages.images : [],
-    formik.values.images
+    editImages?.files ? editImages.files : [],
+    formik.values.files
   );
   useOnGoBackDiscardWarning(
     (!formik.dirty && didImagesChange) || formik.isSubmitting,
     [formik.dirty, formik.isSubmitting, didImagesChange]
+  );
+
+  const draggableListHeader = (
+    <>
+      <View style={styles.addImageButtons}>
+        <ImageSelector
+          size={70}
+          setImage={(image) => {
+            formik.values.images.push({
+              file: { ...image, fileUri: image.uri },
+              clientId: uuidv4(),
+              fileType: fileUploadTypes.IMAGE,
+            });
+            formik.setFieldValue('images', formik.values.images);
+            // formik.setFieldTouched('images');
+          }}
+        />
+        <PressableIcon
+          name={IconNames.cameraPlus}
+          size={70}
+          onPress={() => {}} // todo
+          pressableProps={{
+            style: {
+              marginLeft: 15,
+            },
+          }}
+        />
+      </View>
+      {formik.touched.images && formik.errors.images && (
+        <EduText style={Styles.errorText}>{formik.errors.images}</EduText>
+      )}
+
+      {!!formik.values.images.length && (
+        <View>
+          <SecondaryActionButton
+            style={styles.removeImagesBtn}
+            textStyle={styles.removeImagesBtnText}
+            text={t('AddMaterial/Images/Remove images')}
+            onPress={() => {}}
+            leftIcon={<Icon name={IconNames.delete} />}
+          />
+        </View>
+      )}
+
+      {!!formik.values.images.length && (
+        <EduText style={styles.instructions}>
+          {t('AddMaterial/Images/Press and hold to reorder')}
+        </EduText>
+      )}
+    </>
   );
 
   return (
@@ -134,55 +204,12 @@ const AddImages = ({ route }) => {
       />
 
       <DraggableFlatList
-        ListHeaderComponent={
-          <>
-            <View style={styles.addImageButtons}>
-              <ImageSelector
-                size={70}
-                setImage={(image) => {
-                  formik.values.images.push(image);
-                  formik.setFieldValue('images', formik.values.images);
-                }}
-              />
-              <PressableIcon
-                name={IconNames.cameraPlus}
-                size={70}
-                onPress={() => {}} // todo
-                pressableProps={{
-                  style: {
-                    marginLeft: 15,
-                  },
-                }}
-              />
-            </View>
-            {formik.touched.images && formik.errors.images && (
-              <EduText style={Styles.errorText}>{formik.errors.images}</EduText>
-            )}
-
-            {!!formik.values.images.length && (
-              <View>
-                <SecondaryActionButton
-                  style={styles.removeImagesBtn}
-                  textStyle={styles.removeImagesBtnText}
-                  text={t('AddMaterial/Images/Remove images')}
-                  onPress={() => {}}
-                  leftIcon={<Icon name={IconNames.delete} />}
-                />
-              </View>
-            )}
-
-            {!!formik.values.images.length && (
-              <EduText style={styles.instructions}>
-                {t('AddMaterial/Images/Press and hold to reorder')}
-              </EduText>
-            )}
-          </>
-        }
+        ListHeaderComponent={draggableListHeader}
         data={formik.values.images}
         onDragEnd={({ data: newData }) =>
           formik.setFieldValue('images', newData)
         }
-        keyExtractor={(item) => item.uri}
+        keyExtractor={(item) => item.file.fileUri}
         renderItem={renderItem}
         renderPlaceholder={() => <View style={{ flex: 1 }} />}
         style={{ height: '85%' }}

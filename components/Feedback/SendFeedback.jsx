@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
@@ -14,6 +14,9 @@ import { DropdownList, TransparentTextInputFormik } from 'common/Input';
 import Checkbox from 'common/Input/Checkbox';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import { useAPISendFeedback } from 'api/endpoints/feedback';
+import { captureScreen } from 'react-native-view-shot';
+import { useGetUploadLinkAndUploadImage } from 'api/endpoints/s3';
+import ResponsiveImage from 'common/ResponsiveImage';
 
 const deviceInfoKeys = [
   'brand',
@@ -46,11 +49,26 @@ const SendFeedback = ({
 
   const globalState = useSelector((state) => state);
 
+  const uploadScreenshotMutation = useGetUploadLinkAndUploadImage();
   const feedbackMutation = useAPISendFeedback({
     onSuccess: () => {
       switchToThankyou();
     },
   });
+
+  const [screenshot, setScreenshot] = useState(undefined);
+
+  useEffect(() => {
+    (async () => {
+      setScreenshot(
+        await captureScreen({
+          result: 'tmpfile',
+          quality: 1,
+          format: 'png',
+        })
+      );
+    })();
+  }, [modalVisible]);
 
   const feedbackTypes = useMemo(
     () => [
@@ -76,13 +94,34 @@ const SendFeedback = ({
         deviceInfo[key] = Device[key];
       });
 
-      feedbackMutation.mutate({
-        navStack: JSON.stringify(navigationRef.getRootState()),
-        globalState: JSON.stringify(globalState),
-        deviceInfo: JSON.stringify(deviceInfo),
-        content,
-        feedbackType,
-      });
+      const sendFeedback = (s3Key) => {
+        feedbackMutation.mutate({
+          navStack: JSON.stringify(navigationRef.getRootState()),
+          globalState: JSON.stringify(globalState),
+          deviceInfo: JSON.stringify(deviceInfo),
+          content,
+          feedbackType,
+          ...(s3Key && {
+            screenshot: {
+              key: s3Key,
+              type: 'image',
+            },
+          }),
+        });
+      };
+
+      if (includeScreenshot) {
+        uploadScreenshotMutation.mutate(
+          { uri: screenshot, fileName: 'screenshot' },
+          {
+            onSuccess: (key) => {
+              sendFeedback(key);
+            },
+          }
+        );
+      } else {
+        sendFeedback();
+      }
     },
     validationSchema: yup.object().shape({
       content: yup
@@ -97,6 +136,8 @@ const SendFeedback = ({
     formik.resetForm();
     setModalVisible(false);
   };
+
+  const disabled = formik.isSubmitting;
 
   return (
     <Modal
@@ -148,22 +189,28 @@ const SendFeedback = ({
               )
             }
             android_ripple={pressableAndroidRipple}
-            disabled={feedbackMutation.isLoading}
+            disabled={disabled}
           >
             <Checkbox
               checked={formik.values.includeScreenshot}
               setChecked={(newValue) => {
                 formik.setFieldValue('includeScreenshot', newValue);
               }}
-              disabled={feedbackMutation.isLoading}
+              disabled={disabled}
               pressableProps={{
-                disabled: feedbackMutation.isLoading,
+                disabled,
               }}
             />
             <EduText style={styles.includeScreenshotText}>
               {t('Feedback/SendFeedback/Include a screenshot')}
             </EduText>
           </Pressable>
+          <ResponsiveImage
+            style={styles.screenshotPreview}
+            imageURI={screenshot}
+            maxWidthRatio={0.15}
+            canMaximize={false}
+          />
 
           <View style={styles.actionsRow}>
             <TransparentButton
@@ -176,7 +223,7 @@ const SendFeedback = ({
               onPress={formik.handleSubmit}
               style={styles.sendButton}
               disabled={!formik.isValid}
-              loading={feedbackMutation.isLoading}
+              loading={disabled}
             />
           </View>
         </View>
@@ -237,6 +284,9 @@ const styles = StyleSheet.create({
   },
   includeScreenshotText: {
     marginLeft: 5,
+  },
+  screenshotPreview: {
+    marginLeft: 30,
   },
   actionsRow: {
     flexDirection: 'row',

@@ -91,7 +91,8 @@
     "react-native-reanimated": "~2.2.0",
     "@react-native-community/netinfo": "6.0.0",
     "expo-sensors": "~10.2.2",
-    "expo-device": "~3.3.0"
+    "expo-device": "~3.3.0",
+    "react-native-view-shot": "3.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

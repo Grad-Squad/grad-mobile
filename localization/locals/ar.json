@@ -1,5 +1,8 @@
 {
   "hello": "هلا والله",
+  "General": {
+    "No Internet Connection": "لا يوجد اتصال بالإنترنت"
+  },
   "Login": {
     "Email": "البريد الإلكتروني",
     "Password": "كلمة السر",
@@ -55,6 +58,7 @@
   "InputValidationError": {
     "invalid email": "(البريد الإلكتروني غير صالح)",
     "field required": "(مطلوب)",
+    "field required. add text or an image": "(مطلوب). أضف نصًا أو صورة",
     "invalid password": "• 8 أحرف على الأقل\n• حرف كبير واحد على الأقل\n• حرف صغير واحد على الأقل\n• رقم واحد على الأقل"
   },
   "Time": {
@@ -95,6 +99,11 @@
       "PDF": "أضف ملف PDF",
       "Images": "أضف صور",
       "Video": "أضف فيديو"
+    },
+    "Modal": {
+      "Error": "حدث خطأ أثناء التحميل",
+      "Try again": "حاول مرة أخري",
+      "Cancel": "إلغاء"
     }
   },
   "DropDown": {
@@ -127,6 +136,18 @@
     "Finish": "اتمام",
     "Preview": "استعراض",
     "Please add a file": "الرجاء إضافة ملف",
+    "Flashcards": {
+      "Create flashcards": "إنشاء بطاقات تعليمية",
+      "Exercise Title": "عنوان التمرين",
+      "Flashcard": "بطاقة تعليمية",
+      "Front": "الواجهة",
+      "Back": "الجانب الخلفي",
+      "Card": "بطاقة",
+      "errors": {
+        "(maximum number of flashcards reached)": "(تم بلوغ الحد الأقصى لعدد البطاقات التعليمية)",
+        "add at least one flashcard": "أضف بطاقة تعليمية واحدة على الأقل"
+      }
+    },
     "MCQ": {
       "Create MCQ": "إنشاء سؤال اختر",
       "Exercise Title": "عنوان التمرين",
@@ -160,10 +181,16 @@
     },
     "Add": "أضف",
     "Add Question": "أضف السؤال",
+    "Add Flashcard": "أضف بطاقة",
+    "Cards": {
+      "one": "1 Flashcard",
+      "other": "{{number}} Flashcards",
+      "zero": "0 Flashcards"
+    },
     "Questions": {
-      "one": "سؤال واحد",
-      "other": "{{number}} أسئلة",
-      "zero": "0 أسئلة"
+      "one": "بطاقة تعليمية واحده",
+      "other": "{{number}} بطاقات",
+      "zero": "0 بطاقات"
     },
     "image name: ": "اسم الصورة: "
   },
@@ -277,6 +304,12 @@
       "confirm button": "اتمام",
       "reject button": "البقاء"
     },
+    "Discard Flashcard?": {
+      "title": "تجاهل البطاقة؟",
+      "message": "أنت تكتب بطاقة تعليميه حاليا. هل أنت متأكد أنك تريد الانتهاء؟",
+      "confirm button": "اتمام",
+      "reject button": "البقاء"
+    },
     "Confirm Post Deletion?": {
       "title": "حذف المنشور؟",
       "message": "هل أنت متأكد أنك تريد حذف المنشور؟\nلا بمكنك التراجع عن هذا الإجراء",
@@ -290,15 +323,20 @@
       "reject button": "إلغاء"
     },
     "Confirm Profile Picture remove?": {
+<<<<<<< HEAD
       "title": "حذف صورتك الشخصية؟",
       "message": "هل أنت متأكد أنك تريد حذف صورتك الشخصية؟\nلا بمكنك التراجع عن هذا الإجراء",
+=======
+      "title": "هل تريد حذف صورة الملف الشخصي؟",
+      "message": "هل أنت متأكد أنك تريد حذف صورة ملفك الشخصي؟ \n لا يمكنك التراجع عن هذا الإجراء",
+>>>>>>> origin/master
       "confirm button": "حذف",
       "reject button": "إلغاء"
     }
   },
-  "ProfilePicture":{
+  "ProfilePicture": {
     "Confirm": "اتمام",
-    "Cancel":"إلغاء"
+    "Cancel": "إلغاء"
   },
   "WIP": {
     "WIP": "الأعمال جارية",

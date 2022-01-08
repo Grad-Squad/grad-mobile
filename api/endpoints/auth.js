@@ -54,7 +54,7 @@ export const useAPIGoogleLogin = (mutationConfig) => {
   const { axios } = useAxios();
 
   return useMutation(
-    async ({ idToken }) => {
+    async (idToken) => {
       const {
         data: { data },
       } = await axios.get(`${endpoints.auth.googleLogin}/${idToken}`);

@@ -79,7 +79,10 @@ function PostContentList({ notClickable, materials }) {
               notClickable={notClickable}
               onPress={() => {
                 dispatch(
-                  setOpenMaterialData({title: item.title, data: getMaterialData(item, materialType)})
+                  setOpenMaterialData({
+                    title: item.title,
+                    data: getMaterialData(item, materialType),
+                  })
                 );
                 return navigation.navigate(MaterialTypeRouteMap[materialType]);
               }}

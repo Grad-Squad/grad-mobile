@@ -4,4 +4,5 @@ export default Object.freeze({
   PDF: 'PDF',
   Images: 'Images',
   Video: 'Video',
+  URI: 'uri',
 });

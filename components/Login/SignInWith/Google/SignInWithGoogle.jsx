@@ -62,6 +62,7 @@ const SignInWithGoogle = ({ disabled, style }) => {
       style={style}
       smallButton
       disabled={!request || disabled}
+      loading={googleLoginMutation.isLoading}
     />
   );
 };

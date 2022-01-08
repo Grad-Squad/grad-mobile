@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { PressableIcon } from 'common/Icon';
 import EduText from 'common/EduText';
-import { Styles } from 'styles';
+import { Colors, Styles } from 'styles';
 import { iconNamesPropType } from 'common/Icon/Icon';
 
 const AddDocument = ({ onAddPress, error, iconName }) => (
@@ -12,6 +12,7 @@ const AddDocument = ({ onAddPress, error, iconName }) => (
       name={iconName}
       size={90}
       onPress={onAddPress}
+      color={Colors.accent}
     />
     {error && (
       <EduText style={[Styles.errorText, styles.error]}> {error}</EduText>

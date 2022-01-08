@@ -13,6 +13,7 @@ import { API_URL } from '@env';
 import Axios from 'axios';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import { useLocalization } from 'localization/LocalizationProvider';
+import { useNetInfo } from '@react-native-community/netinfo';
 import unauthorizedRedirectBlacklist from './unauthorizedRedirectBlacklist';
 import endpoints from './endpoints/endpoints';
 
@@ -60,6 +61,7 @@ const AxiosProvider = ({ children }) => {
   const [unauthorizedRedirect, setUnauthorizedRedirect] = useState(undefined);
 
   const { showErrorSnackbar } = useErrorSnackbar();
+  const netInfo = useNetInfo();
   const axios = useMemo(() => {
     console.log(
       '🚀 ~ file: AxiosProvider.js ~ line 65 ~ axios ~ API_URL',
@@ -102,7 +104,7 @@ const AxiosProvider = ({ children }) => {
               unauthorizedRedirect();
             }
           }
-        } else if (error.request) {
+        } else if (error.request && netInfo.isConnected) {
           showErrorSnackbar(t('Snackbar/Could not connect to the server'));
         }
         return Promise.reject(error);

@@ -1,5 +1,8 @@
 {
   "hello": "Open up App.js to start working on your app! Nice👨‍🎓👩‍🎓",
+  "General": {
+    "No Internet Connection": "No Internet Connection"
+  },
   "Login": {
     "Email": "Email",
     "Password": "Password",
@@ -55,6 +58,7 @@
   "InputValidationError": {
     "invalid email": "(invalid email)",
     "field required": "(field required)",
+    "field required. add text or an image": "(field required). add text or an image",
     "invalid password": "• at least 8 characters long\n• one uppercase letter\n• one lowercase letter\n• one number"
   },
   "Time": {
@@ -95,6 +99,11 @@
       "PDF": "Add PDF",
       "Images": "Add Images",
       "Video": "Add Video"
+    },
+    "Modal": {
+      "Error": "An Error has occured while uploading",
+      "Try again": "Try again",
+      "Cancel": "Cancel"
     }
   },
   "DropDown": {
@@ -127,6 +136,18 @@
     "Finish": "Finish",
     "Preview": "Preview",
     "Please add a file": "Please add a file",
+    "Flashcards": {
+      "Create flashcards": "Create flashcards",
+      "Exercise Title": "Exercise Title",
+      "Flashcard": "Flashcard",
+      "Front": "Front",
+      "Back": "Back",
+      "Card": "Card",
+      "errors": {
+        "(maximum number of flashcards reached)": "(maximum number of flashcards reached)",
+        "add at least one flashcard": "add at least one flashcard"
+      }
+    },
     "MCQ": {
       "Create MCQ": "Create MCQ",
       "Exercise Title": "Exercise Title",
@@ -160,6 +181,12 @@
     },
     "Add": "Add",
     "Add Question": "Add Question",
+    "Add Flashcard": "Add Flashcard",
+    "Cards": {
+      "one": "1 Flashcard",
+      "other": "{{number}} Flashcards",
+      "zero": "0 Flashcards"
+    },
     "Questions": {
       "one": "1 Question",
       "other": "{{number}} Questions",
@@ -277,6 +304,12 @@
       "confirm button": "finish",
       "reject button": "stay"
     },
+    "Discard Flashcard?": {
+      "title": "Discard Flashcard?",
+      "message": "You are currently writing a flashcard. Are you sure you want to finish?",
+      "confirm button": "finish",
+      "reject button": "stay"
+    },
     "Confirm Post Deletion?": {
       "title": "Delete Post?",
       "message": "Are you sure you want delete your post?\nyou can't undo this action",
@@ -296,7 +329,7 @@
       "reject button": "Cancel"
     }
   },
-  "ProfilePicture":{
+  "ProfilePicture": {
     "Confirm": "Confirm",
     "Cancel": "Cancel"
   },

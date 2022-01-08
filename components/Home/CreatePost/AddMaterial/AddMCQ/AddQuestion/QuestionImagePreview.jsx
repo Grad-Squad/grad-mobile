@@ -68,6 +68,8 @@ const styles = StyleSheet.create({
 
     marginTop: 4,
 
+    flex: 1,
+    flexWrap: 'wrap',
     alignSelf: 'flex-start',
   },
   textInputGap: {

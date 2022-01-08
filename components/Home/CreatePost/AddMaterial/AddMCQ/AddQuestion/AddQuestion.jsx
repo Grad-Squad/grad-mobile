@@ -15,11 +15,10 @@ import ImageSelector from 'common/ImageSelector';
 import fileUploadTypes from 'constants/fileUploadTypes';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
-import { useDeleteUri } from 'api/endpoints/s3';
+import { addToDeletedUris } from 'globalStore/createPostSlice';
+import { useDispatch } from 'react-redux';
 import ChoicesList from './ChoicesList';
 import QuestionImagePreview from './QuestionImagePreview';
-import { useDispatch } from 'react-redux';
-import { addToDeletedUris } from 'globalStore/createPostSlice';
 
 const MaxNumberOfChoices = 26;
 const MaxNumberOfQuestions = 1000;
@@ -47,7 +46,11 @@ const AddQuestion = ({
     },
     onSubmit: (values) => {
       const isImageEmpty = Object.keys(image).length === 0;
-      addQuestion({ ...values, questionImage: isImageEmpty ? null : image });
+      addQuestion({
+        ...values,
+        questionImage: isImageEmpty ? null : image,
+        prevUri: currentlyEditingQuestion?.prevUri,
+      });
       if (currentlyEditingQuestion) {
         if (isImageEmpty || image.clientId !== null) {
           if (prevImage?.file?.uri) {
@@ -66,7 +69,7 @@ const AddQuestion = ({
       question: yup
         .string()
         .trim()
-        .max(400, t('TextInput/max char error', { max: 400 }))
+        .max(400, maxCharError(t, 400))
         .test(
           'not already in questions',
           t('AddMaterial/MCQ/errors/(question already exists)'),

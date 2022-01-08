@@ -22,6 +22,7 @@ import {
 } from 'globalStore/createPostSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import SelectedItemsHeader from 'common/SelectedItemsHeader';
+import { useNetInfo } from '@react-native-community/netinfo';
 import AddMaterialList from './AddMaterialList';
 import MaterialList from './MaterialList';
 import useUploadPost from './useUploadPost';
@@ -30,6 +31,7 @@ import CreatePostForm from './CreatePostForm';
 const CreatePost = ({ navigation, route }) => {
   const { t } = useLocalization();
 
+  const netInfo = useNetInfo();
   const dispatch = useDispatch();
   const materialList = useSelector((state) => state.createPost.materialList);
   const [selectedMaterials, setSelectedMaterials] = useState([]);
@@ -86,8 +88,9 @@ const CreatePost = ({ navigation, route }) => {
     }),
   });
 
-  const { numImageLinks, imagesProgress, isUploadError, isUploadingPost } =
+  const { totalFilesToUpload, imagesProgress, isUploadError, resetErrors } =
     useUploadPost(formik, postId, refetchPost, navigation, fetchedPostData);
+
   useEffect(() => {
     formik.setFieldValue('materialList', materialList);
   }, [materialList]);
@@ -101,27 +104,35 @@ const CreatePost = ({ navigation, route }) => {
           contentContainerStyle={styles.progressContainerStyle}
           onDismiss={() => setIsProgressModalVisible(false)}
         >
-          {isUploadingPost && !isUploadError && (
-            <LoadingIndicator size="large" />
+          {!isUploadError && (
+            <>
+              <LoadingIndicator size="large" />
+              <EduText style={styles.padAbove}>
+                {t('CreatePost/Upload in progress')}{' '}
+                {totalFilesToUpload !== 0 &&
+                  `${imagesProgress}/${totalFilesToUpload}`}
+              </EduText>
+            </>
           )}
-          <EduText style={styles.padAbove}>
-            {t('CreatePost/Upload in progress')}{' '}
-            {numImageLinks !== 0 && `${imagesProgress}/${numImageLinks}`}
-          </EduText>
+
           {isUploadError && (
-            <TransparentButton
-              text="Try again"
-              onPress={() => {
-                dispatch(resetUploadState());
-                dispatch(parseFileUploads());
-              }}
-            />
-          )}
-          {isUploadError && (
-            <TransparentButton
-              text="Cancel"
-              onPress={() => setIsProgressModalVisible(false)}
-            />
+            <>
+              <EduText>{t('CreatePost/Modal/Error')}</EduText>
+              <TransparentButton
+                text={t('CreatePost/Modal/Try again')}
+                onPress={() => {
+                  resetErrors();
+                  dispatch(parseFileUploads());
+                }}
+              />
+              <TransparentButton
+                text={t('CreatePost/Modal/Cancel')}
+                onPress={() => {
+                  dispatch(resetUploadState());
+                  setIsProgressModalVisible(false);
+                }}
+              />
+            </>
           )}
         </Modal>
       </Portal>
@@ -135,6 +146,7 @@ const CreatePost = ({ navigation, route }) => {
           onBackPress={() => {
             navigation.goBack();
           }}
+          rightButtonProps={{ disabled: !netInfo.isConnected }}
         />
       ) : (
         <SelectedItemsHeader
@@ -148,8 +160,8 @@ const CreatePost = ({ navigation, route }) => {
       )}
 
       <CreatePostForm
-        lateInitSubject={isPostFetchedForEdit && fetchedPostData.subject}
-        lateInitTags={isPostFetchedForEdit && fetchedPostData.tags}
+        lateInitSubject={isPostFetchedForEdit ? fetchedPostData.subject : null}
+        lateInitTags={isPostFetchedForEdit ? fetchedPostData.tags : null}
         formik={formik}
         t={t}
       />

@@ -23,6 +23,7 @@ import { setMaterialOwner } from 'globalStore/materialNavSlice';
 import AuthorInfo from './AuthorInfo';
 import ExpandedPostContentSkeleton from './ExpandedPostContentSkeleton';
 import styles from './ExpandedPostContentStyles';
+import NoInternetConnectionText from 'common/NoInternetConnectionText';
 
 const ExpandedPostContent = ({ navigation, postId }) => {
   const { t } = useLocalization();
@@ -59,6 +60,7 @@ const ExpandedPostContent = ({ navigation, postId }) => {
             post && <EduText style={styles.header}>{post.title}</EduText>
           }
         />
+        <NoInternetConnectionText />
         {isLoading && <LoadingIndicator large />}
         {isError && (
           <EduText style={styles.couldNotGetPostError}>

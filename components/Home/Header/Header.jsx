@@ -5,18 +5,21 @@ import { Icon } from 'common/Icon';
 import EduText from 'common/EduText';
 import { Colors, Constants, Styles } from 'styles';
 import { IconNames } from 'common/Icon/Icon';
+import NoInternetConnectionText from 'common/NoInternetConnectionText';
 
 const Header = () => (
-  <View style={styles.wrapper}>
-    <View style={{ backgroundColor: 'pink', width: 40, height: '100%' }} />
+  <>
+    <View style={styles.wrapper}>
+      <View style={{ backgroundColor: 'pink', width: 40, height: '100%' }} />
+      <View style={styles.search}>
+        <Icon name={IconNames.search} size={20} />
+        <EduText style={styles.searchText}>search</EduText>
+      </View>
 
-    <View style={styles.search}>
-      <Icon name={IconNames.search} size={20} />
-      <EduText style={styles.searchText}>search</EduText>
+      <Icon name={IconNames.bell} size={28} />
     </View>
-
-    <Icon name={IconNames.bell} size={28} />
-  </View>
+    <NoInternetConnectionText />
+  </>
 );
 
 Header.propTypes = {};

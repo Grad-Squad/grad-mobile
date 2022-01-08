@@ -111,7 +111,8 @@ export default MaterialList;
 
 const styles = StyleSheet.create({
   materialsList: {
-    width: '90%',
+    width: '100%',
+    // marginHorizontal: '10%',
     alignSelf: 'center',
     flex: 1,
 
@@ -122,11 +123,14 @@ const styles = StyleSheet.create({
 
     color: Colors.black,
 
+    paddingLeft: '5%',
     marginVertical: 10,
   },
   content: {
     width: '95%',
     alignSelf: 'center',
+    paddingHorizontal: '5%',
+
     flex: 1,
   },
   addMaterialUsing: {

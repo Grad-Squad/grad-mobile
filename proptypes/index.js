@@ -17,6 +17,13 @@ export const navigationBarPropType = PropTypes.shape({
 export const stylePropType = ViewPropTypes.style;
 export const TextPropType = Text.propTypes.style;
 
+export const uriPropType = PropTypes.exact({
+  id: PropTypes.number.isRequired,
+  key: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['image', 'pdf', 'video']).isRequired,
+  uri: PropTypes.string.isRequired,
+});
+
 export const mcqChoicePropType = PropTypes.exact({
   text: PropTypes.string.isRequired,
   isCorrect: PropTypes.bool.isRequired,
@@ -33,10 +40,40 @@ export const mcqQuestionAddPropType = PropTypes.exact({
   question: PropTypes.string.isRequired,
   choices: PropTypes.arrayOf(mcqChoicePropType.isRequired).isRequired,
   questionImage: fileUploadPropType,
+  prevUri: uriPropType,
   choicesImages: PropTypes.oneOfType([
     PropTypes.shape({}),
     PropTypes.arrayOf(PropTypes.shape({})),
   ]),
+});
+
+const frontTextOrFrontImageRequired = (props, propName, componentName) => {
+  if (!props.frontText && !props.frontImage) {
+    return new Error(
+      `One of 'frontImage' or 'frontText' is required by '${componentName}' component.`
+    );
+  }
+  return null;
+};
+
+const backTextOrBackImageRequired = (props, propName, componentName) => {
+  if (!props.backText && !props.backImage) {
+    return new Error(
+      `One of 'backImage' or 'backText' is required by '${componentName}' component.`
+    );
+  }
+  return null;
+};
+
+export const flashcardAddPropType = PropTypes.exact({
+  id: PropTypes.number,
+  frontText: frontTextOrFrontImageRequired,
+  backText: backTextOrBackImageRequired,
+  materialCollectionId: PropTypes.number,
+  frontImage: fileUploadPropType,
+  backImage: fileUploadPropType,
+  prevFrontImageUri: uriPropType,
+  prevBackImageUri: uriPropType,
 });
 export const mcqQuestionPropType = PropTypes.shape({
   id: PropTypes.number,
@@ -59,12 +96,12 @@ export const contextMenuItemsPropType = PropTypes.arrayOf(
   ])
 );
 export const bottomSheetMenuItemsPropType = PropTypes.arrayOf(
-    PropTypes.exact({
-      titleKey: PropTypes.string.isRequired,
-      optionStyle: TextPropType,
-      onPress: PropTypes.func.isRequired,
-      iconName: PropTypes.string.isRequired,
-    }).isRequired,
+  PropTypes.exact({
+    titleKey: PropTypes.string.isRequired,
+    optionStyle: TextPropType,
+    onPress: PropTypes.func.isRequired,
+    iconName: PropTypes.string.isRequired,
+  }).isRequired
 );
 export const routeParamPropType = (paramsPropTypes) =>
   PropTypes.shape({
@@ -106,19 +143,12 @@ export const stringOrNumberPropType = PropTypes.oneOfType([
   PropTypes.number.isRequired,
 ]);
 
-export const uriPropType = PropTypes.exact({
-  id: PropTypes.number.isRequired,
-  key: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['image', 'pdf', 'video']).isRequired,
-  uri: PropTypes.string.isRequired,
-});
-
 export const flashcardPropType = PropTypes.exact({
   id: PropTypes.number.isRequired,
-  frontImage: uriPropType.isRequired,
-  frontText: PropTypes.string.isRequired,
-  backText: PropTypes.string.isRequired,
-  backImage: uriPropType.isRequired,
+  frontText: frontTextOrFrontImageRequired,
+  backText: backTextOrBackImageRequired,
+  frontImage: uriPropType,
+  backImage: uriPropType,
   materialCollectionId: PropTypes.number.isRequired,
 });
 
@@ -131,10 +161,10 @@ export const materialPropType = PropTypes.exact({
       id: PropTypes.number.isRequired,
       question: PropTypes.string.isRequired,
       questionImage: uriPropType,
-      choicesImages: PropTypes.oneOfType([
-        PropTypes.shape({}),
-        PropTypes.arrayOf(PropTypes.shape({})),
-      ]),
+      // choicesImages: PropTypes.oneOfType([
+      //   PropTypes.shape({}),
+      //   PropTypes.arrayOf(PropTypes.shape({})),
+      // ]),
       answerIndices: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
       choices: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
       choicesImages: PropTypes.arrayOf(uriPropType),

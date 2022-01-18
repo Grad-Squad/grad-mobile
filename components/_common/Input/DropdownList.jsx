@@ -18,9 +18,12 @@ const renderItem = (item, onPresshandler, choices) => (
     android_ripple={pressableAndroidRipple}
   >
     <EduText>{item.label}</EduText>
-    {choices.includes(item.label) && (
-      <Icon name={IconNames.dropdown} size={20} />
-    )}
+
+    <Icon
+      name={IconNames.dropdown}
+      size={20}
+      style={!choices.includes(item.label) && styles.zeroOpacity}
+    />
   </Pressable>
 );
 
@@ -200,6 +203,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 5,
+    backgroundColor: Colors.background,
   },
   listWrapper: {
     flex: 1,
@@ -232,5 +236,8 @@ const styles = StyleSheet.create({
   tagClosed: {
     flexWrap: 'nowrap',
     overflow: 'hidden',
+  },
+  zeroOpacity: {
+    opacity: 0,
   },
 });

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
 import localStorageKeys from 'localStorageKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Colors, Constants } from 'styles';
 import { SecondaryActionButton } from 'common/Input/Button';
+import Modal from 'common/Modal';
 import ShakeForFeedback from './Messages/ShakeForFeedback';
 
 const keysComponentMap = {
@@ -42,31 +41,22 @@ const FirstTimeMessages = () => {
     setModalVisible(false);
   };
   return (
-    <Modal
-      animationType="slide"
-      transparent
-      visible={modalVisible}
-      onRequestClose={hideModal}
-    >
-      <View style={styles.centeredView}>
-        <View style={styles.backgroundView}>
-          {keysToView.length > 0 && (
-            <>
-              {keysComponentMap[keysToView[0]]}
-              <SecondaryActionButton
-                text={t('FirstTimeMessages/OK')}
-                onPress={() => {
-                  AsyncStorage.setItem(keysToView[0], 'true');
-                  setKeysToView(keysToView.slice(1));
-                  if (keysToView.length === 1) {
-                    hideModal();
-                  }
-                }}
-              />
-            </>
-          )}
-        </View>
-      </View>
+    <Modal visible={modalVisible} onRequestClose={hideModal}>
+      {keysToView.length > 0 && (
+        <>
+          {keysComponentMap[keysToView[0]]}
+          <SecondaryActionButton
+            text={t('FirstTimeMessages/OK')}
+            onPress={() => {
+              AsyncStorage.setItem(keysToView[0], 'true');
+              setKeysToView(keysToView.slice(1));
+              if (keysToView.length === 1) {
+                hideModal();
+              }
+            }}
+          />
+        </>
+      )}
     </Modal>
   );
 };
@@ -75,19 +65,3 @@ FirstTimeMessages.propTypes = {};
 FirstTimeMessages.defaultProps = {};
 
 export default FirstTimeMessages;
-
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    backgroundColor: Colors.modalBackdrop,
-  },
-  backgroundView: {
-    borderRadius: Constants.borderRadius,
-    backgroundColor: Colors.background,
-    width: '90%',
-    padding: 15,
-  },
-});

@@ -8,6 +8,7 @@ import { IconNames } from 'common/Icon/Icon';
 import { Colors, Constants } from 'styles';
 import TagLabel from 'common/TagLabel';
 import EduText from 'common/EduText';
+import { searchUtil } from 'api/util';
 import TransparentTextInput from './TransparentTextInput';
 
 const renderItem = (item, onPresshandler, choices) => (
@@ -34,6 +35,17 @@ const DropdownList = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [choices, setChoices] = useState(value ? [value] : []);
+  const [searchText, setSearchText] = useState('');
+  const [filteredItems, setFilteredItems] = useState(items);
+  useEffect(() => {
+    if (searchText !== '') {
+      setFilteredItems(
+        items.filter((item) => searchUtil(searchText, item.label.toLowerCase()))
+      );
+    } else {
+      setFilteredItems(items);
+    }
+  }, [items, searchText]);
   useEffect(() => {
     if (lateInitChoice == null) {
       return;
@@ -114,15 +126,15 @@ const DropdownList = ({
               onPress={() => setOpen(!open)}
             />
             <TransparentTextInput
-              text="WIP SEARCHBAR"
-              setText={() => {}}
+              text={searchText}
+              setText={setSearchText}
               style={{ width: '87%' }}
             />
           </View>
           <FlatList
             style={styles.list}
             contentContainerStyle={styles.listBackground}
-            data={items}
+            data={filteredItems}
             renderItem={({ item }) => renderItem(item, onPresshandler, choices)}
             keyExtractor={(item) => item.id} // or whatever unique value that exists
           />

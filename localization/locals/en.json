@@ -82,6 +82,13 @@
     "Edit": "Edit your profile picture",
     "Delete": "Remove your profile picture"
   },
+  "EmptyFeed": {
+    "Oh no! Your feed is empty": "Oh no! Your feed is empty",
+    "Please specify your interests": "Please specify your interests",
+    "You can change your interests at any time in the app settings": "You can change your interests at any time in the app settings",
+    "Submit": "Submit",
+    "SubjectCourse": "Subject/Course"
+  },
   "CreatePost": {
     "Create New Post": "Create New Post",
     "Edit Post": "Edit Post",

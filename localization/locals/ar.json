@@ -82,6 +82,13 @@
     "Edit": "تغيير صورة ملفك الشخصي",
     "Delete": "إزالة صورة ملفك الشخصي"
   },
+  "EmptyFeed": {
+    "Oh no! Your feed is empty": "لا توجد نتائج",
+    "Please specify your interests": "من فضلك اختر المواد التي تريد رؤيتها",
+    "You can change your interests at any time in the app settings": "يمكنك تغيير موضوعاتك المفضلة في أي وقت من خلال إعدادات التطبيق",
+    "Submit": "إرسال",
+    "SubjectCourse": "مادة/دورة"
+  },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",
     "Edit Post": "تعديل منشور",

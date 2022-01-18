@@ -6,7 +6,6 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 import GlobalStore from 'globalStore/GlobalStore';
 import { Colors } from 'styles';
-import AxiosProvider from 'api/AxiosProvider';
 import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import ReactQueryClient from 'components/ReactQueryClient/ReactQueryClient';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -47,7 +46,6 @@ export default function App() {
       <GlobalStore>
         <ReduxProvider store={store}>
           <ErrorSnackbarProvider>
-            <AxiosProvider>
               <ReactQueryClient>
                 <PaperProvider theme={theme}>
                   <SafeAreaProvider>
@@ -57,7 +55,6 @@ export default function App() {
                   </SafeAreaProvider>
                 </PaperProvider>
               </ReactQueryClient>
-            </AxiosProvider>
           </ErrorSnackbarProvider>
         </ReduxProvider>
       </GlobalStore>

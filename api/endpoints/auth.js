@@ -3,18 +3,28 @@ import { useMutation } from 'react-query';
 import { formatString } from 'utility';
 import endpoints from './endpoints';
 
-const onSuccessUpdateTokens = (mutationConfig) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { updateAccessToken, updateRefreshToken } = useAxios();
-  return (data, variables, context) => {
-    mutationConfig.onSuccess?.(data, variables, context);
+const onSuccessUpdateTokens =
+  (
+    updateAccessToken,
+    updateRefreshToken,
+    addOnAccessTokenChangeCallback,
+    mutationConfig
+  ) =>
+  (data, variables, context) => {
+    addOnAccessTokenChangeCallback(() =>
+      mutationConfig.onSuccess?.(data, variables, context)
+    );
     updateAccessToken(data?.payload?.token);
     updateRefreshToken(data?.payload?.refresh_token);
   };
-};
 
 export const useAPILogin = (mutationConfig) => {
-  const { axios } = useAxios();
+  const {
+    axios,
+    updateAccessToken,
+    updateRefreshToken,
+    addOnAccessTokenChangeCallback,
+  } = useAxios();
 
   return useMutation(
     async ({ email, password }) => {
@@ -28,13 +38,23 @@ export const useAPILogin = (mutationConfig) => {
       return data;
     },
     {
-      onSuccess: onSuccessUpdateTokens(mutationConfig),
+      onSuccess: onSuccessUpdateTokens(
+        updateAccessToken,
+        updateRefreshToken,
+        addOnAccessTokenChangeCallback,
+        mutationConfig
+      ),
     }
   );
 };
 
 export const useAPIfacebookLogin = (mutationConfig) => {
-  const { axios } = useAxios();
+  const {
+    axios,
+    updateAccessToken,
+    updateRefreshToken,
+    addOnAccessTokenChangeCallback,
+  } = useAxios();
 
   return useMutation(
     async ({ accessToken }) => {
@@ -45,13 +65,23 @@ export const useAPIfacebookLogin = (mutationConfig) => {
       return data;
     },
     {
-      onSuccess: onSuccessUpdateTokens(mutationConfig),
+      onSuccess: onSuccessUpdateTokens(
+        updateAccessToken,
+        updateRefreshToken,
+        addOnAccessTokenChangeCallback,
+        mutationConfig
+      ),
     }
   );
 };
 
 export const useAPIGoogleLogin = (mutationConfig) => {
-  const { axios } = useAxios();
+  const {
+    axios,
+    updateAccessToken,
+    updateRefreshToken,
+    addOnAccessTokenChangeCallback,
+  } = useAxios();
 
   return useMutation(
     async (idToken) => {
@@ -61,7 +91,15 @@ export const useAPIGoogleLogin = (mutationConfig) => {
 
       return data;
     },
-    { ...mutationConfig, onSuccess: onSuccessUpdateTokens(mutationConfig) }
+    {
+      ...mutationConfig,
+      onSuccess: onSuccessUpdateTokens(
+        updateAccessToken,
+        updateRefreshToken,
+        addOnAccessTokenChangeCallback,
+        mutationConfig
+      ),
+    }
   );
 };
 
@@ -88,7 +126,12 @@ export const useAPIRefreshToken = (mutationConfig) => {
 };
 
 export const useAPIRegister = (mutationConfig) => {
-  const { axios, updateAccessToken, updateRefreshToken } = useAxios();
+  const {
+    axios,
+    updateAccessToken,
+    updateRefreshToken,
+    addOnAccessTokenChangeCallback,
+  } = useAxios();
   return useMutation(
     async ({ email, password, name }) => {
       const { data } = await axios.post(endpoints.auth.register, {
@@ -105,17 +148,12 @@ export const useAPIRegister = (mutationConfig) => {
     },
     {
       ...mutationConfig,
-      onSuccess: (data, variables, context) => {
-        // todo el one line elli ta7t da sus
-        mutationConfig.onSuccess?.(data, variables, context);
-
-        if (data?.payload?.token) {
-          updateAccessToken(data?.payload?.token);
-        }
-        if (data?.payload?.refresh_token) {
-          updateRefreshToken(data?.payload?.refresh_token);
-        }
-      },
+      onSuccess: onSuccessUpdateTokens(
+        updateAccessToken,
+        updateRefreshToken,
+        addOnAccessTokenChangeCallback,
+        mutationConfig
+      ),
     }
   );
 };

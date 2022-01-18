@@ -9,10 +9,12 @@ import Separator from 'common/Separator';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
+import { useAxios } from 'api/AxiosProvider';
 import OptionButton from './OptionButton';
 
 const Options = () => {
   const navigation = useNavigation();
+  const { updateAccessToken, updateRefreshToken } = useAxios();
   return (
     <Page>
       <View style={styles.userSection}>
@@ -36,6 +38,8 @@ const Options = () => {
         iconName={IconNames.logout}
         onPress={() => {
           // todo logout instead then redirect to login
+          updateAccessToken('');
+          updateRefreshToken('');
           navigation.reset({
             index: 0,
             routes: [{ name: ScreenNames.LOGIN }],

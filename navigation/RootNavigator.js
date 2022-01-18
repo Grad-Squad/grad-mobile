@@ -28,6 +28,7 @@ import Followers from 'components/Profile/Followers';
 import ViewPdf from 'components/Materials/ViewPdf';
 import ViewVideo from 'components/Materials/ViewVideo';
 import Feedback from 'components/Feedback/Feedback';
+import AxiosProvider from 'api/AxiosProvider';
 import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 
@@ -154,19 +155,21 @@ const RootNavigator = () => {
   }
   return (
     <>
-      <Feedback navigationRef={navigationRef} />
-      <NavigationContainer
-        ref={navigationRef}
-        initialState={initialState}
-        onStateChange={(state) =>
-          AsyncStorage.setItem(
-            localStorageKeys.nav_state,
-            JSON.stringify(state)
-          )
-        }
-      >
-        <Navigator screens={screens} />
-      </NavigationContainer>
+      <AxiosProvider navigationRef={navigationRef}>
+        <Feedback navigationRef={navigationRef} />
+        <NavigationContainer
+          ref={navigationRef}
+          initialState={initialState}
+          onStateChange={(state) =>
+            AsyncStorage.setItem(
+              localStorageKeys.nav_state,
+              JSON.stringify(state)
+            )
+          }
+        >
+          <Navigator screens={screens} />
+        </NavigationContainer>
+      </AxiosProvider>
     </>
   );
 };

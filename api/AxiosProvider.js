@@ -9,11 +9,13 @@ import { childrenPropType } from 'proptypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import localStorageKeys from 'localStorageKeys';
 import { API_URL } from '@env';
-
+import PropTypes from 'prop-types';
 import Axios from 'axios';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import { useLocalization } from 'localization/LocalizationProvider';
 import { useNetInfo } from '@react-native-community/netinfo';
+import ScreenNames from 'navigation/ScreenNames';
+import { Alert } from 'react-native';
 import unauthorizedRedirectBlacklist from './unauthorizedRedirectBlacklist';
 import endpoints from './endpoints/endpoints';
 
@@ -24,28 +26,19 @@ const AxiosContext = createContext();
 const getItemFromStorage = async (itemName) =>
   (await AsyncStorage.getItem(itemName)) || '';
 
-const AxiosProvider = ({ children }) => {
+const AxiosProvider = ({ navigationRef, children }) => {
   const { t } = useLocalization();
 
   const [accessToken, setAccessToken] = useState('');
   const [refreshToken, setRefreshToken] = useState('');
-
-  const setAccessTokenFromStorage = async () => {
-    const token = await getItemFromStorage(localStorageKeys.access_token);
-    setAccessToken(token);
-  };
-
-  const setRefreshTokenFromStorage = async () => {
-    const token = await getItemFromStorage(localStorageKeys.refresh_token);
-    setRefreshToken(token);
-  };
+  const [onAccessTokenChangeCallbacks, setOnAccessTokenChangeCallbacks] =
+    useState([]);
 
   useEffect(() => {
-    setAccessTokenFromStorage();
-  }, []);
-
-  useEffect(() => {
-    setRefreshTokenFromStorage();
+    (async () => {
+      setAccessToken(await getItemFromStorage(localStorageKeys.access_token));
+      setRefreshToken(await getItemFromStorage(localStorageKeys.refresh_token));
+    })();
   }, []);
 
   const updateAccessToken = async (newToken) => {
@@ -57,8 +50,6 @@ const AxiosProvider = ({ children }) => {
     await AsyncStorage.setItem(localStorageKeys.refresh_token, newToken);
     setRefreshToken(newToken);
   };
-
-  const [unauthorizedRedirect, setUnauthorizedRedirect] = useState(undefined);
 
   const { showErrorSnackbar } = useErrorSnackbar();
   const netInfo = useNetInfo();
@@ -83,10 +74,17 @@ const AxiosProvider = ({ children }) => {
         if (response) {
           if (
             response.status === UNAUTHORIZED_STATUS_CODE &&
-            unauthorizedRedirectBlacklist.indexOf(response.config.url) === -1 &&
-            unauthorizedRedirect
+            unauthorizedRedirectBlacklist.indexOf(response.config.url) === -1
           ) {
-            try {
+            if (response.config.url === endpoints.auth.refresh) {
+              if (navigationRef.getCurrentRoute().name !== ScreenNames.LOGIN) {
+                navigationRef.reset({
+                  index: 0,
+                  routes: [{ name: ScreenNames.LOGIN }],
+                });
+                Alert.alert('Sorry, You have to login again');
+              }
+            } else {
               const refreshData = await newAxios.post(endpoints.auth.refresh, {
                 refreshToken,
               });
@@ -100,8 +98,6 @@ const AxiosProvider = ({ children }) => {
                   t('Snackbar/Could not connect to the server')
                 );
               }
-            } catch (err) {
-              unauthorizedRedirect();
             }
           }
         } else if (error.request && netInfo.isConnected) {
@@ -128,6 +124,10 @@ const AxiosProvider = ({ children }) => {
       }
       return config;
     });
+    onAccessTokenChangeCallbacks.forEach((callback) => {
+      callback();
+    });
+    setOnAccessTokenChangeCallbacks([]);
     setAxiosRequestInterceptor(requestInterceptor);
   }, [accessToken]);
 
@@ -135,9 +135,11 @@ const AxiosProvider = ({ children }) => {
     <AxiosContext.Provider
       value={{
         axios,
-        setUnauthorizedRedirect,
         updateAccessToken,
         updateRefreshToken,
+        addOnAccessTokenChangeCallback: (callback) => {
+          setOnAccessTokenChangeCallbacks((prev) => [...prev, callback]);
+        },
       }}
     >
       {children}
@@ -145,6 +147,10 @@ const AxiosProvider = ({ children }) => {
   );
 };
 AxiosProvider.propTypes = {
+  navigationRef: PropTypes.shape({
+    getCurrentRoute: PropTypes.func.isRequired,
+    reset: PropTypes.func.isRequired,
+  }).isRequired,
   children: childrenPropType.isRequired,
 };
 AxiosProvider.defaultProps = {};

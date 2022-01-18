@@ -14,11 +14,13 @@ import TransparentTextInput from './TransparentTextInput';
 const renderItem = (item, onPresshandler, choices) => (
   <Pressable
     style={styles.listItem}
-    onPress={() => onPresshandler(item.id)}
+    onPress={() => onPresshandler(item.label)}
     android_ripple={pressableAndroidRipple}
   >
     <EduText>{item.label}</EduText>
-    {choices.includes(item.id) && <Icon name={IconNames.dropdown} size={20} />}
+    {choices.includes(item.label) && (
+      <Icon name={IconNames.dropdown} size={20} />
+    )}
   </Pressable>
 );
 

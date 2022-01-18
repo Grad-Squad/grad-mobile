@@ -11,6 +11,7 @@ import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import ReactQueryClient from 'components/ReactQueryClient/ReactQueryClient';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Platform, UIManager } from 'react-native';
+import FirstTimeMessages from 'components/FirstTimeMessages/FirstTimeMessages';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
@@ -51,6 +52,7 @@ export default function App() {
                 <PaperProvider theme={theme}>
                   <SafeAreaProvider>
                     <StatusBar />
+                    <FirstTimeMessages />
                     <RootNavigator />
                   </SafeAreaProvider>
                 </PaperProvider>

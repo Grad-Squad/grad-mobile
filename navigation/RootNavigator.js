@@ -118,7 +118,7 @@ const screens = [
 ];
 
 const RootNavigator = () => {
-  const [isReady, setIsReady] = React.useState(false);
+  const [isReady, setIsReady] = React.useState(!__DEV__);
   const [initialState, setInitialState] = React.useState();
   const navigationRef = useNavigationContainerRef();
 

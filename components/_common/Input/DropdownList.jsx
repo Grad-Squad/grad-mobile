@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, FlatList, Pressable, StyleSheet, Modal } from 'react-native';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import PropTypes from 'prop-types';
@@ -9,6 +9,17 @@ import { Colors, Constants } from 'styles';
 import TagLabel from 'common/TagLabel';
 import EduText from 'common/EduText';
 import TransparentTextInput from './TransparentTextInput';
+
+const renderItem = (item, onPresshandler, choices) => (
+  <Pressable
+    style={styles.listItem}
+    onPress={() => onPresshandler(item.id)}
+    android_ripple={pressableAndroidRipple}
+  >
+    <EduText>{item.label}</EduText>
+    {choices.includes(item.id) && <Icon name={IconNames.dropdown} size={20} />}
+  </Pressable>
+);
 
 const DropdownList = ({
   placeholder,
@@ -24,6 +35,9 @@ const DropdownList = ({
   const [open, setOpen] = useState(false);
   const [choices, setChoices] = useState(value ? [value] : []);
   useEffect(() => {
+    if (lateInitChoice == null) {
+      return;
+    }
     if (Array.isArray(lateInitChoice)) {
       setChoices(lateInitChoice);
       // setValueFunction(lateInitChoice);
@@ -32,39 +46,29 @@ const DropdownList = ({
     }
   }, [lateInitChoice]);
 
-  const onPresshandler = (key) => {
-    let currentChoices;
+  const onPresshandler = useCallback(
+    (key) => {
+      let currentChoices;
 
-    // item pressed already exists -> remove that item
-    if (choices.includes(key)) {
-      const correct = [...choices];
-      correct.splice(correct.indexOf(key), 1);
-      currentChoices = correct;
+      // item pressed already exists -> remove that item
+      if (choices.includes(key)) {
+        const correct = [...choices];
+        correct.splice(correct.indexOf(key), 1);
+        currentChoices = correct;
 
-      // item pressed does not exist -> add item if multiple
-    } else if (multiple) {
-      if (choices.length < max) currentChoices = [...choices, key];
-      else return;
+        // item pressed does not exist -> add item if multiple
+      } else if (multiple) {
+        if (choices.length < max) currentChoices = [...choices, key];
+        else return;
 
-      // item pressed does not exist -> switch to item if single
-    } else {
-      currentChoices = [key];
-    }
-    setChoices(currentChoices.filter((ch) => !!ch));
-    setValueFunction(currentChoices);
-  };
-
-  const renderItem = ({ item }) => (
-    <Pressable
-      style={styles.listItem}
-      onPress={() => onPresshandler(item.id)}
-      android_ripple={pressableAndroidRipple}
-    >
-      <EduText>{item.label}</EduText>
-      {choices.includes(item.id) && (
-        <Icon name={IconNames.dropdown} size={20} />
-      )}
-    </Pressable>
+        // item pressed does not exist -> switch to item if single
+      } else {
+        currentChoices = [key];
+      }
+      setChoices(currentChoices.filter((ch) => !!ch));
+      setValueFunction(currentChoices);
+    },
+    [choices, max, multiple, setValueFunction]
   );
 
   return (
@@ -119,7 +123,7 @@ const DropdownList = ({
             style={styles.list}
             contentContainerStyle={styles.listBackground}
             data={items}
-            renderItem={renderItem}
+            renderItem={({ item }) => renderItem(item, onPresshandler, choices)}
             keyExtractor={(item) => item.id} // or whatever unique value that exists
           />
         </View>

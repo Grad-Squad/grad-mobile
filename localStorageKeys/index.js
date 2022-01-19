@@ -4,4 +4,5 @@ export default Object.freeze({
   refresh_token: 'refresh_token',
   profileId: 'profileId',
   nav_state: "nav_state",
+  search_history: "search",
 });

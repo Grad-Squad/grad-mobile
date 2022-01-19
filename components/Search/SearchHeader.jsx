@@ -7,6 +7,8 @@ import { IconNames } from 'common/Icon/Icon';
 import { SearchTextInputFormik } from 'common/Input/SearchTextInput';
 import SearchHistoryList from 'common/Input/SearchHistoryList';
 import FillLoadingIndicator from 'common/FillLoadingIndicator';
+import localStorageKeys from 'localStorageKeys';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchContext from './SearchContext';
 import SearchNavTab from './SearchNavTab';
 
@@ -16,17 +18,21 @@ const SearchHeader = ({historyItems, setHistoryItems, showHistory, setShowHistor
 
   const onPressBackButton = () => {}
 
+  const getHistoryFromStorage = () =>{
+    AsyncStorage.getItem(localStorageKeys.search_history)
+      .then(stringified => {
+        const parsed = JSON.parse(stringified);
+        if(!parsed || typeof parsed !== 'object') return;
+        setHistoryItems(parsed)
+      })
+      .catch(err => {
+        console.warn("Getting Search History:", err)
+      })
+  }
+
   useEffect(() => {
     setShowHistory(true)
-    setHistoryItems( // todo get from local storage
-        [
-            {text: 'phusics'},
-            {text: 'physics'},
-            {text: 'math'},
-            {text: 'Maths'},
-            {text: 'Chemistry'},
-        ]
-    )
+    getHistoryFromStorage();
   }, [])
 
   return(

@@ -377,6 +377,7 @@
     "Posts": "Posts",
     "People": "People",
     "NoPosts": "No Posts found",
-    "NoProfiles": "No Profiles found"
+    "NoProfiles": "No Profiles found",
+    "NoHistory": "Nothing to show yet"
   }
 }

@@ -61,6 +61,7 @@ export const IconNames = Object.freeze({
   followStatus: 'account-multiple-plus-outline',
   role: 'team',
   filter: 'tune',
+  clock: 'time-outline',
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
@@ -115,6 +116,7 @@ const map = {
   'account-multiple-plus-outline': MaterialCommunityIcons,
   'team': AntDesign,
   'tune': MaterialCommunityIcons,
+  'time-outline': Ionicons,
 };
 
 const Icon = ({ name, size, color, style, disabled }) => {

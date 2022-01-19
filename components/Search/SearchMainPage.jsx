@@ -6,6 +6,8 @@ import * as yup from 'yup';
 import { useLocalization } from 'localization';
 import { search } from 'validation';
 import { useAPIGetSearchResult } from 'api/endpoints/search';
+import localStorageKeys from 'localStorageKeys';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchHeader from './SearchHeader';
 import SearchContext from './SearchContext';
 
@@ -52,8 +54,15 @@ const SearchMainPage = () =>
 
   const addSearchToHistory = (text) => {
     const alreadyExists = historyItems.some(element => element.text.toLowerCase() === text.toLowerCase())
+    let newItems = [{text},...historyItems]
     if(!alreadyExists){
-      setHistoryItems([{text},...historyItems])
+      setHistoryItems(newItems)
+      const stringified = JSON.stringify(newItems)
+        AsyncStorage.setItem(localStorageKeys.search_history, stringified)
+        .catch(err => {
+          // todo handle error
+          console.warn("Saving Search History: ",err);
+        });
     }
   }
 

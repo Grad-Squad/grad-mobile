@@ -1,6 +1,6 @@
 import EduText from 'common/EduText';
 import React from 'react';
-import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { navigationBarPropType } from 'proptypes';
 import { Colors, Constants } from 'styles';

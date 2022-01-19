@@ -10,6 +10,7 @@ import localStorageKeys from 'localStorageKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchHeader from './SearchHeader';
 import SearchContext from './SearchContext';
+import SearchNavTab from './SearchNavTab';
 
 
 
@@ -75,6 +76,7 @@ const SearchMainPage = () =>
         showHistory={showHistory}
         setShowHistory={setShowHistory}
       />
+      { !showHistory && <SearchNavTab searchText={formik.values.searchText}/>}
     </SearchContext.Provider>
   </Page>
 )};

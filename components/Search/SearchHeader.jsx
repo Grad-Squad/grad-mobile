@@ -9,14 +9,18 @@ import SearchHistoryList from 'common/Input/SearchHistoryList';
 import FillLoadingIndicator from 'common/FillLoadingIndicator';
 import localStorageKeys from 'localStorageKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 import SearchContext from './SearchContext';
-import SearchNavTab from './SearchNavTab';
 
 const SearchHeader = ({historyItems, setHistoryItems, showHistory, setShowHistory}) => {
 
   const {formik, isLoading} = useContext(SearchContext)
 
-  const onPressBackButton = () => {}
+  const navigation = useNavigation();
+
+  const onPressBackButton = () => {
+    navigation.goBack()
+  }
 
   const getHistoryFromStorage = () =>{
     AsyncStorage.getItem(localStorageKeys.search_history)
@@ -43,11 +47,8 @@ const SearchHeader = ({historyItems, setHistoryItems, showHistory, setShowHistor
         <PressableIcon name={IconNames.filter} onPress={()=>{}}/>
       </View>
       {
-        showHistory?
+        showHistory &&
         <SearchHistoryList items={historyItems} setItems={setHistoryItems} setText={(txt) => {formik.setFieldValue("searchText",txt); formik.submitForm()}}/>
-        :
-        <SearchNavTab searchText={formik.values.searchText}/>
-
       }
       {
       isLoading && <FillLoadingIndicator/>

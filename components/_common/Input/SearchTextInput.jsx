@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import { View, StyleSheet } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Colors, Constants, Fonts, Styles } from 'styles';
@@ -7,7 +7,6 @@ import { stylePropType } from 'proptypes';
 import { Searchbar } from 'react-native-paper';
 import { useLocalization } from 'localization';
 import TextInputFormikHOC from './TextInputFormikHOC';
-import SearchHistoryList from './SearchHistoryList';
 
 const SearchTextInput = ({
   text,

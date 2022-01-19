@@ -375,6 +375,8 @@
   "Search":{
     "More": "See More",
     "Posts": "Posts",
-    "People": "People"
+    "People": "People",
+    "NoPosts": "No Posts found",
+    "NoProfiles": "No Profiles found"
   }
 }

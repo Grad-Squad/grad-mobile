@@ -88,13 +88,8 @@
     "rn-pdf-reader-js": "^4.1.1",
     "rn-placeholder": "^3.0.3",
     "uuid": "^8.3.2",
-<<<<<<< HEAD
-    "yup": "^0.32.11"
-=======
     "yup": "^0.32.11",
-    "react-native-reanimated": "~2.2.0",
     "@react-native-community/netinfo": "6.0.0"
->>>>>>> origin/master
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

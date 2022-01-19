@@ -8,14 +8,13 @@ import { stylePropType } from 'proptypes';
 
 const SearchHistoryList = ({setText, items, setItems, style}) => {
 
-
     const onHistoryItemPress = (text) => {
       setText(text)
     }
 
-    const onHistoryItemDelete = (id) => { // todo replace items in storage with new items
+    const onHistoryItemDelete = (text) => { // todo replace items in storage with new items
       const newItems = [...items];
-      newItems.splice(newItems.map((item) => item.id).indexOf(id), 1);
+      newItems.splice(newItems.map((item) => item.text).indexOf(text), 1);
       setItems(newItems)
     }
 
@@ -24,14 +23,14 @@ const SearchHistoryList = ({setText, items, setItems, style}) => {
             data={items}
             contentContainerStyle={[styles.container, style]}
             keyboardShouldPersistTaps='handled'
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.text}
             renderItem={({ item }) => {
-            const { id, text } = item;
+            const { text } = item;
             return (
                 <TouchableOpacity style={styles.listItem} onPress={() => onHistoryItemPress(text)}>
                     <Icon name={IconNames.history} size={20} style={{marginRight: 'auto', marginLeft: 8}}/>
                     <EduText style={styles.textStyle}>{text}</EduText>
-                    <PressableIcon name={IconNames.close} size={20} style={{marginLeft: 'auto', marginRight: 8}} onPress={() => onHistoryItemDelete(id)}/>
+                    <PressableIcon name={IconNames.close} size={20} style={{marginLeft: 'auto', marginRight: 8}} onPress={() => onHistoryItemDelete(text)}/>
                 </TouchableOpacity>
             );
         }}
@@ -45,7 +44,6 @@ SearchHistoryList.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
   setItems: PropTypes.func.isRequired,
@@ -60,6 +58,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     paddingVertical: 10,
+    overflow: 'hidden',
   },
   listItem:{
     flexDirection:'row',

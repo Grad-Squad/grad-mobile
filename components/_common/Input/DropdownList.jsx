@@ -92,35 +92,27 @@ const DropdownList = ({
         )}
         <Icon name={IconNames.dropdownClosed} />
       </Pressable>
-      <Modal
-        animationType="slide"
-        visible={open}
-        onRequestClose={() => {
-          setOpen(!open);
-        }}
-      >
-        <View style={styles.listWrapper}>
-          <View style={styles.searchbar}>
-            <PressableIcon
-              name={IconNames.close}
-              size={35}
-              onPress={() => setOpen(!open)}
-            />
-            <TransparentTextInput
-              text="WIP SEARCHBAR"
-              setText={() => {}}
-              style={{ width: '87%' }}
-            />
-          </View>
-          <FlatList
-            style={styles.list}
-            contentContainerStyle={styles.listBackground}
-            data={items}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.id} // or whatever unique value that exists
+      <View style={styles.listWrapper}>
+        <View style={styles.searchbar}>
+          <PressableIcon
+            name={IconNames.close}
+            size={35}
+            onPress={() => setOpen(!open)}
+          />
+          <TransparentTextInput
+            text="WIP SEARCHBAR"
+            setText={() => {}}
+            style={{ width: '87%' }}
           />
         </View>
-      </Modal>
+        <FlatList
+          style={styles.list}
+          contentContainerStyle={styles.listBackground}
+          data={items}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id} // or whatever unique value that exists
+        />
+      </View>
     </View>
   );
 };

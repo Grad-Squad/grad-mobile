@@ -1,55 +1,63 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { PressableIcon } from 'common/Icon';
 import { Colors, Constants, Styles } from 'styles';
 import { IconNames } from 'common/Icon/Icon';
 import { SearchTextInputFormik } from 'common/Input/SearchTextInput';
+import SearchHistoryList from 'common/Input/SearchHistoryList';
+import FillLoadingIndicator from 'common/FillLoadingIndicator';
 import SearchContext from './SearchContext';
-import SearchFilterModalPeople from './SearchFilterModalPeople';
-import SearchFilterModalPosts from './SearchFilterModalPosts';
+import SearchNavTab from './SearchNavTab';
 
-const SearchHeader = ({formik, isHistoryOpen, setIsHistoryOpen}) => {
+const SearchHeader = ({historyItems, setHistoryItems, showHistory, setShowHistory}) => {
+
+  const {formik, isLoading} = useContext(SearchContext)
 
   const onPressBackButton = () => {}
-  const {filterMode} = useContext(SearchContext)
-  const [modalVisible, setModalVisible] = useState(false)
 
-  let filterComponent = <></>
-
-  if(filterMode === "Posts"){
-    filterComponent = <SearchFilterModalPosts isVisible={modalVisible} setIsVisible={setModalVisible}/>
-  }else if(filterMode === "People"){
-    filterComponent = <SearchFilterModalPeople isVisible={modalVisible} setIsVisible={setModalVisible}/>
-  }else{
-    filterComponent = <></>
-  }
+  useEffect(() => {
+    setShowHistory(true)
+    setHistoryItems( // todo get from local storage
+        [
+            {text: 'phusics'},
+            {text: 'physics'},
+            {text: 'math'},
+            {text: 'Maths'},
+            {text: 'Chemistry'},
+        ]
+    )
+  }, [])
 
   return(
     <>
-      <View style={[styles.wrapper, isHistoryOpen? styles.wrapperOpen : styles.wrapperClosed]}>
+      <View style={[styles.wrapper, showHistory? styles.wrapperOpen : styles.wrapperClosed]}>
         <PressableIcon name={IconNames.arrowLeft} size={35} onPress={onPressBackButton}/>
-        <SearchTextInputFormik formik={formik} formikKey="searchText" onFocus={()=> setIsHistoryOpen(true)}/>
-        {filterMode?<PressableIcon name={IconNames.filter} onPress={()=>setModalVisible(!modalVisible)}/>:<></>}
+        <SearchTextInputFormik formik={formik} formikKey="searchText" onFocus={() => setShowHistory(true)} onBlur={() => setShowHistory(false)}/>
+        <PressableIcon name={IconNames.filter} onPress={()=>{}}/>
       </View>
-      {filterComponent}
+      {
+        showHistory?
+        <SearchHistoryList items={historyItems} setItems={setHistoryItems} setText={(txt) => {formik.setFieldValue("searchText",txt); formik.submitForm()}}/>
+        :
+        <SearchNavTab searchText={formik.values.searchText}/>
+
+      }
+      {
+      isLoading && <FillLoadingIndicator/>
+      }
     </>
 )};
 
 SearchHeader.propTypes = {
-  formik: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
-    values: PropTypes.object.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    errors: PropTypes.object.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    touched: PropTypes.object.isRequired,
-    handleChange: PropTypes.func.isRequired,
-    handleBlur: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
-  }).isRequired,
-  setIsHistoryOpen: PropTypes.func.isRequired,
-  isHistoryOpen: PropTypes.bool.isRequired,
+  historyItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  setHistoryItems: PropTypes.func.isRequired,
+  showHistory: PropTypes.bool.isRequired,
+  setShowHistory: PropTypes.func.isRequired,
 };
 SearchHeader.defaultProps = {};
 
@@ -68,12 +76,17 @@ const styles = StyleSheet.create({
 
     borderColor: Colors.border,
     borderRadius: Constants.borderRadius,
+
+    maxHeight: 90,
   },
   wrapperOpen: {
     ...Styles.dropShadow,
-    borderBottomWidth: 0.2,
-  },
-  wrapperClosed: {
     borderBottomWidth: 0,
   },
+  wrapperClosed: {
+    borderBottomWidth: 0.2,
+  },
+  containerStyle:{
+
+  }
 });

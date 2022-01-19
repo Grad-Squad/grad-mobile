@@ -1,40 +1,31 @@
 import EduText from 'common/EduText';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { navigationBarPropType } from 'proptypes';
 import { Colors, Constants } from 'styles';
-import { ScrollView } from 'react-native-gesture-handler';
-import SearchContext from './SearchContext';
+import { useLocalization } from 'localization';
 import SearchPosts from './SearchPosts';
-import SearchPeople from './Searchpeople';
+import SearchPeople from './SearchPeople';
 
 // eslint-disable-next-line arrow-body-style
 const SearchAll = ({navigation}) => {
 
-    const { formik, t, setFilterMode } = useContext(SearchContext);
-
-    useEffect(() => {
-        const unsubscribe = navigation?.addListener('tabPress', (e) => {
-            setFilterMode(null)
-        });
-
-        return unsubscribe;
-    }, [navigation]);
+    const { t } = useLocalization();
 
     return(
-        <ScrollView>
+        <View style={{overflow: 'scroll'}}>
             <View style={styles.specificSearchContainer}>
                 <EduText style={styles.specificSearchTitle}>{t('Search/People')}</EduText>
-                <SearchPeople numOfProfiles={2}/>
+                <SearchPeople navigation={navigation} numOfProfiles={5}/>
                 <Button mode="outlined" onPress={() => navigation.jumpTo('SearchPeople')} style={styles.viewMoreButton}>{t('Search/More')}</Button>
             </View>
             <View style={styles.specificSearchContainer}>
                 <EduText style={styles.specificSearchTitle}>{t('Search/Posts')}</EduText>
-                <SearchPosts numOfPosts={2}/>
+                <SearchPosts navigation={navigation} numOfPosts={3}/>
                 <Button mode="outlined" onPress={() => navigation.jumpTo('SearchPosts')} style={styles.viewMoreButton}>{t('Search/More')}</Button>
             </View>
-        </ScrollView>
+        </View>
     )
 }
 
@@ -47,9 +38,10 @@ export default SearchAll;
 
 const styles = StyleSheet.create({
     specificSearchContainer:{
-        padding: 5,
+        width: '100%',
+        paddingVertical: 5,
         backgroundColor: Colors.background2,
-        marginVertical: 5,
+        marginBottom: 5,
         borderColor: Colors.border,
         borderWidth: 0.25,
     },

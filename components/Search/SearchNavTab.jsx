@@ -2,16 +2,16 @@ import React, { useContext } from 'react';
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Colors } from 'styles';
+import { useLocalization } from 'localization';
 import SearchAll from './SearchAll';
 import SearchPosts from './SearchPosts';
-import SearchPeople from './Searchpeople';
-import SearchContext from './SearchContext';
+import SearchPeople from './SearchPeople';
 
 const Tab = createMaterialTopTabNavigator();
 
 const SearchNavTab = () => {
 
-  const { formik, t, setFilterMode } = useContext(SearchContext);
+  const { t } = useLocalization();
 
   return (
       <Tab.Navigator

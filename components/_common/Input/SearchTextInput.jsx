@@ -1,11 +1,13 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { Colors, Constants, Fonts, Styles } from 'styles';
 import { stylePropType } from 'proptypes';
 import { Searchbar } from 'react-native-paper';
+import { useLocalization } from 'localization';
 import TextInputFormikHOC from './TextInputFormikHOC';
+import SearchHistoryList from './SearchHistoryList';
 
 const SearchTextInput = ({
   text,
@@ -14,19 +16,25 @@ const SearchTextInput = ({
   TextInputProps,
   style,
   ...props
-}) => (
-    <Searchbar
-        value={text}
-        onChangeText={(changedText) => setText(changedText)}
-        defaultValue={defaultValue}
-        placeholder='Search'
-        style={[styles.searchText, style]}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...TextInputProps}
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...props}
-    />
-);
+}) => {
+    const { t } = useLocalization()
+
+    return (
+        <>
+            <Searchbar
+                value={text}
+                onChangeText={(changedText) => setText(changedText)}
+                defaultValue={defaultValue}
+                placeholder={t('DropDown/Search...')}
+                style={[styles.searchText, style]}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...TextInputProps}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...props}
+            />
+        </>
+    )
+};
 
 export default SearchTextInput;
 
@@ -39,6 +47,7 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.default,
         flex: 1,
         height:'70%',
+
     },
 });
 

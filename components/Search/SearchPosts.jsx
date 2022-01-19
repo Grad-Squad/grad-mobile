@@ -9,7 +9,7 @@ import { useLocalization } from 'localization';
 import { Styles } from 'styles';
 import SearchContext from './SearchContext';
 
-const SearchPosts = ({navigation, numOfPosts}) => { // ? I don't think this is right
+const SearchPosts = ({navigation, numOfPosts, listKey}) => { // ? I don't think this is right
 
     const { isLoading, fetchedSearchData } = useContext(SearchContext);
 
@@ -53,8 +53,9 @@ const SearchPosts = ({navigation, numOfPosts}) => { // ? I don't think this is r
             data={results}
             keyExtractor={(item) => item.id.toString()}
             renderItem={renderItem}
-            contentContainerStyle={{paddingTop:20}}
+            contentContainerStyle={{paddingTop:20,marginTop:10}}
             ListEmptyComponent={() => <EduText style={[Styles.errorText,styles.notFoundText]}>{t('Search/NoPosts')}</EduText>}
+            listKey={listKey}
             />
         }
         </>
@@ -63,10 +64,12 @@ const SearchPosts = ({navigation, numOfPosts}) => { // ? I don't think this is r
 
 SearchPosts.propTypes = {
     navigation:navigationBarPropType.isRequired,
+    listKey: PropTypes.string,
     numOfPosts: PropTypes.number,
 };
 SearchPosts.defaultProps = {
     numOfPosts: null,
+    listKey: "SearchPostsList",
 };
 
 export default SearchPosts;

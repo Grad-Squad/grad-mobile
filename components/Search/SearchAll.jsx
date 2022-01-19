@@ -1,6 +1,6 @@
 import EduText from 'common/EduText';
-import React, { useContext } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 import { navigationBarPropType } from 'proptypes';
 import { Colors, Constants } from 'styles';
@@ -13,19 +13,31 @@ const SearchAll = ({navigation}) => {
 
     const { t } = useLocalization();
 
-    return(
+    const DATA = [
+        {
+            key: "SearchAllList",
+        }
+    ]
+
+    const renderItem = (item) => (
         <View style={{overflow: 'scroll'}}>
             <View style={styles.specificSearchContainer}>
                 <EduText style={styles.specificSearchTitle}>{t('Search/People')}</EduText>
-                <SearchPeople navigation={navigation} numOfProfiles={5}/>
+                <SearchPeople navigation={navigation} numOfProfiles={5} listKey="SearchPeopleList"/>
                 <Button mode="outlined" onPress={() => navigation.jumpTo('SearchPeople')} style={styles.viewMoreButton}>{t('Search/More')}</Button>
             </View>
             <View style={styles.specificSearchContainer}>
-                <EduText style={styles.specificSearchTitle}>{t('Search/Posts')}</EduText>
-                <SearchPosts navigation={navigation} numOfPosts={3}/>
+                <EduText style={[styles.specificSearchTitle,styles.specificSearchTitlePost]}>{t('Search/Posts')}</EduText>
+                <SearchPosts navigation={navigation} numOfPosts={3} listKey="SearchPostsList"/>
                 <Button mode="outlined" onPress={() => navigation.jumpTo('SearchPosts')} style={styles.viewMoreButton}>{t('Search/More')}</Button>
             </View>
         </View>
+    )
+    return(
+        <FlatList
+            data= {DATA}
+            renderItem={renderItem}
+        />
     )
 }
 
@@ -56,5 +68,9 @@ const styles = StyleSheet.create({
         margin: 5,
         marginTop: 7,
         fontSize: 15,
+    },
+    specificSearchTitlePost:{
+       marginBottom:30,
     }
+
 })

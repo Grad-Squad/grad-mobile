@@ -41,7 +41,7 @@ const SearchMainPage = () =>
     isFetching: isFetchingSearchData,
     refetch: refetchSearch,
     isSuccess: isSearchSuccess,
-  } = useAPIGetSearchResult(formik.values.searchText, {
+  } = useAPIGetSearchResult(formik.values.searchText.split(' ').join('+'), {
     enabled: fetchEnabled,
     onError: (error) => {
       console.log(error);

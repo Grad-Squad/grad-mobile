@@ -9,7 +9,7 @@ import EduText from 'common/EduText';
 import { useLocalization } from 'localization';
 import SearchContext from './SearchContext';
 
-const SearchPeople = ({navigation, numOfProfiles}) => { // ? I don't think this is right
+const SearchPeople = ({navigation, numOfProfiles, listKey}) => { // ? I don't think this is right
 
     const { isLoading, fetchedSearchData } = useContext(SearchContext);
 
@@ -37,8 +37,9 @@ const SearchPeople = ({navigation, numOfProfiles}) => { // ? I don't think this 
             data={results}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({item}) => <View style={{width:'100%'}}><FollowerCard profile={item} navigation={navigation} /></View>}
-            contentContainerStyle={{paddingTop:10}}
+            contentContainerStyle={{paddingTop:10,marginTop:5}}
             ListEmptyComponent={() => <EduText style={[Styles.errorText,styles.notFoundText]}>{t('Search/NoProfiles')}</EduText>}
+            listKey={listKey}
             />
         }
         </>
@@ -47,10 +48,12 @@ const SearchPeople = ({navigation, numOfProfiles}) => { // ? I don't think this 
 
 SearchPeople.propTypes = {
     navigation: navigationBarPropType.isRequired,
+    listKey: PropTypes.string,
     numOfProfiles: PropTypes.number,
 };
 SearchPeople.defaultProps = {
     numOfProfiles: null,
+    listKey: "SearchPeopleList",
 };
 
 export default SearchPeople;

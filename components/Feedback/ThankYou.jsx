@@ -4,9 +4,8 @@ import { StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import { useLocalization } from 'localization';
 import { SecondaryActionButton } from 'common/Input/Button';
-import { Styles } from 'styles';
-import ResponsiveImage from 'common/ResponsiveImage';
 import Modal from 'common/Modal';
+import RoundedImage from 'common/RoundedImage';
 
 const ThankYou = ({ modalVisible, setModalVisible }) => {
   const { t } = useLocalization();
@@ -16,14 +15,11 @@ const ThankYou = ({ modalVisible, setModalVisible }) => {
   return (
     <Modal visible={modalVisible} onRequestClose={hideModal}>
       <View style={styles.topImageContainer}>
-        <View style={styles.topImageRoundedCorner}>
-          <ResponsiveImage
-            imageURI="https://c.tenor.com/_UaFpyE0SPYAAAAd/praying-cat.gif"
-            canMaximize={false}
-            maxWidthRatio={0.82}
-            style={styles.topImage}
-          />
-        </View>
+        <RoundedImage
+          imageURI="https://c.tenor.com/_UaFpyE0SPYAAAAd/praying-cat.gif"
+          canMaximize={false}
+          maxWidthRatio={0.82}
+        />
       </View>
       <EduText style={styles.thankYou}>
         {t('Feedback/ThankYou/THANK YOU !!')}
@@ -53,14 +49,6 @@ const styles = StyleSheet.create({
     width: '100%',
     top: '-50%',
     marginBottom: -150,
-  },
-  topImageRoundedCorner: {
-    borderRadius: 20,
-    overflow: 'hidden',
-    ...Styles.dropShadow,
-  },
-  topImage: {
-    marginBottom: 0,
   },
   thankYou: {
     fontFamily: 'Poppins_400Regular',

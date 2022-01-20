@@ -61,7 +61,7 @@ const ResponsiveImage = ({
                 Dimensions.get('window').height * maxHeightRatio
               ),
             },
-            { ...style },
+            style,
           ]}
           resizeMode="contain"
           source={{

@@ -19,12 +19,12 @@ const ErrorSnackbarProvider = ({ children }) => {
         showErrorSnackbar,
       }}
     >
+      {children}
       <ErrorSnackbar
         visible={visible}
         setVisible={setVisible}
         error={errorMsg}
       />
-      {children}
     </ErrorSnackbarContext.Provider>
   );
 };

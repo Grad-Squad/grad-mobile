@@ -61,7 +61,7 @@ function FooterRegion({
         />
       )}
       {isPost && <CommentButton count={commentCount} />}
-      {isPost && <Bookmark />}
+      {isPost && <Bookmark postId={postId}/>}
       <Options onEdit={onEdit} onDelete={onDelete} contentProfileId={contentProfileId} />
     </View>
   );

@@ -11,6 +11,7 @@ import ReactQueryClient from 'components/ReactQueryClient/ReactQueryClient';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Platform, UIManager } from 'react-native';
 import FirstTimeMessages from 'components/FirstTimeMessages/FirstTimeMessages';
+import BookmarkSavedSnackbarProvider from 'components/BookmarkSavedSnackbar/BookmarkSavedSnackbarProvider';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
@@ -46,6 +47,7 @@ export default function App() {
       <GlobalStore>
         <ReduxProvider store={store}>
           <ErrorSnackbarProvider>
+            <BookmarkSavedSnackbarProvider>
               <ReactQueryClient>
                 <PaperProvider theme={theme}>
                   <SafeAreaProvider>
@@ -55,6 +57,7 @@ export default function App() {
                   </SafeAreaProvider>
                 </PaperProvider>
               </ReactQueryClient>
+            </BookmarkSavedSnackbarProvider>
           </ErrorSnackbarProvider>
         </ReduxProvider>
       </GlobalStore>

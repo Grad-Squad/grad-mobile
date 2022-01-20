@@ -208,7 +208,8 @@
     "Could not connect to the server": "تعذر الاتصال بالخادم",
     "Cannot follow user": "لم نتمكن من متابعة المستخدم",
     "Cannot unfollow user": "لم نتمكن من إلغاء متابعة المستخدم",
-    "Email Already Registered": "البريد الإلكتروني مسجل مسبقا"
+    "Email Already Registered": "البريد الإلكتروني مسجل مسبقا",
+    "Couldn't save Post, Try Again": "تعذر حفظ المنشور ، حاول مرة أخرى"
   },
   "CheeringWords": {
     "Good": {
@@ -406,6 +407,29 @@
       "Let us hear from you": "دعونا نسمع منك",
       "At any time, You can shake your phone to send us feedback, whether it’s a bug you found, a suggestion you have, or you just wanna say something.": "في أي وقت ، يمكنك هز هاتفك لإرسال تعليقات إلينا ، سواء أكان خطأ وجدته ، أو اقتراحًا لديك ، أو تريد فقط أن تقول شيئًا.",
       "Whatever you want to say. We want to hear it.": "كل ما تريد قوله. نحن نريد أن نسمع ذلك."
+    }
+  },
+  "Post": {
+    "save": "حفظ"
+  },
+  "BookmarkSavedSnackbar": {
+    "Post saved": "تم حفظ المنشور",
+    "Change Folder": "تغير مجلد"
+  },
+  "BookmarksTab": {
+    "Your Bookmarks": "محفوظاتك"
+  },
+  "BookmarksList": {
+    "Empty": {
+      "You haven't bookmarked any post yet": "لم تقم بحفظ أي منشور حتى الآن",
+      "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.": "يمكنك حفظ المنشورات لمراجعتها في وقت لاحق. يمكنك حتى تنظيمها في مجلدات ومجلدات داخل مجلدات."
+    },
+    "Folders": "المجلدات",
+    "Posts": "المنشورات",
+    
+    "NoItems": {
+      "No Folders": "لا توجد مجلدات",
+      "No Bookmarked Posts": "لا توجد منشورات محفوظة"
     }
   }
 }

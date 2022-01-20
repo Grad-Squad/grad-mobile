@@ -1,11 +1,52 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
 
 import EduText from 'common/EduText';
-import { Icon } from 'react-native-elements';
+import { Icon } from 'common/Icon';
+import { IconNames } from 'common/Icon/Icon';
+import { useAddPostToBookmark } from 'api/endpoints/bookmarks';
+import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
+import { useLocalization } from 'localization';
+import { useStore } from 'globalStore/GlobalStore';
+import { useBookmarkSavedSnackbar } from 'components/BookmarkSavedSnackbar/BookmarkSavedSnackbarProvider';
 import { BOOKMARK_HIT_SLOP_OBJECT } from '../../../constants';
+
+function Bookmark({ postId }) {
+  const { t } = useLocalization();
+  const [store] = useStore();
+
+  const [isSaved, setIsSaved] = useState(false);
+
+  const { showErrorSnackbar } = useErrorSnackbar();
+  const { showBookmarkSavedSnackbar } = useBookmarkSavedSnackbar();
+
+  const addPostToBookmarkMutation = useAddPostToBookmark({
+    onSuccess: (bookmarkData) => {
+      setIsSaved(true);
+      showBookmarkSavedSnackbar(postId, bookmarkData.id);
+    },
+    onError: () => {
+      showErrorSnackbar(t("Snackbar/Couldn't save Post, Try Again"));
+    },
+  });
+
+  const onPress = () => {
+    addPostToBookmarkMutation.mutate({ profileId: store.profileId, postId });
+  };
+
+  return (
+    <TouchableOpacity
+      style={styles.BookmarkContainer}
+      onPress={onPress}
+      hitSlop={BOOKMARK_HIT_SLOP_OBJECT}
+    >
+      <Icon name={isSaved ? IconNames.bookmarkFilled : IconNames.bookmark} />
+      <EduText>{t('Post/save')}</EduText>
+    </TouchableOpacity>
+  );
+}
 
 const styles = StyleSheet.create({
   BookmarkContainer: {
@@ -13,52 +54,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     maxWidth: 60,
   },
-  button: {
-    flexDirection: 'row',
-  },
 });
-
-function Bookmark({ saved }) {
-  const [isSaved, setIsSaved] = useState(saved);
-  const savePostHandler = () => {
-    if (!isSaved) {
-      // do stuff
-    } else {
-      // do other stuff
-    }
-    setIsSaved(!isSaved);
-  };
-
-  return (
-    <View style={styles.OptionsContainer}>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={savePostHandler}
-        hitSlop={BOOKMARK_HIT_SLOP_OBJECT}
-      >
-        <View style={styles.BookmarkContainer}>
-          {isSaved ? (
-            <>
-              <Icon name="bookmark" type="material-community" />
-              <EduText>saved</EduText>
-            </>
-          ) : (
-            <>
-              <Icon name="bookmark" type="feather" />
-              <EduText>save</EduText>
-            </>
-          )}
-        </View>
-      </TouchableOpacity>
-    </View>
-  );
-}
 
 export default React.memo(Bookmark);
 
 Bookmark.propTypes = {
-  saved: PropTypes.bool,
+  postId: PropTypes.number.isRequired,
 };
-Bookmark.defaultProps = {
-  saved: false,
-};
+Bookmark.defaultProps = {};

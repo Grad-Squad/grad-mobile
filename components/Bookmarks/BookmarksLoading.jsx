@@ -7,6 +7,11 @@ import { stylePropType } from 'proptypes';
 import BookmarksFolderSkeleton from './BookmarksFolderSkeleton';
 import FoldersHeader from './FoldersHeader';
 
+const getListOfIds = (num) =>
+  Array(num)
+    .fill()
+    .map((_, i) => ({ id: i }));
+
 const BookmarksLoading = ({ foldersSeparatorStyle, headerStyle }) => {
   const { t } = useLocalization();
   return (
@@ -14,14 +19,14 @@ const BookmarksLoading = ({ foldersSeparatorStyle, headerStyle }) => {
       sections={[
         {
           id: 'folders',
-          data: [{ id: 1 }, { id: 2 }],
+          data: getListOfIds(2),
           renderItem: () => <BookmarksFolderSkeleton />,
           ItemSeparatorComponent: () => <View style={foldersSeparatorStyle} />,
           header: <FoldersHeader hideAdd />,
         },
         {
           id: 'posts',
-          data: [{ id: 1 }],
+          data: getListOfIds(1),
           renderItem: () => <PostSkeleton />,
           header: (
             <EduText style={headerStyle}>{t('BookmarksList/Posts')}</EduText>

@@ -9,6 +9,7 @@ import { useLocalization } from 'localization';
 import { Constants } from 'styles';
 import EduText from 'common/EduText';
 import QueryRefreshControl from 'common/QueryRefreshControl';
+import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import NoBookmarks from './NoBookmarks';
 import BookmarksPostWrapper from './BookmarksPostWrapper';
 import BookmarksFolder from './BookmarksFolder';
@@ -21,26 +22,31 @@ import FolderOptionsBottomSheet from './FolderOptionsBottomSheet';
 const BookmarksList = ({ profileId }) => {
   const { t } = useLocalization();
 
+  const { showErrorSnackbar } = useErrorSnackbar();
+  const onApiError = () => {
+    showErrorSnackbar(t("BookmarksList/Couldn't get bookmarks, Try again"));
+  };
+
   const [currentBookmarkId, setCurrentBookmarkId] = useState(undefined);
   const inRootBookmark = currentBookmarkId === undefined;
   const {
     data: parentData,
     isLoading: parentIsLoading,
-    isError: parentIsError,
     isFetching: parentIsFetching,
     refetch: parentRefetch,
   } = useGetBookmarksFolder(profileId, {
     enabled: inRootBookmark,
+    onError: onApiError,
   });
 
   const {
     data: currentBookmarkData,
     isLoading: currentBookmarkIsLoading,
-    isError: currentBookmarkIsError,
     isFetching: currentBookmarkIsFetching,
     refetch: currentBookmarkRefetch,
   } = useGetSpecificBookmarksFolder(profileId, currentBookmarkId, {
     enabled: !inRootBookmark,
+    onError: onApiError,
   });
 
   const isFetching = parentIsFetching || currentBookmarkIsFetching;
@@ -72,8 +78,8 @@ const BookmarksList = ({ profileId }) => {
               setCurrentBookmarkId(item.id);
             }}
             onOptionsPress={() => {
-              setSelectedFolder(item)
-              folderOptionsBottomSheetRef.current.expand()
+              setSelectedFolder(item);
+              folderOptionsBottomSheetRef.current.expand();
             }}
           />
         ),

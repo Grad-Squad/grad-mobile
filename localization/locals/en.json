@@ -437,6 +437,11 @@
       "Cancel": "Cancel",
       "Create": "Create",
       "Couldn't Create Folder, Try again": "Couldn't Create Folder, Try again"
+    },
+    "FolderOptionsBottomSheet": {
+      "Edit Folder": "Edit Folder",
+      "Delete Folder": "Delete Folder",
+      "Cancel": "Cancel"
     }
   }
 }

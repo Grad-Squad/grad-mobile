@@ -16,6 +16,7 @@ import BookmarksBreadCrumbs from './BookmarksBreadCrumbs';
 import FoldersHeader from './FoldersHeader';
 import AddFolderBottomSheet from './AddFolderBottomSheet';
 import BookmarksLoading from './BookmarksLoading';
+import FolderOptionsBottomSheet from './FolderOptionsBottomSheet';
 
 const BookmarksList = ({ profileId }) => {
   const { t } = useLocalization();
@@ -52,7 +53,10 @@ const BookmarksList = ({ profileId }) => {
   const refetch = inRootBookmark ? parentRefetch : currentBookmarkRefetch;
   const bookmarkId = inRootBookmark ? data?.id : currentBookmarkId;
 
-  const bottomSheetRef = useRef(null);
+  const addFolderBottomSheetRef = useRef(null);
+  const folderOptionsBottomSheetRef = useRef(null);
+
+  const [selectedFolder, setSelectedFolder] = useState(undefined);
 
   const sections = useMemo(
     () => [
@@ -66,12 +70,16 @@ const BookmarksList = ({ profileId }) => {
               setPath((prev) => [...prev, item.title]);
               setCurrentBookmarkId(item.id);
             }}
+            onOptionsPress={() => {
+              setSelectedFolder(item)
+              folderOptionsBottomSheetRef.current.expand()
+            }}
           />
         ),
         ItemSeparatorComponent: () => <View style={styles.foldersSeparator} />,
         header: (
           <FoldersHeader
-            onAddFolderPress={() => bottomSheetRef.current.expand()}
+            onAddFolderPress={() => addFolderBottomSheetRef.current.expand()}
           />
         ),
         footer: folders.length === 0 && (
@@ -137,8 +145,12 @@ const BookmarksList = ({ profileId }) => {
         }
         stickySectionHeadersEnabled={false}
       />
+      <FolderOptionsBottomSheet
+        bottomSheetRef={folderOptionsBottomSheetRef}
+        selectedFolder={selectedFolder}
+      />
       <AddFolderBottomSheet
-        bottomSheetRef={bottomSheetRef}
+        bottomSheetRef={addFolderBottomSheetRef}
         profileId={profileId}
         parentBookmarkId={bookmarkId}
         inRootBookmark={inRootBookmark}

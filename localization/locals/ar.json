@@ -426,7 +426,6 @@
     },
     "Folders": "المجلدات",
     "Posts": "المنشورات",
-    
     "NoItems": {
       "No Folders": "لا توجد مجلدات",
       "No Bookmarked Posts": "لا توجد منشورات محفوظة"
@@ -438,6 +437,11 @@
       "Cancel": "إلغاء",
       "Create": "إنشاء",
       "Couldn't Create Folder, Try again": "تعذر إنشاء مجلد ، حاول مرة أخرى"
+    },
+    "FolderOptionsBottomSheet": {
+      "Edit Folder": "تعديل المجلد",
+      "Delete Folder": "حذف المجلد",
+      "Cancel": "إلغاء"
     }
   }
 }

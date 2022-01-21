@@ -87,7 +87,11 @@
     "Please specify your interests": "من فضلك اختر المواد التي تريد رؤيتها",
     "You can change your interests at any time in the app settings": "يمكنك تغيير موضوعاتك المفضلة في أي وقت من خلال إعدادات التطبيق",
     "Submit": "إرسال",
-    "SubjectCourse": "مادة/دورة"
+    "SubjectCourse": "مادة/دورة",
+    "Sent Successfully ✅": "تم الإرسال بنجاح ✅"
+  },
+  "Options": {
+    "Change Subjects you follow": "غيّر المواد التي تتابعها"
   },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",

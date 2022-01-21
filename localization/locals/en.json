@@ -87,7 +87,11 @@
     "Please specify your interests": "Please specify your interests",
     "You can change your interests at any time in the app settings": "You can change your interests at any time in the app settings",
     "Submit": "Submit",
-    "SubjectCourse": "Subject/Course"
+    "SubjectCourse": "Subject/Course",
+    "Sent Successfully ✅": "Sent Successfully ✅"
+  },
+  "Options": {
+    "Change Subjects you follow": "Change Subjects you follow"
   },
   "CreatePost": {
     "Create New Post": "Create New Post",

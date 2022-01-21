@@ -15,7 +15,9 @@ const BookmarksFolder = ({ name, onPress, onOptionsPress }) => (
   >
     <View style={styles.leftSideContainer}>
       <Icon name={IconNames.Folder} size={32} />
-      <EduText style={styles.text}>{name}</EduText>
+      <EduText style={styles.text} numberOfLines={1}>
+        {name}
+      </EduText>
     </View>
     <PressableIcon name={IconNames.dotsVertical} onPress={onOptionsPress} />
   </Pressable>
@@ -52,5 +54,9 @@ const styles = StyleSheet.create({
   leftSideContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+
+    flex: 1,
+
+    marginRight: 30,
   },
 });

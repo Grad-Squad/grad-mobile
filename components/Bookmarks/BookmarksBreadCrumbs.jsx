@@ -40,7 +40,7 @@ export default BookmarksBreadCrumbs;
 const styles = StyleSheet.create({
   header: {
     marginTop: Constants.commonMargin,
-    marginLeft: Constants.commonMargin,
+    marginHorizontal: Constants.commonMargin,
   },
   row: {
     flexDirection: 'row',

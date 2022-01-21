@@ -1,19 +1,25 @@
 import React, { useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-
-import { useAPIGetSubjects } from 'api/endpoints/subjects';
+import Proptypes from 'prop-types';
+import {
+  useAPIGetSubjects,
+  useUpdateFavoriteSubjects,
+} from 'api/endpoints/subjects';
 import { useLocalization } from 'localization';
 import { DropdownList } from 'common/Input';
 import EduText from 'common/EduText';
 import { Constants } from 'styles';
 import { MainActionButton } from 'common/Input/Button';
 
-const FeedEmptyComponent = () => {
+const FeedEmptyComponent = ({ onInterestsUpdated }) => {
   const mapDataToDropDownItems = (data) =>
     data.map((item) => ({ label: item.content, id: item.content }));
   const { data: subjects } = useAPIGetSubjects({ initialData: [] });
-  const { t } = useLocalization();
   const [interests, setInterests] = useState();
+  const { t } = useLocalization();
+  const updateInterestsMutation = useUpdateFavoriteSubjects({
+    onSuccess: () => onInterestsUpdated(),
+  });
   return (
     <View style={styles.container}>
       <EduText style={[styles.text, styles.biggerFont]}>
@@ -32,7 +38,7 @@ const FeedEmptyComponent = () => {
       />
       <EduText style={styles.text}>
         {t(
-          'EmptyFeed/You can change you interests at any time in the app settings'
+          'EmptyFeed/You can change your interests at any time in the app settings'
         )}
       </EduText>
       <MainActionButton
@@ -40,14 +46,22 @@ const FeedEmptyComponent = () => {
         text={t('EmptyFeed/Submit')}
         style={styles.submitBtn}
         onPress={() => {
-          // setIsQuestionAnswered(true);
-          // onAnswerSubmitted();
+          const subjectNameToId = {};
+          subjects.forEach((subject) => {
+            subjectNameToId[subject.content] = subject.id;
+          });
+          const subjectIds = interests?.map(
+            (subjectName) => subjectNameToId[subjectName]
+          );
+          updateInterestsMutation.mutate(subjectIds);
         }}
       />
     </View>
   );
 };
-FeedEmptyComponent.propTypes = {};
+FeedEmptyComponent.propTypes = {
+  onInterestsUpdated: Proptypes.func.isRequired,
+};
 FeedEmptyComponent.defaultProps = {};
 
 export default FeedEmptyComponent;

@@ -9,6 +9,7 @@ import { Colors, Constants } from 'styles';
 import TagLabel from 'common/TagLabel';
 import EduText from 'common/EduText';
 import { searchUtil } from 'api/util';
+import { t } from 'i18n-js';
 import TransparentTextInput from './TransparentTextInput';
 
 const renderItem = (item, onPresshandler, choices) => (
@@ -134,6 +135,7 @@ const DropdownList = ({
               text={searchText}
               setText={setSearchText}
               style={{ width: '87%' }}
+              placeholder={t('DropDown/Search...')}
             />
           </View>
           <FlatList

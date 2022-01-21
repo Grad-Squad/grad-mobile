@@ -441,7 +441,8 @@
     "FolderOptionsBottomSheet": {
       "Edit Folder": "Edit Folder",
       "Delete Folder": "Delete Folder",
-      "Cancel": "Cancel"
+      "Cancel": "Cancel",
+      "Couldn't Delete Folder, Try again": "Couldn't Delete Folder, Try again"
     }
   }
 }

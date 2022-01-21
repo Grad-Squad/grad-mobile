@@ -441,7 +441,8 @@
     "FolderOptionsBottomSheet": {
       "Edit Folder": "تعديل المجلد",
       "Delete Folder": "حذف المجلد",
-      "Cancel": "إلغاء"
+      "Cancel": "إلغاء",
+      "Couldn't Delete Folder, Try again": "تعذر حذف المجلد ، حاول مرة أخرى"
     }
   }
 }

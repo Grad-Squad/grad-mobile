@@ -148,6 +148,9 @@ const BookmarksList = ({ profileId }) => {
       <FolderOptionsBottomSheet
         bottomSheetRef={folderOptionsBottomSheetRef}
         selectedFolder={selectedFolder}
+        profileId={profileId}
+        parentBookmarkId={bookmarkId}
+        inRootBookmark={inRootBookmark}
       />
       <AddFolderBottomSheet
         bottomSheetRef={addFolderBottomSheetRef}

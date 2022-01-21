@@ -66,6 +66,7 @@ const BookmarksList = ({ profileId }) => {
         renderItem: ({ item }) => (
           <BookmarksFolder
             name={item.title}
+            isPublic={item.isPublic}
             onPress={() => {
               setPath((prev) => [...prev, item.title]);
               setCurrentBookmarkId(item.id);

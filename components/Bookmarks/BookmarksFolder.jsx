@@ -7,9 +7,9 @@ import { Colors, Constants } from 'styles';
 import EduText from 'common/EduText';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 
-const BookmarksFolder = ({ name, onPress, onOptionsPress }) => (
+const BookmarksFolder = ({ name, onPress, isPublic, onOptionsPress }) => (
   <Pressable
-    style={styles.container}
+    style={[styles.container, !isPublic && styles.privateFolder]}
     onPress={onPress}
     android_ripple={pressableAndroidRipple}
   >
@@ -25,6 +25,7 @@ const BookmarksFolder = ({ name, onPress, onOptionsPress }) => (
 
 BookmarksFolder.propTypes = {
   name: PropTypes.string.isRequired,
+  isPublic: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired,
   onOptionsPress: PropTypes.func.isRequired,
 };
@@ -47,6 +48,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.offBlack,
     borderRadius: Constants.borderRadius,
+  },
+  privateFolder: {
+    borderStyle: 'dashed',
   },
   text: {
     marginLeft: 5,

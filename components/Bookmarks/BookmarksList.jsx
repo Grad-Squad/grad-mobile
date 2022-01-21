@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { SectionList, StyleSheet, View } from 'react-native';
 import {
@@ -14,11 +14,15 @@ import NoBookmarks from './NoBookmarks';
 import BookmarksPostWrapper from './BookmarksPostWrapper';
 import BookmarksFolder from './BookmarksFolder';
 import BookmarksBreadCrumbs from './BookmarksBreadCrumbs';
+import FoldersHeader from './FoldersHeader';
+import AddFolderBottomSheet from './AddFolderBottomSheet';
 
 const BookmarksList = ({ profileId }) => {
+
   const { t } = useLocalization();
 
   const [currentBookmarkId, setCurrentBookmarkId] = useState(undefined);
+  const inRootBookmark =  currentBookmarkId === undefined
   const {
     data: parentData,
     isLoading: parentIsLoading,
@@ -26,7 +30,7 @@ const BookmarksList = ({ profileId }) => {
     isFetching: parentIsFetching,
     refetch: parentRefetch,
   } = useGetBookmarksFolder(profileId, {
-    enabled: currentBookmarkId === undefined,
+    enabled: inRootBookmark,
   });
 
   const {
@@ -36,7 +40,7 @@ const BookmarksList = ({ profileId }) => {
     isFetching: currentBookmarkIsFetching,
     refetch: currentBookmarkRefetch,
   } = useGetSpecificBookmarksFolder(profileId, currentBookmarkId, {
-    enabled: currentBookmarkId !== undefined,
+    enabled: !inRootBookmark,
   });
 
   const isFetching = parentIsFetching || currentBookmarkIsFetching;
@@ -45,12 +49,16 @@ const BookmarksList = ({ profileId }) => {
   const [path, setPath] = useState([]);
 
   const data =
-    currentBookmarkId === undefined
+    inRootBookmark
       ? parentData?.[0]
       : currentBookmarkData?.[0];
-  const refetch =
-    currentBookmarkId === undefined ? parentRefetch : currentBookmarkRefetch;
   const { folders = [], posts = [] } = data || {};
+  const refetch =
+    inRootBookmark ? parentRefetch : currentBookmarkRefetch;
+  const bookmarkId =
+    inRootBookmark ? data?.id : currentBookmarkId;
+
+  const bottomSheetRef = useRef(null);
 
   const sections = useMemo(
     () => [
@@ -68,7 +76,9 @@ const BookmarksList = ({ profileId }) => {
         ),
         ItemSeparatorComponent: () => <View style={styles.foldersSeparator} />,
         header: (
-          <EduText style={styles.header}>{t('BookmarksList/Folders')}</EduText>
+          <FoldersHeader
+            onAddFolderPress={() => bottomSheetRef.current.expand()}
+          />
         ),
         footer: folders.length === 0 && (
           <EduText style={styles.noItems}>
@@ -98,36 +108,44 @@ const BookmarksList = ({ profileId }) => {
     return <FillLoadingIndicator />;
   }
 
-  if (folders.length + posts.length === 0) {
+  if (folders.length + posts.length === 0 && inRootBookmark) {
     return <NoBookmarks />;
   }
 
   return (
-    <SectionList
-      sections={sections}
-      ListHeaderComponent={
-        <BookmarksBreadCrumbs
-          path={path}
-          onBackPress={() => {
-            setCurrentBookmarkId(data.parent);
-            setPath((prev) => prev.slice(0, -1));
-          }}
-        />
-      }
-      renderSectionHeader={({ section }) => section.header}
-      renderSectionFooter={({ section }) => section.footer}
-      keyExtractor={(item) => item.id}
-      refreshControl={
-        <QueryRefreshControl
-          refetch={() => {
-            refetch();
-          }}
-          isFetching={isFetching}
-          isLoading={isLoading}
-        />
-      }
-      stickySectionHeadersEnabled={false}
-    />
+    <>
+      <SectionList
+        sections={sections}
+        ListHeaderComponent={
+          <BookmarksBreadCrumbs
+            path={path}
+            onBackPress={() => {
+              setCurrentBookmarkId(data.parent.id);
+              setPath((prev) => prev.slice(0, -1));
+            }}
+          />
+        }
+        renderSectionHeader={({ section }) => section.header}
+        renderSectionFooter={({ section }) => section.footer}
+        keyExtractor={(item) => item.id}
+        refreshControl={
+          <QueryRefreshControl
+            refetch={() => {
+              refetch();
+            }}
+            isFetching={isFetching}
+            isLoading={isLoading}
+          />
+        }
+        stickySectionHeadersEnabled={false}
+      />
+      <AddFolderBottomSheet
+        bottomSheetRef={bottomSheetRef}
+        profileId={profileId}
+        parentBookmarkId={bookmarkId}
+        inRootBookmark={inRootBookmark}
+      />
+    </>
   );
 };
 
@@ -143,11 +161,8 @@ const styles = StyleSheet.create({
     marginTop: (Constants.commonMargin * 2) / 3,
   },
   header: {
-    marginTop: Constants.commonMargin,
-    marginLeft: Constants.commonMargin,
-    marginBottom: Constants.commonMargin,
-
-    // backgroundColor: 'pink',
+    margin: Constants.commonMargin,
+    marginBottom: Constants.commonMargin + 10,
   },
   noItems: {
     textAlign: 'center',

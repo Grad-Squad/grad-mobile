@@ -429,6 +429,14 @@
     "NoItems": {
       "No Folders": "No Folders",
       "No Bookmarked Posts": "No Bookmarked Posts"
+    },
+    "CreateBookmarksFolder": {
+      "Create Folder": "Create Folder",
+      "Folder Title": "Folder Title",
+      "Public": "Public",
+      "Cancel": "Cancel",
+      "Create": "Create",
+      "Couldn't Create Folder, Try again": "Couldn't Create Folder, Try again"
     }
   }
 }

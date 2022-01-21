@@ -430,6 +430,14 @@
     "NoItems": {
       "No Folders": "لا توجد مجلدات",
       "No Bookmarked Posts": "لا توجد منشورات محفوظة"
+    },
+    "CreateBookmarksFolder": {
+      "Create Folder": "إنشاء مجلد",
+      "Folder Title": "عنوان المجلد",
+      "Public": "عام",
+      "Cancel": "إلغاء",
+      "Create": "إنشاء",
+      "Couldn't Create Folder, Try again": "تعذر إنشاء مجلد ، حاول مرة أخرى"
     }
   }
 }

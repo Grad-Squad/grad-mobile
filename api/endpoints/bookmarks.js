@@ -50,17 +50,21 @@ export const useRemovePostToBookmark = (mutationConfig) => {
 export const useCreateBookmarksFolder = (mutationConfig) => {
   const { axios } = useAxios();
 
-  return useMutation(async ({ profileId, title, isPublic }) => {
-    const { data } = await axios.post(
-      formatString(endpoints.profile.BookmarksFolder, profileId),
-      {
-        title,
-        isPublic,
-      }
-    );
+  return useMutation(
+    async ({ profileId, title, parentBookmarkId, isPublic }) => {
+      const { data } = await axios.post(
+        formatString(endpoints.profile.BookmarksFolder, profileId),
+        {
+          title,
+          parent: parentBookmarkId,
+          isPublic,
+        }
+      );
 
-    return data;
-  }, mutationConfig);
+      return data;
+    },
+    mutationConfig
+  );
 };
 
 export const useUpdateBookmarksFolder = (mutationConfig) => {
@@ -96,7 +100,7 @@ export const useRemoveBookmarksFolder = (mutationConfig) => {
   }, mutationConfig);
 };
 
-const getBookmarksFolderQueryKey = (profileId, bookmarkId) =>
+export const getBookmarksFolderQueryKey = (profileId, bookmarkId) =>
   bookmarkId !== undefined
     ? ['bookmarksFolder', profileId, bookmarkId]
     : ['bookmarksFolder', profileId];

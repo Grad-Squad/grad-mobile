@@ -7,9 +7,9 @@ import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 
-const BookmarksBreadCrumbs = ({ path, onBackPress }) => (
-  <View style={styles.header}>
-    {path.length !== 0 && (
+const BookmarksBreadCrumbs = ({ path, onBackPress }) =>
+  path.length !== 0 && (
+    <View style={styles.header}>
       <View>
         <EduText>{path.join('/')}/</EduText>
         {path && (
@@ -26,9 +26,8 @@ const BookmarksBreadCrumbs = ({ path, onBackPress }) => (
           </View>
         )}
       </View>
-    )}
-  </View>
-);
+    </View>
+  );
 
 BookmarksBreadCrumbs.propTypes = {
   path: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,

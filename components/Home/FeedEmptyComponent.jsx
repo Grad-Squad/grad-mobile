@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 import Proptypes from 'prop-types';
 import {
   useAPIGetSubjects,
+  useGetFavoriteSubjects,
   useUpdateFavoriteSubjects,
 } from 'api/endpoints/subjects';
 import { useLocalization } from 'localization';
@@ -17,6 +18,13 @@ const FeedEmptyComponent = ({ onInterestsUpdated }) => {
   const { data: subjects } = useAPIGetSubjects({ initialData: [] });
   const [interests, setInterests] = useState();
   const { t } = useLocalization();
+  const [lateInitInterests, setLateInitInterests] = useState(null);
+  useGetFavoriteSubjects({
+    onSuccess: (data) => {
+      setInterests(data.map((subject) => subject.content));
+      setLateInitInterests(data.map((subject) => subject.content));
+    },
+  });
   const updateInterestsMutation = useUpdateFavoriteSubjects({
     onSuccess: () => onInterestsUpdated(),
   });
@@ -32,6 +40,7 @@ const FeedEmptyComponent = ({ onInterestsUpdated }) => {
         placeholder={t('EmptyFeed/SubjectCourse')}
         value={interests}
         setValueFunction={(newValue) => setInterests(newValue)}
+        lateInitChoice={lateInitInterests}
         items={mapDataToDropDownItems(subjects)}
         multiple
         max={9999}
@@ -56,6 +65,14 @@ const FeedEmptyComponent = ({ onInterestsUpdated }) => {
           updateInterestsMutation.mutate(subjectIds);
         }}
       />
+      <EduText
+        style={[
+          styles.text,
+          !updateInterestsMutation.isSuccess && styles.opacityZero,
+        ]}
+      >
+        {t('EmptyFeed/Sent Successfully ✅')}
+      </EduText>
     </View>
   );
 };
@@ -83,5 +100,8 @@ const styles = StyleSheet.create({
   submitBtn: {
     alignSelf: 'center',
     width: Dimensions.get('window').width * 0.5,
+  },
+  opacityZero: {
+    opacity: 0,
   },
 });

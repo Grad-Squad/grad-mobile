@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
-import { Colors, Constants } from 'styles';
+import { Constants } from 'styles';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import { useLocalization } from 'localization';
@@ -13,6 +13,7 @@ import {
   useUpdateFavoriteSubjects,
 } from 'api/endpoints/subjects';
 import { MainActionButton } from 'common/Input/Button';
+import OptionsHeader from './OptionsHeader';
 
 const ChangeInterests = () => {
   const navigation = useNavigation();
@@ -37,6 +38,7 @@ const ChangeInterests = () => {
   });
   return (
     <Page>
+      <OptionsHeader titleText={t('Options/Change Subjects you follow')} />
       <View style={styles.container}>
         <EduText style={styles.text}>
           {t('EmptyFeed/Please specify your interests')}

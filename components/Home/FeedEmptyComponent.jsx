@@ -28,7 +28,7 @@ const FeedEmptyComponent = () => {
         setValueFunction={(newValue) => setInterests(newValue)}
         items={mapDataToDropDownItems(subjects)}
         multiple
-        max={99}
+        max={9999}
       />
       <EduText style={styles.text}>
         {t(
@@ -36,6 +36,7 @@ const FeedEmptyComponent = () => {
         )}
       </EduText>
       <MainActionButton
+        disabled={!interests}
         text={t('EmptyFeed/Submit')}
         style={styles.submitBtn}
         onPress={() => {

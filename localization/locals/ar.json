@@ -323,6 +323,12 @@
       "message": "هل أنت متأكد أنك تريد حذف صورة ملفك الشخصي؟ \n لا يمكنك التراجع عن هذا الإجراء",
       "confirm button": "حذف",
       "reject button": "إلغاء"
+    },
+    "Confirm Delete Bookmarks Folder?": {
+      "title": "احذف المجلد؟",
+      "message": "لا يمكن التراجع عن هذا الإجراء",
+      "confirm button": "حذف",
+      "reject button": "يلغي"
     }
   },
   "ProfilePicture": {

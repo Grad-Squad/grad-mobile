@@ -12,6 +12,7 @@ import {
 } from 'api/endpoints/bookmarks';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import BaseAlert from 'common/alerts/BaseAlert';
 
 const snapPoints = ['28%'];
 const FolderOptionsBottomSheet = ({
@@ -73,9 +74,11 @@ const FolderOptionsBottomSheet = ({
         <TransparentButton
           text={t('BookmarksList/FolderOptionsBottomSheet/Delete Folder')}
           onPress={() => {
-            removeBookmarksFolderMutation.mutate({
-              profileId,
-              bookmarkId: selectedFolder.id,
+            BaseAlert(t, 'Confirm Delete Bookmarks Folder?', () => {
+              removeBookmarksFolderMutation.mutate({
+                profileId,
+                bookmarkId: selectedFolder.id,
+              });
             });
           }}
           style={styles.button}

@@ -323,6 +323,12 @@
       "message": "Are you sure you want remove your profile picture?\nyou can't undo this action",
       "confirm button": "Remove",
       "reject button": "Cancel"
+    },
+    "Confirm Delete Bookmarks Folder?": {
+      "title": "Delete folder?",
+      "message": "this action cannot be undone",
+      "confirm button": "Delete",
+      "reject button": "Cancel"
     }
   },
   "ProfilePicture": {

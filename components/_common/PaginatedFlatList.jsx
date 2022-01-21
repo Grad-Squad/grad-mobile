@@ -46,7 +46,7 @@ const PaginatedFlatList = ({
   return (
     <Animated.FlatList
       contentContainerStyle={contentContainerStyle}
-      data={[]}
+      data={flatListItems}
       onScroll={onScroll}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}

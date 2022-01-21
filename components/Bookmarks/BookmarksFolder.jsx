@@ -26,12 +26,16 @@ BookmarksFolder.defaultProps = {};
 
 export default BookmarksFolder;
 
+export const folderSpacingStyle = {
+  marginHorizontal: Constants.commonMargin,
+};
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: Constants.commonMargin / 2,
-    marginHorizontal: Constants.commonMargin,
+    ...folderSpacingStyle,
     borderWidth: 1,
     borderColor: Colors.offBlack,
     borderRadius: Constants.borderRadius,

@@ -5,7 +5,6 @@ import {
   useGetBookmarksFolder,
   useGetSpecificBookmarksFolder,
 } from 'api/endpoints/bookmarks';
-import FillLoadingIndicator from 'common/FillLoadingIndicator';
 import { useLocalization } from 'localization';
 import { Constants } from 'styles';
 import EduText from 'common/EduText';
@@ -16,13 +15,13 @@ import BookmarksFolder from './BookmarksFolder';
 import BookmarksBreadCrumbs from './BookmarksBreadCrumbs';
 import FoldersHeader from './FoldersHeader';
 import AddFolderBottomSheet from './AddFolderBottomSheet';
+import BookmarksLoading from './BookmarksLoading';
 
 const BookmarksList = ({ profileId }) => {
-
   const { t } = useLocalization();
 
   const [currentBookmarkId, setCurrentBookmarkId] = useState(undefined);
-  const inRootBookmark =  currentBookmarkId === undefined
+  const inRootBookmark = currentBookmarkId === undefined;
   const {
     data: parentData,
     isLoading: parentIsLoading,
@@ -48,15 +47,10 @@ const BookmarksList = ({ profileId }) => {
 
   const [path, setPath] = useState([]);
 
-  const data =
-    inRootBookmark
-      ? parentData?.[0]
-      : currentBookmarkData?.[0];
+  const data = inRootBookmark ? parentData?.[0] : currentBookmarkData?.[0];
   const { folders = [], posts = [] } = data || {};
-  const refetch =
-    inRootBookmark ? parentRefetch : currentBookmarkRefetch;
-  const bookmarkId =
-    inRootBookmark ? data?.id : currentBookmarkId;
+  const refetch = inRootBookmark ? parentRefetch : currentBookmarkRefetch;
+  const bookmarkId = inRootBookmark ? data?.id : currentBookmarkId;
 
   const bottomSheetRef = useRef(null);
 
@@ -104,8 +98,12 @@ const BookmarksList = ({ profileId }) => {
   );
 
   if (isLoading) {
-    // skeleton ?
-    return <FillLoadingIndicator />;
+    return (
+      <BookmarksLoading
+        foldersSeparatorStyle={styles.foldersSeparator}
+        headerStyle={styles.header}
+      />
+    );
   }
 
   if (folders.length + posts.length === 0 && inRootBookmark) {

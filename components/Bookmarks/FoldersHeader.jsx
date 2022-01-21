@@ -7,21 +7,27 @@ import { Constants } from 'styles';
 import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 
-const FoldersHeader = ({ onAddFolderPress }) => {
+const FoldersHeader = ({ onAddFolderPress, hideAdd }) => {
   const { t } = useLocalization();
 
   return (
     <View style={styles.container}>
       <EduText>{t('BookmarksList/Folders')}</EduText>
-      <PressableIcon onPress={onAddFolderPress} name={IconNames.add} siz />
+      {!hideAdd && (
+        <PressableIcon onPress={onAddFolderPress} name={IconNames.add} siz />
+      )}
     </View>
   );
 };
 
 FoldersHeader.propTypes = {
-  onAddFolderPress: PropTypes.func.isRequired,
+  onAddFolderPress: PropTypes.func,
+  hideAdd: PropTypes.bool,
 };
-FoldersHeader.defaultProps = {};
+FoldersHeader.defaultProps = {
+  onAddFolderPress: undefined,
+  hideAdd: false,
+};
 
 export default FoldersHeader;
 

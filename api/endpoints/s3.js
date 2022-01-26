@@ -114,17 +114,19 @@ export const useAPIBulkUploadFiles = (updateProgress, mutationConfig) => {
   }, mutationConfig);
 };
 
-export const useAPIUploadImage = (mutationConfig) =>
-  useMutation(async ({ payload }) => {
-    const formData = formatFormData(payload);
-    const { data } = await normalAxios.post(endpoints.s3.uploadFile, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+const uploadImageToS3 = async (payload) => {
+  const formData = formatFormData(payload);
+  const { data } = await normalAxios.post(endpoints.s3.uploadFile, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 
-    return data;
-  }, mutationConfig);
+  return data;
+};
+
+export const useAPIUploadImage = (mutationConfig) =>
+  useMutation(async ({ payload }) => uploadImageToS3(payload), mutationConfig);
 
 export const useAPIGetFileUri = (itemKey, options) => {
   const { axios } = useAxios();
@@ -170,5 +172,27 @@ export const useDeleteBulkUri = (mutationConfig) => {
     );
 
     return ret;
+  }, mutationConfig);
+};
+
+export const useGetUploadLinkAndUploadImage = (mutationConfig) => {
+  const { axios } = useAxios();
+  return useMutation(async (image) => {
+    const { data: uploadLinkData } = await axios.get(
+      formatString(endpoints.s3.getUploadImageLinks, 1)
+    );
+    const type = getMimeTypeFromFileName(image.uri);
+    const payload = {
+      ...uploadLinkData[0].fields,
+      'content-type': type,
+      file: {
+        uri: image.uri,
+        name: image.fileName,
+        type,
+      },
+    };
+    await uploadImageToS3(payload);
+
+    return uploadLinkData[0].fields.key;
   }, mutationConfig);
 };

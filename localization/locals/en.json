@@ -378,5 +378,46 @@
   "Followers": {
     "Error: Couldn't Load Followers": "Error: Couldn't Load Followers",
     "This Account does not have any followers!": "This Account does not have any followers!"
+  },
+  "Feedback": {
+    "SendFeedback": {
+      "Send Feedback": "Send Feedback",
+      "we appreciate your feedback, whether it’s a bug, a suggestion, or just something random you want to say. we would like to hear it.": "we appreciate your feedback, whether it’s a bug, a suggestion, or just something random you want to say. we would like to hear it.",
+      "what will be sent": "what will be sent",
+      "your feedback": "your feedback",
+      "feedbackTypes": {
+        "Bug": "Bug",
+        "Suggestion": "Suggestion",
+        "Other": "Other"
+      },
+      "Include a screenshot": "Include a screenshot",
+      "Send": "Send",
+      "cancel": "cancel"
+    },
+    "WhatIsSent": {
+      "The following will be sent:": "The following will be sent:",
+      "Your feedback": "Your feedback",
+      "The logged in user": "The logged in user",
+      "Screenshot (if enabled)": "Screenshot (if enabled)",
+      "Feedback Type": "Feedback Type",
+      "Navigation Stack (where you are and how did you get there)": "Navigation Stack (where you are and how did you get there)",
+      "Global State (e.g. what’s currently written in create post, ... etc)": "Global State (e.g. what'’'s currently written in create post, ... etc)",
+      "Your device info (e.g. Brand, model, ... etc)": "Your device info (e.g. Brand, model, ... etc)",
+      "please note that we are sending all": "please note that we are sending all of this info to help us better understand the situation and how to respond to your feedback",
+      "OK": "OK"
+    },
+    "ThankYou": {
+      "THANK YOU !!": "THANK YOU !!",
+      "we will read your feedback as soon as we can": "we will read your feedback as soon as we can",
+      "You are welcome": "You are welcome"
+    }
+  },
+  "FirstTimeMessages": {
+    "OK": "OK",
+    "ShakeForFeedback": {
+      "Let us hear from you": "Let us hear from you",
+      "At any time, You can shake your phone to send us feedback, whether it’s a bug you found, a suggestion you have, or you just wanna say something.": "At any time, You can shake your phone to send us feedback, whether it’s a bug you found, a suggestion you have, or you just wanna say something.",
+      "Whatever you want to say. We want to hear it.": "Whatever you want to say. We want to hear it."
+    }
   }
 }

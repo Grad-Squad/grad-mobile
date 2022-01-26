@@ -14,13 +14,13 @@ function PostContentMaterial({
 }) {
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.container, !notClickable && styles.containerBorder]}
       onPress={onPress}
       disabled={notClickable}
     >
       <EduText style={styles.textContent}>{materialContentName}</EduText>
       <View style={styles.icon}>
-        <EduText>{materialCount}x </EduText>
+        <EduText>{materialCount}x</EduText>
         <Icon name={MaterialTypeIconsMap[materialType]} />
       </View>
     </TouchableOpacity>
@@ -38,10 +38,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 7,
     paddingVertical: 3,
 
-    marginVertical: 5,
-
-    backgroundColor: Colors.materialBackground,
-
+    marginVertical: 2,
+  },
+  containerBorder: {
     borderWidth: 1,
     borderColor: Colors.black,
     borderRadius: 5,

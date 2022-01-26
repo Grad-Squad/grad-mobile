@@ -27,6 +27,11 @@ export default {
     OPTIONAL_INFO: 'register/optionalInfo',
   },
 
+  Options: {
+    MAIN: 'OPTIONS/MAIN',
+    CHANGE_INTERESTS: 'OPTIONS/CHANGE_INTERESTS',
+  },
+
   ForgotPassword: {
     ENTER_EMAIL: 'forgotPassword/enterEmail',
     CHECK_EMAIL: 'forgotPassword/checkEmail',

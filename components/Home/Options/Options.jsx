@@ -9,10 +9,12 @@ import Separator from 'common/Separator';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
+import { useLocalization } from 'localization';
 import OptionButton from './OptionButton';
 
 const Options = () => {
   const navigation = useNavigation();
+  const { t } = useLocalization();
   return (
     <Page>
       <View style={styles.userSection}>
@@ -25,7 +27,12 @@ const Options = () => {
           <EduText style={styles.profileRole}>Role</EduText>
         </View>
       </View>
-      <OptionButton label="Option Name 1" onPress={() => {}} />
+      <OptionButton
+        label={t('Options/Change Subjects you follow')}
+        onPress={() => {
+          navigation.navigate(ScreenNames.Options.CHANGE_INTERESTS);
+        }}
+      />
       <OptionButton label="Option Name 2" onPress={() => {}} />
       <OptionButton label="Option Name 3" onPress={() => {}} />
       <OptionButton label="Option Name 4" onPress={() => {}} />

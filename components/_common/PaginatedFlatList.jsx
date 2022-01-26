@@ -21,6 +21,7 @@ const PaginatedFlatList = ({
   onScroll,
   initialNumToRender,
   SkeletonComponent,
+  ListEmptyComponent,
   ...props
 }) => {
   const { t } = useLocalization();
@@ -66,6 +67,7 @@ const PaginatedFlatList = ({
       }
       ListEmptyComponent={
         (isLoading && SkeletonComponent) ||
+        ListEmptyComponent ||
         (() => (
           <EduText style={styles.noItems}>{t(noItemsLocalizationKey)}</EduText>
         ))
@@ -108,6 +110,7 @@ PaginatedFlatList.propTypes = {
   onScroll: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({})]),
   initialNumToRender: PropTypes.number,
   SkeletonComponent: PropTypes.element,
+  ListEmptyComponent: PropTypes.element,
 };
 PaginatedFlatList.defaultProps = {
   paginatedReactQueryParams: [],
@@ -119,6 +122,7 @@ PaginatedFlatList.defaultProps = {
 
   initialNumToRender: 5,
   SkeletonComponent: null,
+  ListEmptyComponent: null,
 };
 
 export default PaginatedFlatList;

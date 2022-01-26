@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, FlatList, Pressable, StyleSheet, Modal } from 'react-native';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import PropTypes from 'prop-types';
@@ -8,7 +8,25 @@ import { IconNames } from 'common/Icon/Icon';
 import { Colors, Constants } from 'styles';
 import TagLabel from 'common/TagLabel';
 import EduText from 'common/EduText';
+import { searchUtil } from 'api/util';
+import { t } from 'i18n-js';
 import TransparentTextInput from './TransparentTextInput';
+
+const renderItem = (item, onPresshandler, choices) => (
+  <Pressable
+    style={styles.listItem}
+    onPress={() => onPresshandler(item.label)}
+    android_ripple={pressableAndroidRipple}
+  >
+    <EduText>{item.label}</EduText>
+
+    <Icon
+      name={IconNames.dropdown}
+      size={20}
+      style={!choices.includes(item.label) && styles.zeroOpacity}
+    />
+  </Pressable>
+);
 
 const DropdownList = ({
   placeholder,
@@ -23,45 +41,52 @@ const DropdownList = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [choices, setChoices] = useState(value ? [value] : []);
+  const [searchText, setSearchText] = useState('');
+  const [filteredItems, setFilteredItems] = useState(items);
   useEffect(() => {
-    if (lateInitChoice) {
+    if (searchText !== '') {
+      setFilteredItems(
+        items.filter((item) => searchUtil(searchText, item.label.toLowerCase()))
+      );
+    } else {
+      setFilteredItems(items);
+    }
+  }, [items, searchText]);
+  useEffect(() => {
+    if (lateInitChoice == null) {
+      return;
+    }
+    if (Array.isArray(lateInitChoice)) {
+      setChoices(lateInitChoice);
+      // setValueFunction(lateInitChoice);
+    } else if (lateInitChoice) {
       setChoices([lateInitChoice]);
     }
   }, [lateInitChoice]);
 
-  const onPresshandler = (key) => {
-    let currentChoices;
+  const onPresshandler = useCallback(
+    (key) => {
+      let currentChoices;
 
-    // item pressed already exists -> remove that item
-    if (choices.includes(key)) {
-      const correct = [...choices];
-      correct.splice(correct.indexOf(key), 1);
-      currentChoices = correct;
+      // item pressed already exists -> remove that item
+      if (choices.includes(key)) {
+        const correct = [...choices];
+        correct.splice(correct.indexOf(key), 1);
+        currentChoices = correct;
 
-      // item pressed does not exist -> add item if multiple
-    } else if (multiple) {
-      if (choices.length < max) currentChoices = [...choices, key];
-      else return;
+        // item pressed does not exist -> add item if multiple
+      } else if (multiple) {
+        if (choices.length < max) currentChoices = [...choices, key];
+        else return;
 
-      // item pressed does not exist -> switch to item if single
-    } else {
-      currentChoices = [key];
-    }
-    setChoices(currentChoices);
-    setValueFunction(currentChoices);
-  };
-
-  const renderItem = ({ item }) => (
-    <Pressable
-      style={styles.listItem}
-      onPress={() => onPresshandler(item.id)}
-      android_ripple={pressableAndroidRipple}
-    >
-      <EduText>{item.label}</EduText>
-      {choices.includes(item.id) && (
-        <Icon name={IconNames.dropdown} size={20} />
-      )}
-    </Pressable>
+        // item pressed does not exist -> switch to item if single
+      } else {
+        currentChoices = [key];
+      }
+      setChoices(currentChoices.filter((ch) => !!ch));
+      setValueFunction(currentChoices);
+    },
+    [choices, max, multiple, setValueFunction]
   );
 
   return (
@@ -107,16 +132,17 @@ const DropdownList = ({
               onPress={() => setOpen(!open)}
             />
             <TransparentTextInput
-              text="WIP SEARCHBAR"
-              setText={() => {}}
+              text={searchText}
+              setText={setSearchText}
               style={{ width: '87%' }}
+              placeholder={t('DropDown/Search...')}
             />
           </View>
           <FlatList
             style={styles.list}
             contentContainerStyle={styles.listBackground}
-            data={items}
-            renderItem={renderItem}
+            data={filteredItems}
+            renderItem={({ item }) => renderItem(item, onPresshandler, choices)}
             keyExtractor={(item) => item.id} // or whatever unique value that exists
           />
         </View>
@@ -133,7 +159,10 @@ DropdownList.propTypes = {
     })
   ).isRequired,
   placeholder: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
   setValueFunction: PropTypes.func.isRequired,
   style: stylePropType,
   multiple: PropTypes.bool,
@@ -176,6 +205,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 10,
     paddingVertical: 5,
+    backgroundColor: Colors.background,
   },
   listWrapper: {
     flex: 1,
@@ -208,5 +238,8 @@ const styles = StyleSheet.create({
   tagClosed: {
     flexWrap: 'nowrap',
     overflow: 'hidden',
+  },
+  zeroOpacity: {
+    opacity: 0,
   },
 });

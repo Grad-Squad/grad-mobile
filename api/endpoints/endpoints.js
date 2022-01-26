@@ -42,6 +42,7 @@ export default Object.freeze({
   },
   subjects: {
     subjects: '/subjects',
+    favoriteSubjects: '/subjects/favorites',
   },
   feedback: {
     feedback: '/feedback',

@@ -19,8 +19,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
-
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.squidsoft.educate",
@@ -42,6 +43,21 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "sentry-expo"
+    ],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "educate-kt",
+            "project": "educate-kt",
+            "authToken": "546d64bb36604c61ae5dfea4f6d23da5dc5c56caf0f7417fb7dc2f8a105faf92"
+          }
+        }
+      ]
     }
   }
 }

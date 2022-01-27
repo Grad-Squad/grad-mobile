@@ -10,6 +10,7 @@ const PostsContainer = ({
   reactQueryKey,
   paginatedReactQuery,
   onScroll,
+  ListEmptyComponent,
   ...PaginatedFlatListParams
 }) => (
   <PaginatedFlatList
@@ -17,6 +18,7 @@ const PostsContainer = ({
     paginatedReactQuery={paginatedReactQuery}
     reactQueryKey={reactQueryKey}
     onScroll={onScroll && onScroll}
+    ListEmptyComponent={ListEmptyComponent}
     renderItem={
       ({
         item: { title, author, rating, createdAt, id, commentCount, materials },
@@ -58,9 +60,11 @@ PostsContainer.propTypes = {
     PropTypes.arrayOf(stringOrNumberPropType).isRequired,
   ]).isRequired,
   onScroll: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({})]),
+  ListEmptyComponent: PropTypes.element,
 };
 PostsContainer.defaultProps = {
   onScroll: undefined,
+  ListEmptyComponent: null,
 };
 
 export default PostsContainer;

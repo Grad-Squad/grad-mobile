@@ -49,7 +49,7 @@ CreatePostForm.propTypes = {
     setFieldValue: PropTypes.func.isRequired,
   }).isRequired,
   lateInitSubject: PropTypes.string,
-  lateInitTags: PropTypes.string,
+  lateInitTags: PropTypes.arrayOf(PropTypes.string),
 };
 CreatePostForm.defaultProps = {
   lateInitSubject: null,

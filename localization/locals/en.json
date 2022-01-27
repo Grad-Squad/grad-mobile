@@ -82,6 +82,17 @@
     "Edit": "Edit your profile picture",
     "Delete": "Remove your profile picture"
   },
+  "EmptyFeed": {
+    "Oh no! Your feed is empty": "Oh no! Your feed is empty",
+    "Please specify your interests": "Please specify your interests",
+    "You can change your interests at any time in the app settings": "You can change your interests at any time in the app settings",
+    "Submit": "Submit",
+    "SubjectCourse": "Subject/Course",
+    "Sent Successfully ✅": "Sent Successfully ✅"
+  },
+  "Options": {
+    "Change Subjects you follow": "Change Subjects you follow"
+  },
   "CreatePost": {
     "Create New Post": "Create New Post",
     "Edit Post": "Edit Post",
@@ -167,7 +178,8 @@
     "Images": {
       "Add Images": "Add Images",
       "Images Title": "Images Title",
-      "Press and hold to reorder, Swipe right to delete": "Press and hold to reorder, Swipe right to delete"
+      "Remove images": "Remove images",
+      "Press and hold to reorder": "Press and hold to reorder"
     },
     "PDF": {
       "Add PDF": "Add PDF",

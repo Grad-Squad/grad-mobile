@@ -7,6 +7,7 @@ import Page from 'common/Page/Page';
 import { Constants } from 'styles';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import ScreenNames from 'navigation/ScreenNames';
+import * as Sentry from 'sentry-expo';
 
 LogBox.ignoreLogs(['Setting a timer']);
 
@@ -58,6 +59,10 @@ const Dev = ({ navigation }) => {
       <Button
         title="Go to images"
         onPress={() => navigation.navigate(ScreenNames.VIEW_IMAGES)}
+      />
+      <Button
+        title="Sentry crash"
+        onPress={() => {throw new Error("My first Sentry error!");}}
       />
       <Button title="Arabic" onPress={() => setLanguage('ar')} />
       <Button title="English" onPress={() => setLanguage('en')} />

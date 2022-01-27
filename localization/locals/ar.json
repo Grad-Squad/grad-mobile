@@ -82,6 +82,17 @@
     "Edit": "تغيير صورة ملفك الشخصي",
     "Delete": "إزالة صورة ملفك الشخصي"
   },
+  "EmptyFeed": {
+    "Oh no! Your feed is empty": "لا توجد نتائج",
+    "Please specify your interests": "من فضلك اختر المواد التي تريد رؤيتها",
+    "You can change your interests at any time in the app settings": "يمكنك تغيير موضوعاتك المفضلة في أي وقت من خلال إعدادات التطبيق",
+    "Submit": "إرسال",
+    "SubjectCourse": "مادة/دورة",
+    "Sent Successfully ✅": "تم الإرسال بنجاح ✅"
+  },
+  "Options": {
+    "Change Subjects you follow": "غيّر المواد التي تتابعها"
+  },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",
     "Edit Post": "تعديل منشور",
@@ -167,7 +178,8 @@
     "Images": {
       "Add Images": "إضافة صور",
       "Images Title": "عنوان الصور",
-      "Press and hold to reorder, Swipe right to delete": "اضغط مع الاستمرار لإعادة الترتيب ، واسحب لليمين للحذف"
+      "Remove images": "إزالة الصور",
+      "Press and hold to reorder": "اضغط ضغطه طويلة لإعادة الترتيب"
     },
     "PDF": {
       "Add PDF": "أضف ملف PDF",

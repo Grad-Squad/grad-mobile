@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Keyboard, StyleSheet, View } from 'react-native';
 import { PressableIcon } from 'common/Icon';
@@ -11,6 +11,7 @@ import localStorageKeys from 'localStorageKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import SearchContext from './SearchContext';
+import FilterModal from './FilterModal';
 
 const SearchHeader = ({
   historyItems,
@@ -21,6 +22,7 @@ const SearchHeader = ({
   onGoBack,
 }) => {
   const { formik, isLoading } = useContext(SearchContext);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const navigation = useNavigation();
 
@@ -73,7 +75,10 @@ const SearchHeader = ({
           onFocus={() => setShowHistory(true)}
           onBlur={() => setShowHistory(false)}
         />
-        <PressableIcon name={IconNames.filter} onPress={() => {}} />
+        <PressableIcon
+          name={IconNames.filter}
+          onPress={() => setIsModalVisible(true)}
+        />
       </View>
       {showHistory && (
         <SearchHistoryList
@@ -86,6 +91,10 @@ const SearchHeader = ({
         />
       )}
       {isLoading && <FillLoadingIndicator />}
+      <FilterModal
+        setIsModalVisible={setIsModalVisible}
+        isModalVisible={isModalVisible}
+      />
     </>
   );
 };

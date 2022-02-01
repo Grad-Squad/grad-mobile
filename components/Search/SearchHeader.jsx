@@ -12,55 +12,78 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import SearchContext from './SearchContext';
 
-const SearchHeader = ({historyItems, setHistoryItems, showHistory, setShowHistory}) => {
-
-  const {formik, isLoading} = useContext(SearchContext)
+const SearchHeader = ({
+  historyItems,
+  setHistoryItems,
+  showHistory,
+  setShowHistory,
+}) => {
+  const { formik, isLoading } = useContext(SearchContext);
 
   const navigation = useNavigation();
 
   const onPressBackButton = () => {
-    navigation.goBack()
-  }
+    navigation.goBack();
+  };
 
-  const getHistoryFromStorage = () =>{
+  const getHistoryFromStorage = () => {
     AsyncStorage.getItem(localStorageKeys.search_history)
-      .then(stringified => {
+      .then((stringified) => {
         const parsed = JSON.parse(stringified);
-        if(!parsed || typeof parsed !== 'object') return;
-        setHistoryItems(parsed)
+        if (!parsed || typeof parsed !== 'object') return;
+        setHistoryItems(parsed);
       })
-      .catch(err => {
-        console.warn("Getting Search History:", err)
-      })
-  }
+      .catch((err) => {
+        console.warn('Getting Search History:', err);
+      });
+  };
 
   useEffect(() => {
-    setShowHistory(true)
+    setShowHistory(true);
     getHistoryFromStorage();
-  }, [])
+  }, []);
 
-  return(
+  return (
     <>
-      <View style={[styles.wrapper, showHistory? styles.wrapperOpen : styles.wrapperClosed]}>
-        <PressableIcon name={IconNames.arrowLeft} size={35} onPress={onPressBackButton}/>
-        <SearchTextInputFormik formik={formik} formikKey="searchText" onFocus={() => setShowHistory(true)} onBlur={() => setShowHistory(false)}/>
-        <PressableIcon name={IconNames.filter} onPress={()=>{}}/>
+      <View
+        style={[
+          styles.wrapper,
+          showHistory ? styles.wrapperOpen : styles.wrapperClosed,
+        ]}
+      >
+        <PressableIcon
+          name={IconNames.arrowLeft}
+          size={35}
+          onPress={onPressBackButton}
+        />
+        <SearchTextInputFormik
+          formik={formik}
+          formikKey="searchText"
+          onFocus={() => setShowHistory(true)}
+          onBlur={() => setShowHistory(false)}
+        />
+        <PressableIcon name={IconNames.filter} onPress={() => {}} />
       </View>
-      {
-        showHistory &&
-        <SearchHistoryList items={historyItems} setItems={setHistoryItems} setText={(txt) => {formik.setFieldValue("searchText",txt); formik.submitForm()}}/>
-      }
-      {
-      isLoading && <FillLoadingIndicator/>
-      }
+      {showHistory && (
+        <SearchHistoryList
+          items={historyItems}
+          setItems={setHistoryItems}
+          setText={(txt) => {
+            formik.setFieldValue('searchText', txt);
+            formik.submitForm();
+          }}
+        />
+      )}
+      {isLoading && <FillLoadingIndicator />}
     </>
-)};
+  );
+};
 
 SearchHeader.propTypes = {
   historyItems: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string.isRequired,
-    }),
+    })
   ).isRequired,
   setHistoryItems: PropTypes.func.isRequired,
   showHistory: PropTypes.bool.isRequired,
@@ -93,7 +116,5 @@ const styles = StyleSheet.create({
   wrapperClosed: {
     borderBottomWidth: 0.2,
   },
-  containerStyle:{
-
-  }
+  containerStyle: {},
 });

@@ -12,24 +12,21 @@ import SearchHeader from './SearchHeader';
 import SearchContext from './SearchContext';
 import SearchNavTab from './SearchNavTab';
 
-
-
-const SearchMainPage = () =>
-{
+const SearchMainPage = () => {
   const { t } = useLocalization();
 
-  const [fetchEnabled, setFetchEnabled] = useState(false)
+  const [fetchEnabled, setFetchEnabled] = useState(false);
 
-  const [showHistory, setShowHistory] = useState(false)
-  const [historyItems, setHistoryItems] = useState([])
+  const [showHistory, setShowHistory] = useState(false);
+  const [historyItems, setHistoryItems] = useState([]);
 
   const formik = useFormik({
     initialValues: {
-      searchText: "",
+      searchText: '',
     },
     onSubmit: (searchObject) => {
-      setShowHistory(false)
-      addSearchToHistory(searchObject.searchText)
+      setShowHistory(false);
+      addSearchToHistory(searchObject.searchText);
       setFetchEnabled(true);
     },
     validationSchema: yup.object().shape({
@@ -49,37 +46,43 @@ const SearchMainPage = () =>
       setFetchEnabled(false);
     },
     onSuccess: (data) => {
-      setFetchEnabled(false)
+      setFetchEnabled(false);
     },
   });
 
   const addSearchToHistory = (text) => {
-    const alreadyExists = historyItems.some(element => element.text.toLowerCase() === text.toLowerCase())
-    let newItems = [{text},...historyItems]
-    if(!alreadyExists){
-      setHistoryItems(newItems)
-      const stringified = JSON.stringify(newItems)
-        AsyncStorage.setItem(localStorageKeys.search_history, stringified)
-        .catch(err => {
+    const alreadyExists = historyItems.some(
+      (element) => element.text.toLowerCase() === text.toLowerCase()
+    );
+    let newItems = [{ text }, ...historyItems];
+    if (!alreadyExists) {
+      setHistoryItems(newItems);
+      const stringified = JSON.stringify(newItems);
+      AsyncStorage.setItem(localStorageKeys.search_history, stringified).catch(
+        (err) => {
           // todo handle error
-          console.warn("Saving Search History: ",err);
-        });
+          console.warn('Saving Search History: ', err);
+        }
+      );
     }
-  }
+  };
 
-  return(
-  <Page>
-    <SearchContext.Provider value={{formik,isLoading: isFetchingSearchData,fetchedSearchData}}>
-      <SearchHeader
-        historyItems={historyItems}
-        setHistoryItems={setHistoryItems}
-        showHistory={showHistory}
-        setShowHistory={setShowHistory}
-      />
-      { !showHistory && <SearchNavTab searchText={formik.values.searchText}/>}
-    </SearchContext.Provider>
-  </Page>
-)};
+  return (
+    <Page>
+      <SearchContext.Provider
+        value={{ formik, isLoading: isFetchingSearchData, fetchedSearchData }}
+      >
+        <SearchHeader
+          historyItems={historyItems}
+          setHistoryItems={setHistoryItems}
+          showHistory={showHistory}
+          setShowHistory={setShowHistory}
+        />
+        {!showHistory && <SearchNavTab searchText={formik.values.searchText} />}
+      </SearchContext.Provider>
+    </Page>
+  );
+};
 
 SearchMainPage.propTypes = {};
 SearchMainPage.defaultProps = {};

@@ -59,9 +59,11 @@ const FollowerCard = ({ navigation, profile }) => {
       <Pressable onPress={navToProfile} android_ripple={pressableAndroidRipple}>
         <Image
           style={styles.profileImage}
-          source={{
-            uri: profilePictureUri,
-          }}
+          source={profilePictureUri
+            ? {
+                uri: profilePictureUri,
+              }
+            : AssetsConstants.images.defaultProfile.uri}
           defaultSource={AssetsConstants.images.defaultProfile}
         />
       </Pressable>
@@ -106,10 +108,16 @@ FollowerCard.propTypes = {
     profilePicture: uriPropType,
     isFollowed: PropTypes.bool.isRequired,
     isOwner: PropTypes.bool.isRequired,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    biography: PropTypes.string,
   }).isRequired,
   navigation: navigationPropType.isRequired,
 };
-FollowerCard.defaultProps = {};
+FollowerCard.defaultProps = {
+
+
+};
 
 export default FollowerCard;
 

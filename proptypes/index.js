@@ -10,6 +10,10 @@ export const navigationPropType = PropTypes.shape({
   navigate: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
 });
+export const navigationBarPropType = PropTypes.shape({
+  jumpTo: PropTypes.func.isRequired,
+  addListener: PropTypes.func.isRequired,
+});
 export const stylePropType = ViewPropTypes.style;
 export const TextPropType = Text.propTypes.style;
 

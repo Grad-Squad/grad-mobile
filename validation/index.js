@@ -45,3 +45,7 @@ export const comment = (t) =>
 
 export const materialTitle = (t) =>
   yup.string().trim().max(100, maxCharError(t, 100)).required(requiredError(t));
+
+const searchMaxChar = 100;
+export const search = (t) =>
+  yup.string().max(searchMaxChar, maxCharError(t, searchMaxChar));

@@ -19,7 +19,8 @@ const NoInternetConnectionText = () => {
   }, [type, isInternetReachable]);
 
   return (
-    !(!isLoading && isInternetReachable) && (
+    !isLoading &&
+    !isInternetReachable && (
       <EduText style={styles.text}>
         {t('General/No Internet Connection')}
       </EduText>

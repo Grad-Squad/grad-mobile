@@ -8,13 +8,22 @@ import { Colors, Constants } from 'styles';
 import { IconNames } from 'common/Icon/Icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { setParam } from 'globalStore/searchSlice';
+import { mapChoiceToValue, mapParentToKey } from './filterMaps';
 
 const FilterChoice = ({ text, parent }) => {
   const dispatch = useDispatch();
   const searchParams = useSelector((state) => state.search.params);
   return (
     <Pressable
-      onPress={() => dispatch(setParam({ value: text, key: parent }))}
+      onPress={() =>
+        dispatch(
+          setParam({
+            value: mapChoiceToValue[text],
+            key: mapParentToKey[parent],
+            choice: text,
+          })
+        )
+      }
       style={[styles.button]}
       android_ripple={pressableAndroidRipple}
     >
@@ -22,7 +31,7 @@ const FilterChoice = ({ text, parent }) => {
         <EduText style={styles.text}>{text}</EduText>
         <Icon
           name={
-            searchParams?.[parent] === text
+            searchParams?.[mapParentToKey[parent]] === mapChoiceToValue[text]
               ? IconNames.radioButtonChecked
               : IconNames.radioButtonOff
           }

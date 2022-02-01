@@ -8,12 +8,12 @@ import { IconNames } from 'common/Icon/Icon';
 import { Colors, Constants } from 'styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeParam } from 'globalStore/searchSlice';
-// import { setParam } from 'globalStore/searchSlice';
+import { mapParentToKey } from './filterMaps';
 
 const FilterItem = ({ page, onPress }) => {
   const { iconName, text } = page;
-  const searchParams = useSelector((state) => state.search.params);
-  const currentChoice = searchParams?.[text];
+  const searchParamsText = useSelector((state) => state.search.paramsText);
+  const currentChoice = searchParamsText?.[mapParentToKey[text]];
   const dispatch = useDispatch();
 
   return (
@@ -30,7 +30,7 @@ const FilterItem = ({ page, onPress }) => {
           <EduText style={styles.currentChoice}>{currentChoice}</EduText>
           <PressableIcon
             name={IconNames.close}
-            onPress={() => dispatch(removeParam(text))}
+            onPress={() => dispatch(removeParam(mapParentToKey[text]))}
           />
         </>
       )}

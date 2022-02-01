@@ -16,38 +16,37 @@ const SearchTextInput = ({
   style,
   ...props
 }) => {
-    const { t } = useLocalization()
+  const { t } = useLocalization();
 
-    return (
-        <>
-            <Searchbar
-                value={text}
-                onChangeText={(changedText) => setText(changedText)}
-                defaultValue={defaultValue}
-                placeholder={t('DropDown/Search...')}
-                style={[styles.searchText, style]}
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...TextInputProps}
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...props}
-            />
-        </>
-    )
+  return (
+    <>
+      <Searchbar
+        value={text}
+        onChangeText={(changedText) => setText(changedText)}
+        defaultValue={defaultValue}
+        placeholder={t('DropDown/Search...')}
+        style={[styles.searchText, style]}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...TextInputProps}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...props}
+      />
+    </>
+  );
 };
 
 export default SearchTextInput;
 
 const styles = StyleSheet.create({
-    searchText: {
-        ...Styles.textInput,
-        marginHorizontal: 12,
-        borderRadius: Constants.borderRadius,
-        backgroundColor: Colors.background,
-        fontFamily: Fonts.default,
-        flex: 1,
-        height:'70%',
-
-    },
+  searchText: {
+    ...Styles.textInput,
+    marginHorizontal: 12,
+    borderRadius: Constants.borderRadius,
+    backgroundColor: Colors.background,
+    fontFamily: Fonts.default,
+    flex: 1,
+    height: '70%',
+  },
 });
 
 SearchTextInput.propTypes = {
@@ -60,9 +59,9 @@ SearchTextInput.propTypes = {
 };
 
 SearchTextInput.defaultProps = {
-    defaultValue: '',
-    TextInputProps: {},
-    style: {},
+  defaultValue: '',
+  TextInputProps: {},
+  style: {},
 };
 
 export const SearchTextInputFormik = TextInputFormikHOC(SearchTextInput);

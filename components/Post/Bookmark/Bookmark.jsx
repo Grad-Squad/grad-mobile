@@ -6,11 +6,15 @@ import PropTypes from 'prop-types';
 import EduText from 'common/EduText';
 import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
-import { useAddPostToBookmark } from 'api/endpoints/bookmarks';
+import {
+  getBookmarksFolderQueryKey,
+  useAddPostToBookmark,
+} from 'api/endpoints/bookmarks';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import { useLocalization } from 'localization';
 import { useStore } from 'globalStore/GlobalStore';
 import { useBookmarkSavedSnackbar } from 'components/BookmarkSavedSnackbar/BookmarkSavedSnackbarProvider';
+import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { BOOKMARK_HIT_SLOP_OBJECT } from '../../../constants';
 
 function Bookmark({ postId }) {
@@ -26,6 +30,10 @@ function Bookmark({ postId }) {
     onSuccess: (bookmarkData) => {
       setIsSaved(true);
       showBookmarkSavedSnackbar(postId, bookmarkData.id);
+      queryClient.setQueryData(
+        getBookmarksFolderQueryKey(store.profileId, undefined),
+        () => [bookmarkData]
+      );
     },
     onError: () => {
       showErrorSnackbar(t("Snackbar/Couldn't save Post, Try Again"));
@@ -41,6 +49,7 @@ function Bookmark({ postId }) {
       style={styles.BookmarkContainer}
       onPress={onPress}
       hitSlop={BOOKMARK_HIT_SLOP_OBJECT}
+      disabled={addPostToBookmarkMutation.isLoading}
     >
       <Icon name={isSaved ? IconNames.bookmarkFilled : IconNames.bookmark} />
       <EduText>{t('Post/save')}</EduText>

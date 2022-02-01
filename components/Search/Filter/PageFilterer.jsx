@@ -23,6 +23,7 @@ const PageFilterer = ({ pages, setPagesStack, pagesStack }) => {
             key={`${choice} choice`}
             text={choice}
             parent={currentPage.text}
+            isDynamic={currentPage?.isDynamic}
           />
         ))}
     </>
@@ -37,6 +38,7 @@ PageFilterer.propTypes = {
       iconName: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
       children: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+      isDynamic: PropTypes.bool,
     }).isRequired
   ).isRequired,
 };

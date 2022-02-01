@@ -10,12 +10,14 @@ import { IconNames } from 'common/Icon/Icon';
 import { useDispatch, useSelector } from 'react-redux';
 import PressableText from 'common/PressableText';
 import { resetSearchParams } from 'globalStore/searchSlice';
+import { useLocalization } from 'localization';
+import { useAPIGetSubjects } from 'api/endpoints/subjects';
+import { useAPIGetTags } from 'api/endpoints/tags';
 import { peoplePages, postsPages } from './Filter/filterPages';
 import PageFilterer from './Filter/PageFilterer';
-import { useLocalization } from 'localization';
 
 const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
-  const { t } = useLocalization();
+  const { t, isRTL } = useLocalization();
   const [pagesStack, setPagesStack] = useState([]);
   const onPressBackButton = () => {
     if (pagesStack.length === 0) {
@@ -28,6 +30,16 @@ const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
   };
   const dispatch = useDispatch();
   const params = useSelector((state) => state.search.params);
+  const { data: subjectsData } = useAPIGetSubjects();
+  const subjectPage = postsPages.find((page) => page.text === 'Subject');
+  if (subjectPage) {
+    subjectPage.children = subjectsData?.map((subject) => subject.content);
+  }
+  const { data: tagsData } = useAPIGetTags();
+  const tagPage = postsPages.find((page) => page.text === 'Tag');
+  if (tagPage) {
+    tagPage.children = tagsData?.map((tag) => tag.content);
+  }
   return (
     <Modal
       contentContainerStyle={styles.modalContainer}
@@ -39,7 +51,7 @@ const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
       <View style={styles.modalContent}>
         <View style={styles.row}>
           <PressableIcon
-            name={IconNames.arrowLeft}
+            name={isRTL ? IconNames.arrowRight : IconNames.arrowLeft}
             size={35}
             onPress={onPressBackButton}
           />

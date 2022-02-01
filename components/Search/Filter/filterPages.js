@@ -24,16 +24,18 @@ export const postsPages = [
     text: 'Date',
     children: ['Today', 'Past Week', 'Past Month', 'Past Year'],
   },
-  // {
-  //   iconName: IconNames.text,
-  //   text: 'Subject',
-  //   children: ['sad', 'sad', 'sad'],
-  // },
-  // {
-  //   iconName: IconNames.tag,
-  //   text: 'Tag',
-  //   children: ['sad', 'sad', 'sad'],
-  // },
+  {
+    iconName: IconNames.text,
+    text: 'Subject',
+    children: [],
+    isDynamic: true,
+  },
+  {
+    iconName: IconNames.tag,
+    text: 'Tag',
+    isDynamic: true,
+    children: [],
+  },
   {
     iconName: IconNames.dollarSign,
     text: 'Post Price',

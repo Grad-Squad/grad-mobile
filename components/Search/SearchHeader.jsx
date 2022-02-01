@@ -10,8 +10,9 @@ import FillLoadingIndicator from 'common/FillLoadingIndicator';
 import localStorageKeys from 'localStorageKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { resetSearchParams } from 'globalStore/searchSlice';
+import { useLocalization } from 'localization';
 import SearchContext from './SearchContext';
 import FilterModal from './FilterModal';
 
@@ -25,6 +26,7 @@ const SearchHeader = ({
   isFilterVisible,
 }) => {
   const { formik, isLoading } = useContext(SearchContext);
+  const { isRTL } = useLocalization();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const navigation = useNavigation();
@@ -59,6 +61,7 @@ const SearchHeader = ({
     getHistoryFromStorage();
   }, []);
 
+  const params = useSelector((state) => state.search.params);
   return (
     <>
       <View
@@ -69,7 +72,7 @@ const SearchHeader = ({
       >
         {hasBackButton && (
           <PressableIcon
-            name={IconNames.arrowLeft}
+            name={isRTL ? IconNames.arrowRight : IconNames.arrowLeft}
             size={35}
             onPress={onPressBackButton}
           />
@@ -84,6 +87,9 @@ const SearchHeader = ({
           <PressableIcon
             name={IconNames.filter}
             onPress={() => setIsModalVisible(true)}
+            color={
+              Object.keys(params).length === 0 ? Colors.offBlack : Colors.accent
+            }
           />
         )}
       </View>

@@ -12,7 +12,7 @@ import { useLocalization } from 'localization';
 import { mapParentToKey } from './filterMaps';
 
 const FilterItem = ({ page, onPress }) => {
-  const { iconName, text } = page;
+  const { iconName, text, isDynamic } = page;
   const searchParamsText = useSelector((state) => state.search.paramsText);
   const currentChoice = searchParamsText?.[mapParentToKey[text]];
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const FilterItem = ({ page, onPress }) => {
       {currentChoice && (
         <>
           <EduText style={styles.currentChoice}>
-            {t(`Search/Filter/${currentChoice}`)}
+            {isDynamic ? currentChoice : t(`Search/Filter/${currentChoice}`)}
           </EduText>
           <PressableIcon
             name={IconNames.close}
@@ -45,6 +45,7 @@ FilterItem.propTypes = {
     iconName: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     children: PropTypes.arrayOf(PropTypes.string.isRequired),
+    isDynamic: PropTypes.bool,
   }).isRequired,
   onPress: PropTypes.func.isRequired,
 };

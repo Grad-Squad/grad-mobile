@@ -11,16 +11,16 @@ import { setParam } from 'globalStore/searchSlice';
 import { useLocalization } from 'localization';
 import { mapChoiceToValue, mapParentToKey } from './filterMaps';
 
-const FilterChoice = ({ text, parent }) => {
+const FilterChoice = ({ text, parent, isDynamic }) => {
   const dispatch = useDispatch();
   const { t } = useLocalization();
-  const searchParams = useSelector((state) => state.search.params);
+  const searchParamsText = useSelector((state) => state.search.paramsText);
   return (
     <Pressable
       onPress={() =>
         dispatch(
           setParam({
-            value: mapChoiceToValue[text],
+            value: isDynamic ? text : mapChoiceToValue[text],
             key: mapParentToKey[parent],
             choice: text,
           })
@@ -30,10 +30,12 @@ const FilterChoice = ({ text, parent }) => {
       android_ripple={pressableAndroidRipple}
     >
       <View style={styles.row}>
-        <EduText style={styles.text}>{t(`Search/Filter/${text}`)}</EduText>
+        <EduText style={styles.text}>
+          {isDynamic ? text : t(`Search/Filter/${text}`)}
+        </EduText>
         <Icon
           name={
-            searchParams?.[mapParentToKey[parent]] === mapChoiceToValue[text]
+            searchParamsText?.[mapParentToKey[parent]] === text
               ? IconNames.radioButtonChecked
               : IconNames.radioButtonOff
           }
@@ -46,8 +48,11 @@ const FilterChoice = ({ text, parent }) => {
 FilterChoice.propTypes = {
   text: PropTypes.string.isRequired,
   parent: PropTypes.string.isRequired,
+  isDynamic: PropTypes.bool,
 };
-FilterChoice.defaultProps = {};
+FilterChoice.defaultProps = {
+  isDynamic: false,
+};
 
 export default FilterChoice;
 

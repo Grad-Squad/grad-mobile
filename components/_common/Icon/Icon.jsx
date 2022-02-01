@@ -62,6 +62,8 @@ export const IconNames = Object.freeze({
   role: 'team',
   filter: 'tune',
   clock: 'time-outline',
+  text: 'text',
+  tag: 'tag',
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
@@ -108,15 +110,17 @@ const map = {
   'file-video-outline': MaterialCommunityIcons,
   'folder-outline': MaterialCommunityIcons,
   'image-remove': MaterialCommunityIcons,
-  'history': MaterialCommunityIcons,
+  history: MaterialCommunityIcons,
   'date-range': MaterialIcons,
-  'subject': MaterialIcons,
+  subject: MaterialIcons,
   'attach-money': MaterialIcons,
-  'sort': MaterialCommunityIcons,
+  sort: MaterialCommunityIcons,
   'account-multiple-plus-outline': MaterialCommunityIcons,
-  'team': AntDesign,
-  'tune': MaterialCommunityIcons,
+  team: AntDesign,
+  tune: MaterialCommunityIcons,
   'time-outline': Ionicons,
+  text: MaterialCommunityIcons,
+  tag: MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style, disabled }) => {

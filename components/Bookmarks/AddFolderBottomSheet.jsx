@@ -8,6 +8,7 @@ import { useLocalization } from 'localization';
 import {
   getBookmarksFolderQueryKey,
   useCreateBookmarksFolder,
+  useUpdateBookmarksFolder,
 } from 'api/endpoints/bookmarks';
 import { useFormik } from 'formik';
 import { TransparentTextInputFormik } from 'common/Input';
@@ -17,6 +18,7 @@ import EduText from 'common/EduText';
 import { Switch } from 'react-native-paper';
 import { Colors } from 'styles';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import { bookmarksFolderPropType } from 'proptypes';
 
 const snapPoints = ['36%'];
 
@@ -25,6 +27,8 @@ const AddFolderBottomSheet = ({
   profileId,
   parentBookmarkId,
   inRootBookmark,
+  itemToEdit,
+  deselectFolder,
 }) => {
   const { t } = useLocalization();
 
@@ -44,6 +48,7 @@ const AddFolderBottomSheet = ({
           },
         ]
       );
+
       bottomSheetRef.current.close();
     },
     onError: () => {
@@ -54,20 +59,63 @@ const AddFolderBottomSheet = ({
       );
     },
   });
+  const updateBookmarksFolderMutation = useUpdateBookmarksFolder({
+    onSuccess: (data) => {
+      queryClient.setQueryData(
+        getBookmarksFolderQueryKey(
+          profileId,
+          inRootBookmark ? undefined : parentBookmarkId
+        ),
+        (oldData) => {
+          const folders = [...oldData[0].folders];
+          const indexOfUpdatedFolder = folders.findIndex(
+            (item) => item.id === data.id
+          );
+          folders[indexOfUpdatedFolder] = data;
+          return [
+            {
+              ...oldData[0],
+              folders,
+            },
+          ];
+        }
+      );
+      bottomSheetRef.current.close();
+    },
+    onError: () => {
+      showErrorSnackbar(
+        t(
+          "BookmarksList/CreateBookmarksFolder/Couldn't Update Folder, Try again"
+        )
+      );
+    },
+  });
 
   const formik = useFormik({
     initialValues: {
-      title: '',
-      isPublic: true,
+      title: itemToEdit?.title || '',
+      isPublic: itemToEdit?.isPublic || true,
     },
+    enableReinitialize: true,
     initialErrors: { title: false },
     onSubmit: ({ title, isPublic }) => {
-      createBookmarksFolderMutation.mutate({
-        profileId,
-        title,
-        parentBookmarkId,
-        isPublic,
-      });
+      if (itemToEdit) {
+        updateBookmarksFolderMutation.mutate({
+          profileId,
+          bookmarkId: itemToEdit.id,
+          body: {
+            title,
+            isPublic,
+          },
+        });
+      } else {
+        createBookmarksFolderMutation.mutate({
+          profileId,
+          title,
+          parentBookmarkId,
+          isPublic,
+        });
+      }
     },
     validationSchema: yup.object().shape({
       title: yup
@@ -84,7 +132,12 @@ const AddFolderBottomSheet = ({
       index={-1}
       snapPoints={snapPoints}
       enablePanDownToClose
-      onChange={() => formik.resetForm()}
+      onChange={(index) => {
+        if (index === -1) {
+          deselectFolder();
+          formik.resetForm();
+        }
+      }}
     >
       <View style={styles.container}>
         <EduText style={styles.header}>
@@ -114,7 +167,11 @@ const AddFolderBottomSheet = ({
             style={styles.closeButton}
           />
           <MainActionButton
-            text={t('BookmarksList/CreateBookmarksFolder/Create')}
+            text={
+              itemToEdit
+                ? t('BookmarksList/CreateBookmarksFolder/Edit')
+                : t('BookmarksList/CreateBookmarksFolder/Create')
+            }
             onPress={formik.handleSubmit}
             style={styles.createButton}
             disabled={!formik.isValid}
@@ -134,8 +191,10 @@ AddFolderBottomSheet.propTypes = {
   profileId: PropTypes.number.isRequired,
   parentBookmarkId: PropTypes.number.isRequired,
   inRootBookmark: PropTypes.bool.isRequired,
+  itemToEdit: bookmarksFolderPropType,
+  deselectFolder: PropTypes.func.isRequired,
 };
-AddFolderBottomSheet.defaultProps = {};
+AddFolderBottomSheet.defaultProps = { itemToEdit: undefined };
 
 export default React.memo(AddFolderBottomSheet);
 

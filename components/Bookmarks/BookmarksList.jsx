@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { SectionList, StyleSheet, View } from 'react-native';
 import {
@@ -79,6 +79,7 @@ const BookmarksList = ({ profileId }) => {
             }}
             onOptionsPress={() => {
               setSelectedFolder(item);
+              addFolderBottomSheetRef.current.close();
               folderOptionsBottomSheetRef.current.expand();
             }}
           />
@@ -86,7 +87,10 @@ const BookmarksList = ({ profileId }) => {
         ItemSeparatorComponent: () => <View style={styles.foldersSeparator} />,
         header: (
           <FoldersHeader
-            onAddFolderPress={() => addFolderBottomSheetRef.current.expand()}
+            onAddFolderPress={() => {
+              folderOptionsBottomSheetRef.current.close();
+              addFolderBottomSheetRef.current.expand();
+            }}
           />
         ),
         footer: folders.length === 0 && (
@@ -111,6 +115,14 @@ const BookmarksList = ({ profileId }) => {
     ],
     [folders, posts]
   );
+
+  const showEditSheet = useCallback(() => {
+    addFolderBottomSheetRef.current.expand();
+  }, [addFolderBottomSheetRef]);
+
+  const deselectFolder = useCallback(() => {
+    setSelectedFolder(undefined);
+  }, []);
 
   if (isLoading) {
     return (
@@ -154,6 +166,7 @@ const BookmarksList = ({ profileId }) => {
       />
       <FolderOptionsBottomSheet
         bottomSheetRef={folderOptionsBottomSheetRef}
+        showEditSheet={showEditSheet}
         selectedFolder={selectedFolder}
         profileId={profileId}
         parentBookmarkId={bookmarkId}
@@ -164,6 +177,8 @@ const BookmarksList = ({ profileId }) => {
         profileId={profileId}
         parentBookmarkId={bookmarkId}
         inRootBookmark={inRootBookmark}
+        itemToEdit={selectedFolder}
+        deselectFolder={deselectFolder}
       />
     </>
   );

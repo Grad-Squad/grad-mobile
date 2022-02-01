@@ -17,6 +17,7 @@ import BaseAlert from 'common/alerts/BaseAlert';
 const snapPoints = ['28%'];
 const FolderOptionsBottomSheet = ({
   bottomSheetRef,
+  showEditSheet,
   selectedFolder,
   profileId,
   inRootBookmark,
@@ -66,7 +67,10 @@ const FolderOptionsBottomSheet = ({
         )}
         <TransparentButton
           text={t('BookmarksList/FolderOptionsBottomSheet/Edit Folder')}
-          onPress={() => bottomSheetRef.current.close()}
+          onPress={() => {
+            showEditSheet();
+            bottomSheetRef.current.close();
+          }}
           style={styles.button}
           textStyle={styles.buttonText}
           disabled={removeBookmarksFolderMutation.isLoading}
@@ -101,6 +105,7 @@ const FolderOptionsBottomSheet = ({
 FolderOptionsBottomSheet.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   bottomSheetRef: PropTypes.object.isRequired,
+  showEditSheet: PropTypes.func.isRequired,
   selectedFolder: PropTypes.shape({
     title: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,

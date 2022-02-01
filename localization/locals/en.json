@@ -455,7 +455,9 @@
       "Public": "Public",
       "Cancel": "Cancel",
       "Create": "Create",
-      "Couldn't Create Folder, Try again": "Couldn't Create Folder, Try again"
+      "Edit": "Edit",
+      "Couldn't Create Folder, Try again": "Couldn't Create Folder, Try again",
+      "Couldn't Update Folder, Try again": "Couldn't Update Folder, Try again"
     },
     "FolderOptionsBottomSheet": {
       "Edit Folder": "Edit Folder",

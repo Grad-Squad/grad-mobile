@@ -455,7 +455,9 @@
       "Public": "عام",
       "Cancel": "إلغاء",
       "Create": "إنشاء",
-      "Couldn't Create Folder, Try again": "تعذر إنشاء مجلد ، حاول مرة أخرى"
+      "Edit": "تعديل",
+      "Couldn't Create Folder, Try again": "تعذر إنشاء مجلد ، حاول مرة أخرى",
+      "Couldn't Update Folder, Try again": "تعذر تحديث المجلد ، حاول مرة أخرى"
     },
     "FolderOptionsBottomSheet": {
       "Edit Folder": "تعديل المجلد",

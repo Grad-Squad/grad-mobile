@@ -215,7 +215,7 @@
     "Go to question": "انتقل إلى السؤال",
     "Question Number": "رقم السؤال"
   },
-  "SearchNav":{
+  "SearchNav": {
     "All": "الكل",
     "People": "الأشخاص",
     "Posts": "المنشورات"
@@ -425,12 +425,47 @@
       "Whatever you want to say. We want to hear it.": "كل ما تريد قوله. نحن نريد أن نسمع ذلك."
     }
   },
-  "Search":{
+  "Search": {
     "More": "المزيد",
     "Posts": "المنشورات",
     "People": "الأشخاص",
     "NoPosts": "لم يتم العثور على منشورات",
     "NoProfiles": "لم يتم العثور على حسابات",
-    "NoHistory": "لا شيء للعرض"
+    "NoHistory": "لا شيء للعرض",
+    "Filter": {
+      "Filter": "تصفية",
+      "reset": "إزالة",
+      "Posts": "المنشورات",
+      "People": "الأشخاص",
+      "Filter People": "تصفية الأشخاص",
+      "Filter Posts": "تصفية المنشورات",
+      "Follow Status": "حالة المتابعة",
+      "Role": "الدور",
+      "Material Type": "نوع المحتوى",
+      "Date": "التاريخ",
+      "Subject": "مادة/دورة",
+      "Tag": "العلامات",
+      "Post Price": "سعر المنشور",
+      "Sort by": "رتب",
+      "Followed": "متبع",
+      "Not Followed": "غير متبع",
+      "Teacher": "مدرس",
+      "Student": "طالب",
+      "Flashcards": "بطاقات التعليمية",
+      "Images": "صور",
+      "Videos": "فيديو",
+      "PDF": "PDF",
+      "MCQ": "أسئلة اختر",
+      "Today": "اليوم",
+      "Past Week": "الأسبوع الماضي",
+      "Past Month": "الشهر الماضي",
+      "Past Year": "العام الماضي",
+      "Latest": "الأحدث",
+      "Most Relavent": "الأكثر صلة",
+      "Most Popular": "الأكثر شيوعًا",
+      "sad": "sad",
+      "Paid": "مدفوعة",
+      "Free": "مجاني"
+    }
   }
 }

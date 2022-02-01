@@ -8,6 +8,7 @@ import { IconNames } from 'common/Icon/Icon';
 import { Colors, Constants } from 'styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeParam } from 'globalStore/searchSlice';
+import { useLocalization } from 'localization';
 import { mapParentToKey } from './filterMaps';
 
 const FilterItem = ({ page, onPress }) => {
@@ -15,18 +16,20 @@ const FilterItem = ({ page, onPress }) => {
   const searchParamsText = useSelector((state) => state.search.paramsText);
   const currentChoice = searchParamsText?.[mapParentToKey[text]];
   const dispatch = useDispatch();
-
+  const { t } = useLocalization();
   return (
     <View style={styles.row}>
       <Button
         leftIcon={<Icon name={iconName} />}
-        text={text}
+        text={t(`Search/Filter/${text}`)}
         onPress={onPress}
         style={styles.buttonStyle}
       />
       {currentChoice && (
         <>
-          <EduText style={styles.currentChoice}>{currentChoice}</EduText>
+          <EduText style={styles.currentChoice}>
+            {t(`Search/Filter/${currentChoice}`)}
+          </EduText>
           <PressableIcon
             name={IconNames.close}
             onPress={() => dispatch(removeParam(mapParentToKey[text]))}

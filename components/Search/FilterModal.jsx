@@ -12,8 +12,10 @@ import PressableText from 'common/PressableText';
 import { resetSearchParams } from 'globalStore/searchSlice';
 import { peoplePages, postsPages } from './Filter/filterPages';
 import PageFilterer from './Filter/PageFilterer';
+import { useLocalization } from 'localization';
 
 const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
+  const { t } = useLocalization();
   const [pagesStack, setPagesStack] = useState([]);
   const onPressBackButton = () => {
     if (pagesStack.length === 0) {
@@ -43,8 +45,8 @@ const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
           />
           <EduText style={styles.title}>
             {pagesStack.length === 0
-              ? 'Filter'
-              : pagesStack[pagesStack.length - 1]}
+              ? t('Search/Filter/Filter')
+              : t(`Search/Filter/${pagesStack[pagesStack.length - 1]}`)}
           </EduText>
           <PressableText
             pressableProps={{
@@ -54,7 +56,7 @@ const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
             style={Object.keys(params).length !== 0 && styles.resetText}
             onPress={() => dispatch(resetSearchParams())}
           >
-            reset
+            {t('Search/Filter/reset')}
           </PressableText>
         </View>
         <View style={styles.break} />
@@ -62,12 +64,12 @@ const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
           <>
             <WhiteButton
               onPress={() => setPagesStack([...pagesStack, 'People'])}
-              text="Filter People"
+              text={t('Search/Filter/Filter People')}
             />
             <View style={styles.break} />
             <WhiteButton
               onPress={() => setPagesStack([...pagesStack, 'Posts'])}
-              text="Filter Posts"
+              text={t('Search/Filter/Filter Posts')}
             />
           </>
         )}

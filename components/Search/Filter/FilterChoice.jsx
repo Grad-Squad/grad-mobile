@@ -8,10 +8,12 @@ import { Colors, Constants } from 'styles';
 import { IconNames } from 'common/Icon/Icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { setParam } from 'globalStore/searchSlice';
+import { useLocalization } from 'localization';
 import { mapChoiceToValue, mapParentToKey } from './filterMaps';
 
 const FilterChoice = ({ text, parent }) => {
   const dispatch = useDispatch();
+  const { t } = useLocalization();
   const searchParams = useSelector((state) => state.search.params);
   return (
     <Pressable
@@ -28,7 +30,7 @@ const FilterChoice = ({ text, parent }) => {
       android_ripple={pressableAndroidRipple}
     >
       <View style={styles.row}>
-        <EduText style={styles.text}>{text}</EduText>
+        <EduText style={styles.text}>{t(`Search/Filter/${text}`)}</EduText>
         <Icon
           name={
             searchParams?.[mapParentToKey[parent]] === mapChoiceToValue[text]

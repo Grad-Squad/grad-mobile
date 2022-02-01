@@ -1,15 +1,10 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { SectionList, StyleSheet, View } from 'react-native';
-import {
-  useGetBookmarksFolder,
-  useGetSpecificBookmarksFolder,
-} from 'api/endpoints/bookmarks';
 import { useLocalization } from 'localization';
 import { Constants } from 'styles';
 import EduText from 'common/EduText';
 import QueryRefreshControl from 'common/QueryRefreshControl';
-import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import NoBookmarks from './NoBookmarks';
 import BookmarksPostWrapper from './BookmarksPostWrapper';
 import BookmarksFolder from './BookmarksFolder';
@@ -18,46 +13,25 @@ import FoldersHeader from './FoldersHeader';
 import AddFolderBottomSheet from './AddFolderBottomSheet';
 import BookmarksLoading from './BookmarksLoading';
 import FolderOptionsBottomSheet from './FolderOptionsBottomSheet';
+import useGetBookmarks from './useGetBookmarks';
 
 const BookmarksList = ({ profileId }) => {
   const { t } = useLocalization();
 
-  const { showErrorSnackbar } = useErrorSnackbar();
-  const onApiError = () => {
-    showErrorSnackbar(t("BookmarksList/Couldn't get bookmarks, Try again"));
-  };
-
   const [currentBookmarkId, setCurrentBookmarkId] = useState(undefined);
-  const inRootBookmark = currentBookmarkId === undefined;
-  const {
-    data: parentData,
-    isLoading: parentIsLoading,
-    isFetching: parentIsFetching,
-    refetch: parentRefetch,
-  } = useGetBookmarksFolder(profileId, {
-    enabled: inRootBookmark,
-    onError: onApiError,
-  });
 
   const {
-    data: currentBookmarkData,
-    isLoading: currentBookmarkIsLoading,
-    isFetching: currentBookmarkIsFetching,
-    refetch: currentBookmarkRefetch,
-  } = useGetSpecificBookmarksFolder(profileId, currentBookmarkId, {
-    enabled: !inRootBookmark,
-    onError: onApiError,
-  });
-
-  const isFetching = parentIsFetching || currentBookmarkIsFetching;
-  const isLoading = parentIsLoading || currentBookmarkIsLoading;
+    data,
+    folders,
+    posts,
+    refetch,
+    bookmarkId,
+    isFetching,
+    isLoading,
+    inRootBookmark,
+  } = useGetBookmarks(profileId, currentBookmarkId);
 
   const [path, setPath] = useState([]);
-
-  const data = inRootBookmark ? parentData?.[0] : currentBookmarkData?.[0];
-  const { folders = [], posts = [] } = data || {};
-  const refetch = inRootBookmark ? parentRefetch : currentBookmarkRefetch;
-  const bookmarkId = inRootBookmark ? data?.id : currentBookmarkId;
 
   const addFolderBottomSheetRef = useRef(null);
   const folderOptionsBottomSheetRef = useRef(null);

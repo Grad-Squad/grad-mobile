@@ -5,6 +5,7 @@ import { Button } from 'common/Input/Button';
 import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import FilterItem from './FilterItem';
+import FilterChoice from './FilterChoice';
 
 const pages = [
   {
@@ -37,9 +38,15 @@ const FilterPeople = ({ setPagesStack, pagesStack }) => {
           />
         ))}
       {pagesStack.length === 2 &&
-        pages.map((page) => (
-          <FilterItem page={page} key={page.text} onPress={() => pagesStack} />
-        ))}
+        pages
+          .find((page) => page.text === pagesStack[pagesStack.length - 1])
+          ?.children.map((choice) => (
+            <FilterChoice
+              isChosen={false}
+              key={`${choice} choice`}
+              text={choice}
+            />
+          ))}
     </>
   );
 };

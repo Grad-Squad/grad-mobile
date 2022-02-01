@@ -3,6 +3,7 @@ import AppLoading from 'expo-app-loading';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import * as Sentry from 'sentry-expo';
 
 import GlobalStore from 'globalStore/GlobalStore';
 import { Colors } from 'styles';
@@ -11,6 +12,7 @@ import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import ReactQueryClient from 'components/ReactQueryClient/ReactQueryClient';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Platform, UIManager } from 'react-native';
+import FirstTimeMessages from 'components/FirstTimeMessages/FirstTimeMessages';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
@@ -34,12 +36,19 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export default function App() {
+function App() {
   const ready = initStyles();
 
   if (!ready) {
     return <AppLoading />;
   }
+
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    enableInExpoDevelopment: true,
+    enableNative: false,
+    debug: true, // TODO set to false in production
+  });
 
   return (
     <LocalizationProvider>
@@ -51,6 +60,7 @@ export default function App() {
                 <PaperProvider theme={theme}>
                   <SafeAreaProvider>
                     <StatusBar />
+                    <FirstTimeMessages />
                     <RootNavigator />
                   </SafeAreaProvider>
                 </PaperProvider>
@@ -62,3 +72,5 @@ export default function App() {
     </LocalizationProvider>
   );
 }
+
+export default App;

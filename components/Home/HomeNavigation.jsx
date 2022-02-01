@@ -10,6 +10,7 @@ import Home from './Home';
 import SearchMainPage from '../Search/SearchMainPage';
 import Options from './Options';
 import Bookmarks from './Bookmarks';
+import OptionsNavigator from './Options/OptionsNavigator';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -33,7 +34,9 @@ const HomeNavigation = () => {
         component={Home}
         options={{
           tabBarLabel: t('NavBar/Home'),
-          tabBarIcon: ({ color }) => <Icon name={IconNames.home} color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Icon name={IconNames.home} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -41,7 +44,9 @@ const HomeNavigation = () => {
         component={SearchMainPage}
         options={{
           tabBarLabel: t('NavBar/Search'),
-          tabBarIcon: ({ color }) => <Icon name={IconNames.search} color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Icon name={IconNames.search} color={color} />
+          ),
         }}
       />
       <Tab.Screen
@@ -65,15 +70,19 @@ const HomeNavigation = () => {
         component={Bookmarks}
         options={{
           tabBarLabel: t('NavBar/Bookmarks'),
-          tabBarIcon: ({ color }) => <Icon name={IconNames.bookmark} color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Icon name={IconNames.bookmark} color={color} />
+          ),
         }}
       />
       <Tab.Screen
         name="Options"
-        component={Options}
+        component={OptionsNavigator}
         options={{
           tabBarLabel: t('NavBar/Options'),
-          tabBarIcon: ({ color }) => <Icon name={IconNames.menu} color={color} />,
+          tabBarIcon: ({ color }) => (
+            <Icon name={IconNames.menu} color={color} />
+          ),
         }}
       />
     </Tab.Navigator>

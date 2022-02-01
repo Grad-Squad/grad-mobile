@@ -82,6 +82,17 @@
     "Edit": "تغيير صورة ملفك الشخصي",
     "Delete": "إزالة صورة ملفك الشخصي"
   },
+  "EmptyFeed": {
+    "Oh no! Your feed is empty": "لا توجد نتائج",
+    "Please specify your interests": "من فضلك اختر المواد التي تريد رؤيتها",
+    "You can change your interests at any time in the app settings": "يمكنك تغيير موضوعاتك المفضلة في أي وقت من خلال إعدادات التطبيق",
+    "Submit": "إرسال",
+    "SubjectCourse": "مادة/دورة",
+    "Sent Successfully ✅": "تم الإرسال بنجاح ✅"
+  },
+  "Options": {
+    "Change Subjects you follow": "غيّر المواد التي تتابعها"
+  },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",
     "Edit Post": "تعديل منشور",
@@ -167,7 +178,8 @@
     "Images": {
       "Add Images": "إضافة صور",
       "Images Title": "عنوان الصور",
-      "Press and hold to reorder, Swipe right to delete": "اضغط مع الاستمرار لإعادة الترتيب ، واسحب لليمين للحذف"
+      "Remove images": "إزالة الصور",
+      "Press and hold to reorder": "اضغط ضغطه طويلة لإعادة الترتيب"
     },
     "PDF": {
       "Add PDF": "أضف ملف PDF",
@@ -371,6 +383,47 @@
   "Followers": {
     "Error: Couldn't Load Followers": "خطأ: لا يمكن تحميل المتابعين",
     "This Account does not have any followers!": "هذا الحساب ليس لديه أي متابعين!"
+  },
+  "Feedback": {
+    "SendFeedback": {
+      "Send Feedback": "ارسل الملاحظات",
+      "we appreciate your feedback, whether it’s a bug, a suggestion, or just something random you want to say. we would like to hear it.": "نحن نقدر تعليقاتك ، سواء كانت خطأ أو اقتراحًا أو مجرد شيء عشوائي تريد قوله. نود أن نسمع ذلك.",
+      "what will be sent": "ماذا سيتم ارساله",
+      "your feedback": "ملاحظاتك",
+      "feedbackTypes": {
+        "Bug": "خلل برمجي",
+        "Suggestion": "اقتراح",
+        "Other": "آخر"
+      },
+      "Include a screenshot": "قم بتضمين لقطة شاشة",
+      "Send": "إرسال",
+      "cancel": "إلغاء"
+    },
+    "WhatIsSent": {
+      "The following will be sent:": "سيتم إرسال ما يلي:",
+      "Your feedback": "ملاحظاتك",
+      "The logged in user": "المستخدم الذي قام بتسجيل الدخول",
+      "Screenshot (if enabled)": "لقطة شاشة (إذا تم اختيارها)",
+      "Feedback Type": "نوع الملاحظات",
+      "Navigation Stack (where you are and how did you get there)": "حزمة التنقل (أين أنت وكيف وصلت إلى هناك)",
+      "Global State (e.g. what’s currently written in create post, ... etc)": "الحالة العالمية (على سبيل المثال ، ما هو مكتوب حاليًا في إنشاء منشور ، ... إلخ)",
+      "Your device info (e.g. Brand, model, ... etc)": "معلومات جهازك (مثل العلامة التجارية والطراز ... إلخ)",
+      "please note that we are sending all": "يرجى ملاحظة أننا نرسل كل هذه المعلومات لمساعدتنا على فهم الموقف بشكل أفضل وكيفية الرد على ملاحظاتك",
+      "OK": "حسنا"
+    },
+    "ThankYou": {
+      "THANK YOU !!": "شكرا لكم !!",
+      "we will read your feedback as soon as we can": "سنقرأ ملاحظاتك في أقرب وقت ممكن",
+      "You are welcome": "على الرحب والسعة"
+    }
+  },
+  "FirstTimeMessages": {
+    "OK": "حسنا",
+    "ShakeForFeedback": {
+      "Let us hear from you": "دعونا نسمع منك",
+      "At any time, You can shake your phone to send us feedback, whether it’s a bug you found, a suggestion you have, or you just wanna say something.": "في أي وقت ، يمكنك هز هاتفك لإرسال تعليقات إلينا ، سواء أكان خطأ وجدته ، أو اقتراحًا لديك ، أو تريد فقط أن تقول شيئًا.",
+      "Whatever you want to say. We want to hear it.": "كل ما تريد قوله. نحن نريد أن نسمع ذلك."
+    }
   },
   "Search":{
     "More": "المزيد",

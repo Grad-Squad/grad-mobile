@@ -118,7 +118,13 @@ export default class CollectionParser {
   parseImageCollection() {
     return {
       title: this.collection.title,
-      images: this.collection.uris,
+      files: this.collection.uris.map((uri) => ({
+        file: {
+          prevUri: uri,
+          fileName: uri.key,
+          fileUri: uri.uri,
+        },
+      })),
       type: materialTypes.Images,
       amount: this.collection.uris.length,
     };

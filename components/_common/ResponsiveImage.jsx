@@ -93,7 +93,7 @@ const ResponsiveImage = ({
 };
 
 ResponsiveImage.propTypes = {
-  imageURI: PropTypes.string.isRequired,
+  imageURI: PropTypes.string,
   style: ViewPropTypes.style,
   maxWidthRatio: PropTypes.number,
   maxHeightRatio: PropTypes.number,
@@ -101,6 +101,7 @@ ResponsiveImage.propTypes = {
 };
 
 ResponsiveImage.defaultProps = {
+  imageURI: undefined,
   style: {},
   maxWidthRatio: 0.9,
   maxHeightRatio: 1,

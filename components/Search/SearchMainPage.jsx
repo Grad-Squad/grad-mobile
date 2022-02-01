@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Page from 'common/Page/Page';
 
 import { useFormik } from 'formik';
@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SearchHeader from './SearchHeader';
 import SearchContext from './SearchContext';
 import SearchNavTab from './SearchNavTab';
+import { useSelector } from 'react-redux';
 
 const SearchMainPage = () => {
   const { t } = useLocalization();
@@ -49,6 +50,13 @@ const SearchMainPage = () => {
       setFetchEnabled(false);
     },
   });
+
+  const searchParams = useSelector((state) => state.search.params);
+  useEffect(() => {
+    if (searchParams && formik.values.searchText) {
+      setFetchEnabled(true);
+    }
+  }, [searchParams]);
 
   const addSearchToHistory = (text) => {
     const alreadyExists = historyItems.some(

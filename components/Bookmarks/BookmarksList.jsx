@@ -5,8 +5,8 @@ import { useLocalization } from 'localization';
 import { Constants } from 'styles';
 import EduText from 'common/EduText';
 import QueryRefreshControl from 'common/QueryRefreshControl';
+import Post from 'components/Post/Post';
 import NoBookmarks from './NoBookmarks';
-import BookmarksPostWrapper from './BookmarksPostWrapper';
 import BookmarksFolder from './BookmarksFolder';
 import BookmarksBreadCrumbs from './BookmarksBreadCrumbs';
 import FoldersHeader from './FoldersHeader';
@@ -76,7 +76,30 @@ const BookmarksList = ({ profileId }) => {
       {
         id: 'posts',
         data: posts,
-        renderItem: BookmarksPostWrapper,
+        renderItem: ({
+          item: {
+            title,
+            author,
+            rating,
+            createdAt,
+            id,
+            commentCount,
+            materials,
+          },
+        }) => (
+          <Post
+            title={title}
+            author={author}
+            rating={rating}
+            createdAt={createdAt}
+            id={id}
+            style={styles.post}
+            commentCount={commentCount}
+            materials={materials}
+            bookmarkId={bookmarkId}
+            inRootBookmark={inRootBookmark}
+          />
+        ),
         header: (
           <EduText style={styles.header}>{t('BookmarksList/Posts')}</EduText>
         ),
@@ -176,5 +199,9 @@ const styles = StyleSheet.create({
   noItems: {
     textAlign: 'center',
     fontStyle: 'italic',
+  },
+  post: {
+    width: '90%',
+    alignSelf: 'center',
   },
 });

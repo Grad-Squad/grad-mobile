@@ -221,7 +221,8 @@
     "Cannot follow user": "Cannot follow user",
     "Cannot unfollow user": "Cannot unfollow user",
     "Email Already Registered": "Email Already Registered",
-    "Couldn't save Post, Try Again": "Couldn't save Post, Try Again"
+    "Couldn't save Post, Try Again": "Couldn't save Post, Try Again",
+    "Couldn't remove the bookmark, Try Again": "Couldn't remove the bookmark, Try Again"
   },
   "CheeringWords": {
     "Good": {
@@ -428,7 +429,8 @@
     }
   },
   "Post": {
-    "save": "save"
+    "save": "save",
+    "remove": "remove"
   },
   "BookmarkSavedSnackbar": {
     "Post saved": "Post saved",

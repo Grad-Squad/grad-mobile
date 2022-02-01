@@ -221,7 +221,8 @@
     "Cannot follow user": "لم نتمكن من متابعة المستخدم",
     "Cannot unfollow user": "لم نتمكن من إلغاء متابعة المستخدم",
     "Email Already Registered": "البريد الإلكتروني مسجل مسبقا",
-    "Couldn't save Post, Try Again": "تعذر حفظ المنشور ، حاول مرة أخرى"
+    "Couldn't save Post, Try Again": "تعذر حفظ المنشور ، حاول مرة أخرى",
+    "Couldn't remove the bookmark, Try Again": "تعذرت إزالة المنشور المحفوظ ، حاول مرة أخرى"
   },
   "CheeringWords": {
     "Good": {
@@ -428,7 +429,8 @@
     }
   },
   "Post": {
-    "save": "حفظ"
+    "save": "حفظ",
+    "remove": "إزالة"
   },
   "BookmarkSavedSnackbar": {
     "Post saved": "تم حفظ المنشور",

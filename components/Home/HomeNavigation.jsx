@@ -7,7 +7,7 @@ import EmptyComponent from 'common/EmptyComponent';
 import ScreenNames from 'navigation/ScreenNames';
 import { IconNames } from 'common/Icon/Icon';
 import Home from './Home';
-import Search from './Search';
+import SearchMainPage from '../Search/SearchMainPage';
 import Options from './Options';
 import Bookmarks from './Bookmarks';
 import OptionsNavigator from './Options/OptionsNavigator';
@@ -41,7 +41,7 @@ const HomeNavigation = () => {
       />
       <Tab.Screen
         name="Search"
-        component={Search}
+        component={SearchMainPage}
         options={{
           tabBarLabel: t('NavBar/Search'),
           tabBarIcon: ({ color }) => (

@@ -5,4 +5,5 @@ export default Object.freeze({
   profileId: 'profileId',
   nav_state: 'nav_state',
   firstTime_shakeForFeedback: 'firstTime_shakeForFeedback',
+  search_history: "search",
 });

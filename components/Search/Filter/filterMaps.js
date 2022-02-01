@@ -1,0 +1,32 @@
+export const mapParentToKey = {
+  'Follow Status': 'isProfileFollowed',
+  Role: 'profileRole',
+  'Material Type': 'materialType',
+  Date: 'date',
+  Subject: 'subject',
+  Tag: 'tags',
+  'Post Price': 'price',
+  'Sort by': 'sortBy',
+};
+
+export const mapChoiceToValue = {
+  Followed: true,
+  'Not Followed': false,
+  Teacher: 'teacher',
+  Student: 'student',
+  Flashcards: 'flashcards',
+  Images: 'image',
+  Videos: 'video',
+  PDF: 'pdf',
+  MCQ: 'mcq',
+  Today: 'today',
+  'Past Week': 'week',
+  'Past Month': 'month',
+  'Past Year': 'year',
+  Latest: 'date',
+  'Most Relavent': 'relevance',
+  'Most Popular': 'popularity',
+  sad: 'sad',
+  Paid: 'paid',
+  Free: 'free',
+};

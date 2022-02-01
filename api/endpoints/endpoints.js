@@ -47,4 +47,7 @@ export default Object.freeze({
   feedback: {
     feedback: '/feedback',
   },
+  search: {
+    search: '/search/{0}',
+  },
 });

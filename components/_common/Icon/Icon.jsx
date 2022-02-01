@@ -53,6 +53,17 @@ export const IconNames = Object.freeze({
   addVideo: 'file-video-outline',
   Folder: 'folder-outline',
   removeImage: 'image-remove',
+  history: 'history',
+  date: 'date-range',
+  subject: 'subject',
+  dollarSign: 'attach-money',
+  sort: 'sort',
+  followStatus: 'account-multiple-plus-outline',
+  role: 'team',
+  filter: 'tune',
+  clock: 'time-outline',
+  text: 'text',
+  tag: 'tag',
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
@@ -99,6 +110,17 @@ const map = {
   'file-video-outline': MaterialCommunityIcons,
   'folder-outline': MaterialCommunityIcons,
   'image-remove': MaterialCommunityIcons,
+  history: MaterialCommunityIcons,
+  'date-range': MaterialIcons,
+  subject: MaterialIcons,
+  'attach-money': MaterialIcons,
+  sort: MaterialCommunityIcons,
+  'account-multiple-plus-outline': MaterialCommunityIcons,
+  team: AntDesign,
+  tune: MaterialCommunityIcons,
+  'time-outline': Ionicons,
+  text: MaterialCommunityIcons,
+  tag: MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style, disabled }) => {

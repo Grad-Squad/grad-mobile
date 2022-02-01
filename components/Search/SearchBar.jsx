@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -7,7 +7,7 @@ import { search } from 'validation';
 import { useAPIGetSearchResult } from 'api/endpoints/search';
 import localStorageKeys from 'localStorageKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import useOnGoBack from 'navigation/useOnGoBack';
+import { useSelector } from 'react-redux';
 import SearchHeader from './SearchHeader';
 import SearchContext from './SearchContext';
 import SearchNavTab from './SearchNavTab';
@@ -45,6 +45,7 @@ const SearchBar = ({ isActive, setIsActive, showHistory, setShowHistory }) => {
     isSuccess: isSearchSuccess,
   } = useAPIGetSearchResult(formik.values.searchText.split(' ').join('+'), {
     enabled: fetchEnabled,
+    refetchOnMount: 'always',
     onError: (error) => {
       console.log(error);
       setFetchEnabled(false);
@@ -53,6 +54,13 @@ const SearchBar = ({ isActive, setIsActive, showHistory, setShowHistory }) => {
       setFetchEnabled(false);
     },
   });
+
+  const searchParams = useSelector((state) => state.search.params);
+  useEffect(() => {
+    if (searchParams && formik.values.searchText) {
+      setFetchEnabled(true);
+    }
+  }, [searchParams]);
 
   const addSearchToHistory = (text) => {
     const alreadyExists = historyItems.some(
@@ -82,6 +90,7 @@ const SearchBar = ({ isActive, setIsActive, showHistory, setShowHistory }) => {
         setShowHistory={setShowHistory}
         hasBackButton={isActive || showHistory}
         onGoBack={onGoBack}
+        isFilterVisible={isActive}
       />
       {isActive && !showHistory && (
         <SearchNavTab searchText={formik.values.searchText} />

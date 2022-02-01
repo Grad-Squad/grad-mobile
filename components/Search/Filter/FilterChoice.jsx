@@ -1,21 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Pressable, StyleSheet, View } from 'react-native';
-import { Button } from 'common/Input/Button';
-import { Icon, PressableIcon } from 'common/Icon';
+import { Icon } from 'common/Icon';
 import EduText from 'common/EduText';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 import { Colors, Constants } from 'styles';
 import { IconNames } from 'common/Icon/Icon';
+import { useDispatch, useSelector } from 'react-redux';
+import { setParam } from 'globalStore/searchSlice';
 
-const FilterChoice = ({ isChosen, text }) => {
-  console.log(
-    '🚀 ~ file: FilterChoice.jsx ~ line 10 ~ FilterChoice ~ text',
-    text
-  );
+const FilterChoice = ({ text, parent }) => {
+  const dispatch = useDispatch();
+  const searchParams = useSelector((state) => state.search.params);
   return (
     <Pressable
-      onPress={() => {}}
+      onPress={() => dispatch(setParam({ value: text, key: parent }))}
       style={[styles.button]}
       android_ripple={pressableAndroidRipple}
     >
@@ -23,7 +22,9 @@ const FilterChoice = ({ isChosen, text }) => {
         <EduText style={styles.text}>{text}</EduText>
         <Icon
           name={
-            isChosen ? IconNames.radioButtonChecked : IconNames.radioButtonOff
+            searchParams?.[parent] === text
+              ? IconNames.radioButtonChecked
+              : IconNames.radioButtonOff
           }
         />
       </View>
@@ -33,7 +34,7 @@ const FilterChoice = ({ isChosen, text }) => {
 
 FilterChoice.propTypes = {
   text: PropTypes.string.isRequired,
-  isChosen: PropTypes.bool.isRequired,
+  parent: PropTypes.string.isRequired,
 };
 FilterChoice.defaultProps = {};
 

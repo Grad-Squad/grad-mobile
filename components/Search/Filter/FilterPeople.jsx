@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
-import { Button } from 'common/Input/Button';
-import { Icon } from 'common/Icon';
+import { StyleSheet } from 'react-native';
 import { IconNames } from 'common/Icon/Icon';
 import FilterItem from './FilterItem';
 import FilterChoice from './FilterChoice';
@@ -18,19 +16,21 @@ const pages = [
     text: 'Role',
     children: ['Teacher', 'Student'],
   },
-  {
-    iconName: IconNames.sort,
-    text: 'Sort',
-    children: ['Latest', 'Most Relavent', 'Most Popular'],
-  },
+  // {
+  //   iconName: IconNames.sort,
+  //   text: 'Sort',
+  //   children: ['Latest', 'Most Relavent', 'Most Popular'],
+  // },
 ];
 
 const FilterPeople = ({ setPagesStack, pagesStack }) => {
-  const x = 0;
+  const currentPage = pages.find(
+    (page) => page.text === pagesStack?.[pagesStack.length - 1]
+  );
   return (
     <>
       {pagesStack.length === 1 &&
-        pages.map((page, index) => (
+        pages.map((page) => (
           <FilterItem
             page={page}
             key={page.text}
@@ -38,15 +38,13 @@ const FilterPeople = ({ setPagesStack, pagesStack }) => {
           />
         ))}
       {pagesStack.length === 2 &&
-        pages
-          .find((page) => page.text === pagesStack[pagesStack.length - 1])
-          ?.children.map((choice) => (
-            <FilterChoice
-              isChosen={false}
-              key={`${choice} choice`}
-              text={choice}
-            />
-          ))}
+        currentPage?.children.map((choice) => (
+          <FilterChoice
+            key={`${choice} choice`}
+            text={choice}
+            parent={currentPage.text}
+          />
+        ))}
     </>
   );
 };

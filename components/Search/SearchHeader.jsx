@@ -10,6 +10,8 @@ import FillLoadingIndicator from 'common/FillLoadingIndicator';
 import localStorageKeys from 'localStorageKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { resetSearchParams } from 'globalStore/searchSlice';
 import SearchContext from './SearchContext';
 import FilterModal from './FilterModal';
 
@@ -20,11 +22,13 @@ const SearchHeader = ({
   setShowHistory,
   hasBackButton,
   onGoBack,
+  isFilterVisible,
 }) => {
   const { formik, isLoading } = useContext(SearchContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const onPressBackButton = () => {
     if (showHistory) {
@@ -33,6 +37,7 @@ const SearchHeader = ({
     } else if (onGoBack) {
       onGoBack();
     } else {
+      dispatch(resetSearchParams());
       navigation.goBack();
     }
   };
@@ -75,10 +80,12 @@ const SearchHeader = ({
           onFocus={() => setShowHistory(true)}
           onBlur={() => setShowHistory(false)}
         />
-        <PressableIcon
-          name={IconNames.filter}
-          onPress={() => setIsModalVisible(true)}
-        />
+        {isFilterVisible && (
+          <PressableIcon
+            name={IconNames.filter}
+            onPress={() => setIsModalVisible(true)}
+          />
+        )}
       </View>
       {showHistory && (
         <SearchHistoryList
@@ -110,6 +117,7 @@ SearchHeader.propTypes = {
   setShowHistory: PropTypes.func.isRequired,
   hasBackButton: PropTypes.bool,
   onGoBack: PropTypes.func,
+  isFilterVisible: PropTypes.bool.isRequired,
 };
 SearchHeader.defaultProps = {
   hasBackButton: false,

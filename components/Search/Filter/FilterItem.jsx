@@ -6,10 +6,16 @@ import { Button } from 'common/Input/Button';
 import EduText from 'common/EduText';
 import { IconNames } from 'common/Icon/Icon';
 import { Colors, Constants } from 'styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeParam } from 'globalStore/searchSlice';
+// import { setParam } from 'globalStore/searchSlice';
 
 const FilterItem = ({ page, onPress }) => {
-  const { iconName, text, children } = page;
-  const currentChoice = 'sad';
+  const { iconName, text } = page;
+  const searchParams = useSelector((state) => state.search.params);
+  const currentChoice = searchParams?.[text];
+  const dispatch = useDispatch();
+
   return (
     <View style={styles.row}>
       <Button
@@ -22,7 +28,10 @@ const FilterItem = ({ page, onPress }) => {
       {currentChoice && (
         <>
           <EduText style={styles.currentChoice}>{currentChoice}</EduText>
-          <PressableIcon name={IconNames.close} onPress={() => {}} />
+          <PressableIcon
+            name={IconNames.close}
+            onPress={() => dispatch(removeParam(text))}
+          />
         </>
       )}
     </View>

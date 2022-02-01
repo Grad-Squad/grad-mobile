@@ -7,8 +7,8 @@ import { Colors, Constants } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
-import FilterPosts from './Filter/FilterPosts';
-import FilterPeople from './Filter/FilterPeople';
+import { peoplePages, postsPages } from './Filter/filterPages';
+import PageFilterer from './Filter/PageFilterer';
 
 const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
   const [pagesStack, setPagesStack] = useState([]);
@@ -56,10 +56,13 @@ const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
             />
           </>
         )}
-        {pagesStack?.[0] === 'People' && (
-          <FilterPeople pagesStack={pagesStack} setPagesStack={setPagesStack} />
+        {pagesStack?.[0] && (
+          <PageFilterer
+            pages={pagesStack?.[0] === 'People' ? peoplePages : postsPages}
+            pagesStack={pagesStack}
+            setPagesStack={setPagesStack}
+          />
         )}
-        {pagesStack?.[0] === 'Posts' && <FilterPosts />}
       </View>
     </Modal>
   );

@@ -30,6 +30,7 @@ const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
     <Modal
       contentContainerStyle={styles.modalContainer}
       visible={isModalVisible}
+      onBackdropPress={() => setIsModalVisible(false)}
       onRequestClose={() => setIsModalVisible(false)}
       hasBasicBackground
     >

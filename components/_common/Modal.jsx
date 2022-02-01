@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Modal as ReactNativeModal, StyleSheet, View } from 'react-native';
+import {
+  Modal as ReactNativeModal,
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { childrenPropType, stylePropType } from 'proptypes';
 import { Colors, Constants } from 'styles';
 
@@ -8,11 +13,15 @@ const Modal = ({
   children,
   hasBasicBackground,
   contentContainerStyle,
+  onBackdropPress,
   ...props
 }) => (
   // eslint-disable-next-line react/jsx-props-no-spreading
   <ReactNativeModal animationType="slide" transparent {...props}>
-    <View style={[styles.centeredView, contentContainerStyle]}>
+    <Pressable
+      style={[styles.centeredView, contentContainerStyle]}
+      onPress={onBackdropPress}
+    >
       <View
         style={
           hasBasicBackground
@@ -22,7 +31,7 @@ const Modal = ({
       >
         {children}
       </View>
-    </View>
+    </Pressable>
   </ReactNativeModal>
 );
 
@@ -30,10 +39,12 @@ Modal.propTypes = {
   children: childrenPropType.isRequired,
   contentContainerStyle: stylePropType,
   hasBasicBackground: PropTypes.bool,
+  onBackdropPress: PropTypes.func,
 };
 Modal.defaultProps = {
   contentContainerStyle: {},
   hasBasicBackground: false,
+  onBackdropPress: () => {},
 };
 
 export default Modal;

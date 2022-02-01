@@ -7,8 +7,11 @@ import { Colors, Constants } from 'styles';
 import { WhiteButton } from 'common/Input/Button';
 import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
+import { useDispatch, useSelector } from 'react-redux';
+import PressableText from 'common/PressableText';
 import { peoplePages, postsPages } from './Filter/filterPages';
 import PageFilterer from './Filter/PageFilterer';
+import { resetSearchParams } from 'globalStore/searchSlice';
 
 const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
   const [pagesStack, setPagesStack] = useState([]);
@@ -21,6 +24,8 @@ const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
       );
     }
   };
+  const dispatch = useDispatch();
+  const params = useSelector((state) => state.search.params);
   return (
     <Modal
       contentContainerStyle={styles.modalContainer}
@@ -40,7 +45,16 @@ const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
               ? 'Filter'
               : pagesStack[pagesStack.length - 1]}
           </EduText>
-          <EduText style={styles.reset}>reset</EduText>
+          <PressableText
+            pressableProps={{
+              style: styles.reset,
+              disabled: Object.keys(params).length === 0,
+            }}
+            style={Object.keys(params).length !== 0 && styles.resetText}
+            onPress={() => dispatch(resetSearchParams())}
+          >
+            reset
+          </PressableText>
         </View>
         <View style={styles.break} />
         {pagesStack.length === 0 && (
@@ -83,6 +97,11 @@ const styles = StyleSheet.create({
   },
   reset: {
     marginLeft: 'auto',
+    padding: 5,
+    paddingVertical: 10,
+  },
+  resetText: {
+    color: Colors.accent,
   },
   title: {
     fontSize: 24,

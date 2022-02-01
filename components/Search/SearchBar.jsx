@@ -45,7 +45,6 @@ const SearchBar = ({ isActive, setIsActive, showHistory, setShowHistory }) => {
     isSuccess: isSearchSuccess,
   } = useAPIGetSearchResult(formik.values.searchText.split(' ').join('+'), {
     enabled: fetchEnabled,
-    refetchOnMount: 'always',
     onError: (error) => {
       console.log(error);
       setFetchEnabled(false);

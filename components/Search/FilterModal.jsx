@@ -9,9 +9,9 @@ import { PressableIcon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import { useDispatch, useSelector } from 'react-redux';
 import PressableText from 'common/PressableText';
+import { resetSearchParams } from 'globalStore/searchSlice';
 import { peoplePages, postsPages } from './Filter/filterPages';
 import PageFilterer from './Filter/PageFilterer';
-import { resetSearchParams } from 'globalStore/searchSlice';
 
 const FilterModal = ({ isModalVisible, setIsModalVisible }) => {
   const [pagesStack, setPagesStack] = useState([]);

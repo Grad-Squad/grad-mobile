@@ -23,7 +23,6 @@ const FilterItem = ({ page, onPress }) => {
         text={text}
         onPress={onPress}
         style={styles.buttonStyle}
-        textStyle={styles.buttonText}
       />
       {currentChoice && (
         <>
@@ -55,13 +54,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  buttonText: {
-    marginRight: 'auto',
-  },
   buttonStyle: {
     flex: 1,
+    justifyContent: 'flex-start',
   },
   currentChoice: {
+    marginLeft: 'auto',
     color: Colors.accent,
     fontSize: 18,
     marginRight: Constants.commonMargin / 2,

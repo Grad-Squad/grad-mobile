@@ -2,22 +2,18 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import { useLocalization } from 'localization';
-import ResponsiveImage from 'common/ResponsiveImage';
-import { Styles } from 'styles';
+import RoundedImage from 'common/RoundedImage';
 
 const ShakeForFeedback = () => {
   const { t } = useLocalization();
   return (
     <View>
       <View style={styles.topImageContainer}>
-        <View style={styles.topImageRoundedCorner}>
-          <ResponsiveImage
-            imageURI="https://c.tenor.com/zON793rXmCMAAAAd/space-hamster-thebluehamham.gif"
-            canMaximize={false}
-            maxWidthRatio={0.52}
-            style={styles.topImage}
-          />
-        </View>
+        <RoundedImage
+          imageURI="https://c.tenor.com/zON793rXmCMAAAAd/space-hamster-thebluehamham.gif"
+          canMaximize={false}
+          maxWidthRatio={0.52}
+        />
       </View>
       <View style={styles.topImageGap} />
       <EduText style={styles.title}>
@@ -49,14 +45,6 @@ const styles = StyleSheet.create({
     left: 0,
     alignItems: 'center',
     width: '100%',
-  },
-  topImageRoundedCorner: {
-    borderRadius: 20,
-    overflow: 'hidden',
-    ...Styles.dropShadow,
-  },
-  topImage: {
-    marginBottom: 0,
   },
   topImageGap: {
     marginTop: 80,

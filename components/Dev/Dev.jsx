@@ -1,6 +1,5 @@
-import { useAxios } from 'api/AxiosProvider';
-import { Alert, Button, I18nManager, LogBox, View } from 'react-native';
-import React, { useEffect } from 'react';
+import { Button, I18nManager, LogBox, View } from 'react-native';
+import React from 'react';
 import { navigationPropType } from 'proptypes';
 import { useLocalization } from 'localization';
 import EduText from 'common/EduText';
@@ -14,17 +13,6 @@ LogBox.ignoreLogs(['Setting a timer']);
 
 const Dev = ({ navigation }) => {
   const { t, setLanguage } = useLocalization();
-
-  //! temp: should be moved somewhere else where it will always get called
-  const { setUnauthorizedRedirect } = useAxios();
-
-  useEffect(() => {
-    setUnauthorizedRedirect(() => () => {
-      navigation.navigate(ScreenNames.LOGIN);
-      Alert.alert('Sorry, You have to login again');
-    });
-  }, []);
-
   const { showErrorSnackbar } = useErrorSnackbar();
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 import PropTypes from 'prop-types';
@@ -8,40 +8,41 @@ import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 import {
   getBookmarksFolderQueryKey,
-  useAddPostToBookmark,
+  useRemovePostToBookmark,
 } from 'api/endpoints/bookmarks';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import { useLocalization } from 'localization';
 import { useStore } from 'globalStore/GlobalStore';
-import { useBookmarkSavedSnackbar } from 'components/BookmarkSavedSnackbar/BookmarkSavedSnackbarProvider';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { BOOKMARK_HIT_SLOP_OBJECT } from '../../../constants';
 
-function Bookmark({ postId }) {
+function BookmarkRemove({ postId, bookmarkId, inRootBookmark }) {
   const { t } = useLocalization();
   const [store] = useStore();
 
-  const [isSaved, setIsSaved] = useState(false);
-
   const { showErrorSnackbar } = useErrorSnackbar();
-  const { showBookmarkSavedSnackbar } = useBookmarkSavedSnackbar();
 
-  const addPostToBookmarkMutation = useAddPostToBookmark({
-    onSuccess: (bookmarkData) => {
-      setIsSaved(true);
-      showBookmarkSavedSnackbar(postId, bookmarkData.id);
+  const removePostToBookmarkMutation = useRemovePostToBookmark({
+    onSuccess: (updatedParentBookmarkData) => {
       queryClient.setQueryData(
-        getBookmarksFolderQueryKey(store.profileId, undefined),
-        () => [bookmarkData]
+        getBookmarksFolderQueryKey(
+          store.profileId,
+          inRootBookmark ? undefined : updatedParentBookmarkData.id
+        ),
+        () => [updatedParentBookmarkData]
       );
     },
     onError: () => {
-      showErrorSnackbar(t("Snackbar/Couldn't save Post, Try Again"));
+      showErrorSnackbar(t("Snackbar/Couldn't remove the bookmark, Try Again"));
     },
   });
 
   const onPress = () => {
-    addPostToBookmarkMutation.mutate({ profileId: store.profileId, postId });
+    removePostToBookmarkMutation.mutate({
+      profileId: store.profileId,
+      bookmarkId,
+      postId,
+    });
   };
 
   return (
@@ -49,10 +50,10 @@ function Bookmark({ postId }) {
       style={styles.BookmarkContainer}
       onPress={onPress}
       hitSlop={BOOKMARK_HIT_SLOP_OBJECT}
-      disabled={addPostToBookmarkMutation.isLoading}
+      disabled={removePostToBookmarkMutation.isLoading}
     >
-      <Icon name={isSaved ? IconNames.bookmarkFilled : IconNames.bookmark} />
-      <EduText>{t('Post/save')}</EduText>
+      <Icon name={IconNames.bookmarkFilled} />
+      <EduText>{t('Post/remove')}</EduText>
     </TouchableOpacity>
   );
 }
@@ -65,9 +66,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Bookmark);
+export default React.memo(BookmarkRemove);
 
-Bookmark.propTypes = {
+BookmarkRemove.propTypes = {
   postId: PropTypes.number.isRequired,
+  bookmarkId: PropTypes.number,
+  inRootBookmark: PropTypes.bool.isRequired,
 };
-Bookmark.defaultProps = {};
+BookmarkRemove.defaultProps = { bookmarkId: undefined };

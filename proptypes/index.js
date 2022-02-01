@@ -204,3 +204,8 @@ export const fullProfilePropType = PropTypes.exact({
     followers: PropTypes.number.isRequired,
   }).isRequired,
 });
+export const bookmarksFolderPropType = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  isPublic: PropTypes.bool.isRequired,
+});

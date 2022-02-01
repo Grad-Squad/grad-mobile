@@ -20,7 +20,8 @@ export const IconNames = Object.freeze({
   bell: 'bell-outline',
   search: 'search',
   addCircle: 'add-circle-outline',
-  bookmark: 'bookmark',
+  bookmark: 'bookmark-outline',
+  bookmarkFilled: 'bookmark',
   menu: 'menu',
   cards: 'cards-outline',
   checklist: 'format-list-checkbox',
@@ -64,6 +65,7 @@ export const IconNames = Object.freeze({
   clock: 'time-outline',
   text: 'text',
   tag: 'tag',
+  add: 'add',
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
@@ -77,7 +79,8 @@ const map = {
   'bell-outline': MaterialCommunityIcons,
   search: Octicons,
   'add-circle-outline': MaterialIcons,
-  bookmark: Feather,
+  'bookmark-outline': MaterialCommunityIcons,
+  bookmark: MaterialCommunityIcons,
   menu: Feather,
   'cards-outline': MaterialCommunityIcons,
   'format-list-checkbox': MaterialCommunityIcons,
@@ -121,6 +124,7 @@ const map = {
   'time-outline': Ionicons,
   text: MaterialCommunityIcons,
   tag: MaterialCommunityIcons,
+  add: MaterialIcons,
 };
 
 const Icon = ({ name, size, color, style, disabled }) => {

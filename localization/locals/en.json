@@ -225,7 +225,9 @@
     "Could not connect to the server": "Could not connect to the server",
     "Cannot follow user": "Cannot follow user",
     "Cannot unfollow user": "Cannot unfollow user",
-    "Email Already Registered": "Email Already Registered"
+    "Email Already Registered": "Email Already Registered",
+    "Couldn't save Post, Try Again": "Couldn't save Post, Try Again",
+    "Couldn't remove the bookmark, Try Again": "Couldn't remove the bookmark, Try Again"
   },
   "CheeringWords": {
     "Good": {
@@ -339,6 +341,12 @@
       "message": "Are you sure you want remove your profile picture?\nyou can't undo this action",
       "confirm button": "Remove",
       "reject button": "Cancel"
+    },
+    "Confirm Delete Bookmarks Folder?": {
+      "title": "Delete folder?",
+      "message": "this action cannot be undone",
+      "confirm button": "Delete",
+      "reject button": "Cancel"
     }
   },
   "ProfilePicture": {
@@ -423,6 +431,46 @@
       "Let us hear from you": "Let us hear from you",
       "At any time, You can shake your phone to send us feedback, whether it’s a bug you found, a suggestion you have, or you just wanna say something.": "At any time, You can shake your phone to send us feedback, whether it’s a bug you found, a suggestion you have, or you just wanna say something.",
       "Whatever you want to say. We want to hear it.": "Whatever you want to say. We want to hear it."
+    }
+  },
+  "Post": {
+    "save": "save",
+    "remove": "remove"
+  },
+  "BookmarkSavedSnackbar": {
+    "Post saved": "Post saved",
+    "Change Folder": "Change Folder"
+  },
+  "BookmarksTab": {
+    "Your Bookmarks": "Your Bookmarks"
+  },
+  "BookmarksList": {
+    "Empty": {
+      "You haven't bookmarked any post yet": "You haven't bookmarked any post yet",
+      "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.": "You can bookmark posts to view them later. You can even organize them into folders and folders within folders."
+    },
+    "Couldn't get bookmarks, Try again": "Couldn't get bookmarks, Try again",
+    "Folders": "Folders",
+    "Posts": "Posts",
+    "NoItems": {
+      "No Folders": "No Folders",
+      "No Bookmarked Posts": "No Bookmarked Posts"
+    },
+    "CreateBookmarksFolder": {
+      "Create Folder": "Create Folder",
+      "Folder Title": "Folder Title",
+      "Public": "Public",
+      "Cancel": "Cancel",
+      "Create": "Create",
+      "Edit": "Edit",
+      "Couldn't Create Folder, Try again": "Couldn't Create Folder, Try again",
+      "Couldn't Update Folder, Try again": "Couldn't Update Folder, Try again"
+    },
+    "FolderOptionsBottomSheet": {
+      "Edit Folder": "Edit Folder",
+      "Delete Folder": "Delete Folder",
+      "Cancel": "Cancel",
+      "Couldn't Delete Folder, Try again": "Couldn't Delete Folder, Try again"
     }
   },
   "Search": {

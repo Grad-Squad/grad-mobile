@@ -30,6 +30,7 @@ import ViewVideo from 'components/Materials/ViewVideo';
 import Feedback from 'components/Feedback/Feedback';
 import SearchViewPage from 'components/Search/SearchNavTab';
 import SearchMainPage from 'components/Search/SearchMainPage';
+import AxiosProvider from 'api/AxiosProvider';
 import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 
@@ -127,7 +128,7 @@ const screens = [
 ];
 
 const RootNavigator = () => {
-  const [isReady, setIsReady] = React.useState(false);
+  const [isReady, setIsReady] = React.useState(!__DEV__);
   const [initialState, setInitialState] = React.useState();
   const navigationRef = useNavigationContainerRef();
 
@@ -164,19 +165,21 @@ const RootNavigator = () => {
   }
   return (
     <>
-      <Feedback navigationRef={navigationRef} />
-      <NavigationContainer
-        ref={navigationRef}
-        initialState={initialState}
-        onStateChange={(state) =>
-          AsyncStorage.setItem(
-            localStorageKeys.nav_state,
-            JSON.stringify(state)
-          )
-        }
-      >
-        <Navigator screens={screens} />
-      </NavigationContainer>
+      <AxiosProvider navigationRef={navigationRef}>
+        <Feedback navigationRef={navigationRef} />
+        <NavigationContainer
+          ref={navigationRef}
+          initialState={initialState}
+          onStateChange={(state) =>
+            AsyncStorage.setItem(
+              localStorageKeys.nav_state,
+              JSON.stringify(state)
+            )
+          }
+        >
+          <Navigator screens={screens} />
+        </NavigationContainer>
+      </AxiosProvider>
     </>
   );
 };

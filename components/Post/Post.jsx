@@ -33,6 +33,8 @@ function Post({
   style,
   commentCount,
   materials,
+  bookmarkId,
+  inRootBookmark
 }) {
   const { t } = useLocalization();
   const navigation = useNavigation();
@@ -73,6 +75,8 @@ function Post({
           isPost
           onEdit={onEdit}
           onDelete={onDelete}
+          bookmarkId={bookmarkId}
+          inRootBookmark={inRootBookmark}
         />
       </ThemeProvider>
     </Pressable>
@@ -94,7 +98,11 @@ Post.propTypes = {
   style: stylePropType,
   commentCount: PropTypes.number.isRequired,
   materials: materialsPropType.isRequired,
+  bookmarkId: PropTypes.number,
+  inRootBookmark: PropTypes.bool
 };
 Post.defaultProps = {
   style: {},
+  bookmarkId: undefined,
+  inRootBookmark: undefined
 };

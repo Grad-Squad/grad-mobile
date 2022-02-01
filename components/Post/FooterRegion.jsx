@@ -10,6 +10,7 @@ import CommentVotes from '../Votes/CommentVotes';
 import Options from './Options/Options';
 import CommentButton from '../Comment/CommentButton';
 import Bookmark from './Bookmark/Bookmark';
+import BookmarkRemove from './Bookmark/BookmarkRemove';
 
 const styles = StyleSheet.create({
   outerContainer: {
@@ -39,6 +40,8 @@ function FooterRegion({
   onDelete,
   contentProfileId,
   style,
+  bookmarkId,
+  inRootBookmark
 }) {
   const { upvotes = 0, downvotes = 0, id, currentUserStatus } = rating;
   const voteCount = upvotes - downvotes;
@@ -61,8 +64,16 @@ function FooterRegion({
         />
       )}
       {isPost && <CommentButton count={commentCount} />}
-      {isPost && <Bookmark />}
-      <Options onEdit={onEdit} onDelete={onDelete} contentProfileId={contentProfileId} />
+      {isPost && bookmarkId === undefined ? (
+        <Bookmark postId={postId} />
+      ) : (
+        <BookmarkRemove postId={postId} bookmarkId={bookmarkId} inRootBookmark={inRootBookmark}/>
+      )}
+      <Options
+        onEdit={onEdit}
+        onDelete={onDelete}
+        contentProfileId={contentProfileId}
+      />
     </View>
   );
 }
@@ -78,10 +89,14 @@ FooterRegion.propTypes = {
   onDelete: PropTypes.func.isRequired,
   contentProfileId: PropTypes.number.isRequired,
   style: stylePropType,
+  bookmarkId: PropTypes.number,
+  inRootBookmark: PropTypes.bool
 };
 
 FooterRegion.defaultProps = {
   commentCount: 0,
   isPost: false,
   style: {},
+  bookmarkId: undefined,
+  inRootBookmark: undefined
 };

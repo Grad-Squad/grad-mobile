@@ -15,6 +15,11 @@ export default Object.freeze({
     followers: '/profiles/{0}/followers',
     postsByProfileId: '/profiles/{0}/posts',
     followProfile: '/profiles/{0}/follow',
+    AddPostToBookmark: '/profiles/{0}/bookmarks/add/{1}',
+    MovePostToBookmark: '/profiles/{0}/bookmarks/move/{1}/{2}/{3}',
+    RemovePostToBookmark: '/profiles/{0}/bookmarks/remove/{1}/{2}',
+    BookmarksFolder: '/profiles/{0}/bookmarks',
+    SpecificBookmarksFolder: '/profiles/{0}/bookmarks/{1}',
   },
   posts: {
     post: '/posts/{0}',

@@ -7,12 +7,12 @@ import * as Sentry from 'sentry-expo';
 
 import GlobalStore from 'globalStore/GlobalStore';
 import { Colors } from 'styles';
-import AxiosProvider from 'api/AxiosProvider';
 import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import ReactQueryClient from 'components/ReactQueryClient/ReactQueryClient';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Platform, UIManager } from 'react-native';
 import FirstTimeMessages from 'components/FirstTimeMessages/FirstTimeMessages';
+import BookmarkSavedSnackbarProvider from 'components/BookmarkSavedSnackbar/BookmarkSavedSnackbarProvider';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
@@ -55,7 +55,7 @@ function App() {
       <GlobalStore>
         <ReduxProvider store={store}>
           <ErrorSnackbarProvider>
-            <AxiosProvider>
+            <BookmarkSavedSnackbarProvider>
               <ReactQueryClient>
                 <PaperProvider theme={theme}>
                   <SafeAreaProvider>
@@ -65,7 +65,7 @@ function App() {
                   </SafeAreaProvider>
                 </PaperProvider>
               </ReactQueryClient>
-            </AxiosProvider>
+            </BookmarkSavedSnackbarProvider>
           </ErrorSnackbarProvider>
         </ReduxProvider>
       </GlobalStore>

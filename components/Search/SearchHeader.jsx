@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { PressableIcon } from 'common/Icon';
 import { Colors, Constants, Styles } from 'styles';
 import { IconNames } from 'common/Icon/Icon';
@@ -17,13 +17,22 @@ const SearchHeader = ({
   setHistoryItems,
   showHistory,
   setShowHistory,
+  hasBackButton,
+  onGoBack,
 }) => {
   const { formik, isLoading } = useContext(SearchContext);
 
   const navigation = useNavigation();
 
   const onPressBackButton = () => {
-    navigation.goBack();
+    if (showHistory) {
+      setShowHistory(false);
+      Keyboard.dismiss();
+    } else if (onGoBack) {
+      onGoBack();
+    } else {
+      navigation.goBack();
+    }
   };
 
   const getHistoryFromStorage = () => {
@@ -39,7 +48,7 @@ const SearchHeader = ({
   };
 
   useEffect(() => {
-    setShowHistory(true);
+    // setShowHistory(true);
     getHistoryFromStorage();
   }, []);
 
@@ -51,11 +60,13 @@ const SearchHeader = ({
           showHistory ? styles.wrapperOpen : styles.wrapperClosed,
         ]}
       >
-        <PressableIcon
-          name={IconNames.arrowLeft}
-          size={35}
-          onPress={onPressBackButton}
-        />
+        {hasBackButton && (
+          <PressableIcon
+            name={IconNames.arrowLeft}
+            size={35}
+            onPress={onPressBackButton}
+          />
+        )}
         <SearchTextInputFormik
           formik={formik}
           formikKey="searchText"
@@ -88,8 +99,13 @@ SearchHeader.propTypes = {
   setHistoryItems: PropTypes.func.isRequired,
   showHistory: PropTypes.bool.isRequired,
   setShowHistory: PropTypes.func.isRequired,
+  hasBackButton: PropTypes.bool,
+  onGoBack: PropTypes.func,
 };
-SearchHeader.defaultProps = {};
+SearchHeader.defaultProps = {
+  hasBackButton: false,
+  onGoBack: () => {},
+};
 
 export default SearchHeader;
 

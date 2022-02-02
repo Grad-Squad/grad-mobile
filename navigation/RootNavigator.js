@@ -28,6 +28,8 @@ import Followers from 'components/Profile/Followers';
 import ViewPdf from 'components/Materials/ViewPdf';
 import ViewVideo from 'components/Materials/ViewVideo';
 import Feedback from 'components/Feedback/Feedback';
+import SearchViewPage from 'components/Search/SearchNavTab';
+import SearchMainPage from 'components/Search/SearchMainPage';
 import AxiosProvider from 'api/AxiosProvider';
 import MoveBookmark from 'components/Bookmarks/MoveBookmark';
 import BookmarkSavedSnackbarProvider from 'components/BookmarkSavedSnackbar/BookmarkSavedSnackbarProvider';
@@ -120,7 +122,15 @@ const screens = [
   {
     name: ScreenNames.MOVE_BOOKMARK,
     component: MoveBookmark,
-    presentation: 'modal'
+    presentation: 'modal',
+  },
+  {
+    name: ScreenNames.SEARCHMAIN,
+    component: SearchMainPage,
+  },
+  {
+    name: ScreenNames.SEARCHVIEW,
+    component: SearchViewPage,
   },
 ];
 

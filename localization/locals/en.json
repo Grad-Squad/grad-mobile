@@ -216,6 +216,11 @@
     "Go to question": "Go to question",
     "Question Number": "Question Number"
   },
+  "SearchNav": {
+    "All": "All",
+    "People": "People",
+    "Posts": "Posts"
+  },
   "Snackbar": {
     "Error: ": "Error: ",
     "Could not connect to the server": "Could not connect to the server",
@@ -474,6 +479,49 @@
       "Move Here": "Move Here",
       "Couldn't move the bookmark, Try Again": "Couldn't move the bookmark, Try Again",
       "Couldn't move the folder, Try Again": "Couldn't move the folder, Try Again"
+    }
+  },
+  "Search": {
+    "More": "See More",
+    "Posts": "Posts",
+    "People": "People",
+    "NoPosts": "No Posts found",
+    "NoProfiles": "No Profiles found",
+    "NoHistory": "Nothing to show yet",
+    "Filter": {
+      "Filter": "Filter",
+      "reset": "reset",
+      "Posts": "Posts",
+      "People": "People",
+      "Filter People": "Filter People",
+      "Filter Posts": "Filter Posts",
+      "Follow Status": "Follow Status",
+      "Role": "Role",
+      "Material Type": "Material Type",
+      "Date": "Date",
+      "Subject": "Subject",
+      "Tag": "Tag",
+      "Post Price": "Post Price",
+      "Sort by": "Sort by",
+      "Followed": "Followed",
+      "Not Followed": "Not Followed",
+      "Teacher": "Teacher",
+      "Student": "Student",
+      "Flashcards": "Flashcards",
+      "Images": "Images",
+      "Videos": "Videos",
+      "PDF": "PDF",
+      "MCQ": "MCQ",
+      "Today": "Today",
+      "Past Week": "Past Week",
+      "Past Month": "Past Month",
+      "Past Year": "Past Year",
+      "Latest": "Latest",
+      "Most Relavent": "Most Relavent",
+      "Most Popular": "Most Popular",
+      "sad": "sad",
+      "Paid": "Paid",
+      "Free": "Free"
     }
   }
 }

@@ -21,6 +21,9 @@ export default {
   PROFILE: 'PROFILE',
   FOLLOWERS: 'FOLLOWERS',
 
+  SEARCHMAIN: 'SEARCH_MAIN',
+  SEARCHVIEW: 'SEARCH_VIEW',
+
   Register: {
     REQUIRED_INFO: 'register/requiredInfo',
     ROLL_SELECTION: 'register/rollSelection',
@@ -42,4 +45,10 @@ export default {
   },
 
   MOVE_BOOKMARK: 'MOVE_BOOKMARK',
+
+  SearchFilter: {
+    MAIN: 'searchFilter/main',
+    POSTS: 'searchFilter/post',
+    PEOPLE: 'searchFilter/people',
+  },
 };

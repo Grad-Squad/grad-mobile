@@ -7,7 +7,13 @@ import { Colors, Constants } from 'styles';
 import EduText from 'common/EduText';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
 
-const BookmarksFolder = ({ name, onPress, isPublic, onOptionsPress }) => (
+const BookmarksFolder = ({
+  name,
+  onPress,
+  isPublic,
+  onOptionsPress,
+  hideOptions,
+}) => (
   <Pressable
     style={[styles.container, !isPublic && styles.privateFolder]}
     onPress={onPress}
@@ -19,7 +25,9 @@ const BookmarksFolder = ({ name, onPress, isPublic, onOptionsPress }) => (
         {name}
       </EduText>
     </View>
-    <PressableIcon name={IconNames.dotsVertical} onPress={onOptionsPress} />
+    {!hideOptions && (
+      <PressableIcon name={IconNames.dotsVertical} onPress={onOptionsPress} />
+    )}
   </Pressable>
 );
 
@@ -28,6 +36,7 @@ BookmarksFolder.propTypes = {
   isPublic: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired,
   onOptionsPress: PropTypes.func.isRequired,
+  hideOptions: PropTypes.bool.isRequired
 };
 BookmarksFolder.defaultProps = {};
 

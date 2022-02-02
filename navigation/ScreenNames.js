@@ -44,6 +44,8 @@ export default {
     DONE: 'forgotPassword/done',
   },
 
+  MOVE_BOOKMARK: 'MOVE_BOOKMARK',
+
   SearchFilter: {
     MAIN: 'searchFilter/main',
     POSTS: 'searchFilter/post',

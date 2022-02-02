@@ -13,8 +13,10 @@ import {
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import BaseAlert from 'common/alerts/BaseAlert';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNames from 'navigation/ScreenNames';
 
-const snapPoints = ['28%'];
+const snapPoints = ['32%'];
 const FolderOptionsBottomSheet = ({
   bottomSheetRef,
   showEditSheet,
@@ -23,6 +25,7 @@ const FolderOptionsBottomSheet = ({
   inRootBookmark,
   parentBookmarkId,
 }) => {
+  const navigation = useNavigation();
   const { t } = useLocalization();
 
   const { showErrorSnackbar } = useErrorSnackbar();
@@ -54,6 +57,8 @@ const FolderOptionsBottomSheet = ({
     },
   });
 
+  const { isLoading } = removeBookmarksFolderMutation;
+
   return (
     <BottomSheet
       ref={bottomSheetRef}
@@ -73,7 +78,20 @@ const FolderOptionsBottomSheet = ({
           }}
           style={styles.button}
           textStyle={styles.buttonText}
-          disabled={removeBookmarksFolderMutation.isLoading}
+          disabled={isLoading}
+        />
+        <TransparentButton
+          text={t('BookmarksList/FolderOptionsBottomSheet/Move Folder')}
+          onPress={() => {
+            navigation.navigate(ScreenNames.MOVE_BOOKMARK, {
+              bookmarkId: parentBookmarkId,
+              folderId: selectedFolder.id,
+            });
+            bottomSheetRef.current.close();
+          }}
+          style={styles.button}
+          textStyle={styles.buttonText}
+          disabled={isLoading}
         />
         <TransparentButton
           text={t('BookmarksList/FolderOptionsBottomSheet/Delete Folder')}
@@ -87,15 +105,15 @@ const FolderOptionsBottomSheet = ({
           }}
           style={styles.button}
           textStyle={[styles.buttonText, styles.deleteText]}
-          disabled={removeBookmarksFolderMutation.isLoading}
-          loading={removeBookmarksFolderMutation.isLoading}
+          disabled={isLoading}
+          loading={isLoading}
         />
         <TransparentButton
           text={t('BookmarksList/FolderOptionsBottomSheet/Cancel')}
           onPress={() => bottomSheetRef.current.close()}
           style={styles.button}
           textStyle={styles.buttonText}
-          disabled={removeBookmarksFolderMutation.isLoading}
+          disabled={isLoading}
         />
       </View>
     </BottomSheet>

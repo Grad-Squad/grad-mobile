@@ -76,7 +76,8 @@
     "Share": "Share",
     "Report": "Report",
     "Delete": "Delete",
-    "Save": "Save"
+    "Save": "Save",
+    "Move": "Move"
   },
   "PictureBottomSheetMenu": {
     "Edit": "Edit your profile picture",
@@ -467,10 +468,17 @@
       "Couldn't Update Folder, Try again": "Couldn't Update Folder, Try again"
     },
     "FolderOptionsBottomSheet": {
+      "Move Folder": "Move Folder",
       "Edit Folder": "Edit Folder",
       "Delete Folder": "Delete Folder",
       "Cancel": "Cancel",
       "Couldn't Delete Folder, Try again": "Couldn't Delete Folder, Try again"
+    },
+    "MoveBookmarkButtons": {
+      "Cancel": "Cancel",
+      "Move Here": "Move Here",
+      "Couldn't move the bookmark, Try Again": "Couldn't move the bookmark, Try Again",
+      "Couldn't move the folder, Try Again": "Couldn't move the folder, Try Again"
     }
   },
   "Search": {

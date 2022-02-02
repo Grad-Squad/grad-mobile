@@ -28,7 +28,7 @@ const Profile = ({ navigation, route }) => {
           <ProfileHeader navigation={navigation} profile={profile} />
         )}
 
-        <ProfileTabNav />
+        <ProfileTabNav profileId={profileId}/>
       </ProfileContext.Provider>
     </Page>
   );

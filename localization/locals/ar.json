@@ -76,7 +76,8 @@
     "Share": "شارك",
     "Report": "إبلاغ",
     "Delete": "حذف",
-    "Save": "حفظ"
+    "Save": "حفظ",
+    "Move": "نقل"
   },
   "PictureBottomSheetMenu": {
     "Edit": "تغيير صورة ملفك الشخصي",
@@ -467,10 +468,17 @@
       "Couldn't Update Folder, Try again": "تعذر تحديث المجلد ، حاول مرة أخرى"
     },
     "FolderOptionsBottomSheet": {
+      "Move Folder": "نقل المجلد",
       "Edit Folder": "تعديل المجلد",
       "Delete Folder": "حذف المجلد",
       "Cancel": "إلغاء",
       "Couldn't Delete Folder, Try again": "تعذر حذف المجلد ، حاول مرة أخرى"
+    },
+    "MoveBookmarkButtons": {
+      "Cancel": "إلغاء",
+      "Move Here": "انقله هنا",
+      "Couldn't move the bookmark, Try Again": "تعذر نقل المنشور المحفوظ ، حاول مرة أخرى",
+      "Couldn't move the folder, Try Again": "تعذر نقل المجلد ، حاول مرة أخرى"
     }
   },
   "Search": {

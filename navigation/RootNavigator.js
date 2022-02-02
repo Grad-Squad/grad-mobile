@@ -31,6 +31,8 @@ import Feedback from 'components/Feedback/Feedback';
 import SearchViewPage from 'components/Search/SearchNavTab';
 import SearchMainPage from 'components/Search/SearchMainPage';
 import AxiosProvider from 'api/AxiosProvider';
+import MoveBookmark from 'components/Bookmarks/MoveBookmark';
+import BookmarkSavedSnackbarProvider from 'components/BookmarkSavedSnackbar/BookmarkSavedSnackbarProvider';
 import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 
@@ -118,6 +120,11 @@ const screens = [
     component: Followers,
   },
   {
+    name: ScreenNames.MOVE_BOOKMARK,
+    component: MoveBookmark,
+    presentation: 'modal',
+  },
+  {
     name: ScreenNames.SEARCHMAIN,
     component: SearchMainPage,
   },
@@ -166,19 +173,21 @@ const RootNavigator = () => {
   return (
     <>
       <AxiosProvider navigationRef={navigationRef}>
-        <Feedback navigationRef={navigationRef} />
-        <NavigationContainer
-          ref={navigationRef}
-          initialState={initialState}
-          onStateChange={(state) =>
-            AsyncStorage.setItem(
-              localStorageKeys.nav_state,
-              JSON.stringify(state)
-            )
-          }
-        >
-          <Navigator screens={screens} />
-        </NavigationContainer>
+        <BookmarkSavedSnackbarProvider navigationRef={navigationRef}>
+          <Feedback navigationRef={navigationRef} />
+          <NavigationContainer
+            ref={navigationRef}
+            initialState={initialState}
+            onStateChange={(state) =>
+              AsyncStorage.setItem(
+                localStorageKeys.nav_state,
+                JSON.stringify(state)
+              )
+            }
+          >
+            <Navigator screens={screens} />
+          </NavigationContainer>
+        </BookmarkSavedSnackbarProvider>
       </AxiosProvider>
     </>
   );

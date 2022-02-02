@@ -17,18 +17,22 @@ export const useAddPostToBookmark = (mutationConfig) => {
 export const useMovePostToBookmark = (mutationConfig) => {
   const { axios } = useAxios();
 
-  return useMutation(async ({ profileId, bookmarkId, postId }) => {
-    const { data } = await axios.patch(
-      formatString(
-        endpoints.profile.MovePostToBookmark,
-        profileId,
-        bookmarkId,
-        postId
-      )
-    );
+  return useMutation(
+    async ({ profileId, fromBookmarkId, postId, toBookmarkId }) => {
+      const { data } = await axios.patch(
+        formatString(
+          endpoints.profile.MovePostToBookmark,
+          profileId,
+          fromBookmarkId,
+          postId,
+          toBookmarkId
+        )
+      );
 
-    return data;
-  }, mutationConfig);
+      return data;
+    },
+    mutationConfig
+  );
 };
 export const useRemovePostToBookmark = (mutationConfig) => {
   const { axios } = useAxios();

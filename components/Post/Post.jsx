@@ -34,7 +34,8 @@ function Post({
   commentCount,
   materials,
   bookmarkId,
-  inRootBookmark
+  inRootBookmark,
+  disabled,
 }) {
   const { t } = useLocalization();
   const navigation = useNavigation();
@@ -57,6 +58,8 @@ function Post({
     <Pressable
       style={[styles.container, style]}
       onPress={() => navigation.navigate(ScreenNames.POST, { postID: id })}
+      disabled={disabled}
+      pointerEvents={disabled ? 'none' : undefined}
     >
       <ThemeProvider>
         <TitleRegion
@@ -99,10 +102,12 @@ Post.propTypes = {
   commentCount: PropTypes.number.isRequired,
   materials: materialsPropType.isRequired,
   bookmarkId: PropTypes.number,
-  inRootBookmark: PropTypes.bool
+  inRootBookmark: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 Post.defaultProps = {
   style: {},
   bookmarkId: undefined,
-  inRootBookmark: undefined
+  inRootBookmark: undefined,
+  disabled: false,
 };

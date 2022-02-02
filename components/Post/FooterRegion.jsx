@@ -67,12 +67,18 @@ function FooterRegion({
       {isPost && bookmarkId === undefined ? (
         <Bookmark postId={postId} />
       ) : (
-        <BookmarkRemove postId={postId} bookmarkId={bookmarkId} inRootBookmark={inRootBookmark}/>
+        <BookmarkRemove
+          postId={postId}
+          bookmarkId={bookmarkId}
+          inRootBookmark={inRootBookmark}
+        />
       )}
       <Options
         onEdit={onEdit}
         onDelete={onDelete}
         contentProfileId={contentProfileId}
+        postId={postId}
+        bookmarkId={bookmarkId}
       />
     </View>
   );

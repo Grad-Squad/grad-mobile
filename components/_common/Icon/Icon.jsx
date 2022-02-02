@@ -55,6 +55,7 @@ export const IconNames = Object.freeze({
   Folder: 'folder-outline',
   removeImage: 'image-remove',
   add: 'add',
+  moveFile:'folder-move-outline'
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
@@ -103,6 +104,7 @@ const map = {
   'folder-outline': MaterialCommunityIcons,
   'image-remove': MaterialCommunityIcons,
   add: MaterialIcons,
+  'folder-move-outline': MaterialCommunityIcons
 };
 
 const Icon = ({ name, size, color, style, disabled }) => {

@@ -54,6 +54,8 @@ const FolderOptionsBottomSheet = ({
     },
   });
 
+  const { isLoading } = removeBookmarksFolderMutation;
+
   return (
     <BottomSheet
       ref={bottomSheetRef}
@@ -73,7 +75,7 @@ const FolderOptionsBottomSheet = ({
           }}
           style={styles.button}
           textStyle={styles.buttonText}
-          disabled={removeBookmarksFolderMutation.isLoading}
+          disabled={isLoading}
         />
         <TransparentButton
           text={t('BookmarksList/FolderOptionsBottomSheet/Delete Folder')}
@@ -87,15 +89,15 @@ const FolderOptionsBottomSheet = ({
           }}
           style={styles.button}
           textStyle={[styles.buttonText, styles.deleteText]}
-          disabled={removeBookmarksFolderMutation.isLoading}
-          loading={removeBookmarksFolderMutation.isLoading}
+          disabled={isLoading}
+          loading={isLoading}
         />
         <TransparentButton
           text={t('BookmarksList/FolderOptionsBottomSheet/Cancel')}
           onPress={() => bottomSheetRef.current.close()}
           style={styles.button}
           textStyle={styles.buttonText}
-          disabled={removeBookmarksFolderMutation.isLoading}
+          disabled={isLoading}
         />
       </View>
     </BottomSheet>

@@ -16,7 +16,13 @@ import FolderOptionsBottomSheet from './FolderOptionsBottomSheet';
 import useGetBookmarks from './useGetBookmarks';
 import MoveBookmarkButtons from './MoveBookmarkButtons';
 
-const BookmarksList = ({ profileId, postId, fromBookmarkId, folderId }) => {
+const BookmarksList = ({
+  profileId,
+  postId,
+  fromBookmarkId,
+  folderId,
+  inProfile,
+}) => {
   const isMoving = fromBookmarkId !== undefined;
 
   const { t } = useLocalization();
@@ -59,7 +65,7 @@ const BookmarksList = ({ profileId, postId, fromBookmarkId, folderId }) => {
               addFolderBottomSheetRef.current.close();
               folderOptionsBottomSheetRef.current.expand();
             }}
-            hideOptions={isMoving}
+            hideOptions={isMoving || inProfile}
           />
         ),
         ItemSeparatorComponent: () => <View style={styles.foldersSeparator} />,
@@ -69,7 +75,7 @@ const BookmarksList = ({ profileId, postId, fromBookmarkId, folderId }) => {
               folderOptionsBottomSheetRef.current.close();
               addFolderBottomSheetRef.current.expand();
             }}
-            hideAdd={isMoving}
+            hideAdd={isMoving || inProfile}
           />
         ),
         footer: folders.length === 0 && (
@@ -101,8 +107,8 @@ const BookmarksList = ({ profileId, postId, fromBookmarkId, folderId }) => {
             style={styles.post}
             commentCount={commentCount}
             materials={materials}
-            bookmarkId={bookmarkId}
-            inRootBookmark={inRootBookmark}
+            bookmarkId={inProfile ? undefined : bookmarkId}
+            inRootBookmark={inProfile ? undefined : inRootBookmark}
             disabled={isMoving}
           />
         ),
@@ -167,7 +173,7 @@ const BookmarksList = ({ profileId, postId, fromBookmarkId, folderId }) => {
         }
         stickySectionHeadersEnabled={false}
       />
-      {isMoving ? (
+      {isMoving && (
         <MoveBookmarkButtons
           postId={postId}
           fromBookmarkId={fromBookmarkId}
@@ -175,7 +181,8 @@ const BookmarksList = ({ profileId, postId, fromBookmarkId, folderId }) => {
           inRootBookmark={inRootBookmark}
           folderId={folderId}
         />
-      ) : (
+      )}
+      {!isMoving && !inProfile && (
         <>
           <FolderOptionsBottomSheet
             bottomSheetRef={folderOptionsBottomSheetRef}
@@ -204,11 +211,13 @@ BookmarksList.propTypes = {
   postId: PropTypes.number,
   fromBookmarkId: PropTypes.number,
   folderId: PropTypes.number,
+  inProfile: PropTypes.bool,
 };
 BookmarksList.defaultProps = {
   postId: undefined,
   fromBookmarkId: undefined,
   folderId: undefined,
+  inProfile: false,
 };
 
 export default BookmarksList;

@@ -3,11 +3,12 @@ import { StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Colors } from 'styles';
 import { useLocalization } from 'localization';
+import BookmarksList from 'components/Bookmarks/BookmarksList';
+import PropTypes from 'prop-types';
 import ProfilePosts from './ProfilePosts';
-import Bookmarks from './Bookmarks/Bookmarks';
 
 const Tab = createMaterialTopTabNavigator();
-const ProfileTabNav = () => {
+const ProfileTabNav = ({ profileId }) => {
   const { t } = useLocalization();
   return (
     <Tab.Navigator
@@ -18,12 +19,16 @@ const ProfileTabNav = () => {
       }}
     >
       <Tab.Screen name={t('Profile/Tabs/Posts')} component={ProfilePosts} />
-      <Tab.Screen name={t('Profile/Tabs/Bookmarks')} component={Bookmarks} />
+      <Tab.Screen name={t('Profile/Tabs/Bookmarks')}>
+        {() => <BookmarksList profileId={profileId} inProfile />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 };
 
-ProfileTabNav.propTypes = {};
+ProfileTabNav.propTypes = {
+  profileId: PropTypes.number.isRequired,
+};
 ProfileTabNav.defaultProps = {};
 
 export default ProfileTabNav;

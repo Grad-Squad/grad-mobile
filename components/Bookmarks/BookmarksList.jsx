@@ -14,8 +14,11 @@ import AddFolderBottomSheet from './AddFolderBottomSheet';
 import BookmarksLoading from './BookmarksLoading';
 import FolderOptionsBottomSheet from './FolderOptionsBottomSheet';
 import useGetBookmarks from './useGetBookmarks';
+import MoveBookmarkButtons from './MoveBookmarkButtons';
 
-const BookmarksList = ({ profileId }) => {
+const BookmarksList = ({ profileId, postId, postBookmarkId }) => {
+  const isMoving = postId !== undefined;
+
   const { t } = useLocalization();
 
   const [currentBookmarkId, setCurrentBookmarkId] = useState(undefined);
@@ -56,6 +59,7 @@ const BookmarksList = ({ profileId }) => {
               addFolderBottomSheetRef.current.close();
               folderOptionsBottomSheetRef.current.expand();
             }}
+            hideOptions={isMoving}
           />
         ),
         ItemSeparatorComponent: () => <View style={styles.foldersSeparator} />,
@@ -65,6 +69,7 @@ const BookmarksList = ({ profileId }) => {
               folderOptionsBottomSheetRef.current.close();
               addFolderBottomSheetRef.current.expand();
             }}
+            hideAdd={isMoving}
           />
         ),
         footer: folders.length === 0 && (
@@ -98,6 +103,7 @@ const BookmarksList = ({ profileId }) => {
             materials={materials}
             bookmarkId={bookmarkId}
             inRootBookmark={inRootBookmark}
+            disabled={isMoving}
           />
         ),
         header: (
@@ -161,30 +167,46 @@ const BookmarksList = ({ profileId }) => {
         }
         stickySectionHeadersEnabled={false}
       />
-      <FolderOptionsBottomSheet
-        bottomSheetRef={folderOptionsBottomSheetRef}
-        showEditSheet={showEditSheet}
-        selectedFolder={selectedFolder}
-        profileId={profileId}
-        parentBookmarkId={bookmarkId}
-        inRootBookmark={inRootBookmark}
-      />
-      <AddFolderBottomSheet
-        bottomSheetRef={addFolderBottomSheetRef}
-        profileId={profileId}
-        parentBookmarkId={bookmarkId}
-        inRootBookmark={inRootBookmark}
-        itemToEdit={selectedFolder}
-        deselectFolder={deselectFolder}
-      />
+      {isMoving ? (
+        <MoveBookmarkButtons
+          postId={postId}
+          fromBookmarkId={postBookmarkId}
+          toBookmarkId={bookmarkId}
+          inRootBookmark={inRootBookmark}
+        />
+      ) : (
+        <>
+          <FolderOptionsBottomSheet
+            bottomSheetRef={folderOptionsBottomSheetRef}
+            showEditSheet={showEditSheet}
+            selectedFolder={selectedFolder}
+            profileId={profileId}
+            parentBookmarkId={bookmarkId}
+            inRootBookmark={inRootBookmark}
+          />
+          <AddFolderBottomSheet
+            bottomSheetRef={addFolderBottomSheetRef}
+            profileId={profileId}
+            parentBookmarkId={bookmarkId}
+            inRootBookmark={inRootBookmark}
+            itemToEdit={selectedFolder}
+            deselectFolder={deselectFolder}
+          />
+        </>
+      )}
     </>
   );
 };
 
 BookmarksList.propTypes = {
   profileId: PropTypes.number.isRequired,
+  postId: PropTypes.number,
+  postBookmarkId: PropTypes.number,
 };
-BookmarksList.defaultProps = {};
+BookmarksList.defaultProps = {
+  postId: undefined,
+  postBookmarkId: undefined,
+};
 
 export default BookmarksList;
 

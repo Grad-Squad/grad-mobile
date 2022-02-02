@@ -40,4 +40,6 @@ export default {
     NEW_PASSWORD: 'forgotPassword/newPassword',
     DONE: 'forgotPassword/done',
   },
+
+  MOVE_BOOKMARK: 'MOVE_BOOKMARK',
 };

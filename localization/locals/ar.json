@@ -466,6 +466,11 @@
       "Delete Folder": "حذف المجلد",
       "Cancel": "إلغاء",
       "Couldn't Delete Folder, Try again": "تعذر حذف المجلد ، حاول مرة أخرى"
+    },
+    "MoveBookmarkButtons": {
+      "Cancel": "إلغاء",
+      "Move Here": "انقله هنا",
+      "Couldn't move the bookmark, Try Again": "تعذر نقل المنشور المحفوظ ، حاول مرة أخرى"
     }
   }
 }

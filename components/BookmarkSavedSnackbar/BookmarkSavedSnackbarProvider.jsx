@@ -4,11 +4,13 @@ import { Snackbar } from 'react-native-paper';
 import { t } from 'i18n-js';
 import EduText from 'common/EduText';
 import { Colors } from 'styles';
-import { Alert, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import ScreenNames from 'navigation/ScreenNames';
+import PropTypes from 'prop-types';
 
 const BookmarkSavedSnackbarContext = createContext();
 
-const BookmarkSavedSnackbarProvider = ({ children }) => {
+const BookmarkSavedSnackbarProvider = ({ children, navigationRef }) => {
   const [visible, setVisible] = useState(false);
 
   const [postId, setPostId] = useState(undefined);
@@ -37,8 +39,10 @@ const BookmarkSavedSnackbarProvider = ({ children }) => {
             </EduText>
           ),
           onPress: () => {
-            console.log('pressed');
-            Alert.alert('WIP');
+            navigationRef.navigate(ScreenNames.MOVE_BOOKMARK, {
+              postId,
+              bookmarkId,
+            });
           },
         }}
       >
@@ -51,6 +55,9 @@ const BookmarkSavedSnackbarProvider = ({ children }) => {
 };
 
 BookmarkSavedSnackbarProvider.propTypes = {
+  navigationRef: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
   children: childrenPropType.isRequired,
 };
 BookmarkSavedSnackbarProvider.defaultProps = {};

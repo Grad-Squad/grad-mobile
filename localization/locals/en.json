@@ -463,6 +463,7 @@
       "Couldn't Update Folder, Try again": "Couldn't Update Folder, Try again"
     },
     "FolderOptionsBottomSheet": {
+      "Move Folder": "Move Folder",
       "Edit Folder": "Edit Folder",
       "Delete Folder": "Delete Folder",
       "Cancel": "Cancel",
@@ -471,7 +472,8 @@
     "MoveBookmarkButtons": {
       "Cancel": "Cancel",
       "Move Here": "Move Here",
-      "Couldn't move the bookmark, Try Again": "Couldn't move the bookmark, Try Again"
+      "Couldn't move the bookmark, Try Again": "Couldn't move the bookmark, Try Again",
+      "Couldn't move the folder, Try Again": "Couldn't move the folder, Try Again"
     }
   }
 }

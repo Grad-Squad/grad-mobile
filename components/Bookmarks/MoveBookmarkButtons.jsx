@@ -8,6 +8,7 @@ import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import {
   getBookmarksFolderQueryKey,
   useMovePostToBookmark,
+  useUpdateBookmarksFolder,
 } from 'api/endpoints/bookmarks';
 import { useStore } from 'globalStore/GlobalStore';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
@@ -17,11 +18,12 @@ const MoveBookmarkButtons = ({
   fromBookmarkId,
   toBookmarkId,
   inRootBookmark,
+  folderId,
 }) => {
   const { t } = useLocalization();
   const navigation = useNavigation();
 
-  const store = useStore();
+  const [store] = useStore();
 
   const { showErrorSnackbar } = useErrorSnackbar();
 
@@ -52,6 +54,64 @@ const MoveBookmarkButtons = ({
       );
     },
   });
+
+  const moveFolderMutation = useUpdateBookmarksFolder({
+    onSuccess: (updatedMovedBookmarkData) => {
+      queryClient.setQueryData(
+        getBookmarksFolderQueryKey(store.profileId, folderId),
+        () => [updatedMovedBookmarkData]
+      );
+      queryClient.setQueryData(
+        getBookmarksFolderQueryKey(store.profileId, fromBookmarkId),
+        (oldData) => [
+          {
+            ...oldData[0],
+            folders: oldData[0].folders.filter((item) => item.id !== folderId),
+          },
+        ]
+      );
+      queryClient.setQueryData(
+        getBookmarksFolderQueryKey(
+          store.profileId,
+          inRootBookmark ? undefined : toBookmarkId
+        ),
+        (oldData) => [
+          {
+            ...oldData[0],
+            folders: [updatedMovedBookmarkData, ...oldData[0].folders],
+          },
+        ]
+      );
+      navigation.goBack();
+    },
+    onError: () => {
+      showErrorSnackbar(
+        t(
+          "BookmarksList/MoveBookmarkButtons/Couldn't move the folder, Try Again"
+        )
+      );
+    },
+  });
+
+  const onMovePress = () => {
+    if (folderId !== undefined) {
+      moveFolderMutation.mutate({
+        profileId: store.profileId,
+        bookmarkId: folderId,
+        body: {
+          parent: toBookmarkId,
+        },
+      });
+    } else {
+      movePostToBookmarkMutation.mutate({
+        profileId: store.profileId,
+        fromBookmarkId,
+        postId,
+        toBookmarkId,
+      });
+    }
+  };
+
   return (
     <View style={styles.actionsRow}>
       <TransparentButton
@@ -61,14 +121,7 @@ const MoveBookmarkButtons = ({
       />
       <MainActionButton
         text={t('BookmarksList/MoveBookmarkButtons/Move Here')}
-        onPress={() =>
-          movePostToBookmarkMutation.mutate({
-            profileId: store.profileId,
-            fromBookmarkId,
-            postId,
-            toBookmarkId,
-          })
-        }
+        onPress={onMovePress}
         style={styles.moveButton}
         loading={movePostToBookmarkMutation.isLoading}
       />
@@ -77,12 +130,16 @@ const MoveBookmarkButtons = ({
 };
 
 MoveBookmarkButtons.propTypes = {
-  postId: PropTypes.number.isRequired,
+  postId: PropTypes.number,
   fromBookmarkId: PropTypes.number.isRequired,
   toBookmarkId: PropTypes.number.isRequired,
   inRootBookmark: PropTypes.bool.isRequired,
+  folderId: PropTypes.number,
 };
-MoveBookmarkButtons.defaultProps = {};
+MoveBookmarkButtons.defaultProps = {
+  postId: undefined,
+  folderId: undefined,
+};
 
 export default MoveBookmarkButtons;
 

@@ -463,6 +463,7 @@
       "Couldn't Update Folder, Try again": "تعذر تحديث المجلد ، حاول مرة أخرى"
     },
     "FolderOptionsBottomSheet": {
+      "Move Folder": "نقل المجلد",
       "Edit Folder": "تعديل المجلد",
       "Delete Folder": "حذف المجلد",
       "Cancel": "إلغاء",
@@ -471,7 +472,8 @@
     "MoveBookmarkButtons": {
       "Cancel": "إلغاء",
       "Move Here": "انقله هنا",
-      "Couldn't move the bookmark, Try Again": "تعذر نقل المنشور المحفوظ ، حاول مرة أخرى"
+      "Couldn't move the bookmark, Try Again": "تعذر نقل المنشور المحفوظ ، حاول مرة أخرى",
+      "Couldn't move the folder, Try Again": "تعذر نقل المجلد ، حاول مرة أخرى"
     }
   }
 }

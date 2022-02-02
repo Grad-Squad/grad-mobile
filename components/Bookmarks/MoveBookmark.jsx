@@ -6,14 +6,15 @@ import Page from 'common/Page/Page';
 import BookmarksList from './BookmarksList';
 
 const MoveBookmark = ({ route }) => {
-  const { postId, bookmarkId } = route.params;
+  const { postId, bookmarkId, folderId } = route.params;
   const [state] = useStore();
   return (
     <Page>
       <BookmarksList
         profileId={state.profileId}
         postId={postId}
-        postBookmarkId={bookmarkId}
+        fromBookmarkId={bookmarkId}
+        folderId={folderId}
       />
     </Page>
   );
@@ -22,8 +23,9 @@ const MoveBookmark = ({ route }) => {
 MoveBookmark.propTypes = {
   route: routeParamPropType(
     PropTypes.shape({
-      postId: PropTypes.number.isRequired,
+      postId: PropTypes.number,
       bookmarkId: PropTypes.number.isRequired,
+      folderId: PropTypes.number,
     }).isRequired
   ).isRequired,
 };

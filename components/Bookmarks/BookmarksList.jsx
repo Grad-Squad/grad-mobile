@@ -16,8 +16,8 @@ import FolderOptionsBottomSheet from './FolderOptionsBottomSheet';
 import useGetBookmarks from './useGetBookmarks';
 import MoveBookmarkButtons from './MoveBookmarkButtons';
 
-const BookmarksList = ({ profileId, postId, postBookmarkId }) => {
-  const isMoving = postId !== undefined;
+const BookmarksList = ({ profileId, postId, fromBookmarkId, folderId }) => {
+  const isMoving = fromBookmarkId !== undefined;
 
   const { t } = useLocalization();
 
@@ -170,9 +170,10 @@ const BookmarksList = ({ profileId, postId, postBookmarkId }) => {
       {isMoving ? (
         <MoveBookmarkButtons
           postId={postId}
-          fromBookmarkId={postBookmarkId}
+          fromBookmarkId={fromBookmarkId}
           toBookmarkId={bookmarkId}
           inRootBookmark={inRootBookmark}
+          folderId={folderId}
         />
       ) : (
         <>
@@ -201,11 +202,13 @@ const BookmarksList = ({ profileId, postId, postBookmarkId }) => {
 BookmarksList.propTypes = {
   profileId: PropTypes.number.isRequired,
   postId: PropTypes.number,
-  postBookmarkId: PropTypes.number,
+  fromBookmarkId: PropTypes.number,
+  folderId: PropTypes.number,
 };
 BookmarksList.defaultProps = {
   postId: undefined,
-  postBookmarkId: undefined,
+  fromBookmarkId: undefined,
+  folderId: undefined,
 };
 
 export default BookmarksList;

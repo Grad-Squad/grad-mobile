@@ -4,6 +4,7 @@ import { apiFeedQueryKey, useAPIFeed } from 'api/endpoints/posts';
 import PostsContainer from 'components/Post/PostsContainer';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import SearchBar from 'components/Search/SearchBar';
+import FirstTimeMessages from 'components/FirstTimeMessages/FirstTimeMessages';
 import FeedEmptyComponent from './FeedEmptyComponent';
 
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
 
   return (
     <Page>
+      <FirstTimeMessages />
       <SearchBar
         isActive={isSearchActive}
         setIsActive={setIsSearchActive}

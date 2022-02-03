@@ -56,7 +56,10 @@ function App() {
             <ReactQueryClient>
               <PaperProvider theme={theme}>
                 <SafeAreaProvider>
-                  <StatusBar />
+                  <StatusBar
+                    // eslint-disable-next-line react/style-prop-object
+                    style="dark"
+                  />
                   <RootNavigator />
                 </SafeAreaProvider>
               </PaperProvider>

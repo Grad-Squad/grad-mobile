@@ -59,11 +59,13 @@ const FollowerCard = ({ navigation, profile }) => {
       <Pressable onPress={navToProfile} android_ripple={pressableAndroidRipple}>
         <Image
           style={styles.profileImage}
-          source={profilePictureUri
-            ? {
-                uri: profilePictureUri,
-              }
-            : AssetsConstants.images.defaultProfile.uri}
+          source={
+            profilePictureUri
+              ? {
+                  uri: profilePictureUri,
+                }
+              : AssetsConstants.images.defaultProfile.uri
+          }
           defaultSource={AssetsConstants.images.defaultProfile}
         />
       </Pressable>
@@ -76,7 +78,11 @@ const FollowerCard = ({ navigation, profile }) => {
           <EduText numberOfLines={1} style={styles.name}>
             {profile.name}
           </EduText>
-          <EduText style={styles.role}>{profile.role}</EduText>
+          <EduText style={styles.role}>
+            {profile.role === 'student'
+              ? t('Roles/Student')
+              : t('Roles/Teacher')}
+          </EduText>
         </View>
       </Pressable>
 
@@ -114,10 +120,7 @@ FollowerCard.propTypes = {
   }).isRequired,
   navigation: navigationPropType.isRequired,
 };
-FollowerCard.defaultProps = {
-
-
-};
+FollowerCard.defaultProps = {};
 
 export default FollowerCard;
 

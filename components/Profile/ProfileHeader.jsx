@@ -245,7 +245,7 @@ const ProfileHeader = ({ navigation, profile }) => {
           />
         </TouchableOpacity>
         <EduText style={styles.role}>
-          {profile.role[0].toLocaleUpperCase() + profile.role.slice(1)}
+          {profile.role === 'student' ? t('Roles/Student') : t('Roles/Teacher')}
         </EduText>
       </View>
       <View style={styles.statsContainer}>

@@ -23,7 +23,9 @@ const ProfileSection = () => {
           {data.profilePicture ? (
             <Image
               style={styles.profilePic}
-              source={AssetsConstants.images.defaultProfile}
+              source={{
+                uri: data.profilePicture.uri
+              }}
             />
           ) : (
             <Image

@@ -530,5 +530,6 @@
   "Roles": {
     "Teacher": "معلم(ة)",
     "Student": "طالب(ة)"
-  }
+  },
+  "Sorry, You have to log in again": "عذرا ، يجب عليك تسجيل الدخول مرة أخرى"
 }

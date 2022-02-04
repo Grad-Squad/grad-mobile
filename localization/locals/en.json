@@ -530,5 +530,6 @@
   "Roles": {
     "Teacher": "Teacher",
     "Student": "Student"
-  }
+  },
+  "Sorry, You have to log in again": "Sorry, You have to log in again"
 }

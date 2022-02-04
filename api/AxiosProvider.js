@@ -82,7 +82,7 @@ const AxiosProvider = ({ navigationRef, children }) => {
                   index: 0,
                   routes: [{ name: ScreenNames.LOGIN }],
                 });
-                Alert.alert('Sorry, You have to login again');
+                Alert.alert(t('Sorry, You have to log in again'));
               }
             } else {
               const refreshData = await newAxios.post(endpoints.auth.refresh, {

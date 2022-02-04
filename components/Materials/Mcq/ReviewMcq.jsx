@@ -56,8 +56,8 @@ const ReviewMcq = ({ navigation }) => {
       <Portal>
         <MaterialViewHeader
           onBackPress={() => navigation.goBack()}
-          author="Ramez"
-          title="When the potato took over"
+          author={materialOwner?.name}
+          title={title}
           contextMenuItems={[
             {
               titleKey: 'ContextMenu/Save',

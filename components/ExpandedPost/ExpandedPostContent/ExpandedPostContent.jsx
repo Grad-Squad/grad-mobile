@@ -47,7 +47,7 @@ const ExpandedPostContent = ({ navigation, postId }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setMaterialOwner(post?.author));
-  }, []);
+  }, [post]);
 
   if (isLoading) {
     return <ExpandedPostContentSkeleton navigation={navigation} />;

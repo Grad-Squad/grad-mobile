@@ -9,17 +9,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v1
         with:
           node-version: 14
+
       - uses: actions/cache@v2
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - run: npm ci
+
       - run: npm run test:ci
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v7
+        with:
+          expo-version: 5.x
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Publish preview
+        run: expo publish --release-channel=pr-${{ github.event.number }} --non-interactive
+
+      - name: Comment preview
+        uses: expo/expo-github-action/preview-comment@v7
+        with:
+          channel: pr-${{ github.event.number }}
+
       - uses: sarisia/actions-status-discord@v1
         if: always()
         with:

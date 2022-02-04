@@ -138,6 +138,7 @@ export const useAPIRegister = (mutationConfig) => {
         user: {
           email,
           password,
+          identityProvider: 'lcl',
         },
         profile: {
           name,

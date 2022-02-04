@@ -20,9 +20,10 @@ const ReviewMcq = ({ navigation }) => {
   const { t } = useLocalization();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
-  const { data: storedAnswers } = useSelector(
+  const { data: storedAnswers, title } = useSelector(
     (state) => state.material.openMaterialData
   );
+  const materialOwner = useSelector((state) => state.material.materialOwner);
 
   const correctCount = storedAnswers.filter((ans) => ans.isCorrect).length;
   const skippedCount = storedAnswers.filter((ans) => ans.isSkipped).length;
@@ -56,8 +57,8 @@ const ReviewMcq = ({ navigation }) => {
       <Portal>
         <MaterialViewHeader
           onBackPress={() => navigation.goBack()}
-          author="Ramez"
-          title="When the potato took over"
+          author={materialOwner?.name}
+          title={title}
           contextMenuItems={[
             {
               titleKey: 'ContextMenu/Save',
@@ -125,15 +126,16 @@ const ReviewMcq = ({ navigation }) => {
           isShownAllowed={answersShownCount > 0}
           onFinish={(isCorrect, isWrong, isAnswerShown, isSkipped) => {
             dispatch(
-              setOpenMaterialData(
-                storedAnswers.filter(
+              setOpenMaterialData({
+                title,
+                data: storedAnswers.filter(
                   (ans) =>
                     (ans.isCorrect && isCorrect) ||
                     (!ans.isCorrect && ans.isAlreadyAnswered && isWrong) ||
                     (ans.isAnswerShown && isAnswerShown) ||
                     (ans.isSkipped && isSkipped)
-                )
-              )
+                ),
+              })
             );
             navigation.replace(ScreenNames.SOLVE_MCQ);
           }}

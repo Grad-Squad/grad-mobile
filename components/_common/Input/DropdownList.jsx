@@ -23,7 +23,7 @@ const renderItem = (item, onPresshandler, choices) => (
     <Icon
       name={IconNames.dropdown}
       size={20}
-      style={!choices.includes(item.label) && styles.zeroOpacity}
+      style={!choices?.includes(item.label) && styles.zeroOpacity}
     />
   </Pressable>
 );
@@ -144,11 +144,6 @@ const DropdownList = ({
             data={filteredItems}
             renderItem={({ item }) => renderItem(item, onPresshandler, choices)}
             keyExtractor={(item) => item.id} // or whatever unique value that exists
-          />
-          <TransparentTextInput
-            text="WIP SEARCHBAR"
-            setText={() => {}}
-            style={{ width: '87%' }}
           />
         </View>
         <FlatList

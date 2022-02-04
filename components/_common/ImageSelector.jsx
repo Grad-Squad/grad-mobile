@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Alert, Platform, Pressable, Image, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { uriPropType } from 'proptypes';
+import { useLocalization } from 'localization';
 import { PressableIcon } from './Icon';
 import { IconNames } from './Icon/Icon';
 
@@ -11,14 +12,16 @@ const IMAGE_SOURCE = require('../../assets/images/input/AddProfilePictures.png')
 const ImageSelector = ({ setImage, isRegisteration, prevImage, ...props }) => {
   const [selectedImage, setSelectedImage] = useState(prevImage);
 
+  const { t } = useLocalization();
+
   useEffect(() => {
     (async () => {
       if (Platform.OS !== 'web') {
         const { status } =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
-          Alert.alert(
-            'Sorry, we need camera roll permissions to make this work!'
+          Alert.alert(t(
+            'ImageSelector/Sorry, we need media permissions to add images')
           ); // ! temp
         }
       }

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import EduText from 'common/EduText';
@@ -45,7 +45,9 @@ const ExpandedPostContent = ({ navigation, postId }) => {
   );
 
   const dispatch = useDispatch();
-  dispatch(setMaterialOwner(post?.author));
+  useEffect(() => {
+    dispatch(setMaterialOwner(post?.author));
+  }, [post]);
 
   if (isLoading) {
     return <ExpandedPostContentSkeleton navigation={navigation} />;

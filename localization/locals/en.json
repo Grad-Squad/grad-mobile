@@ -92,7 +92,9 @@
     "Sent Successfully ✅": "Sent Successfully ✅"
   },
   "Options": {
-    "Change Subjects you follow": "Change Subjects you follow"
+    "Change Subjects you follow": "Change Subjects you follow",
+    "Logout": "Logout",
+    "Change Language": "Change Language"
   },
   "CreatePost": {
     "Create New Post": "Create New Post",

@@ -27,11 +27,17 @@ const Options = () => {
       />
       <OptionButton label="Option Name 2" onPress={() => {}} />
       <OptionButton label="Option Name 3" onPress={() => {}} />
-      <OptionButton label="Option Name 4" onPress={() => {}} />
+      <OptionButton
+        label={t('Options/Change Language')}
+        onPress={() => {
+          navigation.navigate(ScreenNames.Options.CHANGE_LANGUAGE);
+        }}
+        iconName={IconNames.language}
+      />
       <Separator />
       <OptionButton label="Option Name 5" onPress={() => {}} />
       <OptionButton
-        label="Logout"
+        label={t('Options/Logout')}
         iconName={IconNames.logout}
         onPress={() => {
           // todo logout instead then redirect to login

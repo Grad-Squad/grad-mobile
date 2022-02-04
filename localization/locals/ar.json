@@ -525,6 +525,10 @@
     }
   },
   "ImageSelector": {
-    "Sorry, we need media permissions to add images" : "عذرا ، نحن بحاجة إلى أذونات وسائل الإعلام لإضافة الصور"
+    "Sorry, we need media permissions to add images": "عذرا ، نحن بحاجة إلى أذونات وسائل الإعلام لإضافة الصور"
+  },
+  "Roles": {
+    "Teacher": "معلم(ة)",
+    "Student": "طالب(ة)"
   }
 }

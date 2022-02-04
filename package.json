@@ -11,7 +11,6 @@
     "test:ci": "jest --ci",
     "test:debug": "jest -o --watch --coverage=false --verbose",
     "test:cov": "jest --coverage",
-    "preinstall": "npx npm-force-resolutions",
     "test:updateSnaps": "jest --updateSnapshot"
   },
   "jest": {

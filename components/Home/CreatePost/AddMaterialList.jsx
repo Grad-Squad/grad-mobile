@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
 import { Icon, MaterialTypeIconsMap } from 'common/Icon';
@@ -7,6 +7,7 @@ import { navigationPropType } from 'proptypes';
 import { TransparentButton } from 'common/Input/Button';
 import ScreenNames from 'navigation/ScreenNames';
 import { MaterialTypes } from 'constants';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 const getItems = (t) => [
   {
@@ -38,19 +39,30 @@ const getItems = (t) => [
 
 const AddMaterialList = ({ navigation }) => {
   const { t } = useLocalization();
+
+  const bottomSheetRef = useRef(null);
+
+  const snapPoints = useMemo(() => ['7%', '40%'], []);
   return (
-    <View style={styles.wrapper}>
-      {getItems(t).map(({ title, iconName, route }) => (
-        <TransparentButton
-          key={title}
-          text={title}
-          style={styles.row}
-          textStyle={styles.rowTitle}
-          leftIcon={<Icon name={iconName} />}
-          onPress={() => navigation.navigate(route)}
-        />
-      ))}
-    </View>
+    <BottomSheet
+      ref={bottomSheetRef}
+      index={1}
+      snapPoints={snapPoints}
+      backgroundStyle={styles.backgroundStyle}
+    >
+      <View style={styles.wrapper}>
+        {getItems(t).map(({ title, iconName, route }) => (
+          <TransparentButton
+            key={title}
+            text={title}
+            style={styles.row}
+            textStyle={styles.rowTitle}
+            leftIcon={<Icon name={iconName} />}
+            onPress={() => navigation.navigate(route)}
+          />
+        ))}
+      </View>
+    </BottomSheet>
   );
 };
 
@@ -59,11 +71,13 @@ AddMaterialList.defaultProps = {};
 
 export default AddMaterialList;
 
+const width = '80%';
+
 const styles = StyleSheet.create({
   wrapper: {
-    marginTop: 'auto',
+    flex: 1,
 
-    width: '80%',
+    width,
     alignSelf: 'center',
 
     borderTopRightRadius: Constants.borderRadius,
@@ -72,6 +86,11 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderRightWidth: 2,
     borderLeftWidth: 2,
+
+    backgroundColor: Colors.background,
+  },
+  backgroundStyle: {
+    backgroundColor: 'transparent',
   },
   row: {
     ...Styles.bottomBorder,

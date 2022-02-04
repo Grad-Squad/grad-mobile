@@ -525,6 +525,10 @@
     }
   },
   "ImageSelector": {
-    "Sorry, we need media permissions to add images" : "Sorry, we need media permissions to add images"
+    "Sorry, we need media permissions to add images": "Sorry, we need media permissions to add images"
+  },
+  "Roles": {
+    "Teacher": "Teacher",
+    "Student": "Student"
   }
 }

@@ -1,21 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
 import { useStore } from 'globalStore/GlobalStore';
 import { useAPIGetProfileById } from 'api/endpoints/profile';
 import EduText from 'common/EduText';
 import { AssetsConstants } from 'constants';
 import { Colors, Constants } from 'styles';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNames from 'navigation/ScreenNames';
 import ProfileSectionSkeleton from './ProfileSectionSkeleton';
 
 const ProfileSection = () => {
   const { t } = useLocalization();
   const [store] = useStore();
+  const navigation = useNavigation();
 
   const { data, isLoading } = useAPIGetProfileById(store.profileId);
   return (
-    <View style={styles.userSection}>
+    <Pressable
+      style={styles.userSection}
+      onPress={() => {
+        navigation.navigate(ScreenNames.PROFILE, {
+          profileId: store.profileId,
+        });
+      }}
+    >
       {isLoading ? (
         <ProfileSectionSkeleton profilePicStyle={styles.profilePic} />
       ) : (
@@ -24,7 +34,7 @@ const ProfileSection = () => {
             <Image
               style={styles.profilePic}
               source={{
-                uri: data.profilePicture.uri
+                uri: data.profilePicture.uri,
               }}
             />
           ) : (
@@ -43,7 +53,7 @@ const ProfileSection = () => {
           </View>
         </>
       )}
-    </View>
+    </Pressable>
   );
 };
 

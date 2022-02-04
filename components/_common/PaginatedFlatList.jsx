@@ -81,7 +81,7 @@ const PaginatedFlatList = ({
         isFetchingNextPage ? (
           <LoadingIndicator large style={styles.footerLoading} />
         ) : (
-          !(hasNextPage || hideNothingLeftToShow) && (
+          !(hasNextPage || hideNothingLeftToShow || flatListItems.length === 0) && (
             <EduText style={styles.nothingLeftToShow}>
               {t('FlatList/Nothing left to show')}
             </EduText>

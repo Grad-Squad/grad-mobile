@@ -91,5 +91,6 @@ const styles = StyleSheet.create({
   },
   profileInfoSection: {
     marginLeft: 15,
+    paddingRight: 80,
   },
 });

@@ -52,7 +52,7 @@ const getMaterialData = (material, materialType) => {
         ({ id, question, questionImage, choices, answerIndices }) => ({
           id,
           title: question,
-          questionImage: questionImage.uri,
+          questionImage: questionImage?.uri,
           options: choices,
           answerIndices,
         })

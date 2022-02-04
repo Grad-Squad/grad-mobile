@@ -7,10 +7,15 @@ import EduText from 'common/EduText';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
-import { useAPIDeleteComment, getCommentsKey } from 'api/endpoints/posts';
+import {
+  useAPIDeleteComment,
+  getCommentsKey,
+  getPostByIdQueryKey,
+  apiFeedQueryKey,
+} from 'api/endpoints/posts';
 import { useLocalization } from 'localization';
 import FillLoadingIndicator from 'common/FillLoadingIndicator';
-import { deleteItemInPages } from 'api/util';
+import { deleteItemInPages, updateItemInPages } from 'api/util';
 import { ratingPropType } from 'proptypes';
 import {
   Fade,
@@ -18,7 +23,7 @@ import {
   PlaceholderLine,
   PlaceholderMedia,
 } from 'rn-placeholder';
-import { formatDate } from '../../utility';
+import { deepCopy, formatDate } from '../../utility';
 import { Colors, Constants } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
 import CommentDeletionAlert from './CommentDeletionAlert';
@@ -26,7 +31,7 @@ import CommentDeletionAlert from './CommentDeletionAlert';
 const imageWidth = 55;
 const imageOffset = -50;
 
-const defaultProfileImage = require('../../assets/images/defaultUser.png')
+const defaultProfileImage = require('../../assets/images/defaultUser.png');
 
 function Comment({
   text,
@@ -50,6 +55,17 @@ function Comment({
     onSuccess: () => {
       queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
         deleteItemInPages(oldData, commentId)
+      );
+      queryClient.setQueryData(getPostByIdQueryKey(postId), (oldData) => {
+        const copy = deepCopy(oldData);
+        copy.commentCount -= 1;
+        return copy;
+      });
+      queryClient.setQueryData(apiFeedQueryKey, (oldData) =>
+        updateItemInPages(oldData, postId, (oldItem) => ({
+          ...oldItem,
+          commentCount: oldItem.commentCount - 1,
+        }))
       );
     },
   });
@@ -109,17 +125,15 @@ function Comment({
               hitSlop={HIT_SLOP_OBJECT}
             >
               <Image
-              style={styles.profileImage}
-
-              source = {
-                author.profilePicture ?
-                {
-                uri: author.profilePicture.uri
+                style={styles.profileImage}
+                source={
+                  author.profilePicture
+                    ? {
+                        uri: author.profilePicture.uri,
+                      }
+                    : defaultProfileImage
                 }
-                :
-                defaultProfileImage
-              }
-            />
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.innerContainer}>

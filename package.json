@@ -11,6 +11,7 @@
     "test:ci": "jest --ci",
     "test:debug": "jest -o --watch --coverage=false --verbose",
     "test:cov": "jest --coverage",
+    "preinstall": "npx npm-force-resolutions",
     "test:updateSnaps": "jest --updateSnapshot"
   },
   "jest": {
@@ -42,7 +43,7 @@
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/native-stack": "^6.2.5",
     "@reduxjs/toolkit": "^1.7.0",
-    "@sentry/react-native": "^3.2.8",
+    "@sentry/react-native": "^3.2.13",
     "axios": "^0.21.1",
     "expo": "^42.0.5",
     "expo-app-loading": "1.1.2",
@@ -87,16 +88,16 @@
     "react-native-svg": "12.1.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^8.1.0",
+    "react-native-view-shot": "3.1.2",
     "react-native-web": "^0.17.5",
     "react-native-webview": "11.6.2",
     "react-query": "^3.34.2",
     "react-redux": "^7.2.6",
     "rn-pdf-reader-js": "^4.1.1",
     "rn-placeholder": "^3.0.3",
+    "sentry-expo": "^4.0.0",
     "uuid": "^8.3.2",
-    "yup": "^0.32.11",
-    "react-native-view-shot": "3.1.2",
-    "sentry-expo": "^4.0.0"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.16.0",

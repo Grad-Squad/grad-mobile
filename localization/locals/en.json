@@ -448,7 +448,8 @@
   "BookmarksList": {
     "Empty": {
       "You haven't bookmarked any post yet": "You haven't bookmarked any post yet",
-      "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.": "You can bookmark posts to view them later. You can even organize them into folders and folders within folders."
+      "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.": "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.",
+      "No Bookmarks Found": "No Bookmarks Found"
     },
     "Couldn't get bookmarks, Try again": "Couldn't get bookmarks, Try again",
     "Folders": "Folders",

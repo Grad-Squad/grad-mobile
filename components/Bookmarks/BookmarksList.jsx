@@ -143,7 +143,7 @@ const BookmarksList = ({
   }
 
   if (folders.length + posts.length === 0 && inRootBookmark) {
-    return <NoBookmarks />;
+    return <NoBookmarks inProfile={inProfile} />;
   }
 
   return (

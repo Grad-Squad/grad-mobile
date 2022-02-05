@@ -6,7 +6,6 @@ import {
   UPVOTE_HIT_SLOP_OBJECT,
   DOWNVOTE_HIT_SLOP_OBJECT,
   CurrentUserStatus,
-  CurrentUserStatus as CurrentUserStatusTypes,
 } from 'constants';
 import { formatNumber } from 'utility';
 import EduText from 'common/EduText';
@@ -67,7 +66,7 @@ function CommentVotes({ voteCount, commentId, postId, id, currentUserStatus }) {
       updateItemInComments(
         -1 * isPrevDownvoted,
         1,
-        CurrentUserStatusTypes.upvoted
+        CurrentUserStatus.upvoted
       );
     },
     onError: onErrorCallback,
@@ -77,7 +76,7 @@ function CommentVotes({ voteCount, commentId, postId, id, currentUserStatus }) {
       updateItemInComments(
         1,
         -1 * isPrevUpvoted,
-        CurrentUserStatusTypes.downVoted
+        CurrentUserStatus.downVoted
       );
     },
     onError: onErrorCallback,
@@ -87,7 +86,7 @@ function CommentVotes({ voteCount, commentId, postId, id, currentUserStatus }) {
       updateItemInComments(
         -1 * isPrevDownvoted,
         -1 * isPrevUpvoted,
-        CurrentUserStatusTypes.none
+        CurrentUserStatus.none
       );
     },
     onError: onErrorCallback,

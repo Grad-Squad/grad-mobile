@@ -14,7 +14,7 @@ const TextInputFormikHOC = (Component) => {
     <Component
       text={formik.values[formikKey]}
       setText={formik.handleChange(formikKey)}
-      error={error || (formik.errors[formikKey] && formik.touched[formikKey])}
+      error={error || !!(formik.errors[formikKey] && formik.touched[formikKey])}
       errorMsg={formik.errors[formikKey] || errorMsg}
       TextInputProps={{
         onSubmitEditing: formik.handleSubmit,

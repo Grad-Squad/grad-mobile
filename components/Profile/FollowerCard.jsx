@@ -75,9 +75,7 @@ const FollowerCard = ({ navigation, profile }) => {
         style={[styles.row, styles.nameContainer]}
       >
         <View>
-          <EduText numberOfLines={1} style={styles.name}>
-            {profile.name}
-          </EduText>
+          <EduText style={styles.name}>{profile.name}</EduText>
           <EduText style={styles.role}>
             {profile.role === 'student'
               ? t('Roles/Student')
@@ -140,6 +138,7 @@ const styles = StyleSheet.create({
   nameContainer: {
     marginLeft: Constants.commonMargin,
     marginRight: 'auto',
+    flex: 1,
   },
   role: {
     fontFamily: Fonts.light,

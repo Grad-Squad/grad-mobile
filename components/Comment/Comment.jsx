@@ -161,6 +161,7 @@ function Comment({
           onDelete={() => {
             CommentDeletionAlert(t, () => deleteCommentMutation.mutate());
           }}
+          commentId={commentId}
           contentProfileId={profileId}
         />
       </View>

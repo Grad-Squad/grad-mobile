@@ -41,10 +41,10 @@ export const useAPIUnvotePost = (mutationConfig) =>{
 
 export const useAPIUpvoteComment = (mutationConfig) =>{
   const { axios } = useAxios();
-  return useMutation( async ({commentId, ratingId}) => {
+  return useMutation( async ({postId, ratingId}) => {
     const {
       data,
-    } = await axios.patch(formatString(endpoints.comments.ratings,commentId,ratingId), {
+    } = await axios.patch(formatString(endpoints.comments.ratings,postId,ratingId), {
       type: 'upvoted',
   });
   return data;
@@ -53,10 +53,10 @@ export const useAPIUpvoteComment = (mutationConfig) =>{
 
 export const useAPIDownvoteComment = (mutationConfig) =>{
   const { axios } = useAxios();
-  return useMutation( async ({commentId, ratingId}) => {
+  return useMutation( async ({postId, ratingId}) => {
     const {
       data,
-    } = await axios.patch(formatString(endpoints.comments.ratings,commentId,ratingId), {
+    } = await axios.patch(formatString(endpoints.comments.ratings,postId,ratingId), {
       type: 'downvoted',
   });
   return data;
@@ -65,10 +65,10 @@ export const useAPIDownvoteComment = (mutationConfig) =>{
 
 export const useAPIUnvoteComment = (mutationConfig) =>{
   const { axios } = useAxios();
-  return useMutation( async ({commentId, ratingId}) => {
+  return useMutation( async ({postId, ratingId}) => {
     const {
       data,
-    } = await axios.patch(formatString(endpoints.comments.ratings,commentId,ratingId), {
+    } = await axios.patch(formatString(endpoints.comments.ratings,postId,ratingId), {
       type: 'none',
   });
   return data;

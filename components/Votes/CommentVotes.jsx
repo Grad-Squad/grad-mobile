@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-
 import PropTypes from 'prop-types';
-
 import { Icon } from 'react-native-elements';
 import {
   UPVOTE_HIT_SLOP_OBJECT,
   DOWNVOTE_HIT_SLOP_OBJECT,
   CurrentUserStatus,
+  CurrentUserStatus as CurrentUserStatusTypes,
 } from 'constants';
 import { formatNumber } from 'utility';
 import EduText from 'common/EduText';
 import { currentUserStatusPropType } from 'proptypes';
+import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import { getCommentsKey } from 'api/endpoints/posts';
+import { updateItemInPages } from 'api/util';
 import {
   useAPIDownvoteComment,
   useAPIUnvoteComment,
   useAPIUpvoteComment,
 } from '../../api/endpoints/ratings';
 
-function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
+function CommentVotes({ voteCount, commentId, postId, id, currentUserStatus }) {
   const [vote, setVote] = useState(voteCount);
   const [isUpVoted, setIsUpVoted] = useState(
     currentUserStatus === CurrentUserStatus.upvoted
@@ -26,6 +28,10 @@ function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
   const [isDownVoted, setIsDownVoted] = useState(
     currentUserStatus === CurrentUserStatus.downVoted
   );
+  useEffect(() => {
+    setIsUpVoted(currentUserStatus === CurrentUserStatus.upvoted);
+    setIsDownVoted(currentUserStatus === CurrentUserStatus.downVoted);
+  }, [currentUserStatus]);
 
   const onErrorCallback = (
     error,
@@ -38,13 +44,52 @@ function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
     setIsDownVoted(isPrevDownvoted);
   };
 
+  const updateItemInComments = (
+    isPrevDownvoted,
+    isPrevUpvoted,
+    newCurrentUserStatus
+  ) => {
+    queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
+      updateItemInPages(oldData, commentId, (oldItem) => ({
+        ...oldItem,
+        rating: {
+          id: oldItem.rating.id,
+          currentUserStatus: newCurrentUserStatus,
+          downvotes: oldItem.rating.downvotes + isPrevDownvoted,
+          upvotes: oldItem.rating.upvotes + isPrevUpvoted,
+        },
+      }))
+    );
+  };
+
   const upvoteMutation = useAPIUpvoteComment({
+    onSuccess: (_, { isPrevDownvoted }) => {
+      updateItemInComments(
+        -1 * isPrevDownvoted,
+        1,
+        CurrentUserStatusTypes.upvoted
+      );
+    },
     onError: onErrorCallback,
   });
   const downvoteMutation = useAPIDownvoteComment({
+    onSuccess: (_, { isPrevUpvoted }) => {
+      updateItemInComments(
+        1,
+        -1 * isPrevUpvoted,
+        CurrentUserStatusTypes.downVoted
+      );
+    },
     onError: onErrorCallback,
   });
   const unvoteMutation = useAPIUnvoteComment({
+    onSuccess: (_, { isPrevUpvoted, isPrevDownvoted }) => {
+      updateItemInComments(
+        -1 * isPrevDownvoted,
+        -1 * isPrevUpvoted,
+        CurrentUserStatusTypes.none
+      );
+    },
     onError: onErrorCallback,
   });
 
@@ -53,7 +98,7 @@ function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
   }, [voteCount]);
 
   const passCurrentState = (offset) => ({
-    commentId,
+    postId,
     ratingId: id,
     offset,
     isPrevUpvoted: isUpVoted,
@@ -129,6 +174,7 @@ function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
 CommentVotes.propTypes = {
   voteCount: PropTypes.number.isRequired,
   commentId: PropTypes.number.isRequired,
+  postId: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   currentUserStatus: currentUserStatusPropType.isRequired,
 };

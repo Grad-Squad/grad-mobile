@@ -209,3 +209,8 @@ export const bookmarksFolderPropType = PropTypes.shape({
   title: PropTypes.string.isRequired,
   isPublic: PropTypes.bool.isRequired,
 });
+
+export const subjectPropType = PropTypes.shape({
+  content: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+});

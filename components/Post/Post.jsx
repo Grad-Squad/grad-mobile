@@ -2,7 +2,13 @@ import React from 'react';
 import { ThemeProvider } from 'react-native-elements';
 import { StyleSheet, Pressable } from 'react-native';
 import PropTypes from 'prop-types';
-import { materialsPropType, ratingPropType, stylePropType, uriPropType } from 'proptypes';
+import {
+  materialsPropType,
+  ratingPropType,
+  stylePropType,
+  subjectPropType,
+  uriPropType,
+} from 'proptypes';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
 import ScreenNames from 'navigation/ScreenNames';
@@ -36,6 +42,7 @@ function Post({
   bookmarkId,
   inRootBookmark,
   disabled,
+  subject,
 }) {
   const { t } = useLocalization();
   const navigation = useNavigation();
@@ -68,6 +75,7 @@ function Post({
           profileId={author.id}
           createdAt={createdAt}
           materials={materials}
+          subject={subject}
         />
         <FooterRegion
           contentProfileId={author.id}
@@ -104,6 +112,7 @@ Post.propTypes = {
   bookmarkId: PropTypes.number,
   inRootBookmark: PropTypes.bool,
   disabled: PropTypes.bool,
+  subject: subjectPropType.isRequired,
 };
 Post.defaultProps = {
   style: {},

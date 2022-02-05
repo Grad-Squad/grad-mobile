@@ -6,7 +6,7 @@ import EduText from 'common/EduText';
 import PostContentList from 'common/Post/PostContentList';
 import { Colors } from 'styles';
 import { formatDate } from 'utility';
-import { materialsPropType } from 'proptypes';
+import { materialsPropType, subjectPropType } from 'proptypes';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
 import { BASIC_5V_HIT_SLOP_OBJECT } from 'constants';
@@ -16,7 +16,7 @@ const imageOffset = -25;
 
 const defaultProfileImage = require('../../../assets/images/defaultUser.png');
 
-function TitleRegion({ title, author, createdAt, materials }) {
+function TitleRegion({ title, author, createdAt, materials, subject }) {
   const postDate = useMemo(() => new Date(createdAt), [createdAt]);
   const authorId = author.id;
 
@@ -60,7 +60,7 @@ function TitleRegion({ title, author, createdAt, materials }) {
           <PostContentList materials={materials} notClickable />
         </View>
       </View>
-      <EduText style={styles.date}>{formatDate(postDate)}</EduText>
+      <EduText style={styles.date}>{`${subject.content}, ${formatDate(postDate)}`}</EduText>
     </View>
   );
 }
@@ -150,4 +150,5 @@ TitleRegion.propTypes = {
   title: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   materials: materialsPropType.isRequired,
+  subject: subjectPropType.isRequired,
 };

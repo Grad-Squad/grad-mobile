@@ -44,7 +44,11 @@ function CommentVotes({ voteCount, commentId, postId, id, currentUserStatus }) {
     setIsDownVoted(isPrevDownvoted);
   };
 
-  const updateItemInComments = (isPrevDownvoted, isPrevUpvoted, newCurrentUserStatus) => {
+  const updateItemInComments = (
+    isPrevDownvoted,
+    isPrevUpvoted,
+    newCurrentUserStatus
+  ) => {
     queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
       updateItemInPages(oldData, commentId, (oldItem) => ({
         ...oldItem,
@@ -60,19 +64,31 @@ function CommentVotes({ voteCount, commentId, postId, id, currentUserStatus }) {
 
   const upvoteMutation = useAPIUpvoteComment({
     onSuccess: (_, { isPrevDownvoted }) => {
-      updateItemInComments(-1 * isPrevDownvoted, 1, CurrentUserStatusTypes.upvoted);
+      updateItemInComments(
+        -1 * isPrevDownvoted,
+        1,
+        CurrentUserStatusTypes.upvoted
+      );
     },
     onError: onErrorCallback,
   });
   const downvoteMutation = useAPIDownvoteComment({
     onSuccess: (_, { isPrevUpvoted }) => {
-      updateItemInComments(1, -1 * isPrevUpvoted, CurrentUserStatusTypes.downVoted);
+      updateItemInComments(
+        1,
+        -1 * isPrevUpvoted,
+        CurrentUserStatusTypes.downVoted
+      );
     },
     onError: onErrorCallback,
   });
   const unvoteMutation = useAPIUnvoteComment({
     onSuccess: (_, { isPrevUpvoted, isPrevDownvoted }) => {
-      updateItemInComments(-1 * isPrevDownvoted, -1 * isPrevUpvoted, CurrentUserStatusTypes.none);
+      updateItemInComments(
+        -1 * isPrevDownvoted,
+        -1 * isPrevUpvoted,
+        CurrentUserStatusTypes.none
+      );
     },
     onError: onErrorCallback,
   });

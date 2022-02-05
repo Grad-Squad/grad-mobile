@@ -37,7 +37,7 @@ export default (profileId, currentBookmarkId) => {
   const isFetching = parentIsFetching || currentBookmarkIsFetching;
   const isLoading = parentIsLoading || currentBookmarkIsLoading;
 
-  const data = inRootBookmark ? parentData?.[0] : currentBookmarkData?.[0];
+  const data = inRootBookmark ? parentData : currentBookmarkData;
   const { folders = [], posts = [] } = data || {};
   const refetch = inRootBookmark ? parentRefetch : currentBookmarkRefetch;
   const bookmarkId = inRootBookmark ? data?.id : currentBookmarkId;

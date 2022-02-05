@@ -37,14 +37,12 @@ const FolderOptionsBottomSheet = ({
           profileId,
           inRootBookmark ? undefined : parentBookmarkId
         ),
-        (oldData) => [
-          {
-            ...oldData[0],
-            folders: oldData[0].folders.filter(
-              (item) => item.id !== selectedFolder.id
-            ),
-          },
-        ]
+        (oldData) => ({
+          ...oldData,
+          folders: oldData.folders.filter(
+            (item) => item.id !== selectedFolder.id
+          ),
+        })
       );
       bottomSheetRef.current.close();
     },

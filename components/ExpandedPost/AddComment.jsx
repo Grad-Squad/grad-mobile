@@ -8,13 +8,18 @@ import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 
 import { Modal } from 'react-native-paper';
-import { getCommentsKey, useAPIAddComment } from 'api/endpoints/posts';
+import {
+  apiFeedQueryKey,
+  getCommentsKey,
+  getPostByIdQueryKey,
+  useAPIAddComment,
+} from 'api/endpoints/posts';
 import { Colors } from 'styles';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { deepCopy } from 'utility';
 import { useAPIEditComment } from 'api/endpoints/comments';
-import { replaceItemInPages } from 'api/util';
+import { replaceItemInPages, updateItemInPages } from 'api/util';
 import NewComment from './NewComment';
 
 const styles = StyleSheet.create({
@@ -48,6 +53,17 @@ function AddComment({ postID, commentToEdit }) {
         copy.pages[0].data.unshift(data);
         return copy;
       });
+      queryClient.setQueryData(getPostByIdQueryKey(postID), (oldData) => {
+        const copy = deepCopy(oldData);
+        copy.commentCount += 1;
+        return copy;
+      });
+      queryClient.setQueryData(apiFeedQueryKey, (oldData) =>
+        updateItemInPages(oldData, postID, (oldItem) => ({
+          ...oldItem,
+          commentCount: oldItem.commentCount + 1,
+        }))
+      );
       setIsModalVisible(false);
     },
   });

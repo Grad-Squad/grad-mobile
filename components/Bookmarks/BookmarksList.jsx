@@ -96,6 +96,7 @@ const BookmarksList = ({
             id,
             commentCount,
             materials,
+            subject
           },
         }) => (
           <Post
@@ -110,6 +111,7 @@ const BookmarksList = ({
             bookmarkId={inProfile ? undefined : bookmarkId}
             inRootBookmark={inProfile ? undefined : inRootBookmark}
             disabled={isMoving}
+            subject={subject}
           />
         ),
         header: (
@@ -143,7 +145,7 @@ const BookmarksList = ({
   }
 
   if (folders.length + posts.length === 0 && inRootBookmark) {
-    return <NoBookmarks />;
+    return <NoBookmarks inProfile={inProfile} />;
   }
 
   return (

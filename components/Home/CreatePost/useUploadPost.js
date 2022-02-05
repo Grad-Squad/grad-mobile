@@ -18,6 +18,7 @@ import {
   resetAreFileUploadsReady,
   resetUploadState,
 } from 'globalStore/createPostSlice';
+import ScreenNames from 'navigation/ScreenNames';
 import useOnGoBackDiscardWarning from 'navigation/useOnGoBackDiscardWarning';
 import { useEffect, useState } from 'react';
 import { useQueryClient } from 'react-query';
@@ -46,8 +47,12 @@ const useUploadPost = (
       queryClient.invalidateQueries(apiFeedQueryKey);
       if (postId) {
         queryClient.invalidateQueries(getPostByIdQueryKey(postId));
+        navigation.replace(ScreenNames.POST, { postID: postId });
+      } else {
+        navigation.replace(ScreenNames.POST, {
+          postID: createPostMutation.data.id,
+        });
       }
-      navigation.goBack();
     }
   }, [
     navigation,

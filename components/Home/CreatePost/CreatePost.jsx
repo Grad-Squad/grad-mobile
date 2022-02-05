@@ -88,6 +88,7 @@ const CreatePost = ({ navigation, route }) => {
         .max(100, maxCharError(t, 100))
         .required(requiredError(t)),
       subject: yup.string().nullable().required(requiredError(t)),
+      tags: yup.array().min(1),
       materialList: yup
         .array()
         .min(1, t('CreatePost/add at least one material')), // todo .max(10, 'error'): disallow it in add material

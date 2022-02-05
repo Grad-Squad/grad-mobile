@@ -16,7 +16,7 @@ const TitleText = ({ title, subtitle, showSubtitle, error, style }) => (
     <EduText style={[Typography.userInput.title, error && Styles.errorText]}>
       {title}
     </EduText>
-    {showSubtitle && (
+    {!!showSubtitle && (
       <EduText style={[styles.subtitle, error && Styles.errorText]}>
         {subtitle}
       </EduText>

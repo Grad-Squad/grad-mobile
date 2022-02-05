@@ -2,111 +2,180 @@
 
 exports[`should match snapshot 1`] = `
 <View
+  collapsable={false}
+  pointerEvents="box-none"
   style={
     Object {
-      "alignItems": "center",
-      "backgroundColor": "#FBFBFB",
       "flex": 1,
-      "justifyContent": "center",
     }
   }
 >
-  <Image
-    source={1}
-    style={Object {}}
-  />
-  <Text
-    style={
-      Array [
-        Object {
-          "fontFamily": "Lato_400Regular",
-        },
-        Object {
-          "color": "#3C3C3C",
-        },
-        Object {
-          "fontFamily": "Lato_700Bold",
-          "fontSize": 72,
-          "marginBottom": 6,
-          "marginTop": 35,
-        },
-      ]
-    }
-  >
-    WIP
-  </Text>
-  <Text
-    style={
-      Array [
-        Object {
-          "fontFamily": "Lato_400Regular",
-        },
-        Object {
-          "color": "#3C3C3C",
-        },
-        Object {
-          "fontSize": 18,
-          "width": 250,
-        },
-      ]
-    }
-  >
-    We are currently working on this feature. It will be available as soon as possible.
-  </Text>
   <View
-    accessible={true}
-    focusable={true}
-    onBlur={[Function]}
-    onClick={[Function]}
-    onFocus={[Function]}
-    onResponderGrant={[Function]}
-    onResponderMove={[Function]}
-    onResponderRelease={[Function]}
-    onResponderTerminate={[Function]}
-    onResponderTerminationRequest={[Function]}
-    onStartShouldSetResponder={[Function]}
     style={
-      Array [
-        Object {
-          "alignItems": "center",
-          "borderRadius": 9,
-          "flexDirection": "row",
-          "justifyContent": "center",
-          "paddingHorizontal": 8,
-          "paddingVertical": 7,
-        },
-        Array [
-          Object {},
-          false,
-          Object {
-            "alignSelf": "center",
-            "bottom": 10,
-            "position": "absolute",
-          },
-        ],
-      ]
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#FBFBFB",
+        "flex": 1,
+        "justifyContent": "center",
+      }
     }
   >
+    <View
+      style={
+        Array [
+          Object {
+            "borderRadius": 20,
+            "elevation": 3,
+            "overflow": "hidden",
+            "shadowColor": "#000",
+            "shadowOffset": Object {
+              "height": 1,
+              "width": 1,
+            },
+            "shadowOpacity": 0.25,
+            "shadowRadius": 2,
+          },
+          Object {},
+        ]
+      }
+    >
+      <View>
+        <View
+          accessible={true}
+          focusable={true}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+        >
+          <Image
+            onLoad={[Function]}
+            resizeMode="contain"
+            source={
+              Object {
+                "uri": "https://c.tenor.com/DaSh5T93TgUAAAAC/cat-typing.gif",
+              }
+            }
+            style={
+              Array [
+                Object {
+                  "marginBottom": 26.68,
+                  "resizeMode": "contain",
+                },
+                Object {
+                  "height": 600,
+                  "width": 600,
+                },
+                Array [
+                  Object {
+                    "marginBottom": 0,
+                  },
+                  Object {},
+                ],
+              ]
+            }
+          />
+        </View>
+      </View>
+    </View>
     <Text
       style={
         Array [
           Object {
-            "color": "#3C3C3C",
             "fontFamily": "Lato_400Regular",
-            "fontSize": 22,
+          },
+          Object {
+            "color": "#3C3C3C",
+          },
+          Object {
+            "fontFamily": "Lato_700Bold",
+            "fontSize": 72,
+            "marginBottom": 6,
+            "marginTop": 35,
+          },
+        ]
+      }
+    >
+      WIP
+    </Text>
+    <Text
+      style={
+        Array [
+          Object {
+            "fontFamily": "Lato_400Regular",
+          },
+          Object {
+            "color": "#3C3C3C",
+          },
+          Object {
+            "fontSize": 18,
+            "width": 250,
+          },
+        ]
+      }
+    >
+      We are currently working on this feature. It will be available as soon as possible.
+    </Text>
+    <View
+      accessible={true}
+      focusable={true}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "borderRadius": 9,
+            "flexDirection": "row",
+            "justifyContent": "center",
+            "paddingHorizontal": 8,
+            "paddingVertical": 7,
           },
           Array [
-            Object {
-              "color": "#0A7DA4",
-            },
-            false,
             Object {},
+            false,
+            Object {
+              "alignSelf": "center",
+              "bottom": 10,
+              "position": "absolute",
+            },
           ],
         ]
       }
     >
-      Go back
-    </Text>
+      <Text
+        style={
+          Array [
+            Object {
+              "color": "#3C3C3C",
+              "fontFamily": "Lato_400Regular",
+              "fontSize": 22,
+            },
+            Array [
+              Object {
+                "color": "#0A7DA4",
+              },
+              false,
+              Object {},
+            ],
+          ]
+        }
+      >
+        Go back
+      </Text>
+    </View>
   </View>
 </View>
 `;

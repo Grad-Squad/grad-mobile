@@ -450,7 +450,8 @@
   "BookmarksList": {
     "Empty": {
       "You haven't bookmarked any post yet": "لم تقم بحفظ أي منشور حتى الآن",
-      "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.": "يمكنك حفظ المنشورات لمراجعتها في وقت لاحق. يمكنك حتى تنظيمها في مجلدات ومجلدات داخل مجلدات."
+      "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.": "يمكنك حفظ المنشورات لمراجعتها في وقت لاحق. يمكنك حتى تنظيمها في مجلدات ومجلدات داخل مجلدات.",
+      "No Bookmarks Found": "لم يتم العثور على منشورات محفوظة"
     },
     "Couldn't get bookmarks, Try again": "تعذر الحصول على المنشورات محفوظة ، حاول مرة أخرى",
     "Folders": "المجلدات",
@@ -532,5 +533,6 @@
   "Roles": {
     "Teacher": "معلم(ة)",
     "Student": "طالب(ة)"
-  }
+  },
+  "Sorry, You have to log in again": "عذرا ، يجب عليك تسجيل الدخول مرة أخرى"
 }

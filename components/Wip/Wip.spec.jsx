@@ -3,6 +3,7 @@ import React from 'react';
 import MockLocalization from '__test__/__mock__/MockLocalization';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigation } from '@react-navigation/core';
+import { Provider } from 'react-native-paper';
 import Wip from './Wip';
 
 jest.mock('@react-navigation/core', () => {
@@ -17,9 +18,11 @@ jest.mock('@react-navigation/core', () => {
 let wip;
 beforeEach(() => {
   wip = render(
-    <MockLocalization>
-      <Wip />
-    </MockLocalization>
+    <Provider>
+      <MockLocalization>
+        <Wip />
+      </MockLocalization>
+    </Provider>
   );
   useNavigation().goBack.mockClear();
 });

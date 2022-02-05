@@ -29,7 +29,7 @@ const SearchPosts = ({ navigation, numOfPosts, listKey }) => {
   }, [isLoading]);
 
   const renderItem = ({
-    item: { title, author, rating, createdAt, id, commentCount, materials },
+    item: { title, author, rating, createdAt, id, commentCount, materials, subject },
   }) => (
     <Post
       title={title}
@@ -40,6 +40,7 @@ const SearchPosts = ({ navigation, numOfPosts, listKey }) => {
       style={{ width: '90%', alignSelf: 'center' }}
       commentCount={commentCount}
       materials={materials}
+      subject={subject}
     />
   );
 

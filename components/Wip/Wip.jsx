@@ -1,19 +1,21 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import { Colors } from 'styles';
 import { useLocalization } from 'localization';
 import { TransparentButton } from 'common/Input/Button';
 import { useNavigation } from '@react-navigation/core';
+import RoundedImage from 'common/RoundedImage';
 
 const Wip = () => {
   const { t } = useLocalization();
   const navigation = useNavigation();
   return (
     <View style={styles.background}>
-      <Image
-        style={styles.wipGif}
-        source={require('../../assets/gifs/WIP.gif')}
+      <RoundedImage
+        imageURI="https://c.tenor.com/DaSh5T93TgUAAAAC/cat-typing.gif"
+        canMaximize={false}
+        maxWidthRatio={0.8}
       />
       <EduText style={styles.header}>{t('WIP/WIP')}</EduText>
       <EduText style={styles.text}>
@@ -43,7 +45,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: Colors.background,
   },
-  wipGif: {},
   header: {
     fontFamily: 'Lato_700Bold',
     fontSize: 72,

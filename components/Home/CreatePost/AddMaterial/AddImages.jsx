@@ -99,9 +99,9 @@ const AddImages = ({ route }) => {
           if (
             !values.images
               .map((newImage) => newImage.file.fileUri)
-              .includes(oldImage?.fileUri)
+              .includes(oldImage?.file.fileUri)
           ) {
-            dispatch(addToDeletedUris(oldImage?.fileUri?.split('/').pop()));
+            dispatch(addToDeletedUris(oldImage?.file.fileUri?.split('/').pop()));
           }
         });
 

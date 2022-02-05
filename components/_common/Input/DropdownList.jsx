@@ -147,13 +147,6 @@ const DropdownList = ({
             keyExtractor={(item) => item.id} // or whatever unique value that exists
           />
         </View>
-        <FlatList
-          style={styles.list}
-          contentContainerStyle={styles.listBackground}
-          data={items}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id} // or whatever unique value that exists
-        />
       </Modal>
     </View>
   );

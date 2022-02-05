@@ -41,12 +41,10 @@ const AddFolderBottomSheet = ({
           profileId,
           inRootBookmark ? undefined : parentBookmarkId
         ),
-        (oldData) => [
-          {
-            ...oldData[0],
-            folders: [...oldData[0].folders, data],
-          },
-        ]
+        (oldData) => ({
+          ...oldData,
+          folders: [...oldData.folders, data],
+        })
       );
 
       bottomSheetRef.current.close();
@@ -67,17 +65,15 @@ const AddFolderBottomSheet = ({
           inRootBookmark ? undefined : parentBookmarkId
         ),
         (oldData) => {
-          const folders = [...oldData[0].folders];
+          const folders = [...oldData.folders];
           const indexOfUpdatedFolder = folders.findIndex(
             (item) => item.id === data.id
           );
           folders[indexOfUpdatedFolder] = data;
-          return [
-            {
-              ...oldData[0],
-              folders,
-            },
-          ];
+          return {
+            ...oldData,
+            folders,
+          };
         }
       );
       bottomSheetRef.current.close();

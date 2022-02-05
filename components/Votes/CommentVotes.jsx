@@ -93,6 +93,11 @@ function CommentVotes({ voteCount, commentId, postId, id, currentUserStatus }) {
     onError: onErrorCallback,
   });
 
+  const isLoading =
+    upvoteMutation.isLoading ||
+    downvoteMutation.isLoading ||
+    unvoteMutation.isLoading;
+
   useEffect(() => {
     setVote(voteCount);
   }, [voteCount]);
@@ -144,6 +149,7 @@ function CommentVotes({ voteCount, commentId, postId, id, currentUserStatus }) {
         style={styles.button}
         onPress={upVoteHandler}
         hitSlop={UPVOTE_HIT_SLOP_OBJECT}
+        disabled={isLoading}
       >
         <View style={styles.arrow}>
           {isUpVoted ? (
@@ -158,6 +164,7 @@ function CommentVotes({ voteCount, commentId, postId, id, currentUserStatus }) {
         style={styles.button}
         onPress={downVoteHandler}
         hitSlop={DOWNVOTE_HIT_SLOP_OBJECT}
+        disabled={isLoading}
       >
         <View style={styles.arrow}>
           {isDownVoted ? (

@@ -17,6 +17,9 @@ import {
   useAPIUnvotePost,
   useAPIUpvotePost,
 } from '../../api/endpoints/ratings';
+import { apiFeedQueryKey, getPostByIdQueryKey } from 'api/endpoints/posts';
+import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import { updateItemInPages } from 'api/util';
 
 function PostVotes({ voteCount, postId, id, currentUserStatus }) {
   const [vote, setVote] = useState(voteCount);
@@ -26,6 +29,10 @@ function PostVotes({ voteCount, postId, id, currentUserStatus }) {
   const [isDownVoted, setIsDownVoted] = useState(
     currentUserStatus === CurrentUserStatus.downVoted
   );
+  useEffect(() => {
+    setIsUpVoted(currentUserStatus === CurrentUserStatus.upvoted);
+    setIsDownVoted(currentUserStatus === CurrentUserStatus.downVoted);
+  }, [currentUserStatus]);
 
   const onErrorCallback = (
     error,
@@ -39,13 +46,53 @@ function PostVotes({ voteCount, postId, id, currentUserStatus }) {
     setIsDownVoted(isPrevDownvoted);
   };
 
+  const updateItemInPost = (
+    isPrevDownvoted,
+    isPrevUpvoted,
+    newCurrentUserStatus
+  ) => {
+    const newRating = (oldItem) => ({
+      id: oldItem.rating.id,
+      currentUserStatus: newCurrentUserStatus,
+      downvotes: oldItem.rating.downvotes + isPrevDownvoted,
+      upvotes: oldItem.rating.upvotes + isPrevUpvoted,
+    });
+    queryClient.setQueryData(getPostByIdQueryKey(postId), (oldData) =>
+      oldData
+        ? {
+            ...oldData,
+            rating: newRating(oldData),
+          }
+        : oldData
+    );
+    queryClient.setQueryData(apiFeedQueryKey, (oldData) =>
+      updateItemInPages(oldData, postId, (oldItem) => ({
+        ...oldItem,
+        rating: newRating(oldItem),
+      }))
+    );
+  };
+
   const upvoteMutation = useAPIUpvotePost({
+    onSuccess: (_, { isPrevDownvoted }) => {
+      updateItemInPost(-1 * isPrevDownvoted, 1, CurrentUserStatus.upvoted);
+    },
     onError: onErrorCallback,
   });
   const downvoteMutation = useAPIDownvotePost({
+    onSuccess: (_, { isPrevUpvoted }) => {
+      updateItemInPost(1, -1 * isPrevUpvoted, CurrentUserStatus.downVoted);
+    },
     onError: onErrorCallback,
   });
   const unvoteMutation = useAPIUnvotePost({
+    onSuccess: (_, { isPrevUpvoted, isPrevDownvoted }) => {
+      updateItemInPost(
+        -1 * isPrevDownvoted,
+        -1 * isPrevUpvoted,
+        CurrentUserStatus.none
+      );
+    },
     onError: onErrorCallback,
   });
 

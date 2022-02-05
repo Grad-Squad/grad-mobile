@@ -38,6 +38,7 @@ const DropdownList = ({
   min,
   max,
   lateInitChoice,
+  error,
 }) => {
   const [open, setOpen] = useState(false);
   const [choices, setChoices] = useState(value ? [value] : []);
@@ -111,7 +112,7 @@ const DropdownList = ({
             })}
           </View>
         ) : (
-          <EduText style={styles.singleChoiceStyle}>
+          <EduText style={[styles.singleChoiceStyle, error && styles.error]}>
             {choices.length === 1 ? choices[0] || placeholder : placeholder}
           </EduText>
         )}
@@ -176,6 +177,7 @@ DropdownList.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number,
   lateInitChoice: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  error: PropTypes.bool,
 };
 DropdownList.defaultProps = {
   placeholder: 'list', // todo
@@ -185,6 +187,7 @@ DropdownList.defaultProps = {
   min: 0,
   max: 1,
   lateInitChoice: null,
+  error: false,
 };
 
 export default DropdownList;
@@ -248,5 +251,8 @@ const styles = StyleSheet.create({
   },
   zeroOpacity: {
     opacity: 0,
+  },
+  error: {
+    color: Colors.error,
   },
 });

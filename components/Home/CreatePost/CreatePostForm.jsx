@@ -24,7 +24,8 @@ const CreatePostForm = ({ lateInitSubject, lateInitTags, formik, t }) => {
         }
         items={mapDataToDropDownItems(subjects)}
         lateInitChoice={lateInitSubject}
-      />
+        error={!!(formik.errors.subject && formik.touched.subject)}
+        />
       <DropdownList
         placeholder={t('CreatePost/Tags')}
         multiple
@@ -36,6 +37,7 @@ const CreatePostForm = ({ lateInitSubject, lateInitTags, formik, t }) => {
         }}
         items={mapDataToDropDownItems(tags)}
         lateInitChoice={lateInitTags}
+        error={!!(formik.errors.tags && formik.touched.tags)}
       />
     </>
   );

@@ -8,10 +8,10 @@ import { search } from 'validation';
 import { useAPIGetSearchResult } from 'api/endpoints/search';
 import localStorageKeys from 'localStorageKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
 import SearchHeader from './SearchHeader';
 import SearchContext from './SearchContext';
 import SearchNavTab from './SearchNavTab';
-import { useSelector } from 'react-redux';
 
 const SearchMainPage = () => {
   const { t } = useLocalization();
@@ -62,7 +62,7 @@ const SearchMainPage = () => {
     const alreadyExists = historyItems.some(
       (element) => element.text.toLowerCase() === text.toLowerCase()
     );
-    let newItems = [{ text }, ...historyItems];
+    const newItems = [{ text }, ...historyItems];
     if (!alreadyExists) {
       setHistoryItems(newItems);
       const stringified = JSON.stringify(newItems);
@@ -85,6 +85,9 @@ const SearchMainPage = () => {
           setHistoryItems={setHistoryItems}
           showHistory={showHistory}
           setShowHistory={setShowHistory}
+          isFilterVisible={
+            formik.values.searchText?.length !== 0 || showHistory
+          }
         />
         {!showHistory && <SearchNavTab searchText={formik.values.searchText} />}
       </SearchContext.Provider>

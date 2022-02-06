@@ -1,6 +1,7 @@
 import React from 'react';
 import Navigator from 'navigation/Navigator';
 import ScreenNames from 'navigation/ScreenNames';
+import { View } from 'react-native';
 import ChangeInterests from './SubScreens/ChangeInterests';
 import Options from './Options';
 import ChangeLanguage from './SubScreens/ChangeLanguage';
@@ -20,6 +21,10 @@ const screens = [
   },
 ];
 
-const OptionsNavigator = () => <Navigator screens={screens} />;
+const OptionsNavigator = () => (
+  <View style={{ flex: 1 }}>
+    <Navigator screens={screens} initialRouteName={ScreenNames.Options.MAIN} />
+  </View>
+);
 
 export default OptionsNavigator;

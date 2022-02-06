@@ -3,6 +3,7 @@
 exports[`should match snapshot 1`] = `
 <View
   accessible={true}
+  collapsable={false}
   focusable={true}
   onBlur={[Function]}
   onClick={[Function]}
@@ -48,6 +49,7 @@ exports[`should match snapshot 1`] = `
 exports[`should match snapshot with custom iconName 1`] = `
 <View
   accessible={true}
+  collapsable={false}
   focusable={true}
   onBlur={[Function]}
   onClick={[Function]}

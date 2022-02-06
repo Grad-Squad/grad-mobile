@@ -367,7 +367,8 @@
     "upvoted": "صوت مؤيِّد",
     "Post": {
       "Error: Couldn't get post": "تعذر الحصول على المنشور"
-    }
+    },
+    "Add Comment": "تعليق"
   },
   "Feed": {
     "Error:Couldn't load posts": "تعذر تحميل المنشورات"

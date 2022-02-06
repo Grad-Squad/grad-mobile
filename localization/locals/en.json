@@ -367,7 +367,8 @@
     "upvoted": "upvoted",
     "Post": {
       "Error: Couldn't get post": "Couldn't get post"
-    }
+    },
+    "Add Comment": "Comment"
   },
   "Feed": {
     "Error:Couldn't load posts": "Couldn't load posts"

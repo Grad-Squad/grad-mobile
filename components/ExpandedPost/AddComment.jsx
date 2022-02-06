@@ -20,6 +20,7 @@ import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { deepCopy } from 'utility';
 import { useAPIEditComment } from 'api/endpoints/comments';
 import { replaceItemInPages, updateItemInPages } from 'api/util';
+import { useLocalization } from 'localization';
 import NewComment from './NewComment';
 
 const styles = StyleSheet.create({
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
 
 function AddComment({ postID, commentToEdit }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { t } = useLocalization();
   const addCommentMutation = useAPIAddComment({
     onSuccess: (data) => {
       queryClient.setQueryData([getCommentsKey, postID], (oldData) => {
@@ -101,7 +103,9 @@ function AddComment({ postID, commentToEdit }) {
         hitSlop={HIT_SLOP_OBJECT}
       >
         <Icon name={IconNames.plus} size={24} color={Colors.addCommentText} />
-        <EduText style={{ color: Colors.addCommentText }}>Comment</EduText>
+        <EduText style={{ color: Colors.addCommentText }}>
+          {t('ExpandedPost/Add Comment')}
+        </EduText>
       </TouchableOpacity>
 
       <Modal

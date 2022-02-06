@@ -20,7 +20,7 @@ import { Colors } from '../../styles';
 const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0;
 
 function NewComment({ initialText, profileImageURI, onSubmit, isLoading }) {
-  const { t } = useLocalization();
+  const { t, isRTL } = useLocalization();
 
   const formik = useFormik({
     initialValues: {
@@ -78,6 +78,7 @@ function NewComment({ initialText, profileImageURI, onSubmit, isLoading }) {
             size={30}
             color={Colors.black}
             onPress={formik.handleSubmit}
+            style={isRTL && styles.rotate180}
           />
         </View>
         <View style={{ width: '100%', height: 5 }} />
@@ -116,5 +117,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.1,
     borderColor: 'black',
     alignSelf: 'center',
+  },
+  rotate180: {
+    transform: [{ rotateY: '180deg' }],
   },
 });

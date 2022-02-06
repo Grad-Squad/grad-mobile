@@ -43,6 +43,7 @@ function Post({
   inRootBookmark,
   disabled,
   subject,
+  wasEdited
 }) {
   const { t } = useLocalization();
   const navigation = useNavigation();
@@ -76,6 +77,7 @@ function Post({
           createdAt={createdAt}
           materials={materials}
           subject={subject}
+          wasEdited={wasEdited}
         />
         <FooterRegion
           contentProfileId={author.id}
@@ -113,6 +115,7 @@ Post.propTypes = {
   inRootBookmark: PropTypes.bool,
   disabled: PropTypes.bool,
   subject: subjectPropType.isRequired,
+  wasEdited: PropTypes.bool.isRequired
 };
 Post.defaultProps = {
   style: {},

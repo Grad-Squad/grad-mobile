@@ -439,7 +439,8 @@
   },
   "Post": {
     "save": "save",
-    "remove": "remove"
+    "remove": "remove",
+    "edited": "edited"
   },
   "BookmarkSavedSnackbar": {
     "Post saved": "Post saved",
@@ -535,5 +536,12 @@
     "Teacher": "Teacher",
     "Student": "Student"
   },
-  "Sorry, You have to log in again": "Sorry, You have to log in again"
+  "Sorry, You have to log in again": "Sorry, You have to log in again",
+  "FlashcardsReview": {
+    "Hard": "Hard",
+    "Easy": "Easy",
+    "Skipped": "Skipped",
+    "Again?": "Again?",
+    "What should we include?": "What should we include?"
+  }
 }

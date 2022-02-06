@@ -20,7 +20,7 @@ import { Colors } from 'styles';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { bookmarksFolderPropType } from 'proptypes';
 
-const snapPoints = ['36%'];
+const snapPoints = ['40%'];
 
 const AddFolderBottomSheet = ({
   bottomSheetRef,

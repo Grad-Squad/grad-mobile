@@ -63,6 +63,7 @@ const Login = ({ navigation }) => {
           style={styles.gap}
           error={loginMutation.isError}
           errorMsg={t('Login/(incorrect email or password)')}
+          TextInputProps={{ testId: 'LoginEmail' }}
         />
         <TextInputFormik
           formik={formik}
@@ -71,6 +72,7 @@ const Login = ({ navigation }) => {
           isPassword
           style={styles.gap}
           error={loginMutation.isError}
+          TextInputProps={{ testId: 'LoginPassword' }}
         />
         <TransparentButton
           text={t('Login/forgot password?')}

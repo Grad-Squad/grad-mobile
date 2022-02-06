@@ -10,13 +10,22 @@ import { materialsPropType, subjectPropType } from 'proptypes';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
 import { BASIC_5V_HIT_SLOP_OBJECT } from 'constants';
+import { useLocalization } from 'localization';
 
 const imageWidth = 70;
 const imageOffset = -25;
 
 const defaultProfileImage = require('../../../assets/images/defaultUser.png');
 
-function TitleRegion({ title, author, createdAt, materials, subject }) {
+function TitleRegion({
+  title,
+  author,
+  createdAt,
+  materials,
+  subject,
+  wasEdited,
+}) {
+  const { t } = useLocalization();
   const postDate = useMemo(() => new Date(createdAt), [createdAt]);
   const authorId = author.id;
 
@@ -60,7 +69,9 @@ function TitleRegion({ title, author, createdAt, materials, subject }) {
           <PostContentList materials={materials} notClickable />
         </View>
       </View>
-      <EduText style={styles.date}>{`${subject.content}, ${formatDate(postDate)}`}</EduText>
+      <EduText style={styles.date}>{`${subject.content}, ${formatDate(
+        postDate
+      )}${wasEdited ? `, ${t('Post/edited')}` : ''}`}</EduText>
     </View>
   );
 }
@@ -151,4 +162,5 @@ TitleRegion.propTypes = {
   createdAt: PropTypes.string.isRequired,
   materials: materialsPropType.isRequired,
   subject: subjectPropType.isRequired,
+  wasEdited: PropTypes.bool.isRequired,
 };

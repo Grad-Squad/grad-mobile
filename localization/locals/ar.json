@@ -439,7 +439,8 @@
   },
   "Post": {
     "save": "حفظ",
-    "remove": "إزالة"
+    "remove": "إزالة",
+    "edited": "تم تعديل"
   },
   "BookmarkSavedSnackbar": {
     "Post saved": "تم حفظ المنشور",
@@ -535,5 +536,12 @@
     "Teacher": "معلم(ة)",
     "Student": "طالب(ة)"
   },
-  "Sorry, You have to log in again": "عذرا ، يجب عليك تسجيل الدخول مرة أخرى"
+  "Sorry, You have to log in again": "عذرا ، يجب عليك تسجيل الدخول مرة أخرى",
+  "FlashcardsReview": {
+    "Hard": "صعب",
+    "Easy": "سهل",
+    "Skipped": "تم تخطيه",
+    "Again?": "إعادة التمرين؟",
+    "What should we include?": "ماذا تريد أن تراجع؟"
+  }
 }

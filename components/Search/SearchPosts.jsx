@@ -39,6 +39,7 @@ const SearchPosts = ({ numOfPosts, listKey }) => {
       commentCount={commentCount}
       materials={materials}
       subject={subject}
+      wasEdited={wasEdited}
     />
   );
 

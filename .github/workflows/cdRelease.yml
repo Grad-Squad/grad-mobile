@@ -1,11 +1,11 @@
-name: Continuous Integration
+name: CD_Release
 
 on:
-  pull_request:
-    branches: [master]
+  release:
+    types: [published]
 
 jobs:
-  test_pull_request:
+  Continous_Deployment:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -23,21 +23,15 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run test:ci
-
-      - name: Setup Expo
+      - name: Setup Expo and EAS
         uses: expo/expo-github-action@v7
         with:
           expo-version: 5.x
+          eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Publish preview
-        run: expo publish --release-channel=pr-${{ github.event.number }} --non-interactive
-
-      - name: Comment preview
-        uses: expo/expo-github-action/preview-comment@v7
-        with:
-          channel: pr-${{ github.event.number }}
+      - name: Build app and push app to play store
+        run: eas build --non-interactive --auto-submit --platform android
 
       - uses: sarisia/actions-status-discord@v1
         if: always()

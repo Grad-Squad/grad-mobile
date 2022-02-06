@@ -143,7 +143,7 @@ export const stringOrNumberPropType = PropTypes.oneOfType([
   PropTypes.number.isRequired,
 ]);
 
-export const flashcardPropType = PropTypes.exact({
+export const flashcardPropType = PropTypes.shape({
   id: PropTypes.number.isRequired,
   frontText: frontTextOrFrontImageRequired,
   backText: backTextOrBackImageRequired,

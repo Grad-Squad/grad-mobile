@@ -4,7 +4,6 @@ import { Alert, Dimensions, ScrollView, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
 import { Colors, Constants } from 'styles';
-import PieChart from 'react-native-pie-chart';
 import { navigationPropType, TextPropType } from 'proptypes';
 import { MainActionButton } from 'common/Input/Button';
 import { Portal } from 'react-native-paper';
@@ -15,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setOpenMaterialData } from 'globalStore/materialNavSlice';
 import getCheeringWords, { wordTypes } from '../_common/getCheeringWords';
 import ReviewMcqModal from './ReviewMcqModal';
+import PieChart from '../_common/Review/PieChart';
 
 const ReviewMcq = ({ navigation }) => {
   const { t } = useLocalization();
@@ -70,22 +70,28 @@ const ReviewMcq = ({ navigation }) => {
         <ScrollView>
           <EduText style={styles.header}>{cheeringWord}</EduText>
           <PieChart
-            widthAndHeight={Dimensions.get('window').width * 0.54}
-            style={styles.pieChart}
-            series={[
-              correctCount,
-              incorrectCount,
-              answersShownCount,
-              skippedCount,
+            data={[
+              {
+                key: 'correctCount',
+                count: correctCount,
+                color: Colors.materialGood,
+              },
+              {
+                key: 'incorrectCount',
+                count: incorrectCount,
+                color: Colors.materialWrong,
+              },
+              {
+                key: 'answersShownCount',
+                count: answersShownCount,
+                color: Colors.accent,
+              },
+              {
+                key: 'skippedCount',
+                count: skippedCount,
+                color: Colors.materialSkipped,
+              },
             ]}
-            sliceColor={[
-              Colors.materialGood,
-              Colors.materialWrong,
-              Colors.accent,
-              Colors.materialSkipped,
-            ]}
-            doughnut
-            coverRadius={0.68}
           />
           <View style={styles.legendContainer}>
             <LegendItem

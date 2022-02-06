@@ -11,6 +11,7 @@ import EduText from 'common/EduText';
 import { searchUtil } from 'api/util';
 import { t } from 'i18n-js';
 import TransparentTextInput from './TransparentTextInput';
+import { TransparentButton } from './Button';
 
 const renderItem = (item, onPresshandler, choices) => (
   <Pressable
@@ -127,9 +128,8 @@ const DropdownList = ({
       >
         <View style={styles.listWrapper}>
           <View style={styles.searchbar}>
-            <PressableIcon
-              name={IconNames.close}
-              size={35}
+            <TransparentButton
+              text={t('DropDown/save')}
               onPress={() => setOpen(!open)}
             />
             <TransparentTextInput

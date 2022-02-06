@@ -20,8 +20,6 @@ const FollowerCard = ({ navigation, profile }) => {
   const { t } = useLocalization();
   const navToProfile = () =>
     navigation.push(ScreenNames.PROFILE, { profileId: profile.id });
-  const { uri: profilePictureUri = 'error' } =
-    profile?.profilePicture || 'error';
 
   const queryClient = useQueryClient();
   const [isFollowed, setIsFollowed] = useState(profile.isFollowed);
@@ -64,7 +62,7 @@ const FollowerCard = ({ navigation, profile }) => {
               ? {
                   uri: profile.profilePicture.uri,
                 }
-              : AssetsConstants.images.defaultProfile.uri
+              : AssetsConstants.images.defaultProfile
           }
           defaultSource={AssetsConstants.images.defaultProfile}
           resizeMode="cover"

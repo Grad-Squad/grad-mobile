@@ -149,6 +149,7 @@ const AxiosProvider = ({ navigationRef, children }) => {
         addOnAccessTokenChangeCallback: (callback) => {
           setOnAccessTokenChangeCallbacks((prev) => [...prev, callback]);
         },
+        isLoggedIn: !!accessToken,
       }}
     >
       {hasCheckedAccessToken ? (

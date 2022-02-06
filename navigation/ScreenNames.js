@@ -1,5 +1,4 @@
 export default {
-  DEV: 'DEV',
   HOME: 'HOME',
   LOGIN: 'LOGIN',
   REGISTER: 'REGISTER',

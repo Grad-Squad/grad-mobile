@@ -25,7 +25,7 @@ const ChangeLanguage = () => {
         <EduText style={styles.text}>English</EduText>
         <Icon
           name={
-            language === 'en'
+            language.startsWith('en')
               ? IconNames.radioButtonChecked
               : IconNames.radioButtonOff
           }
@@ -40,7 +40,7 @@ const ChangeLanguage = () => {
         <EduText style={styles.text}>Arabic</EduText>
         <Icon
           name={
-            language === 'ar'
+            language.startsWith('ar')
               ? IconNames.radioButtonChecked
               : IconNames.radioButtonOff
           }

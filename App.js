@@ -46,7 +46,7 @@ function App() {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     enableInExpoDevelopment: true,
-    enableNative: false,
+    // enableNative: false,
     debug: true, // TODO set to false in production
   });
 

@@ -38,10 +38,13 @@ function TitleRegion({
           <TouchableOpacity onPress={navigateToProfile}>
             <Image
               style={styles.profileImage}
-              source={{
-                uri: author?.profilePicture?.uri,
-              }}
-              defaultSource={AssetsConstants.images.defaultProfile}
+              source={
+                author?.profilePicture
+                  ? {
+                      uri: author.profilePicture.uri,
+                    }
+                  : AssetsConstants.images.defaultProfile
+              }
               resizeMode="cover"
             />
           </TouchableOpacity>

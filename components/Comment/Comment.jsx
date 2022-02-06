@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { HIT_SLOP_OBJECT } from 'constants';
+import { HIT_SLOP_OBJECT, AssetsConstants } from 'constants';
 import EduText from 'common/EduText';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
@@ -27,12 +27,9 @@ import { deepCopy, formatDate } from '../../utility';
 import { Colors, Constants } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
 import CommentDeletionAlert from './CommentDeletionAlert';
-import { AssetsConstants } from 'constants';
 
 const imageWidth = 55;
 const imageOffset = -50;
-
-const defaultProfileImage = require('../../assets/images/defaultUser.png');
 
 function Comment({
   text,
@@ -126,13 +123,16 @@ function Comment({
               hitSlop={HIT_SLOP_OBJECT}
             >
               <Image
-              style={styles.profileImage}
-              source={{
-                uri: author.profilePicture.uri,
-              }}
-              defaultSource={AssetsConstants.images.defaultProfile}
-              resizeMode="cover"
-            />
+                style={styles.profileImage}
+                source={
+                  author.profilePicture
+                    ? {
+                        uri: author.profilePicture.uri,
+                      }
+                    : AssetsConstants.images.defaultProfile
+                }
+                resizeMode="cover"
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.innerContainer}>

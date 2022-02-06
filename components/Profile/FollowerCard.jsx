@@ -59,9 +59,13 @@ const FollowerCard = ({ navigation, profile }) => {
       <Pressable onPress={navToProfile} android_ripple={pressableAndroidRipple}>
         <Image
           style={styles.profileImage}
-          source={{
-            uri: profilePictureUri,
-          }}
+          source={
+            profilePictureUri
+              ? {
+                  uri: profilePictureUri,
+                }
+              : AssetsConstants.images.defaultProfile.uri
+          }
           defaultSource={AssetsConstants.images.defaultProfile}
           resizeMode="cover"
         />

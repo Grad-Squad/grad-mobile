@@ -15,10 +15,13 @@ const AuthorInfo = ({ profilePicture, name, profileId }) => {
       >
         <Image
           style={styles.profileImage}
-          source={{
-            uri: profilePicture.uri,
-          }}
-          defaultSource={AssetsConstants.images.defaultProfile}
+          source={
+            profilePicture
+              ? {
+                  uri: profilePicture.uri,
+                }
+              : AssetsConstants.images.defaultProfile
+          }
           resizeMode="cover"
         />
       </TouchableOpacity>

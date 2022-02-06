@@ -6,6 +6,8 @@ import { HIT_SLOP_OBJECT } from 'constants';
 import { formatNumber } from 'utility';
 import EduText from 'common/EduText';
 import { IconNames } from 'common/Icon/Icon';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNames from 'navigation/ScreenNames';
 
 const styles = StyleSheet.create({
   CommentsContainer: {
@@ -18,9 +20,10 @@ const styles = StyleSheet.create({
   },
 });
 
-function CommentButton({ count }) {
+function CommentButton({ count, postId }) {
+  const navigation = useNavigation();
   const onPress = () => {
-    console.log('COMMENT');
+    navigation.navigate(ScreenNames.POST, { postID: postId });
   };
 
   return (
@@ -37,6 +40,7 @@ function CommentButton({ count }) {
 
 CommentButton.propTypes = {
   count: PropTypes.number.isRequired,
+  postId: PropTypes.number.isRequired,
 };
 
 export default React.memo(CommentButton);

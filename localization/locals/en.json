@@ -121,7 +121,8 @@
     }
   },
   "DropDown": {
-    "Search...": "Search..."
+    "Search...": "Search...",
+    "save": "save"
   },
   "Mcq": {
     "Continue": "Continue",

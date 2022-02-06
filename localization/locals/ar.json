@@ -121,7 +121,8 @@
     }
   },
   "DropDown": {
-    "Search...": "بحث..."
+    "Search...": "بحث...",
+    "save": "حفظ"
   },
   "Mcq": {
     "Continue": "استمر",

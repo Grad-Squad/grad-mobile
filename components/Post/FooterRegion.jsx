@@ -42,7 +42,7 @@ function FooterRegion({
   style,
   bookmarkId,
   inRootBookmark,
-  commentId
+  commentId,
 }) {
   const { upvotes = 0, downvotes = 0, id, currentUserStatus } = rating;
   const voteCount = upvotes - downvotes;
@@ -65,7 +65,7 @@ function FooterRegion({
           currentUserStatus={currentUserStatus}
         />
       )}
-      {isPost && <CommentButton count={commentCount} />}
+      {isPost && <CommentButton count={commentCount} postId={postId} />}
       {isPost &&
         (bookmarkId === undefined ? (
           <Bookmark postId={postId} />
@@ -100,7 +100,7 @@ FooterRegion.propTypes = {
   style: stylePropType,
   bookmarkId: PropTypes.number,
   inRootBookmark: PropTypes.bool,
-  commentId: PropTypes.number
+  commentId: PropTypes.number,
 };
 
 FooterRegion.defaultProps = {
@@ -109,5 +109,5 @@ FooterRegion.defaultProps = {
   style: {},
   bookmarkId: undefined,
   inRootBookmark: undefined,
-  commentId: undefined
+  commentId: undefined,
 };

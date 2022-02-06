@@ -60,9 +60,9 @@ const FollowerCard = ({ navigation, profile }) => {
         <Image
           style={styles.profileImage}
           source={
-            profilePictureUri
+            profile?.profilePicture
               ? {
-                  uri: profilePictureUri,
+                  uri: profile.profilePicture.uri,
                 }
               : AssetsConstants.images.defaultProfile.uri
           }

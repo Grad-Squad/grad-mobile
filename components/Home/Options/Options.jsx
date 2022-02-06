@@ -35,6 +35,12 @@ const Options = () => {
         }}
       />
       <OptionButton
+        label={'test crash'}
+        onPress={() => {
+          throw new Error('My first Sentry error!');
+        }}
+      />
+      <OptionButton
         label={t('Options/Change Language')}
         onPress={() => {
           navigation.navigate(ScreenNames.Options.CHANGE_LANGUAGE);

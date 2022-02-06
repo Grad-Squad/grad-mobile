@@ -11,14 +11,13 @@ import SearchPeople from './Searchpeople';
 // eslint-disable-next-line arrow-body-style
 const SearchAll = ({ navigation }) => {
   const { t } = useLocalization();
-
   const DATA = [
     {
       key: 'SearchAllList',
     },
   ];
 
-  const renderItem = (item) => (
+  const renderItem = () => (
     <View style={{ overflow: 'scroll' }}>
       <View style={styles.specificSearchContainer}>
         <EduText style={styles.specificSearchTitle}>

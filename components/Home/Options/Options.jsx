@@ -25,8 +25,15 @@ const Options = () => {
           navigation.navigate(ScreenNames.Options.CHANGE_INTERESTS);
         }}
       />
-      <OptionButton label="Option Name 2" onPress={() => {}} />
-      <OptionButton label="Option Name 3" onPress={() => {}} />
+      <OptionButton
+        label={t('Options/People you follow')}
+        onPress={() => {
+          navigation.navigate(ScreenNames.FOLLOWERS, {
+            profileId: null,
+            peopleYouFollow: true,
+          });
+        }}
+      />
       <OptionButton
         label={t('Options/Change Language')}
         onPress={() => {
@@ -35,7 +42,6 @@ const Options = () => {
         iconName={IconNames.language}
       />
       <Separator />
-      <OptionButton label="Option Name 5" onPress={() => {}} />
       <OptionButton
         label={t('Options/Logout')}
         iconName={IconNames.logout}

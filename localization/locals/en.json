@@ -94,7 +94,8 @@
   "Options": {
     "Change Subjects you follow": "Change Subjects you follow",
     "Logout": "Logout",
-    "Change Language": "Change Language"
+    "Change Language": "Change Language",
+    "People you follow": "People you follow"
   },
   "CreatePost": {
     "Create New Post": "Create New Post",
@@ -374,6 +375,7 @@
   "Profile": {
     "Follow": "Follow",
     "Unfollow": "Unfollow",
+    "People Followed": "People Followed",
     "Tabs": {
       "Posts": "Posts",
       "Bookmarks": "Bookmarks"
@@ -395,6 +397,10 @@
   "Followers": {
     "Error: Couldn't Load Followers": "Error: Couldn't Load Followers",
     "This Account does not have any followers!": "This Account does not have any followers!"
+  },
+  "Followed": {
+    "Error: Couldn't load people you follow": "Error: Couldn't load people you follow",
+    "You haven't followed anyone yet!": "You haven't followed anyone yet!"
   },
   "Feedback": {
     "SendFeedback": {

@@ -10,13 +10,15 @@ import EduText from 'common/EduText';
 import { useLocalization } from 'localization';
 import {
   getFollowersKey,
+  profilesFollowedKey,
   useAPIGetProfileFollowers,
+  useAPIGetProfilesFollowed,
 } from 'api/endpoints/profile';
 import FollowerCard from './FollowerCard';
 import FollowerCardSkeleton from './FollowerCardSkeleton';
 
 const Followers = ({ navigation, route }) => {
-  const { profileId } = route.params;
+  const { profileId, peopleYouFollow } = route.params;
   const { t } = useLocalization();
   return (
     <Page style={styles.container}>
@@ -25,20 +27,38 @@ const Followers = ({ navigation, route }) => {
           navigation.goBack();
         }}
         otherComponent={
-          <EduText style={styles.titleText}>{t('Profile/Followers')}</EduText>
+          <EduText style={styles.titleText}>
+            {peopleYouFollow
+              ? t('Profile/People Followed')
+              : t('Profile/Followers')}
+          </EduText>
         }
       />
       <PaginatedFlatList
         contentContainerStyle={styles.container}
-        paginatedReactQuery={useAPIGetProfileFollowers}
+        paginatedReactQuery={
+          peopleYouFollow
+            ? useAPIGetProfilesFollowed
+            : useAPIGetProfileFollowers
+        }
         paginatedReactQueryParams={[profileId]}
-        reactQueryKey={getFollowersKey(profileId)}
+        reactQueryKey={
+          peopleYouFollow ? profilesFollowedKey : getFollowersKey(profileId)
+        }
         renderItem={({ item }) => (
           <FollowerCard profile={item} navigation={navigation} />
         )}
         ItemSeparatorComponent={() => <View style={styles.cardsSeparator} />}
-        errorLocalizationKey="Followers/Error: Couldn't Load Followers"
-        noItemsLocalizationKey="Followers/This Account does not have any followers!"
+        errorLocalizationKey={
+          peopleYouFollow
+            ? "Followed/Error: Couldn't load people you follow"
+            : "Followers/Error: Couldn't Load Followers"
+        }
+        noItemsLocalizationKey={
+          peopleYouFollow
+            ? "Followed/You haven't followed anyone yet!"
+            : 'Followers/This Account does not have any followers!'
+        }
         hideNothingLeftToShow
         SkeletonComponent={() => (
           <>
@@ -59,7 +79,8 @@ Followers.propTypes = {
   navigation: navigationPropType.isRequired,
   route: routeParamPropType(
     PropTypes.exact({
-      profileId: PropTypes.number.isRequired,
+      profileId: PropTypes.number,
+      peopleYouFollow: PropTypes.bool,
     })
   ).isRequired,
 };

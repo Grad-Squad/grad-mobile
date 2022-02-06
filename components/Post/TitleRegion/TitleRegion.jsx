@@ -9,14 +9,11 @@ import { formatDate } from 'utility';
 import { materialsPropType, subjectPropType } from 'proptypes';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
-import { BASIC_5V_HIT_SLOP_OBJECT } from 'constants';
-import { AssetsConstants } from 'constants';
+import { BASIC_5V_HIT_SLOP_OBJECT, AssetsConstants } from 'constants';
 import { useLocalization } from 'localization';
 
 const imageWidth = 70;
 const imageOffset = -25;
-
-const defaultProfileImage = require('../../../assets/images/defaultUser.png');
 
 function TitleRegion({
   title,
@@ -42,7 +39,7 @@ function TitleRegion({
             <Image
               style={styles.profileImage}
               source={{
-                uri: author.profilePicture.uri,
+                uri: author?.profilePicture?.uri,
               }}
               defaultSource={AssetsConstants.images.defaultProfile}
               resizeMode="cover"
@@ -83,7 +80,6 @@ export const styles = StyleSheet.create({
     width: imageWidth,
     height: 70,
     alignSelf: 'center',
-
   },
   imageContainer: {
     position: 'absolute',

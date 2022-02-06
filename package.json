@@ -94,7 +94,7 @@
     "react-redux": "^7.2.6",
     "rn-pdf-reader-js": "^4.1.1",
     "rn-placeholder": "^3.0.3",
-    "sentry-expo": "^4.0.5",
+    "sentry-expo": "^4.0.0",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },

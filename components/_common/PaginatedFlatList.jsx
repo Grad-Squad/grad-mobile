@@ -22,6 +22,7 @@ const PaginatedFlatList = ({
   initialNumToRender,
   SkeletonComponent,
   ListEmptyComponent,
+  maxNumOfItems,
   ...props
 }) => {
   const { t } = useLocalization();
@@ -46,7 +47,9 @@ const PaginatedFlatList = ({
   return (
     <Animated.FlatList
       contentContainerStyle={contentContainerStyle}
-      data={flatListItems}
+      data={
+        maxNumOfItems ? flatListItems.slice(0, maxNumOfItems) : flatListItems
+      }
       onScroll={onScroll}
       renderItem={renderItem}
       keyExtractor={(item) => item.id.toString()}
@@ -81,7 +84,11 @@ const PaginatedFlatList = ({
         isFetchingNextPage ? (
           <LoadingIndicator large style={styles.footerLoading} />
         ) : (
-          !(hasNextPage || hideNothingLeftToShow || flatListItems.length === 0) && (
+          !(
+            hasNextPage ||
+            hideNothingLeftToShow ||
+            flatListItems.length === 0
+          ) && (
             <EduText style={styles.nothingLeftToShow}>
               {t('FlatList/Nothing left to show')}
             </EduText>
@@ -111,6 +118,7 @@ PaginatedFlatList.propTypes = {
   initialNumToRender: PropTypes.number,
   SkeletonComponent: PropTypes.element,
   ListEmptyComponent: PropTypes.element,
+  maxNumOfItems: PropTypes.number,
 };
 PaginatedFlatList.defaultProps = {
   paginatedReactQueryParams: [],
@@ -123,6 +131,7 @@ PaginatedFlatList.defaultProps = {
   initialNumToRender: 5,
   SkeletonComponent: null,
   ListEmptyComponent: null,
+  maxNumOfItems: null,
 };
 
 export default PaginatedFlatList;

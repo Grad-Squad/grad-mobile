@@ -6,17 +6,24 @@ import EduText from 'common/EduText';
 import PostContentList from 'common/Post/PostContentList';
 import { Colors } from 'styles';
 import { formatDate } from 'utility';
-import { materialsPropType } from 'proptypes';
+import { materialsPropType, subjectPropType } from 'proptypes';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
-import { BASIC_5V_HIT_SLOP_OBJECT } from 'constants';
+import { BASIC_5V_HIT_SLOP_OBJECT, AssetsConstants } from 'constants';
+import { useLocalization } from 'localization';
 
 const imageWidth = 70;
 const imageOffset = -25;
 
-const defaultProfileImage = require('../../../assets/images/defaultUser.png');
-
-function TitleRegion({ title, author, createdAt, materials }) {
+function TitleRegion({
+  title,
+  author,
+  createdAt,
+  materials,
+  subject,
+  wasEdited,
+}) {
+  const { t } = useLocalization();
   const postDate = useMemo(() => new Date(createdAt), [createdAt]);
   const authorId = author.id;
 
@@ -32,12 +39,13 @@ function TitleRegion({ title, author, createdAt, materials }) {
             <Image
               style={styles.profileImage}
               source={
-                author.profilePicture
+                author?.profilePicture
                   ? {
                       uri: author.profilePicture.uri,
                     }
-                  : defaultProfileImage
+                  : AssetsConstants.images.defaultProfile
               }
+              resizeMode="cover"
             />
           </TouchableOpacity>
         </View>
@@ -60,7 +68,9 @@ function TitleRegion({ title, author, createdAt, materials }) {
           <PostContentList materials={materials} notClickable />
         </View>
       </View>
-      <EduText style={styles.date}>{formatDate(postDate)}</EduText>
+      <EduText style={styles.date}>{`${subject.content}, ${formatDate(
+        postDate
+      )}${wasEdited ? `, ${t('Post/edited')}` : ''}`}</EduText>
     </View>
   );
 }
@@ -72,9 +82,7 @@ export const styles = StyleSheet.create({
     borderRadius: 70,
     width: imageWidth,
     height: 70,
-
-    // borderWidth: 0.1,
-    // borderColor: 'black',
+    alignSelf: 'center',
   },
   imageContainer: {
     position: 'absolute',
@@ -150,4 +158,6 @@ TitleRegion.propTypes = {
   title: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   materials: materialsPropType.isRequired,
+  subject: subjectPropType.isRequired,
+  wasEdited: PropTypes.bool.isRequired,
 };

@@ -65,7 +65,7 @@ const BookmarksList = ({
               addFolderBottomSheetRef.current.close();
               folderOptionsBottomSheetRef.current.expand();
             }}
-            hideOptions={isMoving || inProfile}
+            hideOptions={inProfile}
           />
         ),
         ItemSeparatorComponent: () => <View style={styles.foldersSeparator} />,
@@ -75,7 +75,7 @@ const BookmarksList = ({
               folderOptionsBottomSheetRef.current.close();
               addFolderBottomSheetRef.current.expand();
             }}
-            hideAdd={isMoving || inProfile}
+            hideAdd={inProfile}
           />
         ),
         footer: folders.length === 0 && (
@@ -96,6 +96,8 @@ const BookmarksList = ({
             id,
             commentCount,
             materials,
+            subject,
+            wasEdited,
           },
         }) => (
           <Post
@@ -110,6 +112,8 @@ const BookmarksList = ({
             bookmarkId={inProfile ? undefined : bookmarkId}
             inRootBookmark={inProfile ? undefined : inRootBookmark}
             disabled={isMoving}
+            subject={subject}
+            wasEdited={wasEdited}
           />
         ),
         header: (
@@ -143,7 +147,7 @@ const BookmarksList = ({
   }
 
   if (folders.length + posts.length === 0 && inRootBookmark) {
-    return <NoBookmarks />;
+    return <NoBookmarks inProfile={inProfile} />;
   }
 
   return (
@@ -182,7 +186,7 @@ const BookmarksList = ({
           folderId={folderId}
         />
       )}
-      {!isMoving && !inProfile && (
+      {!inProfile && (
         <>
           <FolderOptionsBottomSheet
             bottomSheetRef={folderOptionsBottomSheetRef}

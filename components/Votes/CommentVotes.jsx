@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-
 import PropTypes from 'prop-types';
-
 import { Icon } from 'react-native-elements';
 import {
   UPVOTE_HIT_SLOP_OBJECT,
@@ -12,13 +10,16 @@ import {
 import { formatNumber } from 'utility';
 import EduText from 'common/EduText';
 import { currentUserStatusPropType } from 'proptypes';
+import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
+import { getCommentsKey } from 'api/endpoints/posts';
+import { updateItemInPages } from 'api/util';
 import {
   useAPIDownvoteComment,
   useAPIUnvoteComment,
   useAPIUpvoteComment,
 } from '../../api/endpoints/ratings';
 
-function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
+function CommentVotes({ voteCount, commentId, postId, id, currentUserStatus }) {
   const [vote, setVote] = useState(voteCount);
   const [isUpVoted, setIsUpVoted] = useState(
     currentUserStatus === CurrentUserStatus.upvoted
@@ -26,6 +27,10 @@ function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
   const [isDownVoted, setIsDownVoted] = useState(
     currentUserStatus === CurrentUserStatus.downVoted
   );
+  useEffect(() => {
+    setIsUpVoted(currentUserStatus === CurrentUserStatus.upvoted);
+    setIsDownVoted(currentUserStatus === CurrentUserStatus.downVoted);
+  }, [currentUserStatus]);
 
   const onErrorCallback = (
     error,
@@ -38,22 +43,66 @@ function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
     setIsDownVoted(isPrevDownvoted);
   };
 
+  const updateItemInComments = (
+    isPrevDownvoted,
+    isPrevUpvoted,
+    newCurrentUserStatus
+  ) => {
+    queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
+      updateItemInPages(oldData, commentId, (oldItem) => ({
+        ...oldItem,
+        rating: {
+          id: oldItem.rating.id,
+          currentUserStatus: newCurrentUserStatus,
+          downvotes: oldItem.rating.downvotes + isPrevDownvoted,
+          upvotes: oldItem.rating.upvotes + isPrevUpvoted,
+        },
+      }))
+    );
+  };
+
   const upvoteMutation = useAPIUpvoteComment({
+    onSuccess: (_, { isPrevDownvoted }) => {
+      updateItemInComments(
+        -1 * isPrevDownvoted,
+        1,
+        CurrentUserStatus.upvoted
+      );
+    },
     onError: onErrorCallback,
   });
   const downvoteMutation = useAPIDownvoteComment({
+    onSuccess: (_, { isPrevUpvoted }) => {
+      updateItemInComments(
+        1,
+        -1 * isPrevUpvoted,
+        CurrentUserStatus.downVoted
+      );
+    },
     onError: onErrorCallback,
   });
   const unvoteMutation = useAPIUnvoteComment({
+    onSuccess: (_, { isPrevUpvoted, isPrevDownvoted }) => {
+      updateItemInComments(
+        -1 * isPrevDownvoted,
+        -1 * isPrevUpvoted,
+        CurrentUserStatus.none
+      );
+    },
     onError: onErrorCallback,
   });
+
+  const isLoading =
+    upvoteMutation.isLoading ||
+    downvoteMutation.isLoading ||
+    unvoteMutation.isLoading;
 
   useEffect(() => {
     setVote(voteCount);
   }, [voteCount]);
 
   const passCurrentState = (offset) => ({
-    commentId,
+    postId,
     ratingId: id,
     offset,
     isPrevUpvoted: isUpVoted,
@@ -99,6 +148,7 @@ function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
         style={styles.button}
         onPress={upVoteHandler}
         hitSlop={UPVOTE_HIT_SLOP_OBJECT}
+        disabled={isLoading}
       >
         <View style={styles.arrow}>
           {isUpVoted ? (
@@ -108,11 +158,12 @@ function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
           )}
         </View>
       </TouchableOpacity>
-      <EduText>{formatNumber(vote)}</EduText>
+      <EduText style={styles.votesCount}>{formatNumber(vote)}</EduText>
       <TouchableOpacity
         style={styles.button}
         onPress={downVoteHandler}
         hitSlop={DOWNVOTE_HIT_SLOP_OBJECT}
+        disabled={isLoading}
       >
         <View style={styles.arrow}>
           {isDownVoted ? (
@@ -129,6 +180,7 @@ function CommentVotes({ voteCount, commentId, id, currentUserStatus }) {
 CommentVotes.propTypes = {
   voteCount: PropTypes.number.isRequired,
   commentId: PropTypes.number.isRequired,
+  postId: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   currentUserStatus: currentUserStatusPropType.isRequired,
 };
@@ -146,5 +198,9 @@ const styles = StyleSheet.create({
   },
   button: {
     flexDirection: 'row',
+  },
+  votesCount: {
+    minWidth: 20,
+    textAlign: 'center',
   },
 });

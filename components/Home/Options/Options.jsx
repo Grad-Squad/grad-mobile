@@ -25,13 +25,25 @@ const Options = () => {
           navigation.navigate(ScreenNames.Options.CHANGE_INTERESTS);
         }}
       />
-      <OptionButton label="Option Name 2" onPress={() => {}} />
-      <OptionButton label="Option Name 3" onPress={() => {}} />
-      <OptionButton label="Option Name 4" onPress={() => {}} />
-      <Separator />
-      <OptionButton label="Option Name 5" onPress={() => {}} />
       <OptionButton
-        label="Logout"
+        label={t('Options/People you follow')}
+        onPress={() => {
+          navigation.navigate(ScreenNames.FOLLOWERS, {
+            profileId: null,
+            peopleYouFollow: true,
+          });
+        }}
+      />
+      <OptionButton
+        label={t('Options/Change Language')}
+        onPress={() => {
+          navigation.navigate(ScreenNames.Options.CHANGE_LANGUAGE);
+        }}
+        iconName={IconNames.language}
+      />
+      <Separator />
+      <OptionButton
+        label={t('Options/Logout')}
         iconName={IconNames.logout}
         onPress={() => {
           // todo logout instead then redirect to login

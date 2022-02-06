@@ -119,6 +119,7 @@ const AddQuestion = ({
               (item) => item.text === value
             ) === -1
         )
+        .required('')
         .max(400, maxCharError(t, 400)),
     }),
   });

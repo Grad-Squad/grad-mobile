@@ -92,7 +92,10 @@
     "Sent Successfully ✅": "تم الإرسال بنجاح ✅"
   },
   "Options": {
-    "Change Subjects you follow": "غيّر المواد التي تتابعها"
+    "Change Subjects you follow": "غيّر المواد التي تتابعها",
+    "Logout": "تسجيل الخروج",
+    "Change Language": "غيّر اللغة",
+    "People you follow": "الأشخاص الذين تتابعهم"
   },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",
@@ -119,7 +122,8 @@
     }
   },
   "DropDown": {
-    "Search...": "بحث..."
+    "Search...": "بحث...",
+    "save": "حفظ"
   },
   "Mcq": {
     "Continue": "استمر",
@@ -363,7 +367,8 @@
     "upvoted": "صوت مؤيِّد",
     "Post": {
       "Error: Couldn't get post": "تعذر الحصول على المنشور"
-    }
+    },
+    "Add Comment": "تعليق"
   },
   "Feed": {
     "Error:Couldn't load posts": "تعذر تحميل المنشورات"
@@ -392,6 +397,10 @@
   "Followers": {
     "Error: Couldn't Load Followers": "خطأ: لا يمكن تحميل المتابعين",
     "This Account does not have any followers!": "هذا الحساب ليس لديه أي متابعين!"
+  },
+  "Followed": {
+    "Error: Couldn't load people you follow": "خطأ: تعذر تحميل الأشخاص الذين تتابعهم",
+    "You haven't followed anyone yet!": "لم تتبع أي شخص حتى الآن!"
   },
   "Feedback": {
     "SendFeedback": {
@@ -436,7 +445,8 @@
   },
   "Post": {
     "save": "حفظ",
-    "remove": "إزالة"
+    "remove": "إزالة",
+    "edited": "تم تعديل"
   },
   "BookmarkSavedSnackbar": {
     "Post saved": "تم حفظ المنشور",
@@ -448,7 +458,8 @@
   "BookmarksList": {
     "Empty": {
       "You haven't bookmarked any post yet": "لم تقم بحفظ أي منشور حتى الآن",
-      "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.": "يمكنك حفظ المنشورات لمراجعتها في وقت لاحق. يمكنك حتى تنظيمها في مجلدات ومجلدات داخل مجلدات."
+      "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.": "يمكنك حفظ المنشورات لمراجعتها في وقت لاحق. يمكنك حتى تنظيمها في مجلدات ومجلدات داخل مجلدات.",
+      "No Bookmarks Found": "لم يتم العثور على منشورات محفوظة"
     },
     "Couldn't get bookmarks, Try again": "تعذر الحصول على المنشورات محفوظة ، حاول مرة أخرى",
     "Folders": "المجلدات",
@@ -530,5 +541,13 @@
   "Roles": {
     "Teacher": "معلم(ة)",
     "Student": "طالب(ة)"
+  },
+  "Sorry, You have to log in again": "عذرا ، يجب عليك تسجيل الدخول مرة أخرى",
+  "FlashcardsReview": {
+    "Hard": "صعب",
+    "Easy": "سهل",
+    "Skipped": "تم تخطيه",
+    "Again?": "إعادة التمرين؟",
+    "What should we include?": "ماذا تريد أن تراجع؟"
   }
 }

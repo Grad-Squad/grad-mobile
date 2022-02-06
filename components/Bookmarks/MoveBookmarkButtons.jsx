@@ -29,20 +29,22 @@ const MoveBookmarkButtons = ({
 
   const movePostToBookmarkMutation = useMovePostToBookmark({
     onSuccess: (updatedParentBookmarkData) => {
-      // todo
-      // queryClient.setQueryData(
-      //   getBookmarksFolderQueryKey(
-      //     store.profileId,
-      //     fromBookmarkId
-      //   ),
-      //   () => [updatedParentBookmarkData]
-      // );
       queryClient.setQueryData(
         getBookmarksFolderQueryKey(
           store.profileId,
-          inRootBookmark ? undefined : toBookmarkId
+          inRootBookmark ? undefined : fromBookmarkId
         ),
-        () => [updatedParentBookmarkData]
+        (oldData) => ({
+          ...oldData,
+          posts: oldData.posts.filter((item) => item.id !== postId),
+        })
+      );
+      queryClient.setQueryData(
+        getBookmarksFolderQueryKey(
+          store.profileId,
+          updatedParentBookmarkData.id
+        ),
+        () => updatedParentBookmarkData
       );
       navigation.goBack();
     },
@@ -59,28 +61,24 @@ const MoveBookmarkButtons = ({
     onSuccess: (updatedMovedBookmarkData) => {
       queryClient.setQueryData(
         getBookmarksFolderQueryKey(store.profileId, folderId),
-        () => [updatedMovedBookmarkData]
+        () => updatedMovedBookmarkData
       );
       queryClient.setQueryData(
         getBookmarksFolderQueryKey(store.profileId, fromBookmarkId),
-        (oldData) => [
-          {
-            ...oldData[0],
-            folders: oldData[0].folders.filter((item) => item.id !== folderId),
-          },
-        ]
+        (oldData) => ({
+          ...oldData,
+          folders: oldData.folders.filter((item) => item.id !== folderId),
+        })
       );
       queryClient.setQueryData(
         getBookmarksFolderQueryKey(
           store.profileId,
           inRootBookmark ? undefined : toBookmarkId
         ),
-        (oldData) => [
-          {
-            ...oldData[0],
-            folders: [updatedMovedBookmarkData, ...oldData[0].folders],
-          },
-        ]
+        (oldData) => ({
+          ...oldData,
+          folders: [updatedMovedBookmarkData, ...oldData.folders],
+        })
       );
       navigation.goBack();
     },

@@ -2,15 +2,20 @@ import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { HIT_SLOP_OBJECT } from 'constants';
+import { HIT_SLOP_OBJECT, AssetsConstants } from 'constants';
 import EduText from 'common/EduText';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
-import { useAPIDeleteComment, getCommentsKey } from 'api/endpoints/posts';
+import {
+  useAPIDeleteComment,
+  getCommentsKey,
+  getPostByIdQueryKey,
+  apiFeedQueryKey,
+} from 'api/endpoints/posts';
 import { useLocalization } from 'localization';
 import FillLoadingIndicator from 'common/FillLoadingIndicator';
-import { deleteItemInPages } from 'api/util';
+import { deleteItemInPages, updateItemInPages } from 'api/util';
 import { ratingPropType } from 'proptypes';
 import {
   Fade,
@@ -18,15 +23,13 @@ import {
   PlaceholderLine,
   PlaceholderMedia,
 } from 'rn-placeholder';
-import { formatDate } from '../../utility';
+import { deepCopy, formatDate } from '../../utility';
 import { Colors, Constants } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
 import CommentDeletionAlert from './CommentDeletionAlert';
 
 const imageWidth = 55;
 const imageOffset = -50;
-
-const defaultProfileImage = require('../../assets/images/defaultUser.png')
 
 function Comment({
   text,
@@ -50,6 +53,17 @@ function Comment({
     onSuccess: () => {
       queryClient.setQueryData([getCommentsKey, postId], (oldData) =>
         deleteItemInPages(oldData, commentId)
+      );
+      queryClient.setQueryData(getPostByIdQueryKey(postId), (oldData) => {
+        const copy = deepCopy(oldData);
+        copy.commentCount -= 1;
+        return copy;
+      });
+      queryClient.setQueryData(apiFeedQueryKey, (oldData) =>
+        updateItemInPages(oldData, postId, (oldItem) => ({
+          ...oldItem,
+          commentCount: oldItem.commentCount - 1,
+        }))
       );
     },
   });
@@ -109,17 +123,16 @@ function Comment({
               hitSlop={HIT_SLOP_OBJECT}
             >
               <Image
-              style={styles.profileImage}
-
-              source = {
-                author.profilePicture ?
-                {
-                uri: author.profilePicture.uri
+                style={styles.profileImage}
+                source={
+                  author.profilePicture
+                    ? {
+                        uri: author.profilePicture.uri,
+                      }
+                    : AssetsConstants.images.defaultProfile
                 }
-                :
-                defaultProfileImage
-              }
-            />
+                resizeMode="cover"
+              />
             </TouchableOpacity>
           </View>
           <View style={styles.innerContainer}>
@@ -147,6 +160,7 @@ function Comment({
           onDelete={() => {
             CommentDeletionAlert(t, () => deleteCommentMutation.mutate());
           }}
+          commentId={commentId}
           contentProfileId={profileId}
         />
       </View>
@@ -183,8 +197,7 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     width: imageWidth,
     height: imageWidth,
-    // borderWidth: 0.1,
-    // borderColor: 'black',
+    alignSelf: 'center',
   },
   imageContainer: {
     position: 'absolute',

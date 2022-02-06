@@ -32,7 +32,7 @@ function Bookmark({ postId }) {
       showBookmarkSavedSnackbar(postId, bookmarkData.id);
       queryClient.setQueryData(
         getBookmarksFolderQueryKey(store.profileId, undefined),
-        () => [bookmarkData]
+        () => bookmarkData
       );
     },
     onError: () => {

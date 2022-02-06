@@ -1,35 +1,34 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { navigationBarPropType } from 'proptypes';
 import Post from 'components/Post/Post';
-import { FlatList, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import FollowerCardSkeleton from 'components/Profile/FollowerCardSkeleton';
 import EduText from 'common/EduText';
 import { useLocalization } from 'localization';
-import { Styles } from 'styles';
+import { Constants, Styles } from 'styles';
+import PaginatedFlatList from 'common/PaginatedFlatList';
+import { searchPostsQueryKey, useAPISearchPosts } from 'api/endpoints/search';
+import { useSelector } from 'react-redux';
 import SearchContext from './SearchContext';
 
-const SearchPosts = ({ navigation, numOfPosts, listKey }) => {
-  // ? I don't think this is right
-
-  const { isLoading, fetchedSearchData } = useContext(SearchContext);
-
-  const [results, setResults] = useState([]);
+const SearchPosts = ({ numOfPosts, listKey }) => {
+  const { isLoading, searchText } = useContext(SearchContext);
 
   const { t } = useLocalization();
-
-  useEffect(() => {
-    if (!isLoading) {
-      if (numOfPosts && fetchedSearchData?.posts.count > numOfPosts) {
-        setResults(fetchedSearchData?.posts.data.splice(0, numOfPosts));
-      } else {
-        setResults(fetchedSearchData?.posts.data);
-      }
-    }
-  }, [isLoading]);
+  const params = useSelector((state) => state.search.params);
 
   const renderItem = ({
-    item: { title, author, rating, createdAt, id, commentCount, materials },
+    item: {
+      title,
+      author,
+      rating,
+      createdAt,
+      id,
+      commentCount,
+      materials,
+      subject,
+      wasEdited
+    },
   }) => (
     <Post
       title={title}
@@ -40,6 +39,8 @@ const SearchPosts = ({ navigation, numOfPosts, listKey }) => {
       style={{ width: '90%', alignSelf: 'center' }}
       commentCount={commentCount}
       materials={materials}
+      subject={subject}
+      wasEdited={wasEdited}
     />
   );
 
@@ -48,17 +49,33 @@ const SearchPosts = ({ navigation, numOfPosts, listKey }) => {
       {isLoading ? (
         <FollowerCardSkeleton />
       ) : (
-        <FlatList
-          data={results}
-          keyExtractor={(item) => item.id.toString()}
+        <PaginatedFlatList
+          ListHeaderComponent={
+            !numOfPosts && <View style={styles.headerSpacing} />
+          }
+          maxNumOfItems={numOfPosts}
+          paginatedReactQuery={useAPISearchPosts}
+          paginatedReactQueryParams={[searchText]}
+          hideNothingLeftToShow
+          reactQueryKey={searchPostsQueryKey(searchText, params)}
           renderItem={renderItem}
-          contentContainerStyle={{ paddingTop: 20, marginTop: 10 }}
-          ListEmptyComponent={() => (
+          ListEmptyComponent={
             <EduText style={[Styles.errorText, styles.notFoundText]}>
               {t('Search/NoPosts')}
             </EduText>
-          )}
+          }
           listKey={listKey}
+          errorLocalizationKey="Feed/Error:Couldn't load posts"
+          SkeletonComponent={
+            <>
+              {Array(numOfPosts || 5)
+                .fill()
+                .map((_, index) => (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <FollowerCardSkeleton key={index + 1} />
+                ))}
+            </>
+          }
         />
       )}
     </>
@@ -66,7 +83,6 @@ const SearchPosts = ({ navigation, numOfPosts, listKey }) => {
 };
 
 SearchPosts.propTypes = {
-  navigation: navigationBarPropType.isRequired,
   listKey: PropTypes.string,
   numOfPosts: PropTypes.number,
 };
@@ -80,5 +96,8 @@ export default SearchPosts;
 const styles = StyleSheet.create({
   notFoundText: {
     textAlign: 'center',
+  },
+  headerSpacing: {
+    marginTop: Constants.commonMargin * 2,
   },
 });

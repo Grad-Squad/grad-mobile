@@ -35,14 +35,14 @@ const ExpandedPostContent = ({ navigation, postId }) => {
       navigation.navigate(ScreenNames.HOME);
     },
   });
-  const upvotePercentage = useMemo(
-    () =>
+  const upvotePercentage = useMemo(() => {
+    const newPercentage =
       post && post.rating.upvotes + post.rating.downvotes > 0
         ? (post.rating.upvotes * 100) /
           (post.rating.upvotes + post.rating.downvotes)
-        : 0,
-    [post]
-  );
+        : 0;
+    return parseFloat(newPercentage.toFixed(2));
+  }, [post]);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -91,6 +91,9 @@ const ExpandedPostContent = ({ navigation, postId }) => {
               </EduText>
               <EduText style={styles.extraInfoText}>
                 {post.subject.content}
+              </EduText>
+              <EduText style={styles.extraInfoText}>
+                {post.wasEdited && t('Post/edited')}
               </EduText>
             </View>
           </>

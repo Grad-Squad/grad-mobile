@@ -19,8 +19,14 @@ import { Colors } from '../../styles';
 
 const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0;
 
-function NewComment({ initialText, profileImageURI, onSubmit, isLoading }) {
-  const { t } = useLocalization();
+function NewComment({
+  initialText,
+  profileImageURI,
+  onSubmit,
+  isLoading,
+  isWritingCommentEnabled,
+}) {
+  const { t, isRTL } = useLocalization();
 
   const formik = useFormik({
     initialValues: {
@@ -54,6 +60,7 @@ function NewComment({ initialText, profileImageURI, onSubmit, isLoading }) {
               source={{
                 uri: profileImageURI,
               }}
+              resizeMode="cover"
             />
           </TouchableOpacity>
 
@@ -72,11 +79,17 @@ function NewComment({ initialText, profileImageURI, onSubmit, isLoading }) {
           />
 
           <PressableIcon
-            pressableProps={{ disabled: isLoading }}
+            pressableProps={{
+              disabled: isLoading || !isWritingCommentEnabled,
+            }}
+            color={
+              isLoading || !isWritingCommentEnabled ? Colors.grey : Colors.black
+            }
             name={IconNames.send}
             size={30}
-            color={Colors.black}
+            // color={Colors.black}
             onPress={formik.handleSubmit}
+            style={isRTL && styles.rotate180}
           />
         </View>
         <View style={{ width: '100%', height: 5 }} />
@@ -91,6 +104,7 @@ NewComment.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   profileImageURI: PropTypes.string,
   isLoading: PropTypes.bool.isRequired,
+  isWritingCommentEnabled: PropTypes.bool.isRequired,
   initialText: PropTypes.string,
 };
 NewComment.defaultProps = {
@@ -114,5 +128,9 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 0.1,
     borderColor: 'black',
+    alignSelf: 'center',
+  },
+  rotate180: {
+    transform: [{ rotateY: '180deg' }],
   },
 });

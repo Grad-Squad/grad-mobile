@@ -99,9 +99,9 @@ const AddImages = ({ route }) => {
           if (
             !values.images
               .map((newImage) => newImage.file.fileUri)
-              .includes(oldImage?.fileUri)
+              .includes(oldImage?.file.fileUri)
           ) {
-            dispatch(addToDeletedUris(oldImage?.fileUri?.split('/').pop()));
+            dispatch(addToDeletedUris(oldImage?.file.fileUri?.split('/').pop()));
           }
         });
 
@@ -128,12 +128,12 @@ const AddImages = ({ route }) => {
     formik.handleSubmit();
   };
 
-  const didImagesChange = deepCompare(
+  const didImagesChange = !deepCompare(
     editImages?.files ? editImages.files : [],
-    formik.values.files
+    formik.values.images
   );
   useOnGoBackDiscardWarning(
-    (!formik.dirty && didImagesChange) || formik.isSubmitting,
+    (!formik.dirty && !didImagesChange) || formik.isSubmitting,
     [formik.dirty, formik.isSubmitting, didImagesChange]
   );
 
@@ -173,7 +173,9 @@ const AddImages = ({ route }) => {
             style={styles.removeImagesBtn}
             textStyle={styles.removeImagesBtnText}
             text={t('AddMaterial/Images/Remove images')}
-            onPress={() => {}}
+            onPress={() => {
+              formik.setFieldValue('images', []);
+            }}
             leftIcon={<Icon name={IconNames.delete} />}
           />
         </View>

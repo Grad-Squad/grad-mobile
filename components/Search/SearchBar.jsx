@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useLocalization } from 'localization';
 import { search } from 'validation';
-import { useAPIGetSearchResult } from 'api/endpoints/search';
 import localStorageKeys from 'localStorageKeys';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useSelector } from 'react-redux';
 import SearchHeader from './SearchHeader';
 import SearchContext from './SearchContext';
 import SearchNavTab from './SearchNavTab';
 
 const SearchBar = ({ isActive, setIsActive, showHistory, setShowHistory }) => {
   const { t } = useLocalization();
-
-  const [fetchEnabled, setFetchEnabled] = useState(false);
 
   const [historyItems, setHistoryItems] = useState([]);
   const onGoBack = () => {
@@ -30,7 +26,6 @@ const SearchBar = ({ isActive, setIsActive, showHistory, setShowHistory }) => {
     onSubmit: (searchObject) => {
       setShowHistory(false);
       addSearchToHistory(searchObject.searchText);
-      setFetchEnabled(true);
       setIsActive(true);
     },
     validationSchema: yup.object().shape({
@@ -38,34 +33,11 @@ const SearchBar = ({ isActive, setIsActive, showHistory, setShowHistory }) => {
     }),
   });
 
-  const {
-    data: fetchedSearchData,
-    isFetching: isFetchingSearchData,
-    refetch: refetchSearch,
-    isSuccess: isSearchSuccess,
-  } = useAPIGetSearchResult(formik.values.searchText.split(' ').join('+'), {
-    enabled: fetchEnabled,
-    onError: (error) => {
-      console.log(error);
-      setFetchEnabled(false);
-    },
-    onSuccess: (data) => {
-      setFetchEnabled(false);
-    },
-  });
-
-  const searchParams = useSelector((state) => state.search.params);
-  useEffect(() => {
-    if (searchParams && formik.values.searchText) {
-      setFetchEnabled(true);
-    }
-  }, [searchParams]);
-
   const addSearchToHistory = (text) => {
     const alreadyExists = historyItems.some(
       (element) => element.text.toLowerCase() === text.toLowerCase()
     );
-    let newItems = [{ text }, ...historyItems];
+    const newItems = [{ text }, ...historyItems];
     if (!alreadyExists) {
       setHistoryItems(newItems);
       const stringified = JSON.stringify(newItems);
@@ -80,7 +52,10 @@ const SearchBar = ({ isActive, setIsActive, showHistory, setShowHistory }) => {
 
   return (
     <SearchContext.Provider
-      value={{ formik, isLoading: isFetchingSearchData, fetchedSearchData }}
+      value={{
+        formik,
+        searchText: formik.values.searchText.split(' ').join('+'),
+      }}
     >
       <SearchHeader
         historyItems={historyItems}

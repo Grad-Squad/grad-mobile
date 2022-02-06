@@ -10,11 +10,13 @@ import { Colors } from 'styles';
 import ErrorSnackbarProvider from 'common/ErrorSnackbar/ErrorSnackbarProvider';
 import ReactQueryClient from 'components/ReactQueryClient/ReactQueryClient';
 import { Provider as ReduxProvider } from 'react-redux';
-import { Platform, UIManager } from 'react-native';
+import { LogBox, Platform, UIManager } from 'react-native';
 import { LocalizationProvider } from './localization';
 import initStyles from './styles/init';
 import RootNavigator from './navigation/RootNavigator';
 import store from './globalStore/store';
+
+LogBox.ignoreLogs(['Setting a timer']);
 
 const theme = {
   ...DefaultTheme,
@@ -44,7 +46,7 @@ function App() {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     enableInExpoDevelopment: true,
-    enableNative: false,
+    // enableNative: false,
     debug: true, // TODO set to false in production
   });
 

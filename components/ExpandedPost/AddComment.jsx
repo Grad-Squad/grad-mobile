@@ -8,13 +8,19 @@ import { Icon } from 'common/Icon';
 import { IconNames } from 'common/Icon/Icon';
 
 import { Modal } from 'react-native-paper';
-import { getCommentsKey, useAPIAddComment } from 'api/endpoints/posts';
+import {
+  apiFeedQueryKey,
+  getCommentsKey,
+  getPostByIdQueryKey,
+  useAPIAddComment,
+} from 'api/endpoints/posts';
 import { Colors } from 'styles';
 import { HIT_SLOP_OBJECT } from 'constants';
 import { queryClient } from 'components/ReactQueryClient/ReactQueryClient';
 import { deepCopy } from 'utility';
 import { useAPIEditComment } from 'api/endpoints/comments';
-import { replaceItemInPages } from 'api/util';
+import { replaceItemInPages, updateItemInPages } from 'api/util';
+import { useLocalization } from 'localization';
 import NewComment from './NewComment';
 
 const styles = StyleSheet.create({
@@ -41,6 +47,8 @@ const styles = StyleSheet.create({
 
 function AddComment({ postID, commentToEdit }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isWritingCommentEnabled, setIsWritingCommentEnabled] = useState(true);
+  const { t } = useLocalization();
   const addCommentMutation = useAPIAddComment({
     onSuccess: (data) => {
       queryClient.setQueryData([getCommentsKey, postID], (oldData) => {
@@ -48,8 +56,20 @@ function AddComment({ postID, commentToEdit }) {
         copy.pages[0].data.unshift(data);
         return copy;
       });
+      queryClient.setQueryData(getPostByIdQueryKey(postID), (oldData) => {
+        const copy = deepCopy(oldData);
+        copy.commentCount += 1;
+        return copy;
+      });
+      queryClient.setQueryData(apiFeedQueryKey, (oldData) =>
+        updateItemInPages(oldData, postID, (oldItem) => ({
+          ...oldItem,
+          commentCount: oldItem.commentCount + 1,
+        }))
+      );
       setIsModalVisible(false);
     },
+    onSettled: () => setIsWritingCommentEnabled(true),
   });
   const editCommentMutation = useAPIEditComment({
     onSuccess: (data) => {
@@ -58,9 +78,11 @@ function AddComment({ postID, commentToEdit }) {
       );
       setIsModalVisible(false);
     },
+    onSettled: () => setIsWritingCommentEnabled(true),
   });
 
   const onSubmitHandle = (content) => {
+    setIsWritingCommentEnabled(false);
     if (commentToEdit) {
       editCommentMutation.mutate({
         postID,
@@ -85,7 +107,9 @@ function AddComment({ postID, commentToEdit }) {
         hitSlop={HIT_SLOP_OBJECT}
       >
         <Icon name={IconNames.plus} size={24} color={Colors.addCommentText} />
-        <EduText style={{ color: Colors.addCommentText }}>Comment</EduText>
+        <EduText style={{ color: Colors.addCommentText }}>
+          {t('ExpandedPost/Add Comment')}
+        </EduText>
       </TouchableOpacity>
 
       <Modal
@@ -95,6 +119,7 @@ function AddComment({ postID, commentToEdit }) {
       >
         <NewComment
           // profileImageURI={author.profilePicture}
+          isWritingCommentEnabled={isWritingCommentEnabled}
           initialText={commentToEdit?.content}
           onSubmit={onSubmitHandle}
           isLoading={addCommentMutation.isLoading}

@@ -1,21 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { useLocalization } from 'localization';
 import { useStore } from 'globalStore/GlobalStore';
 import { useAPIGetProfileById } from 'api/endpoints/profile';
 import EduText from 'common/EduText';
 import { AssetsConstants } from 'constants';
 import { Colors, Constants } from 'styles';
+import { useNavigation } from '@react-navigation/native';
+import ScreenNames from 'navigation/ScreenNames';
 import ProfileSectionSkeleton from './ProfileSectionSkeleton';
 
 const ProfileSection = () => {
   const { t } = useLocalization();
   const [store] = useStore();
+  const navigation = useNavigation();
 
   const { data, isLoading } = useAPIGetProfileById(store.profileId);
   return (
-    <View style={styles.userSection}>
+    <Pressable
+      style={styles.userSection}
+      onPress={() => {
+        navigation.navigate(ScreenNames.PROFILE, {
+          profileId: store.profileId,
+        });
+      }}
+    >
       {isLoading ? (
         <ProfileSectionSkeleton profilePicStyle={styles.profilePic} />
       ) : (
@@ -23,12 +33,17 @@ const ProfileSection = () => {
           {data.profilePicture ? (
             <Image
               style={styles.profilePic}
-              source={AssetsConstants.images.defaultProfile}
+              source={{
+                uri: data.profilePicture.uri,
+              }}
+              defaultSource={AssetsConstants.images.defaultProfile}
+              resizeMode="cover"
             />
           ) : (
             <Image
               style={styles.profilePic}
               source={AssetsConstants.images.defaultProfile}
+              resizeMode="cover"
             />
           )}
           <View style={styles.profileInfoSection}>
@@ -41,7 +56,7 @@ const ProfileSection = () => {
           </View>
         </>
       )}
-    </View>
+    </Pressable>
   );
 };
 
@@ -69,6 +84,7 @@ const styles = StyleSheet.create({
     height: 80,
 
     borderRadius: 80,
+    alignSelf: 'center',
   },
   profileName: {
     fontSize: 28,
@@ -79,5 +95,6 @@ const styles = StyleSheet.create({
   },
   profileInfoSection: {
     marginLeft: 15,
+    paddingRight: 80,
   },
 });

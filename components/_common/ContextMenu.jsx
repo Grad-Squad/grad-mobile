@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { Menu, Divider } from 'react-native-paper';
 import { useLocalization } from 'localization/LocalizationProvider';
 import { contextMenuItemsPropType } from 'proptypes';
@@ -22,12 +22,8 @@ const ContextMenu = ({ visible, setVisible, anchor, items }) => {
               onPress();
               setVisible(false);
             }}
-            title={
-              <View style={styles.menuItemTitle}>
-                <Icon name={iconName} />
-                <EduText style={styles.menuItemText}>{t(titleKey)}</EduText>
-              </View>
-            }
+            icon={() => <Icon name={iconName} />}
+            title={<EduText style={styles.menuItemText}>{t(titleKey)}</EduText>}
           />
         );
       })}
@@ -45,14 +41,4 @@ ContextMenu.defaultProps = {};
 
 export default ContextMenu;
 
-const styles = StyleSheet.create({
-  menuItemTitle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  menuItemText: {
-    marginLeft: 10,
-    fontSize: 16,
-  },
-});
+const styles = StyleSheet.create({});

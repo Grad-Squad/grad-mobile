@@ -16,6 +16,7 @@ import { useLocalization } from 'localization/LocalizationProvider';
 import { useNetInfo } from '@react-native-community/netinfo';
 import ScreenNames from 'navigation/ScreenNames';
 import { Alert } from 'react-native';
+import LoadingIndicator from 'common/LoadingIndicator';
 import unauthorizedRedirectBlacklist from './unauthorizedRedirectBlacklist';
 import endpoints from './endpoints/endpoints';
 
@@ -30,14 +31,22 @@ const AxiosProvider = ({ navigationRef, children }) => {
   const { t } = useLocalization();
 
   const [accessToken, setAccessToken] = useState('');
+  const [hasCheckedAccessToken, SetHasCheckedAccessToken] = useState(false);
   const [refreshToken, setRefreshToken] = useState('');
   const [onAccessTokenChangeCallbacks, setOnAccessTokenChangeCallbacks] =
     useState([]);
 
   useEffect(() => {
     (async () => {
-      setAccessToken(await getItemFromStorage(localStorageKeys.access_token));
-      setRefreshToken(await getItemFromStorage(localStorageKeys.refresh_token));
+      const newAccessToken = await getItemFromStorage(
+        localStorageKeys.access_token
+      );
+      const newRefreshToken = await getItemFromStorage(
+        localStorageKeys.refresh_token
+      );
+      setAccessToken(newAccessToken);
+      setRefreshToken(newRefreshToken);
+      SetHasCheckedAccessToken(true);
     })();
   }, []);
 
@@ -82,7 +91,7 @@ const AxiosProvider = ({ navigationRef, children }) => {
                   index: 0,
                   routes: [{ name: ScreenNames.LOGIN }],
                 });
-                Alert.alert('Sorry, You have to login again');
+                Alert.alert(t('Sorry, You have to log in again'));
               }
             } else {
               const refreshData = await newAxios.post(endpoints.auth.refresh, {
@@ -140,9 +149,14 @@ const AxiosProvider = ({ navigationRef, children }) => {
         addOnAccessTokenChangeCallback: (callback) => {
           setOnAccessTokenChangeCallbacks((prev) => [...prev, callback]);
         },
+        isLoggedIn: !!accessToken,
       }}
     >
-      {children}
+      {hasCheckedAccessToken ? (
+        children
+      ) : (
+        <LoadingIndicator fullScreen size="large" />
+      )}
     </AxiosContext.Provider>
   );
 };

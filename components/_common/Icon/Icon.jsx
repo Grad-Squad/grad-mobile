@@ -47,6 +47,7 @@ export const IconNames = Object.freeze({
   logout: 'logout',
   report: 'flag',
   tagDot: 'dot-single',
+  language: 'language',
   addDocument: 'text-box-plus-outline',
   keyboardArrowLeft: 'keyboard-arrow-left',
   cameraPlus: 'camera-plus-outline',
@@ -66,7 +67,7 @@ export const IconNames = Object.freeze({
   text: 'text',
   tag: 'tag',
   add: 'add',
-  moveFile:'folder-move-outline'
+  moveFile: 'folder-move-outline',
 });
 
 export const iconNamesPropType = PropTypes.oneOf(Object.values(IconNames));
@@ -107,6 +108,7 @@ const map = {
   logout: MaterialCommunityIcons,
   flag: AntDesign,
   'dot-single': Entypo,
+  language: Entypo,
   'text-box-plus-outline': MaterialCommunityIcons,
   'keyboard-arrow-left': MaterialIcons,
   'camera-plus-outline': MaterialCommunityIcons,
@@ -126,7 +128,7 @@ const map = {
   text: MaterialCommunityIcons,
   tag: MaterialCommunityIcons,
   add: MaterialIcons,
-  'folder-move-outline': MaterialCommunityIcons
+  'folder-move-outline': MaterialCommunityIcons,
 };
 
 const Icon = ({ name, size, color, style, disabled }) => {

@@ -28,6 +28,7 @@ exports[`should match snapshot when profilePicture={ uri: 'https://picsum.photos
     }
   >
     <Image
+      resizeMode="cover"
       source={
         Object {
           "uri": "https://picsum.photos/200/300",
@@ -35,6 +36,7 @@ exports[`should match snapshot when profilePicture={ uri: 'https://picsum.photos
       }
       style={
         Object {
+          "alignSelf": "center",
           "borderRadius": 50,
           "height": 50,
           "width": 50,
@@ -109,9 +111,11 @@ exports[`should match snapshot when profilePicture=null 1`] = `
     }
   >
     <Image
+      resizeMode="cover"
       source={1}
       style={
         Object {
+          "alignSelf": "center",
           "borderRadius": 50,
           "height": 50,
           "width": 50,

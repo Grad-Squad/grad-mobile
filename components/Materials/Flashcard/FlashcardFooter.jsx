@@ -19,7 +19,7 @@ const FlashcardFooter = ({ onGood, onBad, onFlip }) => {
       </Pressable>
       <View style={styles.buttonsWrapper}>
         <Pressable
-          onPress={onGood}
+          onPress={onBad}
           style={[styles.button, styles.easyButton]}
           android_ripple={pressableAndroidRipple}
         >
@@ -38,7 +38,7 @@ const FlashcardFooter = ({ onGood, onBad, onFlip }) => {
           </View>
         </Pressable>
         <Pressable
-          onPress={onBad}
+          onPress={onGood}
           style={[styles.button, styles.hardButton]}
           android_ripple={pressableAndroidRipple}
         >

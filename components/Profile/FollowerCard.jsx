@@ -20,8 +20,6 @@ const FollowerCard = ({ navigation, profile }) => {
   const { t } = useLocalization();
   const navToProfile = () =>
     navigation.push(ScreenNames.PROFILE, { profileId: profile.id });
-  const { uri: profilePictureUri = 'error' } =
-    profile?.profilePicture || 'error';
 
   const queryClient = useQueryClient();
   const [isFollowed, setIsFollowed] = useState(profile.isFollowed);
@@ -59,12 +57,15 @@ const FollowerCard = ({ navigation, profile }) => {
       <Pressable onPress={navToProfile} android_ripple={pressableAndroidRipple}>
         <Image
           style={styles.profileImage}
-          source={profilePictureUri
-            ? {
-                uri: profilePictureUri,
-              }
-            : AssetsConstants.images.defaultProfile.uri}
+          source={
+            profile?.profilePicture?.uri
+              ? {
+                  uri: profile.profilePicture.uri,
+                }
+              : AssetsConstants.images.defaultProfile
+          }
           defaultSource={AssetsConstants.images.defaultProfile}
+          resizeMode="cover"
         />
       </Pressable>
       <Pressable
@@ -73,10 +74,12 @@ const FollowerCard = ({ navigation, profile }) => {
         style={[styles.row, styles.nameContainer]}
       >
         <View>
-          <EduText numberOfLines={1} style={styles.name}>
-            {profile.name}
+          <EduText style={styles.name}>{profile.name}</EduText>
+          <EduText style={styles.role}>
+            {profile.role === 'student'
+              ? t('Roles/Student')
+              : t('Roles/Teacher')}
           </EduText>
-          <EduText style={styles.role}>{profile.role}</EduText>
         </View>
       </Pressable>
 
@@ -114,10 +117,7 @@ FollowerCard.propTypes = {
   }).isRequired,
   navigation: navigationPropType.isRequired,
 };
-FollowerCard.defaultProps = {
-
-
-};
+FollowerCard.defaultProps = {};
 
 export default FollowerCard;
 
@@ -133,10 +133,12 @@ const styles = StyleSheet.create({
     borderRadius: 70,
     width: 70,
     height: 70,
+    alignSelf: 'center',
   },
   nameContainer: {
     marginLeft: Constants.commonMargin,
     marginRight: 'auto',
+    flex: 1,
   },
   role: {
     fontFamily: Fonts.light,

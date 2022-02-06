@@ -92,7 +92,10 @@
     "Sent Successfully ✅": "Sent Successfully ✅"
   },
   "Options": {
-    "Change Subjects you follow": "Change Subjects you follow"
+    "Change Subjects you follow": "Change Subjects you follow",
+    "Logout": "Logout",
+    "Change Language": "Change Language",
+    "People you follow": "People you follow"
   },
   "CreatePost": {
     "Create New Post": "Create New Post",
@@ -119,7 +122,8 @@
     }
   },
   "DropDown": {
-    "Search...": "Search..."
+    "Search...": "Search...",
+    "save": "save"
   },
   "Mcq": {
     "Continue": "Continue",
@@ -363,7 +367,8 @@
     "upvoted": "upvoted",
     "Post": {
       "Error: Couldn't get post": "Couldn't get post"
-    }
+    },
+    "Add Comment": "Comment"
   },
   "Feed": {
     "Error:Couldn't load posts": "Couldn't load posts"
@@ -371,6 +376,7 @@
   "Profile": {
     "Follow": "Follow",
     "Unfollow": "Unfollow",
+    "People Followed": "People Followed",
     "Tabs": {
       "Posts": "Posts",
       "Bookmarks": "Bookmarks"
@@ -392,6 +398,10 @@
   "Followers": {
     "Error: Couldn't Load Followers": "Error: Couldn't Load Followers",
     "This Account does not have any followers!": "This Account does not have any followers!"
+  },
+  "Followed": {
+    "Error: Couldn't load people you follow": "Error: Couldn't load people you follow",
+    "You haven't followed anyone yet!": "You haven't followed anyone yet!"
   },
   "Feedback": {
     "SendFeedback": {
@@ -436,7 +446,8 @@
   },
   "Post": {
     "save": "save",
-    "remove": "remove"
+    "remove": "remove",
+    "edited": "edited"
   },
   "BookmarkSavedSnackbar": {
     "Post saved": "Post saved",
@@ -448,7 +459,8 @@
   "BookmarksList": {
     "Empty": {
       "You haven't bookmarked any post yet": "You haven't bookmarked any post yet",
-      "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.": "You can bookmark posts to view them later. You can even organize them into folders and folders within folders."
+      "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.": "You can bookmark posts to view them later. You can even organize them into folders and folders within folders.",
+      "No Bookmarks Found": "No Bookmarks Found"
     },
     "Couldn't get bookmarks, Try again": "Couldn't get bookmarks, Try again",
     "Folders": "Folders",
@@ -530,5 +542,13 @@
   "Roles": {
     "Teacher": "Teacher",
     "Student": "Student"
+  },
+  "Sorry, You have to log in again": "Sorry, You have to log in again",
+  "FlashcardsReview": {
+    "Hard": "Hard",
+    "Easy": "Easy",
+    "Skipped": "Skipped",
+    "Again?": "Again?",
+    "What should we include?": "What should we include?"
   }
 }

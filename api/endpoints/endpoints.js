@@ -13,6 +13,7 @@ export default Object.freeze({
     profileById: '/profiles/{0}',
     update: '/profiles/{0}',
     followers: '/profiles/{0}/followers',
+    followed: '/profiles/me/followed',
     postsByProfileId: '/profiles/{0}/posts',
     followProfile: '/profiles/{0}/follow',
     AddPostToBookmark: '/profiles/{0}/bookmarks/add/{1}',

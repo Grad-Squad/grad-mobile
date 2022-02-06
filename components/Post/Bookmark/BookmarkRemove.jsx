@@ -29,7 +29,7 @@ function BookmarkRemove({ postId, bookmarkId, inRootBookmark }) {
           store.profileId,
           inRootBookmark ? undefined : updatedParentBookmarkData.id
         ),
-        () => [updatedParentBookmarkData]
+        () => updatedParentBookmarkData
       );
     },
     onError: () => {

@@ -282,7 +282,11 @@ const ProfileHeader = ({ navigation, profile }) => {
         onPress={() => {
           navigation.goBack();
         }}
-        otherComponent={<EduText style={[styles.name]}>{profile.name}</EduText>}
+        otherComponent={
+          <View style={styles.flexOne}>
+            <EduText style={[styles.name]}>{profile.name}</EduText>
+          </View>
+        }
       />
       <NoInternetConnectionText />
       {rightHeader}
@@ -380,5 +384,8 @@ const styles = StyleSheet.create({
   },
   statsContainer: {
     flexGrow: 3,
+  },
+  flexOne: {
+    flex: 1,
   },
 });

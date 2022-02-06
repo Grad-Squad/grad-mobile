@@ -33,11 +33,11 @@ const SearchPeople = ({ navigation, numOfProfiles, listKey }) => {
               <FollowerCard profile={item} navigation={navigation} />
             </View>
           )}
-          ListEmptyComponent={() => (
+          ListEmptyComponent={
             <EduText style={[Styles.errorText, styles.notFoundText]}>
               {t('Search/NoProfiles')}
             </EduText>
-          )}
+          }
           listKey={listKey}
           errorLocalizationKey="Feed/Error:Couldn't load posts"
           SkeletonComponent={

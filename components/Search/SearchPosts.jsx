@@ -58,11 +58,11 @@ const SearchPosts = ({ numOfPosts, listKey }) => {
           hideNothingLeftToShow
           reactQueryKey={searchPostsQueryKey(searchText, params)}
           renderItem={renderItem}
-          ListEmptyComponent={() => (
+          ListEmptyComponent={
             <EduText style={[Styles.errorText, styles.notFoundText]}>
               {t('Search/NoPosts')}
             </EduText>
-          )}
+          }
           listKey={listKey}
           errorLocalizationKey="Feed/Error:Couldn't load posts"
           SkeletonComponent={

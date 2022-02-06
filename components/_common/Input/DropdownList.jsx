@@ -128,15 +128,15 @@ const DropdownList = ({
       >
         <View style={styles.listWrapper}>
           <View style={styles.searchbar}>
-            <TransparentButton
-              text={t('DropDown/save')}
-              onPress={() => setOpen(!open)}
-            />
             <TransparentTextInput
               text={searchText}
               setText={setSearchText}
               style={{ width: '87%' }}
               placeholder={t('DropDown/Search...')}
+            />
+            <TransparentButton
+              text={t('DropDown/save')}
+              onPress={() => setOpen(!open)}
             />
           </View>
           <FlatList

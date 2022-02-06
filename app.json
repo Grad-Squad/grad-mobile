@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "educate-mobile",
-    "slug": "educate-mobile",
-    "scheme": "educate-mobile",
+    "name": "Educate",
+    "slug": "educate",
+    "scheme": "educate",
     "version": "2022.2.1",
     "facebookScheme": "fb302939171663614",
     "facebookAppId": "302939171663614",

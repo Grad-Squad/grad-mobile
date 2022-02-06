@@ -10,6 +10,7 @@ import { materialsPropType } from 'proptypes';
 import { useNavigation } from '@react-navigation/native';
 import ScreenNames from 'navigation/ScreenNames';
 import { BASIC_5V_HIT_SLOP_OBJECT } from 'constants';
+import { AssetsConstants } from 'constants';
 
 const imageWidth = 70;
 const imageOffset = -25;
@@ -31,13 +32,11 @@ function TitleRegion({ title, author, createdAt, materials }) {
           <TouchableOpacity onPress={navigateToProfile}>
             <Image
               style={styles.profileImage}
-              source={
-                author.profilePicture
-                  ? {
-                      uri: author.profilePicture.uri,
-                    }
-                  : defaultProfileImage
-              }
+              source={{
+                uri: author.profilePicture.uri,
+              }}
+              defaultSource={AssetsConstants.images.defaultProfile}
+              resizeMode="cover"
             />
           </TouchableOpacity>
         </View>
@@ -72,9 +71,8 @@ export const styles = StyleSheet.create({
     borderRadius: 70,
     width: imageWidth,
     height: 70,
+    alignSelf: 'center',
 
-    // borderWidth: 0.1,
-    // borderColor: 'black',
   },
   imageContainer: {
     position: 'absolute',

@@ -15,13 +15,11 @@ const AuthorInfo = ({ profilePicture, name, profileId }) => {
       >
         <Image
           style={styles.profileImage}
-          source={
-            profilePicture
-              ? {
-                  uri: profilePicture.uri,
-                }
-              : AssetsConstants.images.defaultProfile
-          }
+          source={{
+            uri: profilePicture.uri,
+          }}
+          defaultSource={AssetsConstants.images.defaultProfile}
+          resizeMode="cover"
         />
       </TouchableOpacity>
       <TouchableOpacity
@@ -57,8 +55,7 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: 50,
     height: 50,
-    // borderWidth: 1,
-    // borderColor: Colors.black,
+    alignSelf: 'center',
   },
   authorName: {
     fontSize: 10,

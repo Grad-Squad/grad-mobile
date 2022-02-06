@@ -22,6 +22,7 @@ import { formatDate } from '../../utility';
 import { Colors, Constants } from '../../styles';
 import FooterRegion from '../Post/FooterRegion';
 import CommentDeletionAlert from './CommentDeletionAlert';
+import { AssetsConstants } from 'constants';
 
 const imageWidth = 55;
 const imageOffset = -50;
@@ -110,15 +111,11 @@ function Comment({
             >
               <Image
               style={styles.profileImage}
-
-              source = {
-                author.profilePicture ?
-                {
-                uri: author.profilePicture.uri
-                }
-                :
-                defaultProfileImage
-              }
+              source={{
+                uri: author.profilePicture.uri,
+              }}
+              defaultSource={AssetsConstants.images.defaultProfile}
+              resizeMode="cover"
             />
             </TouchableOpacity>
           </View>
@@ -183,8 +180,7 @@ export const styles = StyleSheet.create({
     borderRadius: 50,
     width: imageWidth,
     height: imageWidth,
-    // borderWidth: 0.1,
-    // borderColor: 'black',
+    alignSelf: 'center',
   },
   imageContainer: {
     position: 'absolute',

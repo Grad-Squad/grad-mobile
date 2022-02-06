@@ -54,6 +54,7 @@ function NewComment({ initialText, profileImageURI, onSubmit, isLoading }) {
               source={{
                 uri: profileImageURI,
               }}
+              resizeMode="cover"
             />
           </TouchableOpacity>
 
@@ -114,5 +115,6 @@ const styles = StyleSheet.create({
     height: 30,
     borderWidth: 0.1,
     borderColor: 'black',
+    alignSelf: 'center',
   },
 });

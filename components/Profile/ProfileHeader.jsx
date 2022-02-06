@@ -231,6 +231,7 @@ const ProfileHeader = ({ navigation, profile }) => {
               uri: profilePictureUri,
             }}
             defaultSource={AssetsConstants.images.defaultProfile}
+            resizeMode="cover"
           />
           <ProfilePictureModal
             t={t}
@@ -402,6 +403,7 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     width: 100,
     height: 100,
+    alignSelf: 'center',
   },
   centerProfile: {
     alignItems: 'center',

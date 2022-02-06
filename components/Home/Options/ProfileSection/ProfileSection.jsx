@@ -36,11 +36,14 @@ const ProfileSection = () => {
               source={{
                 uri: data.profilePicture.uri,
               }}
+              defaultSource={AssetsConstants.images.defaultProfile}
+              resizeMode="cover"
             />
           ) : (
             <Image
               style={styles.profilePic}
               source={AssetsConstants.images.defaultProfile}
+              resizeMode="cover"
             />
           )}
           <View style={styles.profileInfoSection}>
@@ -81,6 +84,7 @@ const styles = StyleSheet.create({
     height: 80,
 
     borderRadius: 80,
+    alignSelf: 'center',
   },
   profileName: {
     fontSize: 28,

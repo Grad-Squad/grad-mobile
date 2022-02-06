@@ -33,6 +33,7 @@ import SearchMainPage from 'components/Search/SearchMainPage';
 import AxiosProvider from 'api/AxiosProvider';
 import MoveBookmark from 'components/Bookmarks/MoveBookmark';
 import BookmarkSavedSnackbarProvider from 'components/BookmarkSavedSnackbar/BookmarkSavedSnackbarProvider';
+import ReviewFlashcards from 'components/Materials/Flashcard/ReviewFlashcards';
 import ScreenNames from './ScreenNames';
 import Navigator from './Navigator';
 
@@ -131,6 +132,10 @@ const screens = [
   {
     name: ScreenNames.SEARCHVIEW,
     component: SearchViewPage,
+  },
+  {
+    name: ScreenNames.FLASHCARDS_REVIEW,
+    component: ReviewFlashcards,
   },
 ];
 

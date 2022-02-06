@@ -1,10 +1,12 @@
 import MaterialViewHeader from 'common/MaterialHeader/MaterialViewHeader';
 import Page from 'common/Page/Page';
+import { setOpenMaterialData } from 'globalStore/materialNavSlice';
+import ScreenNames from 'navigation/ScreenNames';
 import { navigationPropType } from 'proptypes';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { ProgressBar } from 'react-native-paper';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Colors } from 'styles';
 import NavMaterials from '../_common/NavMaterials';
 import Flashcard from './Flashcard';
@@ -20,18 +22,28 @@ const SolveFlashcard = ({ navigation }) => {
   const [footerHeight, setFooterHeight] = useState(0);
   const [headerHeight, setHeaderHeight] = useState(0);
   const [flashcardStates, setFlashcardStates] = useState(() =>
-    Array.from(Array(flashcards.length)).map(() => ({
+    Array.from(Array(flashcards.length)).map((_, i) => ({
+      ...flashcards[i],
       isEasy: false,
       solved: false,
       isHard: false,
     }))
   );
   const [cardIndex, setCardIndex] = useState(0);
-
+  const dispatch = useDispatch();
   const onNext = useCallback(() => {
-    setCardIndex((prev) => Math.min(prev + 1, flashcards.length - 1));
+    setCardIndex((prev) => prev + 1);
     setIsFlipped(false);
-  }, [setCardIndex]);
+  }, []);
+
+  const hasFinished = cardIndex === flashcardStates.length
+
+  useEffect(() => {
+    if (hasFinished) {
+      dispatch(setOpenMaterialData({ title, data: flashcardStates }));
+      navigation.replace(ScreenNames.FLASHCARDS_REVIEW);
+    }
+  }, [hasFinished, flashcardStates, title]);
 
   const onGoToCard = (num) => {
     setCardIndex(num);
@@ -67,6 +79,10 @@ const SolveFlashcard = ({ navigation }) => {
     onNext();
   }, [cardIndex, flashcardStates, onNext]);
 
+  if(hasFinished){
+    return <></>
+  }
+
   return (
     <Page>
       <View
@@ -86,14 +102,14 @@ const SolveFlashcard = ({ navigation }) => {
         />
         <ProgressBar
           color={Colors.accent}
-          progress={cardIndex / flashcards.length}
+          progress={cardIndex / flashcardStates.length}
         />
         <NavMaterials
           onPressNext={onNext}
           onPressBack={onPrev}
           onPressPageNum={onGoToCard}
           currentPageIndex={cardIndex}
-          maxPages={flashcards.length}
+          maxPages={flashcardStates.length}
         />
       </View>
 
@@ -101,7 +117,7 @@ const SolveFlashcard = ({ navigation }) => {
         isFlipped={isFlipped}
         onGood={onGood}
         onBad={onBad}
-        flashcard={flashcards[cardIndex]}
+        flashcard={flashcardStates[cardIndex]}
         onFlip={() => setIsFlipped((prev) => !prev)}
         unavailableHeight={headerHeight + footerHeight}
       />

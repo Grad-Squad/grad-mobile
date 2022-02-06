@@ -222,7 +222,7 @@ const ProfileHeader = ({ navigation, profile }) => {
           <Image
             style={styles.profileImage}
             source={
-              profile?.profilePicture
+              profile?.profilePicture?.uri
                 ? {
                     uri: profile.profilePicture.uri,
                   }

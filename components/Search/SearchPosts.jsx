@@ -27,6 +27,7 @@ const SearchPosts = ({ numOfPosts, listKey }) => {
       commentCount,
       materials,
       subject,
+      wasEdited
     },
   }) => (
     <Post

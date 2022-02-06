@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import React, { useCallback } from 'react';
+import { I18nManager, Pressable, StyleSheet } from 'react-native';
 import Page from 'common/Page/Page';
 import { Constants } from 'styles';
 import { useLocalization } from 'localization';
@@ -8,10 +8,35 @@ import { IconNames } from 'common/Icon/Icon';
 import EduText from 'common/EduText';
 import Separator from 'common/Separator';
 import pressableAndroidRipple from 'common/pressableAndroidRipple';
+import { reloadAsync } from 'expo-updates';
+import i18n from 'i18n-js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import localStorageKeys from 'localStorageKeys';
 import OptionsHeader from './OptionsHeader';
 
+const isRTLLocale = (locale) => locale.indexOf('ar') === 0;
 const ChangeLanguage = () => {
-  const { language, setLanguage } = useLocalization();
+  const { language, isRTL } = useLocalization();
+
+  const setLanguage = useCallback(
+    (newLocale) => {
+      if (language === newLocale) {
+        return;
+      }
+      i18n.locale = newLocale;
+      AsyncStorage.setItem(localStorageKeys.appLocale, newLocale);
+      const newIsRTL = isRTLLocale(newLocale);
+      if (isRTL !== newIsRTL) {
+        I18nManager.forceRTL(newIsRTL);
+        I18nManager.allowRTL(newIsRTL);
+        // force doesn't update isRTL
+        if (I18nManager.isRTL !== newIsRTL) {
+          reloadAsync();
+        }
+      }
+    },
+    [isRTL]
+  );
 
   const { t } = useLocalization();
   return (

@@ -10,7 +10,6 @@ import Home from './Home';
 import SearchMainPage from '../Search/SearchMainPage';
 import Options from './Options';
 import Bookmarks from './Bookmarks';
-import OptionsNavigator from './Options/OptionsNavigator';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -77,7 +76,7 @@ const HomeNavigation = () => {
       />
       <Tab.Screen
         name="Options"
-        component={OptionsNavigator}
+        component={Options}
         options={{
           tabBarLabel: t('NavBar/Options'),
           tabBarIcon: ({ color }) => (

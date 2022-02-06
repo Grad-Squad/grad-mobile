@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   CodeField,
   Cursor,
@@ -9,6 +9,7 @@ import {
 import { Styles } from 'styles';
 import { stylePropType } from 'proptypes';
 import EduText from 'common/EduText';
+import { useLocalization } from 'localization';
 
 /* eslint-disable react/jsx-props-no-spreading */
 const CodeTextInput = ({
@@ -24,6 +25,7 @@ const CodeTextInput = ({
     setValue,
   });
 
+  const { isRTL } = useLocalization();
   const updateValue = (newValue) => {
     setValue(newValue.replace(/[^0-9]/g, ''));
   };
@@ -35,7 +37,7 @@ const CodeTextInput = ({
         value={value}
         onChangeText={updateValue}
         cellCount={cellCount}
-        rootStyle={styles.codeFiledRoot}
+        rootStyle={[styles.codeFiledRoot, isRTL && styles.invertDirection]}
         keyboardType="number-pad"
         textContentType="oneTimeCode"
         onSubmitEditing={onFinish}
@@ -77,8 +79,10 @@ const styles = StyleSheet.create({
     ...Styles.textInput,
     fontFamily: 'RobotoMono_300Light',
     width: 37,
-    lineHeight: 38,
     fontSize: 24,
     textAlign: 'center',
+  },
+  invertDirection: {
+    flexDirection: 'row-reverse',
   },
 });

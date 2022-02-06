@@ -3,8 +3,6 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 import EduText from 'common/EduText';
 import Page from 'common/Page/Page';
 import { Constants } from 'styles';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { useNavigation } from '@react-navigation/core';
 import { useLocalization } from 'localization';
 import { DropdownList } from 'common/Input';
 import {
@@ -13,6 +11,7 @@ import {
   useUpdateFavoriteSubjects,
 } from 'api/endpoints/subjects';
 import { MainActionButton } from 'common/Input/Button';
+import { useNavigation } from '@react-navigation/native';
 import OptionsHeader from './OptionsHeader';
 
 const ChangeInterests = () => {

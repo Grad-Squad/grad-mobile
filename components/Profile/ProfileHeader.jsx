@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -37,7 +37,6 @@ import {
   getApiProfileFeedQueryKey,
 } from 'api/endpoints/posts';
 import NoInternetConnectionText from 'common/NoInternetConnectionText';
-import ProfileContext from './ProfileContext';
 import ProfilePictureOptions from './profilePictureOptions';
 import ProfilePictureModal from './ProfilePictureModal';
 
@@ -65,7 +64,6 @@ NumBox.defaultProps = {
   onPress: undefined,
 };
 
-// const HEIGHT = Dimensions.get('window').height * 0.4;
 const ProfileHeader = ({ navigation, profile }) => {
   const { t } = useLocalization();
   const queryClient = useQueryClient();
@@ -173,27 +171,26 @@ const ProfileHeader = ({ navigation, profile }) => {
     }
   };
   const onRemoveProfilePicture = () => {
-    setPreviousKey(profile?.profilePicture?.key)
+    setPreviousKey(profile?.profilePicture?.key);
     const dataToSend = {
       role: profile?.role,
       profilePicture: null,
       biography: profile?.biography,
-    }
-    setPreviousKey(profile?.profilePicture?.key)
-    ProfilePictureAlert(t, () => updateProfileMutation.mutate({ profileInfo: dataToSend, profileId: profile.id }) ,() => setBottomSheetVisible(false))
-  }
+    };
+    setPreviousKey(profile?.profilePicture?.key);
+    ProfilePictureAlert(
+      t,
+      () =>
+        updateProfileMutation.mutate({
+          profileInfo: dataToSend,
+          profileId: profile.id,
+        }),
+      () => setBottomSheetVisible(false)
+    );
+  };
 
-  const { offset } = useContext(ProfileContext);
   const { uri: profilePictureUri = 'error' } =
     profile?.profilePicture || 'error';
-
-  const [height, setHeight] = useState(0);
-
-  // const headerHeight = offset.interpolate({
-  //   inputRange: [0, height + insets.top],
-  //   outputRange: [height + insets.top, insets.top + 44],
-  //   extrapolate: 'clamp',
-  // });
 
   const followButton = isFollowed ? (
     <SecondaryActionButton
@@ -248,7 +245,7 @@ const ProfileHeader = ({ navigation, profile }) => {
           />
         </TouchableOpacity>
         <EduText style={styles.role}>
-          {profile.role[0].toLocaleUpperCase() + profile.role.slice(1)}
+          {profile.role === 'student' ? t('Roles/Student') : t('Roles/Teacher')}
         </EduText>
       </View>
       <View style={styles.statsContainer}>
@@ -277,40 +274,8 @@ const ProfileHeader = ({ navigation, profile }) => {
     </View>
   );
 
-  const scrollYClamped = Animated.diffClamp(offset, 0, height);
-  const translateY = scrollYClamped.interpolate({
-    inputRange: [0, height],
-    outputRange: [0, -(height / 2)],
-  });
-
-  const scaleY = scrollYClamped.interpolate({
-    inputRange: [0, height],
-    outputRange: [0, 1],
-  });
-  const scaleYNumber = useRef(1);
-  scaleY.addListener(({ value }) => {
-    scaleYNumber.current = value;
-  });
-
   return (
-    <Animated.View
-      onLayout={(event) => {
-        if (height === 0) {
-          setHeight(event.nativeEvent.layout.height);
-        }
-      }}
-      style={[
-        styles.container,
-        {
-          transform: [
-            { translateY },
-            { scale: scaleYNumber.current },
-            { scaleY: scaleYNumber.current },
-            { scaleY: scaleYNumber.current },
-          ],
-        },
-      ]}
-    >
+    <Animated.View style={[styles.container]}>
       <GoBackButton
         onPress={() => {
           navigation.goBack();

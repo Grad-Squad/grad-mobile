@@ -92,7 +92,9 @@
     "Sent Successfully ✅": "تم الإرسال بنجاح ✅"
   },
   "Options": {
-    "Change Subjects you follow": "غيّر المواد التي تتابعها"
+    "Change Subjects you follow": "غيّر المواد التي تتابعها",
+    "Logout": "تسجيل الخروج",
+    "Change Language": "غيّر اللغة"
   },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",

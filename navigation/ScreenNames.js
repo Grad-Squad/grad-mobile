@@ -33,6 +33,7 @@ export default {
   Options: {
     MAIN: 'OPTIONS/MAIN',
     CHANGE_INTERESTS: 'OPTIONS/CHANGE_INTERESTS',
+    CHANGE_LANGUAGE: 'OPTIONS/CHANGE_LANGUAGE',
   },
 
   ForgotPassword: {

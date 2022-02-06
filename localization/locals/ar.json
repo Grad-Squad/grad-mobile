@@ -438,7 +438,8 @@
   },
   "Post": {
     "save": "حفظ",
-    "remove": "إزالة"
+    "remove": "إزالة",
+    "edited": "تم تعديل"
   },
   "BookmarkSavedSnackbar": {
     "Post saved": "تم حفظ المنشور",

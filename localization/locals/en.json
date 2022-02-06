@@ -438,7 +438,8 @@
   },
   "Post": {
     "save": "save",
-    "remove": "remove"
+    "remove": "remove",
+    "edited": "edited"
   },
   "BookmarkSavedSnackbar": {
     "Post saved": "Post saved",

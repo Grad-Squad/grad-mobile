@@ -92,6 +92,9 @@ const ExpandedPostContent = ({ navigation, postId }) => {
               <EduText style={styles.extraInfoText}>
                 {post.subject.content}
               </EduText>
+              <EduText style={styles.extraInfoText}>
+                {post.wasEdited && t('Post/edited')}
+              </EduText>
             </View>
           </>
         )}

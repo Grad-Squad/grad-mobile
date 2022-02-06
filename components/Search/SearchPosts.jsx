@@ -29,7 +29,7 @@ const SearchPosts = ({ navigation, numOfPosts, listKey }) => {
   }, [isLoading]);
 
   const renderItem = ({
-    item: { title, author, rating, createdAt, id, commentCount, materials, subject },
+    item: { title, author, rating, createdAt, id, commentCount, materials, subject, wasEdited },
   }) => (
     <Post
       title={title}
@@ -41,6 +41,7 @@ const SearchPosts = ({ navigation, numOfPosts, listKey }) => {
       commentCount={commentCount}
       materials={materials}
       subject={subject}
+      wasEdited={wasEdited}
     />
   );
 

@@ -21,7 +21,17 @@ const PostsContainer = ({
     ListEmptyComponent={ListEmptyComponent}
     renderItem={
       ({
-        item: { title, author, rating, createdAt, id, commentCount, materials, subject },
+        item: {
+          title,
+          author,
+          rating,
+          createdAt,
+          id,
+          commentCount,
+          materials,
+          subject,
+          wasEdited,
+        },
       }) => (
         // Animated.createAnimatedComponent(
         <Post
@@ -34,6 +44,7 @@ const PostsContainer = ({
           commentCount={commentCount}
           materials={materials}
           subject={subject}
+          wasEdited={wasEdited}
         />
       )
       // )

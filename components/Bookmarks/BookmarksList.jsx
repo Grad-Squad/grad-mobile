@@ -96,7 +96,8 @@ const BookmarksList = ({
             id,
             commentCount,
             materials,
-            subject
+            subject,
+            wasEdited
           },
         }) => (
           <Post
@@ -112,6 +113,7 @@ const BookmarksList = ({
             inRootBookmark={inProfile ? undefined : inRootBookmark}
             disabled={isMoving}
             subject={subject}
+            wasEdited={wasEdited}
           />
         ),
         header: (

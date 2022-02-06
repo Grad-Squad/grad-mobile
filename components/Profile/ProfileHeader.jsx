@@ -189,9 +189,6 @@ const ProfileHeader = ({ navigation, profile }) => {
     );
   };
 
-  const { uri: profilePictureUri = 'error' } =
-    profile?.profilePicture || 'error';
-
   const followButton = isFollowed ? (
     <SecondaryActionButton
       onPress={() => {
@@ -224,9 +221,13 @@ const ProfileHeader = ({ navigation, profile }) => {
         >
           <Image
             style={styles.profileImage}
-            source={{
-              uri: profilePictureUri,
-            }}
+            source={
+              profile?.profilePicture
+                ? {
+                    uri: profile.profilePicture.uri,
+                  }
+                : AssetsConstants.images.defaultProfile
+            }
             defaultSource={AssetsConstants.images.defaultProfile}
             resizeMode="cover"
           />

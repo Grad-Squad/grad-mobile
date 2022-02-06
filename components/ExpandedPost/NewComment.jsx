@@ -19,7 +19,13 @@ import { Colors } from '../../styles';
 
 const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0;
 
-function NewComment({ initialText, profileImageURI, onSubmit, isLoading }) {
+function NewComment({
+  initialText,
+  profileImageURI,
+  onSubmit,
+  isLoading,
+  isWritingCommentEnabled,
+}) {
   const { t, isRTL } = useLocalization();
 
   const formik = useFormik({
@@ -73,10 +79,15 @@ function NewComment({ initialText, profileImageURI, onSubmit, isLoading }) {
           />
 
           <PressableIcon
-            pressableProps={{ disabled: isLoading }}
+            pressableProps={{
+              disabled: isLoading || !isWritingCommentEnabled,
+            }}
+            color={
+              isLoading || !isWritingCommentEnabled ? Colors.grey : Colors.black
+            }
             name={IconNames.send}
             size={30}
-            color={Colors.black}
+            // color={Colors.black}
             onPress={formik.handleSubmit}
             style={isRTL && styles.rotate180}
           />
@@ -93,6 +104,7 @@ NewComment.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   profileImageURI: PropTypes.string,
   isLoading: PropTypes.bool.isRequired,
+  isWritingCommentEnabled: PropTypes.bool.isRequired,
   initialText: PropTypes.string,
 };
 NewComment.defaultProps = {

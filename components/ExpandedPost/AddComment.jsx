@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
 
 function AddComment({ postID, commentToEdit }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isWritingCommentEnabled, setIsWritingCommentEnabled] = useState(true);
   const { t } = useLocalization();
   const addCommentMutation = useAPIAddComment({
     onSuccess: (data) => {
@@ -68,6 +69,7 @@ function AddComment({ postID, commentToEdit }) {
       );
       setIsModalVisible(false);
     },
+    onSettled: () => setIsWritingCommentEnabled(true),
   });
   const editCommentMutation = useAPIEditComment({
     onSuccess: (data) => {
@@ -76,9 +78,11 @@ function AddComment({ postID, commentToEdit }) {
       );
       setIsModalVisible(false);
     },
+    onSettled: () => setIsWritingCommentEnabled(true),
   });
 
   const onSubmitHandle = (content) => {
+    setIsWritingCommentEnabled(false);
     if (commentToEdit) {
       editCommentMutation.mutate({
         postID,
@@ -115,6 +119,7 @@ function AddComment({ postID, commentToEdit }) {
       >
         <NewComment
           // profileImageURI={author.profilePicture}
+          isWritingCommentEnabled={isWritingCommentEnabled}
           initialText={commentToEdit?.content}
           onSubmit={onSubmitHandle}
           isLoading={addCommentMutation.isLoading}

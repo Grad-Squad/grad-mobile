@@ -3,7 +3,7 @@
     "name": "Educate",
     "slug": "educate-mobile",
     "scheme": "educate-mobile",
-    "version": "2022.2.4",
+    "version": "2022.2.5",
     "facebookScheme": "fb302939171663614",
     "facebookAppId": "302939171663614",
     "facebookDisplayName": "Educate",
@@ -19,9 +19,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.squidsoft.educate",
@@ -30,7 +28,7 @@
     },
     "android": {
       "package": "com.squidsoft.educate",
-      "versionCode": 11,
+      "versionCode": 12,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -44,9 +42,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
-      "sentry-expo"
-    ],
+    "plugins": ["sentry-expo"],
     "hooks": {
       "postPublish": [
         {

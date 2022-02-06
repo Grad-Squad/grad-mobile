@@ -94,7 +94,8 @@
   "Options": {
     "Change Subjects you follow": "غيّر المواد التي تتابعها",
     "Logout": "تسجيل الخروج",
-    "Change Language": "غيّر اللغة"
+    "Change Language": "غيّر اللغة",
+    "People you follow": "الأشخاص الذين تتابعهم"
   },
   "CreatePost": {
     "Create New Post": "إنشاء منشور جديد",
@@ -395,6 +396,10 @@
   "Followers": {
     "Error: Couldn't Load Followers": "خطأ: لا يمكن تحميل المتابعين",
     "This Account does not have any followers!": "هذا الحساب ليس لديه أي متابعين!"
+  },
+  "Followed": {
+    "Error: Couldn't load people you follow": "خطأ: تعذر تحميل الأشخاص الذين تتابعهم",
+    "You haven't followed anyone yet!": "لم تتبع أي شخص حتى الآن!"
   },
   "Feedback": {
     "SendFeedback": {

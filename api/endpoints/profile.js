@@ -26,6 +26,24 @@ export const useAPIGetProfileFollowers = (profileId) => {
   );
 };
 
+export const profilesFollowedKey = 'profilesFollowed';
+export const useAPIGetProfilesFollowed = () => {
+  const { axios } = useAxios();
+  return useInfiniteQuery(
+    profilesFollowedKey,
+    async ({ pageParam = 1 }) => {
+      const { data } = await axios.get(endpoints.profile.followed, {
+        params: {
+          page: pageParam,
+          limit: 10,
+        },
+      });
+      return data;
+    },
+    { getNextPageParam: (lastPage) => lastPage.nextPage }
+  );
+};
+
 export const profileByIdQueryKey = (profileId) => ['profile by id', profileId];
 export const useAPIGetProfileById = (profileId, options) => {
   const { axios } = useAxios();

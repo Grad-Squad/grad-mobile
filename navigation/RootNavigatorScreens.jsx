@@ -23,6 +23,8 @@ import SearchViewPage from 'components/Search/SearchNavTab';
 import SearchMainPage from 'components/Search/SearchMainPage';
 import MoveBookmark from 'components/Bookmarks/MoveBookmark';
 import ReviewFlashcards from 'components/Materials/Flashcard/ReviewFlashcards';
+import ChangeInterests from 'components/Home/Options/SubScreens/ChangeInterests';
+import ChangeLanguage from 'components/Home/Options/SubScreens/ChangeLanguage';
 import Navigator from './Navigator';
 import ScreenNames from './ScreenNames';
 
@@ -121,6 +123,14 @@ const screens = [
   {
     name: ScreenNames.FLASHCARDS_REVIEW,
     component: ReviewFlashcards,
+  },
+  {
+    name: ScreenNames.Options.CHANGE_INTERESTS,
+    component: ChangeInterests,
+  },
+  {
+    name: ScreenNames.Options.CHANGE_LANGUAGE,
+    component: ChangeLanguage,
   },
 ];
 

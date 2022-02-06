@@ -3,7 +3,7 @@ import { useMutation } from 'react-query';
 import { formatString } from 'utility';
 import endpoints from './endpoints';
 
-const onSuccessUpdateTokens =
+export const onSuccessUpdateTokens =
   (
     updateAccessToken,
     updateRefreshToken,
@@ -126,12 +126,7 @@ export const useAPIRefreshToken = (mutationConfig) => {
 };
 
 export const useAPIRegister = (mutationConfig) => {
-  const {
-    axios,
-    updateAccessToken,
-    updateRefreshToken,
-    addOnAccessTokenChangeCallback,
-  } = useAxios();
+  const { axios } = useAxios();
   return useMutation(
     async ({ email, password, name }) => {
       const { data } = await axios.post(endpoints.auth.register, {
@@ -149,12 +144,6 @@ export const useAPIRegister = (mutationConfig) => {
     },
     {
       ...mutationConfig,
-      onSuccess: onSuccessUpdateTokens(
-        updateAccessToken,
-        updateRefreshToken,
-        addOnAccessTokenChangeCallback,
-        mutationConfig
-      ),
     }
   );
 };

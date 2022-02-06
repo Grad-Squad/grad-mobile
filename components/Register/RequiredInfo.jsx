@@ -12,12 +12,18 @@ import { Alert, StyleSheet } from 'react-native';
 import { emailRequired, nameRequired, passwordRequired } from 'validation';
 import * as yup from 'yup';
 import { useErrorSnackbar } from 'common/ErrorSnackbar/ErrorSnackbarProvider';
+import { useAxios } from 'api/AxiosProvider';
 import RegisterContext from './RegisterContext';
 
 const RequiredInfo = ({ navigation }) => {
   const { t } = useLocalization();
   const { setProfileId } = useContext(RegisterContext);
   const { showErrorSnackbar } = useErrorSnackbar();
+  const {
+    updateAccessToken,
+    updateRefreshToken,
+    addOnAccessTokenChangeCallback,
+  } = useAxios();
   const registerMutation = useAPIRegister({
     onError: () => {},
     onSuccess: (data, variables) => {
@@ -31,9 +37,13 @@ const RequiredInfo = ({ navigation }) => {
           },
         });
       } else {
-        const { id: profileId } = data?.user?.profile;
-        setProfileId(profileId);
-        navigation.navigate(ScreenNames.Register.ROLL_SELECTION);
+        addOnAccessTokenChangeCallback(() => {
+          const { id: profileId } = data?.user?.profile;
+          setProfileId(profileId);
+          navigation.navigate(ScreenNames.Register.ROLL_SELECTION);
+        });
+        updateAccessToken(data?.payload?.token);
+        updateRefreshToken(data?.payload?.refresh_token);
       }
     },
   });

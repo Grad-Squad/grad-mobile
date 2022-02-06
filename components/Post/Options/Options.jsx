@@ -58,15 +58,6 @@ function Options({ onEdit, onDelete, contentProfileId, postId, bookmarkId }) {
       onPress: () => Alert.alert('WIP'),
       iconName: IconNames.share,
     },
-    {
-      divider: true,
-      key: 'divider_share/report',
-    },
-    {
-      titleKey: 'ContextMenu/Report',
-      onPress: () => Alert.alert('WIP'),
-      iconName: IconNames.report,
-    },
   ];
   if (isAuthor) {
     items.unshift(...authorItems);

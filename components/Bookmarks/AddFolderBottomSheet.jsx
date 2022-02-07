@@ -90,7 +90,7 @@ const AddFolderBottomSheet = ({
   const formik = useFormik({
     initialValues: {
       title: itemToEdit?.title || '',
-      isPublic: itemToEdit?.isPublic || true,
+      isPublic: itemToEdit?.isPublic ?? true,
     },
     enableReinitialize: true,
     initialErrors: { title: false },

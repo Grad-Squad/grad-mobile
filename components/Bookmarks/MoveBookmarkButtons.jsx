@@ -32,12 +32,24 @@ const MoveBookmarkButtons = ({
       queryClient.setQueryData(
         getBookmarksFolderQueryKey(
           store.profileId,
-          inRootBookmark ? undefined : fromBookmarkId
+         undefined
         ),
-        (oldData) => ({
-          ...oldData,
-          posts: oldData.posts.filter((item) => item.id !== postId),
-        })
+        (oldData) =>
+          oldData && {
+            ...oldData,
+            posts: oldData.posts.filter((item) => item.id !== postId),
+          }
+      );
+      queryClient.setQueryData(
+        getBookmarksFolderQueryKey(
+          store.profileId,
+          fromBookmarkId
+        ),
+        (oldData) =>
+          oldData && {
+            ...oldData,
+            posts: oldData.posts.filter((item) => item.id !== postId),
+          }
       );
       queryClient.setQueryData(
         getBookmarksFolderQueryKey(
